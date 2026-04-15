@@ -90,7 +90,8 @@ jobs:
         run: pnpm typecheck
 
       - name: "Step 3: basedpyright"
-        run: uv run --project services/pipeline basedpyright services/pipeline/src
+        run: uv run --project services/pipeline basedpyright
+        working-directory: services/pipeline
 
       # ── Step 4: Codegen verify ───────────────────────────────
       - name: "Step 4: codegen:verify"
