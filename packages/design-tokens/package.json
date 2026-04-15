@@ -1,0 +1,15 @@
+{
+  "name": "@huadian/design-tokens",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./tokens.json",
+  "types": "./tokens.d.ts",
+  "exports": {
+    ".": "./tokens.json"
+  },
+  "scripts": {
+    "build": "echo 'design-tokens: static JSON, no build needed'",
+    "lint": "echo 'design-tokens: no lint target'",
+    "typecheck": "echo 'design-tokens: no typecheck target'"
+  }
+}

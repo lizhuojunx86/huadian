@@ -1,0 +1,51 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement
+labels: ["enhancement", "triage"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        有好点子？请描述你想要的功能。
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 问题 / 动机
+      description: 这个功能要解决什么问题？
+      placeholder: 当前遇到的痛点是...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 期望方案
+      description: 你希望怎么解决这个问题？
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 备选方案
+      description: 你考虑过其他方案吗？
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: 影响范围
+      options:
+        - 前端 (Web)
+        - 后端 (API)
+        - 数据管线 (Pipeline)
+        - 基础设施 (DevOps)
+        - 数据模型 (Schema)
+        - 文档 (Docs)
+        - 其他
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 其他上下文
+      description: 截图、参考链接、用户反馈等

@@ -1,0 +1,24 @@
+{
+  "name": "@huadian/config-eslint",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared ESLint configurations for HuaDian monorepo",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "nextjs.js",
+    "node.js",
+    "python-ignore.js"
+  ],
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.7.0",
+    "eslint-plugin-import": "^2.31.0"
+  },
+  "peerDependencies": {
+    "eslint": "^8.57.0",
+    "typescript": "^5.0.0"
+  }
+}

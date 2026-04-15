@@ -1,0 +1,11 @@
+{
+  "extends": "@huadian/config-typescript/tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

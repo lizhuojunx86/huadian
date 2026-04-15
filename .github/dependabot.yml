@@ -1,0 +1,39 @@
+version: 2
+
+updates:
+  # ── npm (pnpm workspace) ────────────────────────────────────
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels: ["dependencies", "npm"]
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
+
+  # ── pip (Python / uv) ──────────────────────────────────────
+  - package-ecosystem: pip
+    directory: /services/pipeline
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "python"]
+
+  # ── Docker ──────────────────────────────────────────────────
+  - package-ecosystem: docker
+    directory: /docker/postgres
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    labels: ["dependencies", "docker"]
+
+  # ── GitHub Actions ──────────────────────────────────────────
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "ci"]

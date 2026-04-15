@@ -1,0 +1,13 @@
+[project]
+name = "huadian"
+version = "0.0.0"
+description = "华典智谱 — Chinese Classical Text AI Knowledge Platform (workspace root)"
+requires-python = ">=3.12"
+
+[tool.uv]
+dev-dependencies = []
+
+[tool.uv.workspace]
+members = ["services/pipeline"]
+
+# Ruff config lives in /ruff.toml (single source of truth)
