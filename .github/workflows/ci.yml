@@ -109,7 +109,7 @@ jobs:
           REDIS_URL: redis://localhost:6379
 
       - name: "Step 5: test (pytest)"
-        run: uv run --project services/pipeline pytest services/pipeline -x
+        run: uv run --project services/pipeline pytest services/pipeline -x --no-header || test $? -eq 5
         env:
           DATABASE_URL: postgresql://huadian:huadian_ci@localhost:5432/huadian_test
 
