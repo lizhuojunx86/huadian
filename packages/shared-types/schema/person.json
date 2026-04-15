@@ -1,0 +1,45 @@
+{
+  "$ref": "#/definitions/Person",
+  "definitions": {
+    "Person": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "object",
+          "properties": {
+            "zh": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "zh"
+          ],
+          "additionalProperties": false
+        },
+        "dynasty": {
+          "type": "string"
+        },
+        "birthYear": {
+          "type": "integer"
+        },
+        "deathYear": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

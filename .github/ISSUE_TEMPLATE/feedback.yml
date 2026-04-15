@@ -1,0 +1,38 @@
+name: 💬 Feedback
+description: General feedback, questions, or suggestions
+labels: ["feedback"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        欢迎分享你的想法、建议或疑问。
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 反馈类别
+      options:
+        - 用户体验
+        - 数据质量
+        - 性能
+        - 文档
+        - 古籍内容准确性
+        - 商业化建议
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: feedback
+    attributes:
+      label: 反馈内容
+      description: 请详细描述你的想法
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 上下文
+      description: 截图、使用场景、相关页面等

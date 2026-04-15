@@ -1,0 +1,41 @@
+# ============================================================
+# HuaDian CODEOWNERS — ADR-007 §六
+# ============================================================
+# Maps agent roles to directory paths.
+# Currently all point to @x86 (sole contributor).
+# Replace with real GitHub teams/users when the team grows.
+# ============================================================
+
+# Global fallback
+*                                       @x86
+
+# ── Architect ─────────────────────────────────────────────────
+/docs/decisions/                        @x86
+/docs/00_项目宪法.md                     @x86
+/.claude/agents/chief-architect.md      @x86
+
+# ── Backend engineer ──────────────────────────────────────────
+/services/api/                          @x86
+/packages/db-schema/                    @x86
+/packages/shared-types/                 @x86
+
+# ── Pipeline engineer ────────────────────────────────────────
+/services/pipeline/                     @x86
+/packages/qc-schemas/                   @x86
+
+# ── Frontend engineer ────────────────────────────────────────
+/apps/web/                              @x86
+/packages/ui-core/                      @x86
+/packages/design-tokens/                @x86
+
+# ── Data analyst ─────────────────────────────────────────────
+/packages/analytics-events/             @x86
+
+# ── Historian ────────────────────────────────────────────────
+/data/                                  @x86
+
+# ── DevOps ───────────────────────────────────────────────────
+/docker/                                @x86
+/.github/                               @x86
+/scripts/                               @x86
+/docs/runbook/                          @x86

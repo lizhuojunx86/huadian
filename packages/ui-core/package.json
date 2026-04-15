@@ -1,0 +1,30 @@
+{
+  "name": "@huadian/ui-core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo node_modules"
+  },
+  "dependencies": {
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@huadian/config-eslint": "workspace:*",
+    "@huadian/config-typescript": "workspace:*",
+    "@types/react": "^18.3.18",
+    "eslint": "^8.57.0",
+    "typescript": "^5.7.3"
+  }
+}

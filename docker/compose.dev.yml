@@ -1,0 +1,143 @@
+# ============================================================
+# HuaDian — Local Development Docker Compose
+# ============================================================
+#
+# Usage:
+#   docker compose -f docker/compose.dev.yml up -d                           # PG + Redis (Phase 0 default)
+#   docker compose -f docker/compose.dev.yml --profile observability up -d   # + OTel Collector (stdout)
+#   docker compose -f docker/compose.dev.yml down
+#
+# Makefile shortcuts:
+#   make up              # PG + Redis (Phase 0 default)
+#   make up-with-otel    # + OTel Collector (trace → stdout)
+#   make down
+#
+# All images pinned to specific versions (ADR-007 §R-5).
+# No :latest or floating tags allowed.
+# ============================================================
+
+name: huadian-dev
+
+services:
+  # ── Core infrastructure (always on) ─────────────────────────
+
+  postgres:
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    container_name: huadian-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: huadian
+      POSTGRES_PASSWORD: huadian_dev
+      POSTGRES_DB: huadian
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ../db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U huadian -d huadian"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: huadian-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ── OTel Collector (activate via --profile observability) ───
+  #
+  # Phase 0: exports to stdout (logging exporter).
+  # T-P0-005a will restore the signoz exporter once SigNoz is pinned.
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.103.0
+    container_name: huadian-otel-collector
+    profiles: ["observability"]
+    restart: unless-stopped
+    ports:
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+    volumes:
+      - ./otel/collector-config.yaml:/etc/otelcol-contrib/config.yaml:ro
+
+  # ---------- SigNoz stack (deferred to T-P0-005a) ----------
+  # Reason: signoz/query-service:0.88.25 does not exist on Docker Hub.
+  # SigNoz 0.40+ restructured image naming and compose layout.
+  # Correct approach: pin to verified version with real trace traffic
+  # during T-P0-005 (LLM Gateway + TraceGuard), not blind version guessing.
+  #
+  # TODO(T-P0-005a): pin to verified SigNoz version and re-enable.
+  #
+  # clickhouse:
+  #   image: clickhouse/clickhouse-server:<TBD>
+  #   container_name: huadian-clickhouse
+  #   profiles: ["observability"]
+  #   restart: unless-stopped
+  #   volumes:
+  #     - clickhousedata:/var/lib/clickhouse
+  #   ulimits:
+  #     nofile:
+  #       soft: 262144
+  #       hard: 262144
+  #   healthcheck:
+  #     test: ["CMD", "wget", "--spider", "-q", "http://localhost:8123/ping"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 10
+  #
+  # signoz-otel-collector:
+  #   image: signoz/signoz-otel-collector:<TBD>
+  #   container_name: huadian-signoz-otel-collector
+  #   profiles: ["observability"]
+  #   restart: unless-stopped
+  #   environment:
+  #     - CLICKHOUSE_HOST=clickhouse
+  #     - CLICKHOUSE_PORT=9000
+  #   depends_on:
+  #     clickhouse:
+  #       condition: service_healthy
+  #   ports:
+  #     - "4319:4317"
+  #
+  # signoz-query-service:
+  #   image: signoz/query-service:<TBD>
+  #   container_name: huadian-signoz-query-service
+  #   profiles: ["observability"]
+  #   restart: unless-stopped
+  #   environment:
+  #     - ClickHouseUrl=tcp://clickhouse:9000
+  #     - STORAGE=clickhouse
+  #   depends_on:
+  #     clickhouse:
+  #       condition: service_healthy
+  #   ports:
+  #     - "8080:8080"
+  #
+  # signoz-frontend:
+  #   image: signoz/frontend:<TBD>
+  #   container_name: huadian-signoz-frontend
+  #   profiles: ["observability"]
+  #   restart: unless-stopped
+  #   environment:
+  #     - FRONTEND_API_URL=http://signoz-query-service:8080
+  #   depends_on:
+  #     - signoz-query-service
+  #   ports:
+  #     - "3301:3301"
+
+volumes:
+  pgdata:
+  redisdata:
+  # clickhousedata:  # TODO(T-P0-005a): re-enable

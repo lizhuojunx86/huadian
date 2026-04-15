@@ -1,0 +1,29 @@
+{
+  "name": "@huadian/root",
+  "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "codegen": "turbo run codegen",
+    "db:migrate": "pnpm --filter @huadian/api db:migrate",
+    "db:seed": "pnpm --filter @huadian/api db:seed",
+    "db:generate": "pnpm --filter @huadian/api db:generate",
+    "db:studio": "pnpm --filter @huadian/api db:studio",
+    "db:reset": "pnpm --filter @huadian/api db:reset",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\""
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3",
+    "prettier": "^3.4.2"
+  }
+}

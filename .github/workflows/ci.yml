@@ -1,0 +1,202 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20"
+  PYTHON_VERSION: "3.12"
+  PNPM_VERSION: "9.15.4"
+
+jobs:
+  # ── Steps 1-6: lint → typecheck → codegen:verify → test → build ──
+  ci:
+    name: lint → typecheck → codegen → test → build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_USER: huadian
+          POSTGRES_PASSWORD: huadian_ci
+          POSTGRES_DB: huadian_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U huadian -d huadian_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+      redis:
+        image: redis:7.2-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── Install toolchains ───────────────────────────────────
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      # ── Step 1: Install dependencies ─────────────────────────
+      - name: "Step 1: pnpm install"
+        run: pnpm install --frozen-lockfile
+
+      - name: "Step 1: uv sync"
+        run: uv sync --all-packages
+
+      # ── Step 2: Lint ─────────────────────────────────────────
+      - name: "Step 2: ESLint"
+        run: pnpm lint
+
+      - name: "Step 2: ruff"
+        run: uv run ruff check .
+
+      # ── Step 3: Typecheck ────────────────────────────────────
+      - name: "Step 3: tsc"
+        run: pnpm typecheck
+
+      - name: "Step 3: basedpyright"
+        run: uv run --project services/pipeline basedpyright services/pipeline/src
+
+      # ── Step 4: Codegen verify ───────────────────────────────
+      - name: "Step 4: codegen:verify"
+        run: |
+          pnpm codegen
+          git diff --exit-code packages/shared-types/schema/ services/pipeline/src/huadian_pipeline/generated/ || {
+            echo "::error::Codegen output is stale. Run 'pnpm codegen' locally and commit the result."
+            exit 1
+          }
+
+      # ── Step 5: Test ─────────────────────────────────────────
+      - name: "Step 5: test (vitest)"
+        run: pnpm test
+        env:
+          DATABASE_URL: postgresql://huadian:huadian_ci@localhost:5432/huadian_test
+          REDIS_URL: redis://localhost:6379
+
+      - name: "Step 5: test (pytest)"
+        run: uv run --project services/pipeline pytest services/pipeline -x
+        env:
+          DATABASE_URL: postgresql://huadian:huadian_ci@localhost:5432/huadian_test
+
+      # ── Step 6: Build ────────────────────────────────────────
+      - name: "Step 6: build"
+        run: pnpm build
+
+  # ── Step 7: Docker smoke (parallel) ──────────────────────────
+  docker-smoke:
+    name: "docker smoke"
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build custom PG image
+        run: docker build -t huadian-postgres-test docker/postgres/
+
+      - name: Verify extensions
+        run: |
+          docker run -d --name pg-smoke \
+            -e POSTGRES_USER=huadian \
+            -e POSTGRES_PASSWORD=smoke \
+            -e POSTGRES_DB=smoke \
+            -v ${{ github.workspace }}/db/init:/docker-entrypoint-initdb.d:ro \
+            huadian-postgres-test
+
+          # Wait for PG to be ready
+          for i in $(seq 1 30); do
+            docker exec pg-smoke pg_isready -U huadian -d smoke && break
+            sleep 1
+          done
+
+          # Verify all four extensions
+          docker exec pg-smoke psql -U huadian -d smoke -t -c '\dx' | grep -q vector
+          docker exec pg-smoke psql -U huadian -d smoke -t -c '\dx' | grep -q postgis
+          docker exec pg-smoke psql -U huadian -d smoke -t -c '\dx' | grep -q pg_trgm
+          echo "✅ All extensions verified: vector, postgis, postgis_topology, pg_trgm"
+
+          docker rm -f pg-smoke
+
+  # ── Step 7b: Secret scan (parallel) ──────────────────────────
+  secret-scan:
+    name: "gitleaks secret-scan"
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ── Step 8: GraphQL breaking change detection (R-4) ─────────
+  graphql-breaking:
+    name: "graphql:breaking (warn only)"
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'pull_request'
+    continue-on-error: true  # Phase 0: warn, don't block. ADR-008 will flip to required.
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: GraphQL breaking change check
+        run: |
+          echo "⚠️ graphql:breaking — Phase 0 stub. Will be implemented with graphql-inspector after ADR-008."
+          echo "::warning::GraphQL breaking change detection is a stub in Phase 0."

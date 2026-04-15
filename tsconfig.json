@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@huadian/shared-types": ["packages/shared-types/src"],
+      "@huadian/db-schema": ["packages/db-schema/src"],
+      "@huadian/ui-core": ["packages/ui-core/src"],
+      "@huadian/design-tokens": ["packages/design-tokens"],
+      "@huadian/analytics-events": ["packages/analytics-events/src"],
+      "@huadian/qc-schemas": ["packages/qc-schemas/src"]
+    }
+  },
+  "include": [],
+  "references": []
+}

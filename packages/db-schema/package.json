@@ -1,0 +1,30 @@
+{
+  "name": "@huadian/db-schema",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo node_modules"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.38.3"
+  },
+  "devDependencies": {
+    "@huadian/config-eslint": "workspace:*",
+    "@huadian/config-typescript": "workspace:*",
+    "@types/node": "^20.17.12",
+    "eslint": "^8.57.0",
+    "typescript": "^5.7.3"
+  }
+}

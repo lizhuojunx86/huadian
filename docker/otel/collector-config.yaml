@@ -1,0 +1,40 @@
+# OpenTelemetry Collector — minimal config for HuaDian local dev
+#
+# Phase 0: exports to stdout (logging exporter).
+# T-P0-005a will restore the signoz exporter once SigNoz is pinned.
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+    timeout: 5s
+    send_batch_size: 1024
+
+exporters:
+  logging:                      # Phase 0: trace → stdout
+    loglevel: debug
+  # otlp/signoz:                # TODO(T-P0-005a): restore signoz exporter
+  #   endpoint: signoz-otel-collector:4317
+  #   tls:
+  #     insecure: true
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging]      # TODO(T-P0-005a): change to [otlp/signoz]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging]

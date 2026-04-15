@@ -1,0 +1,24 @@
+[project]
+name = "huadian-pipeline"
+version = "0.0.0"
+description = "华典智谱 data pipeline — ingest, extract, validate"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+huadian-pipeline = "huadian_pipeline.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/huadian_pipeline"]
+
+[tool.uv]
+dev-dependencies = [
+  "basedpyright>=1.22.0",
+  "datamodel-code-generator>=0.26.3",
+  "pytest>=8.3.4",
+  "ruff>=0.8.6",
+]

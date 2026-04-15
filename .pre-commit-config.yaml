@@ -1,0 +1,54 @@
+# ============================================================
+# HuaDian — Pre-commit hooks
+# ============================================================
+#
+# Install:
+#   pip install pre-commit --user   # or: brew install pre-commit
+#   pre-commit install               # installs git hook
+#
+# Run manually:
+#   pre-commit run --all-files
+# ============================================================
+
+repos:
+  # ── Secret scanning ─────────────────────────────────────────
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+
+  # ── General file hygiene ────────────────────────────────────
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+        args: [--maxkb=10240]
+
+  # ── lint-staged (TS/TSX → ESLint, Python → ruff) ───────────
+  - repo: local
+    hooks:
+      - id: lint-staged-ts
+        name: eslint (staged TS/TSX)
+        entry: npx eslint --fix
+        language: system
+        types_or: [ts, tsx]
+        pass_filenames: true
+
+      - id: lint-staged-py
+        name: ruff (staged Python)
+        entry: ruff check --fix
+        language: system
+        types: [python]
+        pass_filenames: true
+
+      - id: format-staged-py
+        name: ruff format (staged Python)
+        entry: ruff format
+        language: system
+        types: [python]
+        pass_filenames: true
