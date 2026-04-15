@@ -59,6 +59,28 @@ cp .env.example .env.local
 | `PORT` | API server port | No (default: 4000) |
 | `NODE_ENV` | Runtime mode | No (default: development) |
 
+### Port conventions
+
+HuaDian defaults to **non-standard host ports** to avoid conflicts with other local stacks
+(e.g., qav2 timescaledb on 5432, qav2 redis on 6379):
+
+| Service | Container port | Host port (default) | Override env var |
+|---------|---------------|--------------------|--------------------|
+| PostgreSQL | 5432 | **5433** | `HUADIAN_PG_PORT` |
+| Redis | 6379 | **6380** | `HUADIAN_REDIS_PORT` |
+| API server | — | 4000 | `PORT` |
+| Web (Next.js) | — | 3000 | — (auto-increments) |
+| OTel Collector gRPC | 4317 | 4317 | — |
+| OTel Collector HTTP | 4318 | 4318 | — |
+
+`services/api` and `services/pipeline` connect via `DATABASE_URL` / `REDIS_URL` in `.env.local`,
+so changing host ports doesn't require code changes. If 5433/6380 are also taken:
+
+```bash
+HUADIAN_PG_PORT=5555 HUADIAN_REDIS_PORT=6666 make up
+# Then update DATABASE_URL/REDIS_URL in .env.local to match
+```
+
 ## Step 3: Start infrastructure
 
 ### Two modes
@@ -233,13 +255,12 @@ pre-commit run --all-files
 
 ### Port conflicts
 
-| Service | Port | Fix |
-|---------|------|-----|
-| PostgreSQL | 5432 | `lsof -i :5432` to find conflict |
-| Redis | 6379 | `lsof -i :6379` |
+| Service | Default host port | Fix |
+|---------|------------------|-----|
+| PostgreSQL | 5433 | `HUADIAN_PG_PORT=5555 make up` + update `DATABASE_URL` |
+| Redis | 6380 | `HUADIAN_REDIS_PORT=6666 make up` + update `REDIS_URL` |
 | API | 4000 | Set `PORT=4001` in `.env.local` |
 | Web | 3000 | Next.js auto-increments to 3001 |
-| SigNoz UI | 3301 | Deferred to T-P0-005a |
 | OTel gRPC | 4317 | `lsof -i :4317` |
 | OTel HTTP | 4318 | `lsof -i :4318` |
 

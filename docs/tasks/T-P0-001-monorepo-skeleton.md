@@ -168,3 +168,4 @@
 - 2026-04-15 v1：DevOps 创建
 - 2026-04-15 v1.1：架构师评审回合 1；按 R-1~R-8 / Q-1~Q-2 修订（基础镜像决策、SigNoz 子栈、CODEOWNERS 路径、basedpyright、graphql:breaking 告警、DB 编排归属到 services/api、data/ owner、README 链接 CLAUDE.md §8）
 - 2026-04-15 v1.2：DoD #4 deferred to T-P0-005a — SigNoz 镜像版本 0.88.25 不存在于 Docker Hub；架构师决策推迟到有真实 trace 流量时再对齐版本
+- 2026-04-15 v1.3：端口冲突修正 — PG host 5432→5433，Redis 6379→6380，支持 env 覆盖；避让宿主机已有服务

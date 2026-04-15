@@ -28,7 +28,7 @@ services:
     container_name: huadian-postgres
     restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "${HUADIAN_PG_PORT:-5433}:5432"
     environment:
       POSTGRES_USER: huadian
       POSTGRES_PASSWORD: huadian_dev
@@ -47,7 +47,7 @@ services:
     container_name: huadian-redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "${HUADIAN_REDIS_PORT:-6380}:6379"
     volumes:
       - redisdata:/data
     healthcheck:

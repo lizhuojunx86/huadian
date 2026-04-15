@@ -93,7 +93,7 @@
 - 📋 任务卡数量：T-P0-001 done；T-P0-002 ready；T-P0-005a planned
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
-- 🐳 Docker：PG + Redis 健康；SigNoz deferred
+- 🐳 Docker：PG + Redis 健康；SigNoz deferred；端口约定 5433/6380
 - 🧪 测试覆盖：N/A（Phase 0 无业务代码）
 - 🚦 阻塞项数量：0 ✅
 
