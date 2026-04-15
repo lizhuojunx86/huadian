@@ -9,7 +9,8 @@
     "**/__pycache__",
     ".venv",
     "dist",
-    "build"
+    "build",
+    "src/huadian_pipeline/generated"
   ],
   "reportMissingImports": true,
   "reportMissingTypeStubs": false,
