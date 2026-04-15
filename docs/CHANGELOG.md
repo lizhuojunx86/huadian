@@ -32,6 +32,16 @@
   - DoD #4 标记 deferred
 - **下一步**：T-P0-002（DB Schema 落地）由后端工程师主导
 
+### [fix] 端口映射调整避让本机其他项目
+- **角色**：DevOps 工程师
+- **任务**：T-P0-001 follow-up
+- **变更**：
+  - `docker/compose.dev.yml`：PG host 端口 5432→5433，Redis 6379→6380，均支持 env 覆盖（`HUADIAN_PG_PORT` / `HUADIAN_REDIS_PORT`）
+  - `.env.example`：同步端口 + DATABASE_URL / REDIS_URL
+  - `docs/runbook/RB-001-local-dev.md`：新增"端口约定"段
+- **原因**：宿主机已有其他项目（qav2 timescaledb / redis）占用 5432 / 6379，`make up` 会报 `bind: address already in use`
+- **影响**：容器内端口不变（5432 / 6379），仅 host 映射变；通过 `DATABASE_URL` / `REDIS_URL` 读取，不需改代码
+
 ---
 
 ## 2026-04-15（夜 · 四批）
