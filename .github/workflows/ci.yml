@@ -139,11 +139,16 @@ jobs:
             -v ${{ github.workspace }}/db/init:/docker-entrypoint-initdb.d:ro \
             huadian-postgres-test
 
-          # Wait for PG to be ready
-          for i in $(seq 1 30); do
-            docker exec pg-smoke pg_isready -U huadian -d smoke && break
+          # Wait for PG to be fully ready (including init scripts)
+          for i in $(seq 1 60); do
+            if docker exec pg-smoke psql -U huadian -d smoke -c "SELECT 1" &>/dev/null; then
+              break
+            fi
             sleep 1
           done
+
+          # Extra wait for init scripts to complete
+          sleep 5
 
           # Verify all four extensions
           docker exec pg-smoke psql -U huadian -d smoke -t -c '\dx' | grep -q vector
