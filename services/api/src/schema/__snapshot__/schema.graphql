@@ -6,6 +6,25 @@ schema {
   query: Query
 }
 
+"""
+AccountConflict — structured disagreement between two EventAccounts.
+Replaces v1 version_conflicts (architect Q-2 on T-P0-002). Required for
+the dual-account story to be usable (architect T-P0-003 #4).
+
+diffSummary / analysis remain JSON at Phase 0; a concrete type will be
+defined alongside the conflict-resolution UI in Phase 1.
+"""
+type AccountConflict {
+  id: ID!
+  eventId: UUID!
+  accountAId: UUID!
+  accountBId: UUID!
+  conflictType: ConflictType
+  diffSummary: JSON
+  analysis: JSON
+  createdAt: DateTime!
+}
+
 """Administrative level for historical places / polities (D layer)."""
 enum AdminLevel {
   dao
@@ -16,6 +35,42 @@ enum AdminLevel {
   xian
   guan
   other
+}
+
+"""
+Book — ancient text metadata (one row per distinct work).
+Backs packages/db-schema/src/schema/sources.ts → books.
+
+Traceable compliance note:
+  The books table does not carry a dedicated provenanceTier column; the
+  Traceable.provenanceTier resolver defaults to primary_text (a Book IS the
+  primary source) and MAY be narrowed by a future resolver that reads
+  credibilityTier → provenanceTier mapping. sourceEvidenceId resolves to
+  a representative evidence row for the book (subtask 4 stubs as
+  NOT_IMPLEMENTED).
+
+License note:
+  The shared-types licenseEnum includes the value "CC-BY" which contains
+  a hyphen that is illegal in GraphQL enum values. The field is therefore
+  exposed as String here; resolver guarantees the value matches one of
+  CC0 / CC-BY / public_domain / proprietary / unknown. A future ADR will
+  decide whether to rename the shared-types case to CC_BY so we can lift
+  this back to a typed enum (tracked as L-1 in subtask 7 docs).
+"""
+type Book implements Traceable {
+  id: ID!
+  sourceEvidenceId: ID!
+  provenanceTier: ProvenanceTier!
+  updatedAt: DateTime!
+  slug: String!
+  title: MultiLangText!
+  authorPersonId: UUID
+  dynasty: String
+  genre: BookGenre
+  credibilityTier: CredibilityTier!
+  license: String!
+  authoritativeVersion: String
+  metadata: JSON
 }
 
 """Book genre (A layer)."""
@@ -75,6 +130,82 @@ Provided by graphql-scalars' DateTimeResolver.
 """
 scalar DateTime
 
+"""
+Event — abstract event anchor (see ADR-002). One Event may have multiple
+EventAccount narratives across different source texts; AccountConflict
+records structured disagreements between two accounts.
+Backs packages/db-schema/src/schema/events.ts → events.
+
+Related collections (resolved lazily, DataLoader territory per architect #3):
+  - accounts:  [EventAccount!]!     event_accounts WHERE event_id = this.id
+  - conflicts: [AccountConflict!]!  account_conflicts WHERE event_id = this.id
+"""
+type Event implements Traceable {
+  id: ID!
+  sourceEvidenceId: ID!
+  provenanceTier: ProvenanceTier!
+  updatedAt: DateTime!
+  slug: String!
+  title: MultiLangText!
+  summary: MultiLangText
+  significance: MultiLangText
+  timePeriodStart: HistoricalDate
+  timePeriodEnd: HistoricalDate
+  placeId: UUID
+  eventType: EventType
+  importanceScore: Float
+  canonicalAccountId: UUID
+  realityStatus: RealityStatus!
+  accounts: [EventAccount!]!
+  conflicts: [AccountConflict!]!
+}
+
+"""
+EventAccount — one specific narrative of an Event from one source.
+ADR-002 core table: multi-account coexistence is a constitutional
+requirement (C-3).
+
+JSONB embedded fields (participants / places / sequence) are modeled as
+typed GraphQL Object Types mirroring shared-types zod schemas; the key
+mapping from snake_case persisted keys (person_id, place_id) to
+camelCase GraphQL fields (personId, placeId) happens in resolvers.
+"""
+type EventAccount {
+  id: ID!
+  eventId: UUID!
+  sourceBookId: UUID
+  narrative: MultiLangText!
+  participants: [EventParticipantRef!]!
+  places: [EventPlaceRef!]!
+  sequence: [EventSequenceStep!]!
+  sourceEvidenceIds: [UUID!]!
+  reliabilityScore: Float
+  isCanonical: Boolean!
+  provenanceTier: ProvenanceTier!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Participant within an EventAccount narrative."""
+type EventParticipantRef {
+  personId: UUID!
+  role: String!
+  action: String
+}
+
+"""Place reference within an EventAccount narrative."""
+type EventPlaceRef {
+  placeId: UUID!
+  role: String!
+}
+
+"""Ordered step inside the sequence of an EventAccount."""
+type EventSequenceStep {
+  order: Int!
+  description: MultiLangText!
+  time: HistoricalDate
+}
+
 """Event type (C layer)."""
 enum EventType {
   political
@@ -133,6 +264,27 @@ enum HypothesisRelationType {
 }
 
 """
+IdentityHypothesis — scholarly hypothesis about whether two Person
+records refer to the same historical figure (e.g. Laozi / Li Er /
+Lao Laizi). See docs/02 §2.2 and ADR-001.
+
+evidenceIds is a JSONB string[] of source_evidences.id UUIDs backing
+the hypothesis; the architect #3 ruling defers turning this into an
+embedded SourceEvidence collection to a later DataLoader pass.
+"""
+type IdentityHypothesis {
+  id: ID!
+  canonicalPersonId: UUID!
+  hypothesisPersonId: UUID
+  relationType: HypothesisRelationType!
+  scholarlySupport: String
+  evidenceIds: [UUID!]!
+  acceptedByDefault: Boolean
+  notes: String
+  createdAt: DateTime!
+}
+
+"""
 Arbitrary JSON value. Use sparingly — prefer concrete types.
 Provided by graphql-scalars' JSONResolver.
 """
@@ -166,6 +318,110 @@ enum NameType {
   nickname
   self_ref
   alias
+}
+
+"""
+Person — canonical identity (one row per disambiguated historical or
+legendary person). Backs packages/db-schema/src/schema/persons.ts → persons.
+
+Related collections (resolved lazily, DataLoader territory per architect #3):
+  - names:              [PersonName!]!           person_names WHERE person_id = this.id
+  - identityHypotheses: [IdentityHypothesis!]!   identity_hypotheses WHERE canonical_person_id = this.id
+"""
+type Person implements Traceable {
+  id: ID!
+  sourceEvidenceId: ID!
+  provenanceTier: ProvenanceTier!
+  updatedAt: DateTime!
+  slug: String!
+  name: MultiLangText!
+  dynasty: String
+  realityStatus: RealityStatus!
+  birthDate: HistoricalDate
+  deathDate: HistoricalDate
+  biography: MultiLangText
+  names: [PersonName!]!
+  identityHypotheses: [IdentityHypothesis!]!
+}
+
+"""
+PersonName — one of multiple historical appellations for a Person
+(courtesy name, posthumous name, nickname, etc.). The canonical name is
+expressed on Person.name (MultiLangText); PersonName.name is the raw
+historical string (kept as TEXT per architect Q-3 ruling on T-P0-002).
+
+Does not implement Traceable because sourceEvidenceId is nullable here.
+"""
+type PersonName {
+  id: ID!
+  personId: UUID!
+  name: String!
+  namePinyin: String
+  nameType: NameType!
+  startYear: Int
+  endYear: Int
+  isPrimary: Boolean
+  sourceEvidenceId: UUID
+  createdAt: DateTime!
+}
+
+"""
+Place — geographic entity. The PostGIS GEOMETRY column is exposed here
+as the opaque JSON scalar for Phase 0 (task card explicit non-goal);
+a typed Geometry model will be introduced in a Phase 1 ADR.
+
+Related collections (resolved lazily, DataLoader territory per architect #3):
+  - names: [PlaceName!]!  place_names WHERE place_id = this.id
+"""
+type Place implements Traceable {
+  id: ID!
+  sourceEvidenceId: ID!
+  provenanceTier: ProvenanceTier!
+  updatedAt: DateTime!
+  slug: String!
+  ancientName: String
+  modernName: MultiLangText
+  geometry: JSON
+  fuzziness: Float
+  modernCountry: String
+  realityStatus: RealityStatus!
+  names: [PlaceName!]!
+}
+
+"""
+PlaceName — a historical name for a Place valid during a specific
+dynasty / year range. name stays as raw TEXT per architect Q-3 on
+T-P0-002 (historical proper nouns are not translated).
+
+Does not implement Traceable because sourceEvidenceId is nullable here.
+"""
+type PlaceName {
+  id: ID!
+  placeId: UUID!
+  name: String!
+  dynasty: String
+  yearStart: Int
+  yearEnd: Int
+  geometryVariant: JSON
+  sourceEvidenceId: UUID
+  createdAt: DateTime!
+}
+
+"""
+Polity — dynasty or political entity (e.g. 秦, 西汉, 新, 更始, 东汉).
+Backed by the T-P0-004 batch-1 seed data.
+"""
+type Polity {
+  id: ID!
+  slug: String!
+  name: MultiLangText!
+  dynasty: String
+  yearStart: Int
+  yearEnd: Int
+  capitalPlaceId: UUID
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 """
@@ -206,6 +462,46 @@ enum RealityStatus {
   fictional
   composite
   uncertain
+}
+
+"""
+ReignEra — named era (年号) within a Polity (e.g. 建元, 元封).
+name stays as raw TEXT per architect Q-3 on T-P0-002.
+"""
+type ReignEra {
+  id: ID!
+  polityId: UUID!
+  name: String!
+  yearStart: Int!
+  yearEnd: Int
+  emperorPersonId: UUID
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+SourceEvidence — atomic unit of provenance (a quoted paragraph from a
+specific textual version). All other entities link back to this table.
+Backs packages/db-schema/src/schema/sources.ts → source_evidences.
+
+Traceable compliance note:
+  SourceEvidence self-references: the Traceable.sourceEvidenceId field
+  resolves to parent.id (evidence IS the evidence). This creates a
+  deliberate fixed point in the provenance graph.
+"""
+type SourceEvidence implements Traceable {
+  id: ID!
+  sourceEvidenceId: ID!
+  provenanceTier: ProvenanceTier!
+  updatedAt: DateTime!
+  rawTextId: UUID
+  positionStart: Int
+  positionEnd: Int
+  quotedText: String
+  textVersion: String
+  bookId: UUID
+  promptVersion: String
+  llmCallId: UUID
 }
 
 """

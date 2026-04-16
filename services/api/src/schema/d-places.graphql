@@ -1,0 +1,83 @@
+# D layer — Geography & Time
+# Types exposed: Place, PlaceName, Polity, ReignEra
+# Traceable: only Place (architect #2 ruling).
+#
+# PlaceName carries a nullable source_evidence_id column and therefore
+# does not implement Traceable (same rule as PersonName, see b-persons).
+# Polity and ReignEra carry no source_evidence_id column at all.
+
+"""
+Place — geographic entity. The PostGIS GEOMETRY column is exposed here
+as the opaque JSON scalar for Phase 0 (task card explicit non-goal);
+a typed Geometry model will be introduced in a Phase 1 ADR.
+
+Related collections (resolved lazily, DataLoader territory per architect #3):
+  - names: [PlaceName!]!  place_names WHERE place_id = this.id
+"""
+type Place implements Traceable {
+  id: ID!
+  sourceEvidenceId: ID!
+  provenanceTier: ProvenanceTier!
+  updatedAt: DateTime!
+
+  slug: String!
+  ancientName: String
+  modernName: MultiLangText
+  geometry: JSON
+  fuzziness: Float
+  modernCountry: String
+  realityStatus: RealityStatus!
+
+  names: [PlaceName!]!
+}
+
+"""
+PlaceName — a historical name for a Place valid during a specific
+dynasty / year range. name stays as raw TEXT per architect Q-3 on
+T-P0-002 (historical proper nouns are not translated).
+
+Does not implement Traceable because sourceEvidenceId is nullable here.
+"""
+type PlaceName {
+  id: ID!
+  placeId: UUID!
+  name: String!
+  dynasty: String
+  yearStart: Int
+  yearEnd: Int
+  geometryVariant: JSON
+  sourceEvidenceId: UUID
+  createdAt: DateTime!
+}
+
+"""
+Polity — dynasty or political entity (e.g. 秦, 西汉, 新, 更始, 东汉).
+Backed by the T-P0-004 batch-1 seed data.
+"""
+type Polity {
+  id: ID!
+  slug: String!
+  name: MultiLangText!
+  dynasty: String
+  yearStart: Int
+  yearEnd: Int
+  capitalPlaceId: UUID
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+ReignEra — named era (年号) within a Polity (e.g. 建元, 元封).
+name stays as raw TEXT per architect Q-3 on T-P0-002.
+"""
+type ReignEra {
+  id: ID!
+  polityId: UUID!
+  name: String!
+  yearStart: Int!
+  yearEnd: Int
+  emperorPersonId: UUID
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}

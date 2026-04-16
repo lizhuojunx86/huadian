@@ -37,6 +37,26 @@ export type Scalars = {
   UUID: { input: string; output: string; }
 };
 
+/**
+ * AccountConflict — structured disagreement between two EventAccounts.
+ * Replaces v1 version_conflicts (architect Q-2 on T-P0-002). Required for
+ * the dual-account story to be usable (architect T-P0-003 #4).
+ *
+ * diffSummary / analysis remain JSON at Phase 0; a concrete type will be
+ * defined alongside the conflict-resolution UI in Phase 1.
+ */
+export type AccountConflict = {
+  __typename?: 'AccountConflict';
+  accountAId: Scalars['UUID']['output'];
+  accountBId: Scalars['UUID']['output'];
+  analysis: Maybe<Scalars['JSON']['output']>;
+  conflictType: Maybe<ConflictType>;
+  createdAt: Scalars['DateTime']['output'];
+  diffSummary: Maybe<Scalars['JSON']['output']>;
+  eventId: Scalars['UUID']['output'];
+  id: Scalars['ID']['output'];
+};
+
 /** Administrative level for historical places / polities (D layer). */
 export enum AdminLevel {
   Dao = 'dao',
@@ -48,6 +68,43 @@ export enum AdminLevel {
   Xian = 'xian',
   Zhou = 'zhou'
 }
+
+/**
+ * Book — ancient text metadata (one row per distinct work).
+ * Backs packages/db-schema/src/schema/sources.ts → books.
+ *
+ * Traceable compliance note:
+ *   The books table does not carry a dedicated provenanceTier column; the
+ *   Traceable.provenanceTier resolver defaults to primary_text (a Book IS the
+ *   primary source) and MAY be narrowed by a future resolver that reads
+ *   credibilityTier → provenanceTier mapping. sourceEvidenceId resolves to
+ *   a representative evidence row for the book (subtask 4 stubs as
+ *   NOT_IMPLEMENTED).
+ *
+ * License note:
+ *   The shared-types licenseEnum includes the value "CC-BY" which contains
+ *   a hyphen that is illegal in GraphQL enum values. The field is therefore
+ *   exposed as String here; resolver guarantees the value matches one of
+ *   CC0 / CC-BY / public_domain / proprietary / unknown. A future ADR will
+ *   decide whether to rename the shared-types case to CC_BY so we can lift
+ *   this back to a typed enum (tracked as L-1 in subtask 7 docs).
+ */
+export type Book = Traceable & {
+  __typename?: 'Book';
+  authorPersonId: Maybe<Scalars['UUID']['output']>;
+  authoritativeVersion: Maybe<Scalars['String']['output']>;
+  credibilityTier: CredibilityTier;
+  dynasty: Maybe<Scalars['String']['output']>;
+  genre: Maybe<BookGenre>;
+  id: Scalars['ID']['output'];
+  license: Scalars['String']['output'];
+  metadata: Maybe<Scalars['JSON']['output']>;
+  provenanceTier: ProvenanceTier;
+  slug: Scalars['String']['output'];
+  sourceEvidenceId: Scalars['ID']['output'];
+  title: MultiLangText;
+  updatedAt: Scalars['DateTime']['output'];
+};
 
 /** Book genre (A layer). */
 export enum BookGenre {
@@ -99,6 +156,87 @@ export enum DatePrecision {
   Year = 'year',
   YearRange = 'year_range'
 }
+
+/**
+ * Event — abstract event anchor (see ADR-002). One Event may have multiple
+ * EventAccount narratives across different source texts; AccountConflict
+ * records structured disagreements between two accounts.
+ * Backs packages/db-schema/src/schema/events.ts → events.
+ *
+ * Related collections (resolved lazily, DataLoader territory per architect #3):
+ *   - accounts:  [EventAccount!]!     event_accounts WHERE event_id = this.id
+ *   - conflicts: [AccountConflict!]!  account_conflicts WHERE event_id = this.id
+ */
+export type Event = Traceable & {
+  __typename?: 'Event';
+  accounts: Array<EventAccount>;
+  canonicalAccountId: Maybe<Scalars['UUID']['output']>;
+  conflicts: Array<AccountConflict>;
+  eventType: Maybe<EventType>;
+  id: Scalars['ID']['output'];
+  importanceScore: Maybe<Scalars['Float']['output']>;
+  placeId: Maybe<Scalars['UUID']['output']>;
+  provenanceTier: ProvenanceTier;
+  realityStatus: RealityStatus;
+  significance: Maybe<MultiLangText>;
+  slug: Scalars['String']['output'];
+  sourceEvidenceId: Scalars['ID']['output'];
+  summary: Maybe<MultiLangText>;
+  timePeriodEnd: Maybe<HistoricalDate>;
+  timePeriodStart: Maybe<HistoricalDate>;
+  title: MultiLangText;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+/**
+ * EventAccount — one specific narrative of an Event from one source.
+ * ADR-002 core table: multi-account coexistence is a constitutional
+ * requirement (C-3).
+ *
+ * JSONB embedded fields (participants / places / sequence) are modeled as
+ * typed GraphQL Object Types mirroring shared-types zod schemas; the key
+ * mapping from snake_case persisted keys (person_id, place_id) to
+ * camelCase GraphQL fields (personId, placeId) happens in resolvers.
+ */
+export type EventAccount = {
+  __typename?: 'EventAccount';
+  createdAt: Scalars['DateTime']['output'];
+  eventId: Scalars['UUID']['output'];
+  id: Scalars['ID']['output'];
+  isCanonical: Scalars['Boolean']['output'];
+  narrative: MultiLangText;
+  participants: Array<EventParticipantRef>;
+  places: Array<EventPlaceRef>;
+  provenanceTier: ProvenanceTier;
+  reliabilityScore: Maybe<Scalars['Float']['output']>;
+  sequence: Array<EventSequenceStep>;
+  sourceBookId: Maybe<Scalars['UUID']['output']>;
+  sourceEvidenceIds: Array<Scalars['UUID']['output']>;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+/** Participant within an EventAccount narrative. */
+export type EventParticipantRef = {
+  __typename?: 'EventParticipantRef';
+  action: Maybe<Scalars['String']['output']>;
+  personId: Scalars['UUID']['output'];
+  role: Scalars['String']['output'];
+};
+
+/** Place reference within an EventAccount narrative. */
+export type EventPlaceRef = {
+  __typename?: 'EventPlaceRef';
+  placeId: Scalars['UUID']['output'];
+  role: Scalars['String']['output'];
+};
+
+/** Ordered step inside the sequence of an EventAccount. */
+export type EventSequenceStep = {
+  __typename?: 'EventSequenceStep';
+  description: MultiLangText;
+  order: Scalars['Int']['output'];
+  time: Maybe<HistoricalDate>;
+};
 
 /** Event type (C layer). */
 export enum EventType {
@@ -159,6 +297,28 @@ export enum HypothesisRelationType {
 }
 
 /**
+ * IdentityHypothesis — scholarly hypothesis about whether two Person
+ * records refer to the same historical figure (e.g. Laozi / Li Er /
+ * Lao Laizi). See docs/02 §2.2 and ADR-001.
+ *
+ * evidenceIds is a JSONB string[] of source_evidences.id UUIDs backing
+ * the hypothesis; the architect #3 ruling defers turning this into an
+ * embedded SourceEvidence collection to a later DataLoader pass.
+ */
+export type IdentityHypothesis = {
+  __typename?: 'IdentityHypothesis';
+  acceptedByDefault: Maybe<Scalars['Boolean']['output']>;
+  canonicalPersonId: Scalars['UUID']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  evidenceIds: Array<Scalars['UUID']['output']>;
+  hypothesisPersonId: Maybe<Scalars['UUID']['output']>;
+  id: Scalars['ID']['output'];
+  notes: Maybe<Scalars['String']['output']>;
+  relationType: HypothesisRelationType;
+  scholarlySupport: Maybe<Scalars['String']['output']>;
+};
+
+/**
  * Multi-language text for user-facing display fields (constitutional
  * requirement C-12). Mirrors the JSONB structure defined by
  * multiLangTextSchema in @huadian/shared-types.
@@ -188,6 +348,115 @@ export enum NameType {
   Studio = 'studio',
   Temple = 'temple'
 }
+
+/**
+ * Person — canonical identity (one row per disambiguated historical or
+ * legendary person). Backs packages/db-schema/src/schema/persons.ts → persons.
+ *
+ * Related collections (resolved lazily, DataLoader territory per architect #3):
+ *   - names:              [PersonName!]!           person_names WHERE person_id = this.id
+ *   - identityHypotheses: [IdentityHypothesis!]!   identity_hypotheses WHERE canonical_person_id = this.id
+ */
+export type Person = Traceable & {
+  __typename?: 'Person';
+  biography: Maybe<MultiLangText>;
+  birthDate: Maybe<HistoricalDate>;
+  deathDate: Maybe<HistoricalDate>;
+  dynasty: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  identityHypotheses: Array<IdentityHypothesis>;
+  name: MultiLangText;
+  names: Array<PersonName>;
+  provenanceTier: ProvenanceTier;
+  realityStatus: RealityStatus;
+  slug: Scalars['String']['output'];
+  sourceEvidenceId: Scalars['ID']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+/**
+ * PersonName — one of multiple historical appellations for a Person
+ * (courtesy name, posthumous name, nickname, etc.). The canonical name is
+ * expressed on Person.name (MultiLangText); PersonName.name is the raw
+ * historical string (kept as TEXT per architect Q-3 ruling on T-P0-002).
+ *
+ * Does not implement Traceable because sourceEvidenceId is nullable here.
+ */
+export type PersonName = {
+  __typename?: 'PersonName';
+  createdAt: Scalars['DateTime']['output'];
+  endYear: Maybe<Scalars['Int']['output']>;
+  id: Scalars['ID']['output'];
+  isPrimary: Maybe<Scalars['Boolean']['output']>;
+  name: Scalars['String']['output'];
+  namePinyin: Maybe<Scalars['String']['output']>;
+  nameType: NameType;
+  personId: Scalars['UUID']['output'];
+  sourceEvidenceId: Maybe<Scalars['UUID']['output']>;
+  startYear: Maybe<Scalars['Int']['output']>;
+};
+
+/**
+ * Place — geographic entity. The PostGIS GEOMETRY column is exposed here
+ * as the opaque JSON scalar for Phase 0 (task card explicit non-goal);
+ * a typed Geometry model will be introduced in a Phase 1 ADR.
+ *
+ * Related collections (resolved lazily, DataLoader territory per architect #3):
+ *   - names: [PlaceName!]!  place_names WHERE place_id = this.id
+ */
+export type Place = Traceable & {
+  __typename?: 'Place';
+  ancientName: Maybe<Scalars['String']['output']>;
+  fuzziness: Maybe<Scalars['Float']['output']>;
+  geometry: Maybe<Scalars['JSON']['output']>;
+  id: Scalars['ID']['output'];
+  modernCountry: Maybe<Scalars['String']['output']>;
+  modernName: Maybe<MultiLangText>;
+  names: Array<PlaceName>;
+  provenanceTier: ProvenanceTier;
+  realityStatus: RealityStatus;
+  slug: Scalars['String']['output'];
+  sourceEvidenceId: Scalars['ID']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+/**
+ * PlaceName — a historical name for a Place valid during a specific
+ * dynasty / year range. name stays as raw TEXT per architect Q-3 on
+ * T-P0-002 (historical proper nouns are not translated).
+ *
+ * Does not implement Traceable because sourceEvidenceId is nullable here.
+ */
+export type PlaceName = {
+  __typename?: 'PlaceName';
+  createdAt: Scalars['DateTime']['output'];
+  dynasty: Maybe<Scalars['String']['output']>;
+  geometryVariant: Maybe<Scalars['JSON']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  placeId: Scalars['UUID']['output'];
+  sourceEvidenceId: Maybe<Scalars['UUID']['output']>;
+  yearEnd: Maybe<Scalars['Int']['output']>;
+  yearStart: Maybe<Scalars['Int']['output']>;
+};
+
+/**
+ * Polity — dynasty or political entity (e.g. 秦, 西汉, 新, 更始, 东汉).
+ * Backed by the T-P0-004 batch-1 seed data.
+ */
+export type Polity = {
+  __typename?: 'Polity';
+  capitalPlaceId: Maybe<Scalars['UUID']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  dynasty: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  metadata: Maybe<Scalars['JSON']['output']>;
+  name: MultiLangText;
+  slug: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  yearEnd: Maybe<Scalars['Int']['output']>;
+  yearStart: Maybe<Scalars['Int']['output']>;
+};
 
 /**
  * Provenance tier — constitutional requirement C-2.
@@ -223,6 +492,48 @@ export enum RealityStatus {
   Mythical = 'mythical',
   Uncertain = 'uncertain'
 }
+
+/**
+ * ReignEra — named era (年号) within a Polity (e.g. 建元, 元封).
+ * name stays as raw TEXT per architect Q-3 on T-P0-002.
+ */
+export type ReignEra = {
+  __typename?: 'ReignEra';
+  createdAt: Scalars['DateTime']['output'];
+  emperorPersonId: Maybe<Scalars['UUID']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  polityId: Scalars['UUID']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  yearEnd: Maybe<Scalars['Int']['output']>;
+  yearStart: Scalars['Int']['output'];
+};
+
+/**
+ * SourceEvidence — atomic unit of provenance (a quoted paragraph from a
+ * specific textual version). All other entities link back to this table.
+ * Backs packages/db-schema/src/schema/sources.ts → source_evidences.
+ *
+ * Traceable compliance note:
+ *   SourceEvidence self-references: the Traceable.sourceEvidenceId field
+ *   resolves to parent.id (evidence IS the evidence). This creates a
+ *   deliberate fixed point in the provenance graph.
+ */
+export type SourceEvidence = Traceable & {
+  __typename?: 'SourceEvidence';
+  bookId: Maybe<Scalars['UUID']['output']>;
+  id: Scalars['ID']['output'];
+  llmCallId: Maybe<Scalars['UUID']['output']>;
+  positionEnd: Maybe<Scalars['Int']['output']>;
+  positionStart: Maybe<Scalars['Int']['output']>;
+  promptVersion: Maybe<Scalars['String']['output']>;
+  provenanceTier: ProvenanceTier;
+  quotedText: Maybe<Scalars['String']['output']>;
+  rawTextId: Maybe<Scalars['UUID']['output']>;
+  sourceEvidenceId: Scalars['ID']['output'];
+  textVersion: Maybe<Scalars['String']['output']>;
+  updatedAt: Scalars['DateTime']['output'];
+};
 
 /**
  * Traceable — GraphQL-layer enforcement of constitutional article C-2
@@ -312,30 +623,52 @@ export type DirectiveResolverFn<TResult = Record<PropertyKey, never>, TParent = 
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = {
-  Traceable: never;
+  Traceable:
+    | ( Book )
+    | ( Event )
+    | ( Person )
+    | ( Place )
+    | ( SourceEvidence )
+  ;
 };
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  AccountConflict: ResolverTypeWrapper<AccountConflict>;
   AdminLevel: AdminLevel;
+  Book: ResolverTypeWrapper<Book>;
   BookGenre: BookGenre;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ConflictType: ConflictType;
   CredibilityTier: CredibilityTier;
   DatePrecision: DatePrecision;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  Event: ResolverTypeWrapper<Event>;
+  EventAccount: ResolverTypeWrapper<EventAccount>;
+  EventParticipantRef: ResolverTypeWrapper<EventParticipantRef>;
+  EventPlaceRef: ResolverTypeWrapper<EventPlaceRef>;
+  EventSequenceStep: ResolverTypeWrapper<EventSequenceStep>;
   EventType: EventType;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   HistoricalDate: ResolverTypeWrapper<HistoricalDate>;
   HypothesisRelationType: HypothesisRelationType;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  IdentityHypothesis: ResolverTypeWrapper<IdentityHypothesis>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   MultiLangText: ResolverTypeWrapper<MultiLangText>;
   NameType: NameType;
+  Person: ResolverTypeWrapper<Person>;
+  PersonName: ResolverTypeWrapper<PersonName>;
+  Place: ResolverTypeWrapper<Place>;
+  PlaceName: ResolverTypeWrapper<PlaceName>;
+  Polity: ResolverTypeWrapper<Polity>;
   PositiveInt: ResolverTypeWrapper<Scalars['PositiveInt']['output']>;
   ProvenanceTier: ProvenanceTier;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
   RealityStatus: RealityStatus;
+  ReignEra: ResolverTypeWrapper<ReignEra>;
+  SourceEvidence: ResolverTypeWrapper<SourceEvidence>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Traceable: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Traceable']>;
   UUID: ResolverTypeWrapper<Scalars['UUID']['output']>;
@@ -343,23 +676,121 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  AccountConflict: AccountConflict;
+  Book: Book;
   Boolean: Scalars['Boolean']['output'];
   DateTime: Scalars['DateTime']['output'];
+  Event: Event;
+  EventAccount: EventAccount;
+  EventParticipantRef: EventParticipantRef;
+  EventPlaceRef: EventPlaceRef;
+  EventSequenceStep: EventSequenceStep;
+  Float: Scalars['Float']['output'];
   HistoricalDate: HistoricalDate;
   ID: Scalars['ID']['output'];
+  IdentityHypothesis: IdentityHypothesis;
   Int: Scalars['Int']['output'];
   JSON: Scalars['JSON']['output'];
   MultiLangText: MultiLangText;
+  Person: Person;
+  PersonName: PersonName;
+  Place: Place;
+  PlaceName: PlaceName;
+  Polity: Polity;
   PositiveInt: Scalars['PositiveInt']['output'];
   Query: Record<PropertyKey, never>;
+  ReignEra: ReignEra;
+  SourceEvidence: SourceEvidence;
   String: Scalars['String']['output'];
   Traceable: ResolversInterfaceTypes<ResolversParentTypes>['Traceable'];
   UUID: Scalars['UUID']['output'];
 };
 
+export type AccountConflictResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['AccountConflict'] = ResolversParentTypes['AccountConflict']> = {
+  accountAId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  accountBId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  analysis?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  conflictType?: Resolver<Maybe<ResolversTypes['ConflictType']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  diffSummary?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  eventId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+};
+
+export type BookResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['Book'] = ResolversParentTypes['Book']> = {
+  authorPersonId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
+  authoritativeVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  credibilityTier?: Resolver<ResolversTypes['CredibilityTier'], ParentType, ContextType>;
+  dynasty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  genre?: Resolver<Maybe<ResolversTypes['BookGenre']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  license?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  metadata?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  provenanceTier?: Resolver<ResolversTypes['ProvenanceTier'], ParentType, ContextType>;
+  slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['MultiLangText'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
+
+export type EventResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['Event'] = ResolversParentTypes['Event']> = {
+  accounts?: Resolver<Array<ResolversTypes['EventAccount']>, ParentType, ContextType>;
+  canonicalAccountId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
+  conflicts?: Resolver<Array<ResolversTypes['AccountConflict']>, ParentType, ContextType>;
+  eventType?: Resolver<Maybe<ResolversTypes['EventType']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  importanceScore?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  placeId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
+  provenanceTier?: Resolver<ResolversTypes['ProvenanceTier'], ParentType, ContextType>;
+  realityStatus?: Resolver<ResolversTypes['RealityStatus'], ParentType, ContextType>;
+  significance?: Resolver<Maybe<ResolversTypes['MultiLangText']>, ParentType, ContextType>;
+  slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  summary?: Resolver<Maybe<ResolversTypes['MultiLangText']>, ParentType, ContextType>;
+  timePeriodEnd?: Resolver<Maybe<ResolversTypes['HistoricalDate']>, ParentType, ContextType>;
+  timePeriodStart?: Resolver<Maybe<ResolversTypes['HistoricalDate']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['MultiLangText'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EventAccountResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['EventAccount'] = ResolversParentTypes['EventAccount']> = {
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  eventId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isCanonical?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  narrative?: Resolver<ResolversTypes['MultiLangText'], ParentType, ContextType>;
+  participants?: Resolver<Array<ResolversTypes['EventParticipantRef']>, ParentType, ContextType>;
+  places?: Resolver<Array<ResolversTypes['EventPlaceRef']>, ParentType, ContextType>;
+  provenanceTier?: Resolver<ResolversTypes['ProvenanceTier'], ParentType, ContextType>;
+  reliabilityScore?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  sequence?: Resolver<Array<ResolversTypes['EventSequenceStep']>, ParentType, ContextType>;
+  sourceBookId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
+  sourceEvidenceIds?: Resolver<Array<ResolversTypes['UUID']>, ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+};
+
+export type EventParticipantRefResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['EventParticipantRef'] = ResolversParentTypes['EventParticipantRef']> = {
+  action?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  personId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type EventPlaceRefResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['EventPlaceRef'] = ResolversParentTypes['EventPlaceRef']> = {
+  placeId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type EventSequenceStepResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['EventSequenceStep'] = ResolversParentTypes['EventSequenceStep']> = {
+  description?: Resolver<ResolversTypes['MultiLangText'], ParentType, ContextType>;
+  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  time?: Resolver<Maybe<ResolversTypes['HistoricalDate']>, ParentType, ContextType>;
+};
 
 export type HistoricalDateResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['HistoricalDate'] = ResolversParentTypes['HistoricalDate']> = {
   day?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -377,6 +808,18 @@ export type HistoricalDateResolvers<ContextType = unknown, ParentType extends Re
   yearMin?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
 };
 
+export type IdentityHypothesisResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['IdentityHypothesis'] = ResolversParentTypes['IdentityHypothesis']> = {
+  acceptedByDefault?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  canonicalPersonId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  evidenceIds?: Resolver<Array<ResolversTypes['UUID']>, ParentType, ContextType>;
+  hypothesisPersonId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  relationType?: Resolver<ResolversTypes['HypothesisRelationType'], ParentType, ContextType>;
+  scholarlySupport?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
 export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
   name: 'JSON';
 }
@@ -387,6 +830,77 @@ export type MultiLangTextResolvers<ContextType = unknown, ParentType extends Res
   zhHant?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
+export type PersonResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['Person'] = ResolversParentTypes['Person']> = {
+  biography?: Resolver<Maybe<ResolversTypes['MultiLangText']>, ParentType, ContextType>;
+  birthDate?: Resolver<Maybe<ResolversTypes['HistoricalDate']>, ParentType, ContextType>;
+  deathDate?: Resolver<Maybe<ResolversTypes['HistoricalDate']>, ParentType, ContextType>;
+  dynasty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  identityHypotheses?: Resolver<Array<ResolversTypes['IdentityHypothesis']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['MultiLangText'], ParentType, ContextType>;
+  names?: Resolver<Array<ResolversTypes['PersonName']>, ParentType, ContextType>;
+  provenanceTier?: Resolver<ResolversTypes['ProvenanceTier'], ParentType, ContextType>;
+  realityStatus?: Resolver<ResolversTypes['RealityStatus'], ParentType, ContextType>;
+  slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PersonNameResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['PersonName'] = ResolversParentTypes['PersonName']> = {
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  endYear?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isPrimary?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  namePinyin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  nameType?: Resolver<ResolversTypes['NameType'], ParentType, ContextType>;
+  personId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
+  startYear?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+};
+
+export type PlaceResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['Place'] = ResolversParentTypes['Place']> = {
+  ancientName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  fuzziness?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  geometry?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  modernCountry?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  modernName?: Resolver<Maybe<ResolversTypes['MultiLangText']>, ParentType, ContextType>;
+  names?: Resolver<Array<ResolversTypes['PlaceName']>, ParentType, ContextType>;
+  provenanceTier?: Resolver<ResolversTypes['ProvenanceTier'], ParentType, ContextType>;
+  realityStatus?: Resolver<ResolversTypes['RealityStatus'], ParentType, ContextType>;
+  slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PlaceNameResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['PlaceName'] = ResolversParentTypes['PlaceName']> = {
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  dynasty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  geometryVariant?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  placeId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
+  yearEnd?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  yearStart?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+};
+
+export type PolityResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['Polity'] = ResolversParentTypes['Polity']> = {
+  capitalPlaceId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  dynasty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  metadata?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['MultiLangText'], ParentType, ContextType>;
+  slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  yearEnd?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  yearStart?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+};
+
 export interface PositiveIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['PositiveInt'], any> {
   name: 'PositiveInt';
 }
@@ -395,8 +909,35 @@ export type QueryResolvers<ContextType = unknown, ParentType extends ResolversPa
   _schemaVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
+export type ReignEraResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['ReignEra'] = ResolversParentTypes['ReignEra']> = {
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  emperorPersonId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  polityId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  yearEnd?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  yearStart?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+};
+
+export type SourceEvidenceResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['SourceEvidence'] = ResolversParentTypes['SourceEvidence']> = {
+  bookId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  llmCallId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
+  positionEnd?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  positionStart?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  promptVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  provenanceTier?: Resolver<ResolversTypes['ProvenanceTier'], ParentType, ContextType>;
+  quotedText?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  rawTextId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  textVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type TraceableResolvers<ContextType = unknown, ParentType extends ResolversParentTypes['Traceable'] = ResolversParentTypes['Traceable']> = {
-  __resolveType: TypeResolveFn<null, ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'Book' | 'Event' | 'Person' | 'Place' | 'SourceEvidence', ParentType, ContextType>;
 };
 
 export interface UuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['UUID'], any> {
@@ -404,12 +945,27 @@ export interface UuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type Resolvers<ContextType = unknown> = {
+  AccountConflict?: AccountConflictResolvers<ContextType>;
+  Book?: BookResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
+  Event?: EventResolvers<ContextType>;
+  EventAccount?: EventAccountResolvers<ContextType>;
+  EventParticipantRef?: EventParticipantRefResolvers<ContextType>;
+  EventPlaceRef?: EventPlaceRefResolvers<ContextType>;
+  EventSequenceStep?: EventSequenceStepResolvers<ContextType>;
   HistoricalDate?: HistoricalDateResolvers<ContextType>;
+  IdentityHypothesis?: IdentityHypothesisResolvers<ContextType>;
   JSON?: GraphQLScalarType;
   MultiLangText?: MultiLangTextResolvers<ContextType>;
+  Person?: PersonResolvers<ContextType>;
+  PersonName?: PersonNameResolvers<ContextType>;
+  Place?: PlaceResolvers<ContextType>;
+  PlaceName?: PlaceNameResolvers<ContextType>;
+  Polity?: PolityResolvers<ContextType>;
   PositiveInt?: GraphQLScalarType;
   Query?: QueryResolvers<ContextType>;
+  ReignEra?: ReignEraResolvers<ContextType>;
+  SourceEvidence?: SourceEvidenceResolvers<ContextType>;
   Traceable?: TraceableResolvers<ContextType>;
   UUID?: GraphQLScalarType;
 };

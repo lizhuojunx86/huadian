@@ -1,0 +1,66 @@
+# A layer — Text & Source
+# Types exposed: Book, SourceEvidence
+# Both implement Traceable (architect T-P0-003 #2 ruling).
+
+"""
+Book — ancient text metadata (one row per distinct work).
+Backs packages/db-schema/src/schema/sources.ts → books.
+
+Traceable compliance note:
+  The books table does not carry a dedicated provenanceTier column; the
+  Traceable.provenanceTier resolver defaults to primary_text (a Book IS the
+  primary source) and MAY be narrowed by a future resolver that reads
+  credibilityTier → provenanceTier mapping. sourceEvidenceId resolves to
+  a representative evidence row for the book (subtask 4 stubs as
+  NOT_IMPLEMENTED).
+
+License note:
+  The shared-types licenseEnum includes the value "CC-BY" which contains
+  a hyphen that is illegal in GraphQL enum values. The field is therefore
+  exposed as String here; resolver guarantees the value matches one of
+  CC0 / CC-BY / public_domain / proprietary / unknown. A future ADR will
+  decide whether to rename the shared-types case to CC_BY so we can lift
+  this back to a typed enum (tracked as L-1 in subtask 7 docs).
+"""
+type Book implements Traceable {
+  id: ID!
+  sourceEvidenceId: ID!
+  provenanceTier: ProvenanceTier!
+  updatedAt: DateTime!
+
+  slug: String!
+  title: MultiLangText!
+  authorPersonId: UUID
+  dynasty: String
+  genre: BookGenre
+  credibilityTier: CredibilityTier!
+  license: String!
+  authoritativeVersion: String
+  metadata: JSON
+}
+
+"""
+SourceEvidence — atomic unit of provenance (a quoted paragraph from a
+specific textual version). All other entities link back to this table.
+Backs packages/db-schema/src/schema/sources.ts → source_evidences.
+
+Traceable compliance note:
+  SourceEvidence self-references: the Traceable.sourceEvidenceId field
+  resolves to parent.id (evidence IS the evidence). This creates a
+  deliberate fixed point in the provenance graph.
+"""
+type SourceEvidence implements Traceable {
+  id: ID!
+  sourceEvidenceId: ID!
+  provenanceTier: ProvenanceTier!
+  updatedAt: DateTime!
+
+  rawTextId: UUID
+  positionStart: Int
+  positionEnd: Int
+  quotedText: String
+  textVersion: String
+  bookId: UUID
+  promptVersion: String
+  llmCallId: UUID
+}

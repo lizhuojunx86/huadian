@@ -84,3 +84,37 @@ interface Traceable {
   provenanceTier: ProvenanceTier!
   updatedAt: DateTime!
 }
+
+# ---------------------------------------------------------------------------
+# JSONB value types embedded inside event_accounts.
+# Architect R-7: JSONB fields must have structured schema constraints.
+# Mirrors zod schemas in @huadian/shared-types/src/event-refs.ts.
+# JSONB key mapping (camelCase GraphQL ↔ snake_case persisted key):
+#   personId ↔ person_id,  placeId ↔ place_id
+# ---------------------------------------------------------------------------
+
+"""
+Participant within an EventAccount narrative.
+"""
+type EventParticipantRef {
+  personId: UUID!
+  role: String!
+  action: String
+}
+
+"""
+Place reference within an EventAccount narrative.
+"""
+type EventPlaceRef {
+  placeId: UUID!
+  role: String!
+}
+
+"""
+Ordered step inside the sequence of an EventAccount.
+"""
+type EventSequenceStep {
+  order: Int!
+  description: MultiLangText!
+  time: HistoricalDate
+}
