@@ -7,6 +7,28 @@
 
 ## 2026-04-16
 
+### [feat] T-P0-004 批次 1 完成 — 历史专家字典种子初稿（秦汉 185 条）
+- **角色**：历史专家（执行）+ 首席架构师（5 点裁决）
+- **任务**：T-P0-004（批次 1，Phase 0 范围：秦汉）
+- **变更**：
+  - `data/dictionaries/_NOTES.md`：架构师 5 点裁决原文（Ruling-001 西汉起始年 BC -202 / Ruling-002 更始独立 polity / Ruling-003 "后元"三撞用 (emperor, name) 二元组 / Ruling-004 "甘露"跨代入 T-P0-002 F-5 / Ruling-005 slug 两阶段加载 + DEFERRABLE FK）+ 5 条工作约束（C-01 `_` 前缀忽略 / C-02 公元年份编码 / C-03 slug 命名 / C-04 slug 写死 / C-05 种子 semver）+ TODO-001（T-P0-006 加载器的 20 帝王 FK stub 前置要求表）+ 变更日志
+  - `data/dictionaries/polities.seed.json`：5 条（`qin` / `han-western` / `xin` / `han-gengshi` / `han-eastern`），含 capital 历史变迁 / ruler 序列
+  - `data/dictionaries/reign_eras.seed.json`：89 条 + `_datingGapNote` 7 节（秦无年号 / 西汉前五朝无命名 / 武帝以降全覆盖 / 边界年歧义 / 公元零年 / 共治并存 / 献帝 189 年五改元）
+  - `data/dictionaries/disambiguation_seeds.seed.json`：10 组 surface / 26 行（韩信 / 刘秀 / 淮南王 / 楚王 / 赵王 / 公孙 / 霍将军 / 窦将军 / 王大将军 / 韩王）
+  - `data/dictionaries/persons.seed.json`：40 人（秦 3 / 秦末楚汉 11 / 西汉初—武帝 14 / 西汉末—新—更始 5 / 东汉 7；覆盖全部 disambiguation FK + 鸿门宴 NER 必要角色 + 各朝锚点帝王）
+  - `data/dictionaries/places.seed.json`：25 处（都城 5 / 封国郡国核心 10 / 战役典故地 7 / 人物籍贯 3），带 GeoJSON Point + fuzziness
+- **架构师裁定（本会话 5 点）**：
+  - Ruling-001：西汉起始年采 BC -202 称帝说；非主流说需开 ADR
+  - Ruling-002：更始为独立 polity；CE 25 与东汉并存由 event_accounts.sequence_step + ruler_overlap 处理（属 T-P0-006 范畴）
+  - Ruling-003：(emperorPersonSlug, name) 二元组识别；加载器 validate unique；前端强制带前缀
+  - Ruling-004：甘露跨代记入 T-P0-002 follow-up F-5，本批不动 schema
+  - Ruling-005：两阶段加载策略（Stage A 基础字典 / Stage B 依赖字典 / Stage C FK 回填），DEFERRABLE INITIALLY DEFERRED
+- **生卒年采纳**：秦始皇 BC 259 / 刘邦 BC 256 / 项羽 BC 232 / 司马迁 range / 刘歆 range，均采《史记》索隐·集解主流说；非主流说需开 ADR
+- **遗留**：
+  - 20 位帝王 FK（东汉明/章/和/殇/安/顺/冲/质/桓/灵 + 秦二世/子婴 + 汉惠/吕后/昭/宣/元/成/哀/平/孺子婴）由 T-P0-006 加载器按 `_NOTES.md` TODO-001 stub 生成（slug + zh-Hans + dynasty 三字段）
+  - 10 个父级郡国 slug（jingzhao-yin / henan-yin / chu-guo / zhao-guo / qi-guo / jiujiang-jun / si-shui-jun / linhuai-jun / donghai-jun / guangling-guo）按 C-04 记 WARN，批次 2 补齐
+- **下一步**：可选启动 T-P0-004 批次 2（字典扩展）；或收工等 T-P0-006 拉种子；T-P0-003 / T-P0-005 并行不受影响
+
 ### [feat] TG-STAB-001 完成 — TraceGuard 上游稳定基线就绪
 - **角色**：上游维护者（在 traceguard 仓内执行）+ 首席架构师（评审 / 拍板）
 - **任务**：TG-STAB-001（华典侧不消耗代码改动，仅文档登记）

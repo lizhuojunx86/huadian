@@ -1,0 +1,256 @@
+{
+  "_meta": {
+    "version": "0.1.0-draft",
+    "scope": "Phase 0 — 秦汉经典同名/易混实体",
+    "draftedBy": "historian@huadian",
+    "draftedAt": "2026-04-16",
+    "status": "draft_pending_review",
+    "schemaTable": "disambiguation_seeds",
+    "surfaceGroupCount": 10,
+    "rowCount": 26,
+    "defaultSources": [
+      "《史记》", "《汉书》", "《后汉书》", "《资治通鉴》",
+      "钱穆《史记地名考》", "王伯祥《史记选》",
+      "施之勉《汉书集释》"
+    ],
+    "fkConventions": {
+      "personSlug": "引用 persons.slug；未落库者加载器应 stub 占位或置 null。schema 允许 null（personId 可空）。",
+      "contextHint": "schema 为 TEXT（非数组）；多个提示词以中文顿号分隔。",
+      "priority": "默认 100；同一 name 下 priority 较高者为 default account。"
+    },
+    "coverageNotes": [
+      "本批只覆盖『同一 surface string 指向多人』的硬歧义，不覆盖别名聚合（别名走 person_names 表）。",
+      "『大将军』『丞相』『太傅』等职称级歧义不入本表，归 role_appellations。",
+      "『韩信』『刘秀』『淮南王』『楚王』『赵王』等为 Phase 0 Golden Set 首批必须覆盖的歧义点。"
+    ]
+  },
+  "disambiguationSeeds": [
+
+    {
+      "name": "韩信",
+      "personSlug": "han-xin-huai-yin-hou",
+      "dynastyHint": "西汉",
+      "contextHint": "淮阴、大将军、楚王、项羽、垓下、萧何月下追、背水一战、蒯通、钟离昧",
+      "priority": 100,
+      "_notes": "淮阴侯韩信 (?–BC 196)。《史记·淮阴侯列传》。默认叙述。",
+      "_sources": ["《史记·淮阴侯列传》"]
+    },
+    {
+      "name": "韩信",
+      "personSlug": "han-xin-han-wang",
+      "dynastyHint": "西汉",
+      "contextHint": "韩王、韩王信、颍川、太原、马邑、降匈奴、故韩襄王孽孙",
+      "priority": 70,
+      "_notes": "韩王信 (?–BC 196)。《史记·韩信卢绾列传》。与淮阴侯同年被杀，史书中常以『韩信』单写须看篇目语境。",
+      "_sources": ["《史记·韩信卢绾列传》"]
+    },
+
+    {
+      "name": "刘秀",
+      "personSlug": "han-guang-wu-di",
+      "dynastyHint": "东汉",
+      "contextHint": "汉光武帝、南阳、昆阳、更始、舂陵、执金吾、柏乡、建武、洛阳、阴丽华、郭圣通",
+      "priority": 100,
+      "_notes": "东汉开国皇帝 (BC 5–CE 57)。《后汉书·光武帝纪》。默认叙述。",
+      "_sources": ["《后汉书·光武帝纪》"]
+    },
+    {
+      "name": "刘秀",
+      "personSlug": "liu-xin-guo-shi",
+      "dynastyHint": "西汉末 / 新",
+      "contextHint": "刘歆改名、国师公、嘉新公、《七略》、刘向子、王莽、谶纬『刘秀发兵捕不道』",
+      "priority": 60,
+      "_notes": "刘歆 (BC 50?–CE 23)，新莽国师公，因谶语『刘秀发兵捕不道』改名刘秀。此『刘秀』在《汉书》《资治通鉴》王莽地皇年间条目中频现，极易误标为光武帝。",
+      "_sources": ["《汉书·楚元王传》附《刘歆传》", "《汉书·王莽传》"]
+    },
+
+    {
+      "name": "淮南王",
+      "personSlug": "liu-an-huai-nan-wang",
+      "dynastyHint": "西汉",
+      "contextHint": "《淮南子》、刘长子、武帝、八公、元狩、刘陵、寿春、谋反自杀",
+      "priority": 100,
+      "_notes": "刘安 (BC 179–BC 122)，《淮南子》编者。默认叙述。",
+      "_sources": ["《史记·淮南衡山列传》", "《汉书·淮南衡山济北王传》"]
+    },
+    {
+      "name": "淮南王",
+      "personSlug": "liu-chang-huai-nan-wang",
+      "dynastyHint": "西汉",
+      "contextHint": "文帝异母弟、厉王、椎杀辟阳侯、袁盎、谋反废、流蜀道、雍县绝食死",
+      "priority": 80,
+      "_notes": "刘长 (BC 198–BC 174)，谥厉王，刘安之父。文帝前元六年谋反被废，徙蜀道途中绝食死。",
+      "_sources": ["《史记·淮南衡山列传》"]
+    },
+
+    {
+      "name": "楚王",
+      "personSlug": "xiang-yu",
+      "dynastyHint": "秦末 / 楚汉",
+      "contextHint": "西楚霸王、项王、彭城、下相、巨鹿、鸿门、垓下、乌江",
+      "priority": 100,
+      "_notes": "项羽 (BC 232–BC 202)，自立为西楚霸王。秦末—楚汉战争时段『楚王』默认指向。",
+      "_sources": ["《史记·项羽本纪》"]
+    },
+    {
+      "name": "楚王",
+      "personSlug": "liu-jiao-chu-yuan-wang",
+      "dynastyHint": "西汉",
+      "contextHint": "楚元王、高帝同父少弟、彭城、《诗》传、浮丘伯、刘向高祖",
+      "priority": 75,
+      "_notes": "刘交 (?–BC 179)，刘邦少弟，高帝六年封楚王，谥元王。西汉初楚王默认指向。",
+      "_sources": ["《汉书·楚元王传》"]
+    },
+    {
+      "name": "楚王",
+      "personSlug": "liu-wu-chu-wang",
+      "dynastyHint": "西汉",
+      "contextHint": "七国之乱、吴楚反、景帝前元三年、申公、穆生、刘交孙",
+      "priority": 55,
+      "_notes": "刘戊 (?–BC 154)，刘交之孙，景帝前元三年（BC 154）与吴王濞同反，兵败自杀。",
+      "_sources": ["《史记·楚元王世家》", "《汉书·楚元王传》"]
+    },
+
+    {
+      "name": "赵王",
+      "personSlug": "liu-ru-yi-zhao-wang",
+      "dynastyHint": "西汉",
+      "contextHint": "如意、高祖爱子、戚夫人子、惠帝、吕后鸩杀、周昌、赵隐王",
+      "priority": 100,
+      "_notes": "刘如意 (BC 207?–BC 194)，高祖宠子。吕后鸩杀后，赵王位先后转刘友、刘恢、吕禄。",
+      "_sources": ["《史记·吕太后本纪》", "《史记·高祖本纪》"]
+    },
+    {
+      "name": "赵王",
+      "personSlug": "liu-sui-zhao-wang",
+      "dynastyHint": "西汉",
+      "contextHint": "七国之乱、景帝前元三年、幽王刘友子、邯郸、围困自杀",
+      "priority": 70,
+      "_notes": "刘遂 (?–BC 154)，幽王刘友之子，七国之乱中赵王，败后自杀。",
+      "_sources": ["《史记·楚元王世家》附赵幽王友"]
+    },
+    {
+      "name": "赵王",
+      "personSlug": "zhang-er",
+      "dynastyHint": "秦末 / 楚汉",
+      "contextHint": "项羽分封、常山王、陈馀、井陉、韩信灭赵、赵歇",
+      "priority": 50,
+      "_notes": "张耳 (?–BC 202)。楚汉时曾先为常山王，后与韩信灭赵歇复立为赵王。赵歇 (另一 personSlug) 亦称赵王，楚汉时段『赵王』歧义复杂，本批先收张耳。",
+      "_sources": ["《史记·张耳陈馀列传》"]
+    },
+
+    {
+      "name": "公孙",
+      "personSlug": "gongsun-hong",
+      "dynastyHint": "西汉",
+      "contextHint": "丞相、菑川、平津侯、《春秋》公羊、武帝、元朔五年、年八十",
+      "priority": 100,
+      "_notes": "公孙弘 (BC 200–BC 121)，汉初布衣拜相第一人。《史记》《汉书》多处简称『公孙』。",
+      "_sources": ["《史记·平津侯主父列传》", "《汉书·公孙弘卜式儿宽传》"]
+    },
+    {
+      "name": "公孙",
+      "personSlug": "gongsun-he",
+      "dynastyHint": "西汉",
+      "contextHint": "骠骑将军、丞相、卫皇后妹夫、巫蛊、征和二年、下狱死、葛绎侯",
+      "priority": 75,
+      "_notes": "公孙贺 (?–BC 91)，武帝朝丞相，巫蛊之祸中死。",
+      "_sources": ["《汉书·公孙贺传》"]
+    },
+    {
+      "name": "公孙",
+      "personSlug": "gongsun-ao",
+      "dynastyHint": "西汉",
+      "contextHint": "义渠人、骑将军、击匈奴、败绩、巫蛊连坐、腰斩",
+      "priority": 60,
+      "_notes": "公孙敖 (?–BC 96)，武帝朝将军，因李陵事及巫蛊先后得罪，坐腰斩。",
+      "_sources": ["《史记·卫将军骠骑列传》", "《汉书·公孙敖传》"]
+    },
+
+    {
+      "name": "霍将军",
+      "personSlug": "huo-qu-bing",
+      "dynastyHint": "西汉",
+      "contextHint": "骠骑将军、冠军侯、霍光兄、元狩、漠北、祁连、封狼居胥、年二十四卒",
+      "priority": 100,
+      "_notes": "霍去病 (BC 140–BC 117)。武帝朝以『霍将军』单称多指去病。",
+      "_sources": ["《史记·卫将军骠骑列传》"]
+    },
+    {
+      "name": "霍将军",
+      "personSlug": "huo-guang",
+      "dynastyHint": "西汉",
+      "contextHint": "大司马大将军、博陆侯、昭宣、废昌邑王、霍去病弟、元平、地节",
+      "priority": 90,
+      "_notes": "霍光 (?–BC 68)。昭宣两朝权臣，文献中称『大将军』『霍大将军』为主；『霍将军』单称亦见。",
+      "_sources": ["《汉书·霍光金日磾传》"]
+    },
+
+    {
+      "name": "窦将军",
+      "personSlug": "dou-ying",
+      "dynastyHint": "西汉",
+      "contextHint": "魏其侯、大将军、窦太后从兄子、吴楚反、田蚡、灌夫、武帝建元",
+      "priority": 90,
+      "_notes": "窦婴 (?–BC 131)，景帝窦太后侄，武帝初魏其侯，与田蚡交恶。",
+      "_sources": ["《史记·魏其武安侯列传》"]
+    },
+    {
+      "name": "窦将军",
+      "personSlug": "dou-xian",
+      "dynastyHint": "东汉",
+      "contextHint": "车骑将军、大将军、窦太后兄、北匈奴、稽落山、燕然勒石、永元、班固",
+      "priority": 100,
+      "_notes": "窦宪 (?–CE 92)，和帝永元元年破北匈奴于稽落山，永元四年封燕然山，班固作铭。和帝朝默认『窦大将军』。",
+      "_sources": ["《后汉书·窦融列传》附窦宪"]
+    },
+    {
+      "name": "窦将军",
+      "personSlug": "dou-wu",
+      "dynastyHint": "东汉",
+      "contextHint": "大将军、桓帝皇后父、陈蕃、谋诛宦官、建宁元年、败自杀",
+      "priority": 70,
+      "_notes": "窦武 (?–CE 168)，桓帝窦皇后父，灵帝初与陈蕃共谋诛宦官，事败自杀。",
+      "_sources": ["《后汉书·窦武传》"]
+    },
+
+    {
+      "name": "王大将军",
+      "personSlug": "wang-feng-yuan-cheng-chao",
+      "dynastyHint": "西汉",
+      "contextHint": "大司马大将军、阳平侯、元舅、成帝、阳朔、河平、王太后兄",
+      "priority": 100,
+      "_notes": "王凤 (?–BC 22)，元后王政君兄，成帝朝首任辅政大将军，外戚王氏崛起枢纽。",
+      "_sources": ["《汉书·元后传》", "《汉书·外戚传》"]
+    },
+    {
+      "name": "王大将军",
+      "personSlug": "wang-shang-cheng-du-hou",
+      "dynastyHint": "西汉",
+      "contextHint": "大司马大将军、成都侯、王凤从弟、成帝、绥和",
+      "priority": 70,
+      "_notes": "王商 (?–BC 12)，王凤从弟，继任大将军。与宣帝朝丞相王商（乐昌侯，?–BC 25）同名，注意区分；本条目指成都侯王商。",
+      "_sources": ["《汉书·元后传》"]
+    },
+
+    {
+      "name": "韩王",
+      "personSlug": "han-xin-han-wang",
+      "dynastyHint": "秦末 / 楚汉 / 西汉",
+      "contextHint": "韩王信、故韩襄王孽孙、颍川、马邑、降匈奴、高祖",
+      "priority": 100,
+      "_notes": "韩王信 (?–BC 196)。楚汉期被立为韩王，汉建国后徙封太原。与淮阴侯韩信为两人。",
+      "_sources": ["《史记·韩信卢绾列传》"]
+    },
+    {
+      "name": "韩王",
+      "personSlug": "han-cheng-han-wang",
+      "dynastyHint": "秦末",
+      "contextHint": "项羽分封、故韩诸公子、张良、阳翟、不之国、项羽杀之",
+      "priority": 70,
+      "_notes": "韩成 (?–BC 206)，项羽分封十八诸侯之一的韩王，因张良事，项羽留之不遣，后杀之于彭城。楚汉早期文献『韩王』常指此人。",
+      "_sources": ["《史记·项羽本纪》", "《史记·留侯世家》"]
+    }
+
+  ]
+}

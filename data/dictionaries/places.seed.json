@@ -1,0 +1,416 @@
+{
+  "_meta": {
+    "version": "0.1.0-draft",
+    "scope": "Phase 0 — 秦汉重点地点 25 处",
+    "draftedBy": "historian@huadian",
+    "draftedAt": "2026-04-16",
+    "status": "draft_pending_review",
+    "schemaTable": "places",
+    "subTables": [
+      "place_names (via each entry's _placeNames[] sub-array)",
+      "place_hierarchies (本批暂不出，由 T-P0-006 加载器基于 _adminHierarchy 提示构建)"
+    ],
+    "rowCount": 25,
+    "coverageStrategy": [
+      "(A) 全部 polities.seed.json 引用的 capitalPlaceSlug — 5 都城",
+      "(B) 封国/郡国核心（《史记》《汉书》高频） — 10 处",
+      "(C) 战役与典故标志地（鸿门宴 / 垓下 / 大泽乡 / 昆阳 / 燕然勒石） — 7 处",
+      "(D) 人物籍贯锚点（淮阴—韩信、下邳—张良、广陵—吴王濞） — 3 处"
+    ],
+    "notCovered": [
+      "秦三十六郡 / 西汉郡国百余 / 东汉十三州百郡 全量 — 下一批扩展（0.2.0）。",
+      "西域三十六国（楼兰、龟兹、大宛等） — 须联合丝绸之路专题一起做。",
+      "匈奴单于庭、乌桓、鲜卑驻牧地 — 实体类型复杂（游牧 territory），另起规则。",
+      "关隘 / 陵墓 / 宫室 / 城门等更细颗粒 — Phase 1 内容扩展。"
+    ],
+    "defaultSources": [
+      "《汉书·地理志》", "《后汉书·郡国志》", "《水经注》",
+      "谭其骧主编《中国历史地图集》第二册（秦·西汉·东汉时期）",
+      "周振鹤《西汉政区地理》", "李晓杰《东汉政区地理》",
+      "钱穆《史记地名考》"
+    ],
+    "geometryConventions": {
+      "format": "GeoJSON Point (SRID 4326)，坐标顺序 [longitude, latitude]",
+      "precision": "多数取古城遗址 / 郡治现今位置中心点；非精确考古定位。",
+      "fuzzinessScale": "0.0 = 考古精确坐标（如未央宫遗址）；0.3 = 今县驻地近似；0.5 = 有争议但可锁定大致；0.8+ = 大范围地物（山脉、游牧带、争议远地）。"
+    },
+    "fkConventions": {
+      "modernCountry": "ISO 3166-1 alpha-2。默认 CN；『燕然山』跨今蒙古国境取 MN。",
+      "realityStatus": "本批全部 historical（不填即默认）。",
+      "provenanceTier": "本批全部 primary_text（不填即默认）。",
+      "_placeNames": "sub-array 映射至 place_names 表；加载器拆开入库。",
+      "_adminHierarchy": "提示信息，加载器据此构建 place_hierarchies 条目；parentPlaceSlug 若未定义则置 null WARN。"
+    },
+    "reviewChecklist": [
+      "[ ] 25 slug 无冲突、全小写 kebab-case",
+      "[ ] 5 个 capitalPlaceSlug (xianyang / changan / luoyang / wancheng / xuchang) 全部定义",
+      "[ ] 鸿门宴相关 3 地（hongmen / bashang / xianyang）全部定义",
+      "[ ] 坐标在合理范围（经度 70–135，纬度 18–55 限 CN 境内；燕然 MN 例外）",
+      "[ ] fuzziness ∈ [0, 1]",
+      "[ ] _placeNames 至少 1 条"
+    ]
+  },
+
+  "places": [
+
+    {
+      "slug": "xianyang",
+      "ancientName": "咸阳",
+      "modernName": { "zh-Hans": "咸阳", "zh-Hant": "咸陽", "en": "Xianyang" },
+      "geometry": { "type": "Point", "coordinates": [108.7258, 34.3292] },
+      "fuzziness": 0.2,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "咸阳", "dynasty": "秦", "yearStart": -350, "yearEnd": -206, "_notes": "秦孝公十二年（BC 350）自栎阳徙都，始皇统一后扩建咸阳宫。" },
+        { "name": "新城", "dynasty": "西汉初", "yearStart": -201, "yearEnd": -200, "_notes": "一度称新城县，旋改长安北部。" },
+        { "name": "渭城", "dynasty": "西汉", "yearStart": -200, "yearEnd": 9 }
+      ],
+      "_adminHierarchy": { "dynasty": "秦", "adminLevel": "guan", "_notes": "秦都。BC 207 十月项羽入咸阳焚秦宫室。" },
+      "_sources": ["《史记·秦始皇本纪》", "《汉书·地理志》右扶风·渭城"]
+    },
+
+    {
+      "slug": "changan",
+      "ancientName": "长安",
+      "modernName": { "zh-Hans": "西安", "zh-Hant": "西安", "en": "Xi'an" },
+      "geometry": { "type": "Point", "coordinates": [108.8669, 34.2857] },
+      "fuzziness": 0.1,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "长安乡", "dynasty": "秦", "yearStart": null, "yearEnd": -200 },
+        { "name": "长安", "dynasty": "西汉", "yearStart": -200, "yearEnd": 9, "_notes": "高祖七年（BC 200）徙都；惠帝筑城。" },
+        { "name": "常安", "dynasty": "新", "yearStart": 9, "yearEnd": 23, "_notes": "王莽改名。" },
+        { "name": "长安", "dynasty": "更始 / 东汉献帝", "yearStart": 23, "yearEnd": 196, "_notes": "更始二年徙都；初平元年董卓迫献帝再迁于此，建安元年东归。" }
+      ],
+      "_adminHierarchy": { "dynasty": "西汉", "adminLevel": "guan", "parentPlaceSlug": "jingzhao-yin", "_notes": "西汉京兆尹治所；属『三辅』之一。" },
+      "_sources": ["《汉书·地理志》京兆尹·长安", "《三辅黄图》"]
+    },
+
+    {
+      "slug": "luoyang",
+      "ancientName": "雒阳",
+      "modernName": { "zh-Hans": "洛阳", "zh-Hant": "洛陽", "en": "Luoyang" },
+      "geometry": { "type": "Point", "coordinates": [112.5828, 34.7274] },
+      "fuzziness": 0.1,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "雒阳", "dynasty": "西汉 / 东汉", "yearStart": -202, "yearEnd": 220, "_notes": "汉火德尚赤，忌水，故改『洛』为『雒』。" },
+        { "name": "洛阳", "dynasty": "秦 / 曹魏以后", "yearStart": null, "yearEnd": null, "_notes": "秦称洛阳；魏明帝景初元年复改为『洛阳』。" }
+      ],
+      "_adminHierarchy": { "dynasty": "东汉", "adminLevel": "xian", "parentPlaceSlug": "henan-yin", "_notes": "西汉初 BC 202–BC 200 高祖短暂都此；东汉光武帝建武元年六月再都，至初平元年（CE 190）。郡治河南尹。" },
+      "_sources": ["《汉书·地理志》河南郡·雒阳", "《后汉书·郡国志》河南尹"]
+    },
+
+    {
+      "slug": "wancheng",
+      "ancientName": "宛",
+      "modernName": { "zh-Hans": "南阳", "zh-Hant": "南陽", "en": "Nanyang" },
+      "geometry": { "type": "Point", "coordinates": [112.5289, 32.9890] },
+      "fuzziness": 0.2,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "宛", "dynasty": "秦 / 汉", "yearStart": null, "yearEnd": null, "_notes": "春秋楚邑，秦置宛县为南阳郡治。" }
+      ],
+      "_adminHierarchy": { "dynasty": "秦 / 汉", "adminLevel": "xian", "parentPlaceSlug": "nanyang-jun", "_notes": "南阳郡治。更始元年（CE 23）二月更始帝初都于此，光武帝亦南阳人。" },
+      "_sources": ["《汉书·地理志》南阳郡·宛", "《后汉书·郡国志》南阳郡"]
+    },
+
+    {
+      "slug": "xuchang",
+      "ancientName": "许",
+      "modernName": { "zh-Hans": "许昌", "zh-Hant": "許昌", "en": "Xuchang" },
+      "geometry": { "type": "Point", "coordinates": [113.8258, 34.0367] },
+      "fuzziness": 0.2,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "许", "dynasty": "秦 / 汉", "yearStart": null, "yearEnd": 221, "_notes": "秦置许县。" },
+        { "name": "许都", "dynasty": "东汉献帝", "yearStart": 196, "yearEnd": 220, "_notes": "建安元年曹操迎献帝都于此。" },
+        { "name": "许昌", "dynasty": "曹魏", "yearStart": 221, "yearEnd": null, "_notes": "黄初二年改名许昌（『汉亡于许，魏昌于许』）。范围外。" }
+      ],
+      "_adminHierarchy": { "dynasty": "东汉末", "adminLevel": "xian", "parentPlaceSlug": "yingchuan-jun", "_notes": "颍川郡许县。" },
+      "_sources": ["《后汉书·献帝纪》", "《三国志·魏书·武帝纪》"]
+    },
+
+    {
+      "slug": "pengcheng",
+      "ancientName": "彭城",
+      "modernName": { "zh-Hans": "徐州", "zh-Hant": "徐州", "en": "Xuzhou" },
+      "geometry": { "type": "Point", "coordinates": [117.1884, 34.2615] },
+      "fuzziness": 0.2,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "彭城", "dynasty": "秦 / 汉", "yearStart": null, "yearEnd": null }
+      ],
+      "_adminHierarchy": { "dynasty": "西汉", "adminLevel": "xian", "parentPlaceSlug": "chu-guo", "_notes": "项羽西楚都。汉楚国（楚元王刘交、楚王刘戊）都。" },
+      "_sources": ["《史记·项羽本纪》", "《汉书·地理志》楚国·彭城"]
+    },
+
+    {
+      "slug": "handan",
+      "ancientName": "邯郸",
+      "modernName": { "zh-Hans": "邯郸", "zh-Hant": "邯鄲", "en": "Handan" },
+      "geometry": { "type": "Point", "coordinates": [114.3928, 36.6280] },
+      "fuzziness": 0.2,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "邯郸", "dynasty": "战国 / 秦 / 汉", "yearStart": null, "yearEnd": null }
+      ],
+      "_adminHierarchy": { "dynasty": "西汉", "adminLevel": "xian", "parentPlaceSlug": "zhao-guo", "_notes": "战国赵都。秦邯郸郡治。西汉赵国（张敖、刘如意、刘遂等）都。景帝前元三年刘遂败被围于此。" },
+      "_sources": ["《汉书·地理志》赵国·邯郸"]
+    },
+
+    {
+      "slug": "linzi",
+      "ancientName": "临淄",
+      "modernName": { "zh-Hans": "淄博·临淄", "zh-Hant": "淄博·臨淄", "en": "Linzi" },
+      "geometry": { "type": "Point", "coordinates": [118.3050, 36.8475] },
+      "fuzziness": 0.2,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "临淄", "dynasty": "战国 / 秦 / 汉", "yearStart": null, "yearEnd": null }
+      ],
+      "_adminHierarchy": { "dynasty": "西汉", "adminLevel": "xian", "parentPlaceSlug": "qi-guo", "_notes": "战国齐都。西汉齐国（齐王韩信、齐悼惠王刘肥诸王）都。" },
+      "_sources": ["《汉书·地理志》齐郡·临淄"]
+    },
+
+    {
+      "slug": "shouchun",
+      "ancientName": "寿春",
+      "modernName": { "zh-Hans": "淮南·寿县", "zh-Hant": "淮南·壽縣", "en": "Shouxian" },
+      "geometry": { "type": "Point", "coordinates": [116.7865, 32.5769] },
+      "fuzziness": 0.2,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "寿春", "dynasty": "秦 / 汉", "yearStart": null, "yearEnd": null }
+      ],
+      "_adminHierarchy": { "dynasty": "西汉", "adminLevel": "xian", "parentPlaceSlug": "jiujiang-jun", "_notes": "战国楚末都。西汉淮南国（刘长、刘安）都。刘安编《淮南子》于此。" },
+      "_sources": ["《汉书·地理志》九江郡·寿春"]
+    },
+
+    {
+      "slug": "nanyang-jun",
+      "ancientName": "南阳郡",
+      "modernName": { "zh-Hans": "南阳（郡）", "zh-Hant": "南陽（郡）", "en": "Nanyang Commandery" },
+      "geometry": { "type": "Point", "coordinates": [112.5289, 32.9890] },
+      "fuzziness": 0.6,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "南阳", "dynasty": "秦 / 汉", "yearStart": -272, "yearEnd": null, "_notes": "秦昭襄王三十五年置。" }
+      ],
+      "_adminHierarchy": { "dynasty": "秦 / 汉", "adminLevel": "jun", "_notes": "治宛县；东汉初为『帝乡』（光武刘秀南阳蔡阳人）。郡域远大于治所点，fuzziness 0.6 反映此。" },
+      "_sources": ["《汉书·地理志》南阳郡", "《后汉书·郡国志》南阳郡"]
+    },
+
+    {
+      "slug": "yingchuan-jun",
+      "ancientName": "颍川郡",
+      "modernName": { "zh-Hans": "禹州一带", "zh-Hant": "禹州一帶", "en": "Yingchuan Commandery" },
+      "geometry": { "type": "Point", "coordinates": [113.4635, 34.1654] },
+      "fuzziness": 0.6,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "颍川", "dynasty": "秦 / 汉", "yearStart": -230, "yearEnd": null, "_notes": "秦灭韩置，治阳翟（今禹州）。" }
+      ],
+      "_adminHierarchy": { "dynasty": "秦 / 汉", "adminLevel": "jun", "_notes": "治阳翟。韩王信初封地；东汉许（许昌）属之。" },
+      "_sources": ["《汉书·地理志》颍川郡", "《史记·韩信卢绾列传》"]
+    },
+
+    {
+      "slug": "longxi-jun",
+      "ancientName": "陇西郡",
+      "modernName": { "zh-Hans": "临洮一带", "zh-Hant": "臨洮一帶", "en": "Longxi Commandery" },
+      "geometry": { "type": "Point", "coordinates": [103.8583, 35.3775] },
+      "fuzziness": 0.7,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "陇西", "dynasty": "秦 / 汉", "yearStart": -280, "yearEnd": null, "_notes": "秦昭襄王二十八年前后置，治狄道（今临洮）。" }
+      ],
+      "_adminHierarchy": { "dynasty": "秦 / 汉", "adminLevel": "jun", "_notes": "治狄道。李广家乡；长城起点之一。郡域覆盖今甘肃南部，fuzziness 0.7。" },
+      "_sources": ["《汉书·地理志》陇西郡", "《史记·李将军列传》"]
+    },
+
+    {
+      "slug": "shuofang-jun",
+      "ancientName": "朔方郡",
+      "modernName": { "zh-Hans": "内蒙古·磴口一带", "zh-Hant": "內蒙古·磴口一帶", "en": "Shuofang Commandery" },
+      "geometry": { "type": "Point", "coordinates": [107.0117, 40.3267] },
+      "fuzziness": 0.75,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "朔方", "dynasty": "西汉", "yearStart": -127, "yearEnd": null, "_notes": "武帝元朔二年（BC 127）卫青破匈奴白羊、楼烦王于河南地，遂置。" }
+      ],
+      "_adminHierarchy": { "dynasty": "西汉 / 东汉", "adminLevel": "jun", "_notes": "治朔方县。汉武帝河朔战役的战略成果；覆盖今河套地区，郡域广，fuzziness 0.75。" },
+      "_sources": ["《汉书·地理志》朔方郡", "《史记·卫将军骠骑列传》"]
+    },
+
+    {
+      "slug": "dunhuang-jun",
+      "ancientName": "敦煌郡",
+      "modernName": { "zh-Hans": "敦煌", "zh-Hant": "敦煌", "en": "Dunhuang Commandery" },
+      "geometry": { "type": "Point", "coordinates": [94.6618, 40.1420] },
+      "fuzziness": 0.5,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "敦煌", "dynasty": "西汉", "yearStart": -111, "yearEnd": null, "_notes": "武帝元鼎六年（BC 111）分酒泉郡置（一说元封四年）；辖阳关、玉门关。" }
+      ],
+      "_adminHierarchy": { "dynasty": "西汉 / 东汉", "adminLevel": "jun", "_notes": "河西四郡最西。丝绸之路咽喉。" },
+      "_sources": ["《汉书·地理志》敦煌郡", "《汉书·张骞李广利传》"]
+    },
+
+    {
+      "slug": "hanzhong-jun",
+      "ancientName": "汉中郡",
+      "modernName": { "zh-Hans": "汉中", "zh-Hant": "漢中", "en": "Hanzhong Commandery" },
+      "geometry": { "type": "Point", "coordinates": [107.0237, 33.0660] },
+      "fuzziness": 0.6,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "汉中", "dynasty": "秦 / 汉", "yearStart": -312, "yearEnd": null, "_notes": "秦惠文王更元十三年置，治南郑。" }
+      ],
+      "_adminHierarchy": { "dynasty": "秦 / 汉", "adminLevel": "jun", "_notes": "治南郑。项羽分封刘邦为汉王，王巴、蜀、汉中，都南郑；『汉』字国号所本。" },
+      "_sources": ["《史记·项羽本纪》", "《汉书·地理志》汉中郡"]
+    },
+
+    {
+      "slug": "hongmen",
+      "ancientName": "鸿门",
+      "modernName": { "zh-Hans": "西安·临潼·新丰镇鸿门堡", "zh-Hant": "西安·臨潼·新豐鎮鴻門堡", "en": "Hongmen" },
+      "geometry": { "type": "Point", "coordinates": [109.2076, 34.3838] },
+      "fuzziness": 0.4,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "鸿门", "dynasty": "秦末", "yearStart": null, "yearEnd": null, "_notes": "骊山下，项羽军驻地。" }
+      ],
+      "_adminHierarchy": { "dynasty": "秦", "adminLevel": "other", "parentPlaceSlug": "xianyang", "_notes": "咸阳东约 20 公里。BC 206 鸿门宴发生地，具体宴席位置无考古定论，fuzziness 0.4。" },
+      "_sources": ["《史记·项羽本纪》", "钱穆《史记地名考》鸿门条"]
+    },
+
+    {
+      "slug": "gaixia",
+      "ancientName": "垓下",
+      "modernName": { "zh-Hans": "宿州·灵璧", "zh-Hant": "宿州·靈璧", "en": "Gaixia" },
+      "geometry": { "type": "Point", "coordinates": [117.4923, 33.2727] },
+      "fuzziness": 0.5,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "垓下", "dynasty": "秦末 / 楚汉", "yearStart": null, "yearEnd": null }
+      ],
+      "_adminHierarchy": { "dynasty": "西汉", "adminLevel": "other", "_notes": "BC 202 十二月楚汉决战地。传统位置在今安徽灵璧东南；另有河南鹿邑、鹿城说，学界主流采灵璧。fuzziness 0.5 反映争议。" },
+      "_sources": ["《史记·项羽本纪》", "谭其骧《中国历史地图集》第二册"]
+    },
+
+    {
+      "slug": "wujiang",
+      "ancientName": "乌江",
+      "modernName": { "zh-Hans": "马鞍山·和县·乌江镇", "zh-Hant": "馬鞍山·和縣·烏江鎮", "en": "Wujiang (Xiang Yu's death place)" },
+      "geometry": { "type": "Point", "coordinates": [118.3832, 31.6015] },
+      "fuzziness": 0.5,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "乌江", "dynasty": "秦末 / 楚汉", "yearStart": null, "yearEnd": null, "_notes": "长江北岸渡口。今地名『乌江镇』即承此。" }
+      ],
+      "_adminHierarchy": { "dynasty": "秦 / 汉", "adminLevel": "other", "_notes": "BC 202 项羽自刎处。定远东城说（《史记·项羽本纪》『东城』）与和县乌江说并存，后者成主流。fuzziness 0.5。" },
+      "_sources": ["《史记·项羽本纪》", "《水经注·江水》"]
+    },
+
+    {
+      "slug": "bashang",
+      "ancientName": "霸上",
+      "modernName": { "zh-Hans": "西安·白鹿原", "zh-Hant": "西安·白鹿原", "en": "Bashang / Bailu Plain" },
+      "geometry": { "type": "Point", "coordinates": [109.0401, 34.1989] },
+      "fuzziness": 0.4,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "霸上", "dynasty": "秦末 / 楚汉 / 西汉", "yearStart": null, "yearEnd": null, "_notes": "因临霸水（灞水）得名；一作『灞上』。" }
+      ],
+      "_adminHierarchy": { "dynasty": "秦 / 汉", "adminLevel": "other", "parentPlaceSlug": "xianyang", "_notes": "长安东。BC 206 十月刘邦入关屯霸上，秦王子婴于此降；鸿门宴前夜刘邦由此赴鸿门。" },
+      "_sources": ["《史记·高祖本纪》", "《史记·项羽本纪》"]
+    },
+
+    {
+      "slug": "dazexiang",
+      "ancientName": "大泽乡",
+      "modernName": { "zh-Hans": "宿州·埇桥区·大泽乡镇", "zh-Hant": "宿州·埇橋區·大澤鄉鎮", "en": "Daze Village" },
+      "geometry": { "type": "Point", "coordinates": [117.3074, 33.3908] },
+      "fuzziness": 0.5,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "大泽乡", "dynasty": "秦", "yearStart": null, "yearEnd": -209 }
+      ],
+      "_adminHierarchy": { "dynasty": "秦", "adminLevel": "other", "parentPlaceSlug": "si-shui-jun", "_notes": "泗水郡蕲县境内。BC 209 七月陈胜吴广起义于此，中国第一次大规模农民起义。" },
+      "_sources": ["《史记·陈涉世家》"]
+    },
+
+    {
+      "slug": "kunyang",
+      "ancientName": "昆阳",
+      "modernName": { "zh-Hans": "平顶山·叶县", "zh-Hant": "平頂山·葉縣", "en": "Kunyang" },
+      "geometry": { "type": "Point", "coordinates": [113.3579, 33.6267] },
+      "fuzziness": 0.3,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "昆阳", "dynasty": "秦 / 汉", "yearStart": null, "yearEnd": null }
+      ],
+      "_adminHierarchy": { "dynasty": "新", "adminLevel": "xian", "parentPlaceSlug": "yingchuan-jun", "_notes": "颍川郡昆阳县。CE 23 六月『昆阳之战』，刘秀率数千破王莽四十二万军，新朝由此崩溃。" },
+      "_sources": ["《后汉书·光武帝纪》", "《汉书·王莽传》"]
+    },
+
+    {
+      "slug": "yanran-shan",
+      "ancientName": "燕然山",
+      "modernName": { "zh-Hans": "杭爱山", "zh-Hant": "杭愛山", "en": "Khangai Mountains" },
+      "geometry": { "type": "Point", "coordinates": [100.5000, 47.5833] },
+      "fuzziness": 0.9,
+      "modernCountry": "MN",
+      "_placeNames": [
+        { "name": "燕然山", "dynasty": "东汉", "yearStart": null, "yearEnd": null, "_notes": "今蒙古国中部杭爱山脉。2017 年中蒙联合考察队于杭爱山中戈尔班特斯县悬崖发现《封燕然山铭》摩崖，证实史载。" }
+      ],
+      "_adminHierarchy": { "dynasty": "东汉", "adminLevel": "other", "_notes": "汉境外匈奴故地。CE 89 永元元年窦宪破北匈奴于稽落山，追至燕然山，班固作《封燕然山铭》勒石。山脉跨大范围，点坐标取铭文发现处附近，fuzziness 0.9。" },
+      "_sources": ["《后汉书·窦融列传》附窦宪", "《后汉书·班彪列传》下 班固《封燕然山铭》"]
+    },
+
+    {
+      "slug": "huaiyin",
+      "ancientName": "淮阴",
+      "modernName": { "zh-Hans": "淮安·淮阴区", "zh-Hant": "淮安·淮陰區", "en": "Huai'an / Huaiyin" },
+      "geometry": { "type": "Point", "coordinates": [119.0174, 33.5790] },
+      "fuzziness": 0.3,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "淮阴", "dynasty": "秦 / 汉", "yearStart": null, "yearEnd": null }
+      ],
+      "_adminHierarchy": { "dynasty": "秦 / 汉", "adminLevel": "xian", "parentPlaceSlug": "linhuai-jun", "_notes": "秦置淮阴县。韩信（淮阴侯）故里；『胯下之辱』『漂母饭信』典出于此。" },
+      "_sources": ["《史记·淮阴侯列传》", "《汉书·地理志》临淮郡·淮阴"]
+    },
+
+    {
+      "slug": "xiapi",
+      "ancientName": "下邳",
+      "modernName": { "zh-Hans": "睢宁·古邳镇", "zh-Hant": "睢寧·古邳鎮", "en": "Xiapi" },
+      "geometry": { "type": "Point", "coordinates": [117.9717, 34.3167] },
+      "fuzziness": 0.3,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "下邳", "dynasty": "秦 / 汉", "yearStart": null, "yearEnd": null }
+      ],
+      "_adminHierarchy": { "dynasty": "西汉 / 东汉", "adminLevel": "xian", "parentPlaceSlug": "donghai-jun", "_notes": "东海郡（东汉改下邳国）治。张良博浪沙刺秦王失败后匿于下邳圯上，遇黄石公授《太公兵法》。" },
+      "_sources": ["《史记·留侯世家》"]
+    },
+
+    {
+      "slug": "guangling",
+      "ancientName": "广陵",
+      "modernName": { "zh-Hans": "扬州", "zh-Hant": "揚州", "en": "Yangzhou / Guangling" },
+      "geometry": { "type": "Point", "coordinates": [119.4121, 32.3932] },
+      "fuzziness": 0.25,
+      "modernCountry": "CN",
+      "_placeNames": [
+        { "name": "广陵", "dynasty": "秦 / 汉", "yearStart": null, "yearEnd": null },
+        { "name": "江都", "dynasty": "西汉", "yearStart": -153, "yearEnd": -121, "_notes": "景帝前元四年封子非为江都王，都此；武帝元狩二年除国。" }
+      ],
+      "_adminHierarchy": { "dynasty": "西汉", "adminLevel": "xian", "parentPlaceSlug": "guangling-guo", "_notes": "吴王刘濞都；七国之乱中心。后为江都国、广陵国（刘胥）都。" },
+      "_sources": ["《史记·吴王濞列传》", "《汉书·地理志》广陵国"]
+    }
+
+  ]
+}
