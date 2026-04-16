@@ -47,9 +47,8 @@ const config: CodegenConfig = {
           object: true,
           defaultValue: true,
         },
-        // Resolver context is wired in subtask 4 (src/context.ts).
-        // Until then the resolver signatures carry an opaque context.
-        contextType: "unknown",
+        // Resolver context lives in src/context.ts (subtask 4).
+        contextType: "../context#GraphQLContext",
       },
     },
   },

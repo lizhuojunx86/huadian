@@ -448,6 +448,31 @@ type Query {
   Used by CI smoke and local health checks.
   """
   _schemaVersion: String!
+  """Fetch one Event by stable slug. Returns null when absent."""
+  event(slug: String!): Event
+  """
+  Fetch one Person by stable slug (C-13). Returns null when the slug
+  does not match any non-deleted row; an explicit NOT_FOUND error is
+  NOT raised, so that callers can distinguish "absent" from "server
+  error" without inspecting extensions.
+  """
+  person(slug: String!): Person
+  """
+  List Persons with offset-based pagination.
+  
+  Arguments:
+    limit  maximum rows to return; clamped to [1, 100] server-side.
+    offset number of rows to skip; MUST be non-negative.
+  """
+  persons(limit: Int = 20, offset: Int = 0): [Person!]!
+  """Fetch one Place by stable slug. Returns null when absent."""
+  place(slug: String!): Place
+  """
+  Fetch one SourceEvidence by UUID. SourceEvidence is keyed by UUID
+  (not slug) because individual quoted passages do not carry stable
+  human-readable identifiers.
+  """
+  sourceEvidence(id: UUID!): SourceEvidence
 }
 
 """
