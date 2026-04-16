@@ -1,0 +1,27 @@
+{
+  "$ref": "#/definitions/EventParticipantRef",
+  "definitions": {
+    "EventParticipantRef": {
+      "type": "object",
+      "properties": {
+        "person_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "action": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "person_id",
+        "role"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

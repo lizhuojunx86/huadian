@@ -8,6 +8,9 @@ import { fileURLToPath } from "node:url";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
 import { personSchema } from "./person.js";
+import { multiLangTextSchema } from "./multi-lang.js";
+import { historicalDateSchema } from "./historical-date.js";
+import { eventParticipantRefSchema, eventPlaceRefSchema, eventSequenceStepSchema } from "./event-refs.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const schemaDir = resolve(__dirname, "../schema");
@@ -16,6 +19,11 @@ mkdirSync(schemaDir, { recursive: true });
 
 const schemas: Record<string, ReturnType<typeof zodToJsonSchema>> = {
   person: zodToJsonSchema(personSchema, "Person"),
+  "multi-lang-text": zodToJsonSchema(multiLangTextSchema, "MultiLangText"),
+  "historical-date": zodToJsonSchema(historicalDateSchema, "HistoricalDate"),
+  "event-participant-ref": zodToJsonSchema(eventParticipantRefSchema, "EventParticipantRef"),
+  "event-place-ref": zodToJsonSchema(eventPlaceRefSchema, "EventPlaceRef"),
+  "event-sequence-step": zodToJsonSchema(eventSequenceStepSchema, "EventSequenceStep"),
 };
 
 for (const [name, schema] of Object.entries(schemas)) {
