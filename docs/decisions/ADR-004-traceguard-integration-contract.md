@@ -248,3 +248,86 @@ class TraceGuardAdapter(TraceGuardPort):
 - 任务卡：T-TG-001（仓库挂载）/ T-TG-002（Adapter 实现）
 - 相关 ADR：ADR-010（Prompt 版本化，提供 checkpoint 的 `prompt_version` 字段）
 - 宪法条款：C-7 / C-8 / C-14
+
+---
+
+## Errata（2026-04-16，TG-STAB-001 后补充）
+
+> 本 ADR 正文 §一~§九 不变。以下为基于上游源码实测与 TG-STAB-001 sprint 结论的勘误与补充。
+
+### E-1：上游包名实测
+
+ADR-004 正文将上游称为 "TraceGuard"（与 `docs/06` 一致）。**上游实际 PyPI / Python 包名为 `pipeline-guardian`，import 名为 `guardian`**。
+
+本 ADR 定义的 Port 协议命名（`TraceGuardPort` / `traceguard_adapter.py` / `traceguard_policy.yml`）保持不变 —— 这是华典侧的内部命名，是 Port 名而非上游包名，不受上游影响。
+
+### E-2：上游公开 API 冻结基线
+
+上游已在 TG-STAB-001 sprint（2026-04-16）中冻结公开面，作为华典 Adapter 的稳定上游：
+
+- **Tag**：`v0.1.0-huadian-baseline`
+- **SHA**：`0350b0a54ec646a96e3f25949b7ce604284c49eb`
+- **Repo**：`https://github.com/lizhuojunx86/traceguard`
+- **CI 证据**：tag commit 自身跑过且绿（[run 24493213186](https://github.com/lizhuojunx86/traceguard/actions/runs/24493213186)）
+- **公开符号**（`guardian.__all__`，0.2.0 前不改，破坏性变更需 major bump）：
+  - `guardian.evaluate_async` — async checkpoint entry
+  - `guardian.StepOutput` — input wrapper
+  - `guardian.GuardianConfig` — YAML-loaded config
+  - `guardian.GuardianDecision` — result dataclass
+
+任何 deeper import（`guardian.core.*` / `guardian.validators.*` / `guardian.actions.*` / `guardian.cli` / `guardian.env` / `guardian.mcp_server` 等）均属 internal，0.2.0 后可能不通知性破坏。**Adapter 必须把 deeper import 集中到单一文件 `_imports.py`**，每条显式注释、自担升级风险。
+
+### E-3：本 ADR §二 `CheckpointResult` ≠ 上游 `GuardianDecision`
+
+本 ADR §二 定义的 `CheckpointResult` / `ActionType` / `Violation` 是**华典侧 Port 协议**，**不**是上游 API。两者在词汇表与结构上均不一致 —— 这正是 Adapter 层翻译的全部价值所在。
+
+#### Mismatch #1：Action 词汇映射
+
+| 上游 (Literal, frozen at v0.1.0-huadian-baseline) | 本 ADR §二 `ActionType` | 备注 |
+|---------------------------------------------------|--------------------------|------|
+| `pass` | `pass_through` | 直接映射 |
+| `passthrough` | `pass_through` | 两个上游 action 合并到同一个 → Adapter 合并 + warning 日志区分（Q-D6 已决） |
+| `retry` | `retry` | 直接映射 |
+| `abort` | `fail_fast` | 直接映射 |
+| `alert` | `human_queue` | 直接映射（Q-D5 已决；上游 alert channel 为 Telegram，华典 human_queue 为 PG 工作队列，语义重合但通道不同，由 Adapter 翻译） |
+| —（上游无） | `degrade` | 上游无对应 → Adapter 根据 `score` / `semantic_status` / `issues` 自行升格判定 |
+
+#### Mismatch #2：结果结构映射
+
+| 上游 `GuardianDecision`（frozen） | 本 ADR §二 `CheckpointResult` | Adapter 责任 |
+|----------------------------------|-------------------------------|--------------|
+| `action: str`（5 种字面量） | `action: ActionType`（按 Mismatch #1 表映射） | 翻译；遇到表外字面量 → Violation(`traceguard.unknown_action`, critical) |
+| `issues: list[str]`（人类可读） | `violations: list[Violation]`（结构化） | 包装为 `Violation(rule_id="traceguard.structural", severity=…, message=msg, location={}, suggested_fix=None)` |
+| `score: float` | `score: float`（透传） | 直接 passthrough；同时保留 `raw` |
+| `retry_hint: str \| None` | （无显式对应） | 塞入 `Violation.suggested_fix` 或 `raw` |
+| `semantic_score: int \| None`（1–5） | （无显式对应） | 仅保留 `raw`；暂不合并到 `score`（避免量纲混淆） |
+| `semantic_status: str \| None` | （无显式对应） | 仅 `raw` |
+| —（上游无） | `duration_ms: int` | Adapter 自计：`time.perf_counter()` 包 `evaluate_async()` 调用 |
+
+### E-4：契约测试要求（华典侧防御性断言）
+
+为防止上游升级时 Adapter 静默漂移，T-TG-002 Adapter 必须在华典 CI 中包含 3 条契约测试：
+
+1. `assert set(guardian.__all__) == {"evaluate_async", "StepOutput", "GuardianConfig", "GuardianDecision"}` —— 上游 0.2.0 改动此集合时立刻 CI 红，强制人工评审 Adapter 升级
+2. 构造每种上游 action 字面量的 `GuardianDecision`，过 Adapter，assert 输出的 `ActionType` 与 Mismatch #1 表一致
+3. `assert set(上游 action 字面量集合) == {"pass", "passthrough", "retry", "abort", "alert"}` —— 上游偷加新 action 时立刻 CI 红，避免漏 case
+
+这 3 条测试位于华典 `services/pipeline/tests/qc/test_traceguard_contract.py`，独立于 Adapter 单测。
+
+### E-5：依赖坐标（修订正文 §九"依赖 T-TG-001"段）
+
+仓库已公开（Q-D1 已决），**T-TG-001 物理挂载降级为 fallback**，主路径直接用 git rev pin：
+
+```toml
+# services/pipeline/pyproject.toml
+[project]
+dependencies = [
+    # TG (TraceGuard / pipeline-guardian) — pinned to v0.1.0-huadian-baseline
+    # SHA: 0350b0a54ec646a96e3f25949b7ce604284c49eb
+    # CI:  https://github.com/lizhuojunx86/traceguard/actions/runs/24493213186
+    # See: docs/decisions/ADR-004 §Errata for translation contract
+    "pipeline-guardian @ git+https://github.com/lizhuojunx86/traceguard.git@v0.1.0-huadian-baseline",
+]
+```
+
+T-TG-001 仅在 CI 无 GitHub 出网权限时启用（git submodule + `{ path = "../../vendor/traceguard", editable = true }`）。Q-D2（PyPI 发版）相应地不再必要。
