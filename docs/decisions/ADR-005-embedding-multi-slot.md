@@ -39,7 +39,7 @@ Embedding 模型演进极快（BGE / E5 / GTE / OpenAI text-embedding / Voyage-3
 CREATE TABLE entity_embeddings (
   id BIGSERIAL PRIMARY KEY,
   entity_type TEXT NOT NULL,        -- 'person' / 'place' / 'event' / 'allusion' ...
-  entity_id BIGINT NOT NULL,
+  entity_id UUID NOT NULL,           -- errata 2026-04-16: BIGINT → UUID (all entity PKs are UUID)
   model_id TEXT NOT NULL,           -- e.g. 'voyage-3', 'bge-large-zh-v1.5'
   model_version TEXT NOT NULL,
   dimension INT NOT NULL,
@@ -89,3 +89,13 @@ CREATE INDEX idx_ee_1024_hnsw ON entity_embeddings
 - 任务卡：T-005（DB Schema）/ T-007（Pipeline MVP，含 embedding step）
 - 相关 ADR：ADR-001（pgvector 单库策略）/ ADR-010（Prompt 版本化，同样用"版本化而非覆盖"思想）
 - 宪法条款：C-14
+
+## Errata
+
+### 2026-04-16: entity_id 类型修正
+
+- **原文**：`entity_id BIGINT NOT NULL`
+- **修正**：`entity_id UUID NOT NULL`
+- **原因**：所有实体表（persons / events / places 等）主键为 UUID，entity_embeddings 引用它们时类型必须匹配。原文 BIGINT 为笔误。
+- **发现者**：后端工程师（T-P0-002 架构师评审 Q-4）
+- **影响**：仅文档修正，无代码迁移（T-P0-002 实施时已按 UUID 落地）

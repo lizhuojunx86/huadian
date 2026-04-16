@@ -2,32 +2,43 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-15
-- **更新人**：DevOps 工程师（Claude Opus）
-- **当前阶段**：Phase 0 — **Monorepo 骨架已落地，进入 DB Schema 阶段**
+- **最近更新**：2026-04-16
+- **更新人**：后端工程师（Claude Opus）
+- **当前阶段**：Phase 0 — **DB Schema 已落地，进入 GraphQL / 管线 / 字典阶段**
 
 ---
 
 ## 当前在哪
 
-**T-P0-001（Monorepo 骨架）已完成（2026-04-15）。**
+**T-P0-002（DB Schema 落地）已完成（2026-04-16）。**
 
-仓库已具备：
-- pnpm + uv + Turborepo 工具链
-- 10 个子包骨架（全部可 `pnpm -r build`）
-- Docker Compose：PG 16（pgvector + PostGIS + pg_trgm）+ Redis 7 + OTel Collector
-- CI 八步流水线（lint / typecheck / codegen:verify / test / build / docker smoke / secret-scan / graphql:breaking）
-- 跨语言类型生成：zod → JSON Schema → Pydantic
-- pre-commit（gitleaks + lint-staged）
-- CODEOWNERS + Dependabot + PR/Issue 模板
+数据库已具备：
+- 33 张业务表（9 层：文本源 / 身份 / 事件 / 地理时间 / 关系引用 / 物品 / 嵌入审计 / 管线 / 反馈）
+- Drizzle ORM schema 按业务域拆分为 10 个文件
+- pgEnum 定义 22 个枚举类型
+- PostGIS GEOMETRY + pgvector vector(1024) customType
+- shared-types：HistoricalDate / MultiLangText / EventRefs / 全量枚举（zod → JSON Schema → Pydantic 全链路）
+- 初始迁移 `0000_lame_roughhouse.sql`（551 行），在干净 PG 上 migrate 成功
+- ADR-005 errata：entity_id 从 BIGINT 修正为 UUID
 
-**SigNoz 子栈推迟到 T-P0-005a**（镜像版本问题，详见 CHANGELOG）。
-
-**下一步推进建议**：**T-P0-002（DB Schema 落地）** 由后端工程师主导。
+**下一步推进建议**（可并行）：
+- **T-P0-003（GraphQL schema 骨架）** — 后端工程师
+- **T-P0-004（历史专家字典初稿）** — 历史专家
+- **T-P0-005（LLM Gateway + TraceGuard）** — 管线工程师
 
 ---
 
 ## 已完成
+
+### T-P0-002 DB Schema 落地（2026-04-16）
+- [x] shared-types：HistoricalDate / MultiLangText / EventRefs / 22 枚举 zod schema
+- [x] db-schema：10 个 schema 文件（common / enums / sources / persons / events / places / relations / artifacts / embeddings / pipeline / feedback）
+- [x] 33 张表 Drizzle 定义 + pgEnum
+- [x] PostGIS GEOMETRY customType + pgvector vector(1024) customType
+- [x] gen-types.sh 全链路：6 JSON Schema + 6 Pydantic 模型
+- [x] drizzle-kit generate + migrate 成功
+- [x] pnpm -r build / lint / typecheck 全绿
+- [x] ADR-005 errata（entity_id UUID）
 
 ### T-P0-001 Monorepo 骨架落地（2026-04-15）
 - [x] 根级工具链（package.json / pnpm-workspace / turbo.json / tsconfig / pyproject.toml / Makefile）
@@ -50,7 +61,7 @@
 
 ## 进行中
 
-无。等待用户启动 T-P0-002。
+无。等待用户选择下一任务。
 
 ---
 
@@ -58,11 +69,11 @@
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 |
 |--------|---------|------|---------|------|
-| 🔴 高 | T-P0-002 | DB Schema 落地（Drizzle 真实表定义 + 迁移） | 后端工程师 | T-P0-001 ✅ |
-| 🟡 中 | T-P0-004 | 历史专家字典初稿（polities / reign_eras / disambiguation_seeds） | 历史专家 | T-003 ✅ |
-| 🟡 中 | T-P0-005 | LLM Gateway + TraceGuard 基础集成 | 管线工程师 | T-P0-002 |
+| 🔴 高 | T-P0-003 | GraphQL schema 骨架 | 后端工程师 | T-P0-002 ✅ |
+| 🔴 高 | T-P0-004 | 历史专家字典初稿（polities / reign_eras / disambiguation_seeds） | 历史专家 | T-P0-002 ✅ |
+| 🟡 中 | T-P0-005 | LLM Gateway + TraceGuard 基础集成 | 管线工程师 | T-P0-002 ✅ |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 |
-| 🟢 低 | T-P0-003 | GraphQL schema 骨架 | 后端工程师 | T-P0-002 |
+| 🟢 低 | T-P0-006 | Pipeline MVP：鸿门宴 NER | 管线工程师 | T-P0-005 |
 
 ---
 
@@ -70,7 +81,7 @@
 
 | # | 描述 | 等待 | 建议处理 |
 |---|------|------|---------|
-| （无当前阻塞） | — | — | 可启动 T-P0-002 |
+| （无当前阻塞） | — | — | T-P0-003 / T-P0-004 / T-P0-005 可并行启动 |
 
 ---
 
@@ -80,7 +91,7 @@
 - `ADR-002` — 事件双层建模（Event + EventAccount）
 - `ADR-003` — 多角色协作框架启用（10 角色）
 - `ADR-004` — TraceGuard 集成合同（Port/Adapter 契约）
-- `ADR-005` — Embedding 多槽位与模型切换策略
+- `ADR-005` — Embedding 多槽位与模型切换策略（errata：entity_id UUID）
 - `ADR-006` — 未决项 U-01~U-07 封版决策
 - `ADR-007` — Monorepo 布局与包管理（pnpm + uv + Turborepo）
 
@@ -90,11 +101,11 @@
 
 - 📘 文档覆盖度：核心 7/7 ✅
 - 🧭 ADR 数量：7 accepted / 9 planned
-- 📋 任务卡数量：T-P0-001 done；T-P0-002 ready；T-P0-005a planned
+- 📋 任务卡数量：T-P0-001 done；T-P0-002 done；T-P0-005a planned
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
-- 🐳 Docker：PG + Redis 健康；SigNoz deferred；端口约定 5433/6380
-- 🧪 测试覆盖：N/A（Phase 0 无业务代码）
+- 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
+- 🧪 测试覆盖：N/A（Phase 0 无业务逻辑代码）
 - 🚦 阻塞项数量：0 ✅
 
 ---
@@ -105,3 +116,4 @@
 - 2026-04-15：T-001 / T-002 / T-003 / T-TG-001 完成
 - 2026-04-15：ADR-007 accepted；T-P0-001 ready
 - 2026-04-15：T-P0-001 done — Monorepo 骨架落地；SigNoz deferred to T-P0-005a；T-P0-002 进入 ready
+- 2026-04-16：T-P0-002 done — DB Schema 落地（33 表 + Drizzle 迁移 + shared-types + ADR-005 errata）

@@ -5,6 +5,42 @@
 
 ---
 
+## 2026-04-16
+
+### [feat] T-P0-002 完成 — DB Schema 落地（33 张表 + Drizzle 迁移）
+- **角色**：后端工程师（执行）+ 首席架构师（评审）
+- **任务**：T-P0-002
+- **变更**：
+  - `packages/shared-types/src/`：新增 `multi-lang.ts`（MultiLangText zod schema）、`historical-date.ts`（HistoricalDate）、`enums.ts`（22 个枚举）、`event-refs.ts`（EventParticipantRef / PlaceRef / SequenceStep）；更新 `index.ts` / `codegen.ts`
+  - `packages/shared-types/schema/`：新增 6 个 JSON Schema 文件
+  - `services/pipeline/src/huadian_pipeline/generated/`：新增 6 个 Pydantic 模型
+  - `packages/db-schema/src/schema/`：按业务域拆分为 10 个文件（common / enums / sources / persons / events / places / relations / artifacts / embeddings / pipeline / feedback）
+  - 33 张业务表 Drizzle 定义：books / raw_texts / source_evidences / evidence_links / textual_notes / text_variants / variant_chars / persons / person_names / identity_hypotheses / disambiguation_seeds / role_appellations / events / event_accounts / account_conflicts / event_causality / places / place_names / place_hierarchies / polities / reign_eras / relationships / mentions / allusions / allusion_evolution / allusion_usages / intertextual_links / institutions / institution_changes / artifacts / entity_embeddings / entity_revisions / llm_calls / pipeline_runs / extractions_history / feedback
+  - 22 个 pgEnum 类型定义
+  - PostGIS GEOMETRY customType + pgvector vector(1024) customType
+  - Drizzle 初始迁移 `services/api/migrations/0000_lame_roughhouse.sql`（551 行）
+  - `services/api/drizzle.config.ts` schema 路径改为 glob pattern
+- **架构师评审裁定**：
+  - Q-1：废弃 `event_places` / `event_participants`，JSONB 内嵌 + zod schema 约束
+  - Q-2：废弃 `version_conflicts`，`account_conflicts` 替代
+  - Q-3：v1 保留表统一升级（JSONB / slug / soft-delete / provenance）；历史原始数据保持 TEXT
+  - Q-4：`entity_embeddings` BIGSERIAL PK；entity_id UUID（ADR-005 errata）
+  - Q-5：schema 文件按业务域拆分；books 合入 sources.ts；新增 enums.ts
+  - Q-8：`event_causality` 补 source_evidence_id + provenance_tier
+  - R-1~R-9：详见任务卡
+- **修复**：
+  - `person_names` GIN 索引需要 `gin_trgm_ops` operator class — Drizzle 不原生支持，用 `sql` 模板注入
+  - schema 文件 import 去 `.js` 扩展名以兼容 drizzle-kit CJS require
+- **下一步**：T-P0-003（GraphQL 骨架）/ T-P0-004（字典种子）/ T-P0-005（LLM Gateway）可并行启动
+
+### [docs] ADR-005 errata — entity_id UUID 修正
+- **角色**：后端工程师（提出）+ 首席架构师（确认）
+- **变更**：`docs/decisions/ADR-005-embedding-multi-slot.md` 中 `entity_id BIGINT` 修正为 `entity_id UUID`
+- **原因**：所有实体表主键为 UUID，引用时类型必须匹配；原文 BIGINT 为笔误
+- **影响**：仅文档修正
+
+---
+
 ## 2026-04-15（夜 · 五批）
 
 ### [feat] T-P0-001 完成 — Monorepo 骨架落地
