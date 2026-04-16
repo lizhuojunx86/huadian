@@ -7,6 +7,41 @@
 
 ## 2026-04-16
 
+### [feat] TG-STAB-001 完成 — TraceGuard 上游稳定基线就绪
+- **角色**：上游维护者（在 traceguard 仓内执行）+ 首席架构师（评审 / 拍板）
+- **任务**：TG-STAB-001（华典侧不消耗代码改动，仅文档登记）
+- **上游变更**（位于 `https://github.com/lizhuojunx86/traceguard`）：
+  - annotated tag：`v0.1.0-huadian-baseline` @ SHA `0350b0a54ec646a96e3f25949b7ce604284c49eb`
+  - 公开 API 冻结至 v0.2.0（`guardian.__all__` 仅 4 个符号）：`evaluate_async` / `StepOutput` / `GuardianConfig` / `GuardianDecision`
+  - 上游 README 新增 "Stability for Downstream Integrators" 段，明确 internal 范围
+  - 上游 CI 加固：Python 3.12 实证（`UV_PYTHON=3.12` job-level）/ ruff 加入 dev group / `uv sync --python 3.12 --extra mcp`
+  - 上游契约测试 `tests/test_public_api.py`：4 符号面冻结，0.1.x 漂移立刻 CI 红
+  - 上游 `.gitignore` 加固（IDE / macOS / DB / FUSE artifacts）+ `guardian/env.py` bug fix（embedding-only model 检测）
+- **架构师裁定**：
+  - 拒绝 TG 侧 alias（避免 TG `CheckpointResult` 与 ADR-004 §二 `CheckpointResult` 撞名误导下游）
+  - 拒绝 TG 侧 facade（违反"baseline 不改业务逻辑"安全边界）
+  - 选择"TG 用 TG 词汇 + 华典 Adapter 翻译"模型 → 见 ADR-004 §Errata 两张 Mismatch 表
+- **影响**：
+  - 解锁 T-TG-002 Adapter 实现（Session B 可基于上述 SHA 开工）
+  - Q-D1 已决（仓库公开 + git rev pin 可行，T-TG-001 物理挂载降级为 fallback）
+  - Q-D2 已决（不要求上游发 PyPI，git rev pin 充分）
+  - Q-D5 / Q-D6 已决（见 ADR-004 §E-3 Mismatch #1）
+- **下游 pin 坐标**（写入 `services/pipeline/pyproject.toml`）：
+  - `pipeline-guardian @ git+https://github.com/lizhuojunx86/traceguard.git@v0.1.0-huadian-baseline`
+- **CI 证据**：[run 24493213186](https://github.com/lizhuojunx86/traceguard/actions/runs/24493213186)（tag commit 自身跑过且绿，237 passed）
+- **下一步**：T-TG-002 Adapter 实现（管线工程师 / Session B）
+
+### [docs] ADR-004 errata — 新增 E-1~E-5
+- **角色**：首席架构师
+- **触发**：TG-STAB-001 调研 + 基线就绪
+- **变更**：`docs/decisions/ADR-004-traceguard-integration-contract.md` 末尾新增 Errata 段
+  - E-1：上游包名实测为 `pipeline-guardian` / import 名 `guardian`
+  - E-2：上游公开 API 冻结基线（4 符号 + tag/SHA）
+  - E-3：两张 Mismatch 表（Action 词汇 + 结果结构）作为 Adapter 翻译规范
+  - E-4：3 条契约测试要求（华典侧防御性断言）
+  - E-5：依赖坐标改为 git rev pin，T-TG-001 降级为 fallback
+- **影响**：仅文档；ADR-004 正文 §一~§九 不变
+
 ### [feat] T-P0-002 完成 — DB Schema 落地（33 张表 + Drizzle 迁移）
 - **角色**：后端工程师（执行）+ 首席架构师（评审）
 - **任务**：T-P0-002
