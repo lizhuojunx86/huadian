@@ -1,0 +1,55 @@
+# TraceGuard policy — action escalation for 华典 pipeline checkpoints.
+#
+# Structure is pinned by ADR-004 §五. Three sections, all required:
+#
+#   defaults    — knobs the Adapter consumes directly (backoff, degrade
+#                 target model, human queue name).
+#   by_severity — action ladder per severity. The Adapter walks this
+#                 from left to right by attempt count: attempt=1 picks
+#                 ladder[0], attempt=2 picks ladder[1], ...; once the
+#                 ladder is exhausted the Adapter escalates to
+#                 `fail_fast`.
+#   by_step     — optional per-step overrides. Key = pipeline step name
+#                 (fnmatch glob supported, e.g. `ner_v*`). Inner keys
+#                 mirror `by_severity`. Anything not overridden falls
+#                 back to `by_severity`.
+#
+# Action vocabulary (must be one of ADR-004 ActionType):
+#   pass_through / retry / degrade / human_queue / fail_fast
+#
+# `minor` / `info` default to `pass_through` (ADR-004 §五 mapped
+# `warn_only` onto `pass_through` since we don't have a standalone
+# warn-only action in the five-member ActionType enum; the violation
+# is still recorded — mode=shadow is a separate concern).
+
+defaults:
+  # Backoff schedule used by the Adapter when returning `retry` — not
+  # consumed by policy.resolve itself, but carried here so the pipeline
+  # orchestrator can honour it.
+  retry_backoff_ms: [500, 2000]
+
+  # Target model name the Adapter emits alongside `degrade` so callers
+  # know which tier to fall to. Informational — the Adapter does not
+  # actually perform the degrade itself.
+  degrade_to: "claude-sonnet-4-6"
+
+  # Human review queue name. Emitted alongside `human_queue`.
+  human_queue: "qc_review_queue"
+
+by_severity:
+  critical: [retry, degrade, human_queue, fail_fast]
+  major:    [retry, degrade, human_queue]
+  minor:    [pass_through]
+  info:     [pass_through]
+
+by_step:
+  # NER: refuse to silently swap a stronger model for a weaker one at
+  # the critical tier — grounded extraction quality is too sensitive
+  # to model tier. Drop `degrade` from the critical ladder.
+  "ner_v*":
+    critical: [retry, human_queue, fail_fast]
+
+  # Relation: degrade is fine; relations are more "structural" and
+  # sonnet usually does as well as opus here.
+  "relation_v*":
+    critical: [retry, degrade, human_queue, fail_fast]
