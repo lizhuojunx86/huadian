@@ -1,0 +1,11 @@
+# Bootstrap Query root — required so that buildSchema / codegen do not
+# fail in this subtask. Subtask 4 will extend Query with real entrypoints.
+# The _schemaVersion field is kept permanently as a health probe.
+
+type Query {
+  """
+  Returns the merged SDL snapshot build identifier.
+  Used by CI smoke and local health checks.
+  """
+  _schemaVersion: String!
+}
