@@ -1,0 +1,205 @@
+{
+  "_meta": {
+    "version": "0.1.0-draft",
+    "scope": "Phase 0 — 秦汉 (BC 221 – CE 220)",
+    "draftedBy": "historian@huadian",
+    "draftedAt": "2026-04-16",
+    "status": "draft_pending_review",
+    "schemaTable": "reign_eras",
+    "entryCount": 89,
+    "defaultSources": [
+      "《汉书》各帝纪",
+      "《后汉书》各帝纪",
+      "《资治通鉴》",
+      "陈垣《二十史朔闰表》",
+      "方诗铭、方小芬《中国史历日和中西历日对照表》"
+    ],
+    "fkConventions": {
+      "politySlug": "引用 polities.slug；加载器解析为 polityId。",
+      "emperorPersonSlug": "引用 persons.slug；未落库者加载器应 stub 占位或置 null。该字段 schema 允许 null。"
+    }
+  },
+  "_datingGapNote": {
+    "summary": "本字典的时间覆盖存在三类已知缺口，加载器与查询层需显式处理。",
+    "sections": [
+      {
+        "title": "1. 秦无年号",
+        "body": "秦朝 (BC 221–207) 不列 reign_era 条目。所有秦代纪年以君主在位年表达（例『始皇二十六年』），由 polities.metadata.rulerSequence + 事件文本承载，不走 reign_eras 表。"
+      },
+      {
+        "title": "2. 西汉前五朝无命名纪年",
+        "body": "高祖、惠帝、高后、文帝（前/后元立名之前）、景帝（前/中/后元立名之前）不列 reign_era 条目。纪年方式为「{帝号}{X}年」（例『高祖六年』『惠帝五年』『高后元年』）。文帝自『前元』（BC 180 起追立）、景帝自『前元』（BC 156 起追立）方有条目。"
+      },
+      {
+        "title": "3. 武帝以降年号制全覆盖",
+        "body": "正式年号制度自汉武帝『建元』元年（BC 140）成立。本字典自建元起至东汉末『延康』（CE 220）全覆盖；Phase 0 共 89 条，其中西汉 55、新莽 3、更始 1、东汉 30。"
+      },
+      {
+        "title": "边界年歧义",
+        "body": "年号改元不总在正月。多数条目 year_start / year_end 采用『该年号颁行所涉儒略历公元年』，当一历年内跨两年号（例『昭帝始元七年八月 = 元凤元年八月 = BC 80』），本字典按『整年归前一年号』处理（始元 -86～-81，元凤 -80～-75），由查询层按月份作细粒度消歧。所有发生改元的历年在 _transitionNote 中标注。"
+      },
+      {
+        "title": "公元零年",
+        "body": "采用历史学惯例：公元前用负整数（BC 1 = -1），公元后用正整数（CE 1 = 1），无 0 年。跨公元元年的事件需显式处理。"
+      },
+      {
+        "title": "共治 / 改朝并存",
+        "body": "更始 (CE 23–25) 与 东汉建武 (CE 25–) 在 CE 25 存在并行；新莽 (CE 9–23) 年号与西汉末 (平帝元始 CE 1–5 / 孺子居摄 CE 6–8 / 初始 CE 8) 无重叠。建武元年 (CE 25) 六月光武称帝，该年前半为更始三年。"
+      },
+      {
+        "title": "汉献帝改元争议 (CE 189)",
+        "body": "灵帝中平六年 (CE 189) 一年内历经中平 → 光熹 → 昭宁 → 永汉 → 复中平五次名义改元。本字典列光熹/昭宁/永汉三条 189 年条目以便 NER 识别；查询层需注意中平年号在该年末被「废除」后史家多追记为『中平六年』。"
+      }
+    ]
+  },
+
+  "reignEras": [
+
+    {
+      "name": "文帝前元",
+      "politySlug": "han-western",
+      "emperorPersonSlug": "han-wen-di",
+      "yearStart": -180,
+      "yearEnd": -164,
+      "_notes": "非正式年号；『前元』为汉景帝改元『后元』后追分。亦作『前元年』『文帝初』。《汉书·文帝纪》称即位至十六年为一纪。",
+      "_transitionNote": "文帝十七年 (BC 163) 因邯郸人新垣平诈言玉杯出，改元后元。"
+    },
+    {
+      "name": "文帝后元",
+      "politySlug": "han-western",
+      "emperorPersonSlug": "han-wen-di",
+      "yearStart": -163,
+      "yearEnd": -157,
+      "_notes": "非正式年号。后元七年 (BC 157) 六月文帝崩。"
+    },
+    {
+      "name": "景帝前元",
+      "politySlug": "han-western",
+      "emperorPersonSlug": "han-jing-di",
+      "yearStart": -156,
+      "yearEnd": -150,
+      "_notes": "非正式年号。景帝即位年沿父丧不改元，前元元年 = BC 156。"
+    },
+    {
+      "name": "景帝中元",
+      "politySlug": "han-western",
+      "emperorPersonSlug": "han-jing-di",
+      "yearStart": -149,
+      "yearEnd": -144,
+      "_notes": "非正式年号。"
+    },
+    {
+      "name": "景帝后元",
+      "politySlug": "han-western",
+      "emperorPersonSlug": "han-jing-di",
+      "yearStart": -143,
+      "yearEnd": -141,
+      "_notes": "非正式年号。后元三年 (BC 141) 正月景帝崩，武帝即位沿用至年末。",
+      "_transitionNote": "BC 141 前半为景帝后元三年，后半武帝即位但未改元（逾年改元）。"
+    },
+
+    { "name": "建元", "politySlug": "han-western", "emperorPersonSlug": "han-wu-di", "yearStart": -140, "yearEnd": -135, "_notes": "中国历史首个正式年号。武帝登基 BC 141 (逾年改元)，建元元年 = BC 140。" },
+    { "name": "元光", "politySlug": "han-western", "emperorPersonSlug": "han-wu-di", "yearStart": -134, "yearEnd": -129 },
+    { "name": "元朔", "politySlug": "han-western", "emperorPersonSlug": "han-wu-di", "yearStart": -128, "yearEnd": -123 },
+    { "name": "元狩", "politySlug": "han-western", "emperorPersonSlug": "han-wu-di", "yearStart": -122, "yearEnd": -117, "_notes": "元狩元年冬十月行郊祀，获白麟，故名『元狩』。" },
+    { "name": "元鼎", "politySlug": "han-western", "emperorPersonSlug": "han-wu-di", "yearStart": -116, "yearEnd": -111, "_notes": "元鼎四年得鼎汾水，以名元。" },
+    { "name": "元封", "politySlug": "han-western", "emperorPersonSlug": "han-wu-di", "yearStart": -110, "yearEnd": -105, "_notes": "元封元年四月封禅泰山，以名元。" },
+    { "name": "太初", "politySlug": "han-western", "emperorPersonSlug": "han-wu-di", "yearStart": -104, "yearEnd": -101, "_notes": "太初元年五月改历，以正月为岁首（《太初历》），为中国历史一大断代节点。" },
+    { "name": "天汉", "politySlug": "han-western", "emperorPersonSlug": "han-wu-di", "yearStart": -100, "yearEnd": -97 },
+    { "name": "太始", "politySlug": "han-western", "emperorPersonSlug": "han-wu-di", "yearStart": -96, "yearEnd": -93 },
+    { "name": "征和", "politySlug": "han-western", "emperorPersonSlug": "han-wu-di", "yearStart": -92, "yearEnd": -89, "_notes": "亦作『延和』，《汉书》作征和。征和二年发生巫蛊之祸。" },
+    { "name": "后元", "politySlug": "han-western", "emperorPersonSlug": "han-wu-di", "yearStart": -88, "yearEnd": -87, "_notes": "与文帝『后元』、景帝『后元』同名但不同 polity 段；查询层需 (emperorPersonSlug, name) 联合识别。武帝后元二年二月崩。" },
+
+    { "name": "始元", "politySlug": "han-western", "emperorPersonSlug": "han-zhao-di", "yearStart": -86, "yearEnd": -81, "_transitionNote": "始元七年八月改元元凤 (BC 80)，本字典整年归始元。" },
+    { "name": "元凤", "politySlug": "han-western", "emperorPersonSlug": "han-zhao-di", "yearStart": -80, "yearEnd": -75 },
+    { "name": "元平", "politySlug": "han-western", "emperorPersonSlug": "han-zhao-di", "yearStart": -74, "yearEnd": -74, "_notes": "元平元年四月昭帝崩，六月昌邑王贺立，七月废；九月宣帝即位，未改元沿用元平。" },
+
+    { "name": "本始", "politySlug": "han-western", "emperorPersonSlug": "han-xuan-di", "yearStart": -73, "yearEnd": -70 },
+    { "name": "地节", "politySlug": "han-western", "emperorPersonSlug": "han-xuan-di", "yearStart": -69, "yearEnd": -66 },
+    { "name": "元康", "politySlug": "han-western", "emperorPersonSlug": "han-xuan-di", "yearStart": -65, "yearEnd": -61 },
+    { "name": "神爵", "politySlug": "han-western", "emperorPersonSlug": "han-xuan-di", "yearStart": -61, "yearEnd": -58, "_notes": "亦作『神雀』。" },
+    { "name": "五凤", "politySlug": "han-western", "emperorPersonSlug": "han-xuan-di", "yearStart": -57, "yearEnd": -54 },
+    { "name": "甘露", "politySlug": "han-western", "emperorPersonSlug": "han-xuan-di", "yearStart": -53, "yearEnd": -50, "_notes": "与后代同名年号不冲突；仅 Phase 0 范围内唯一。" },
+    { "name": "黄龙", "politySlug": "han-western", "emperorPersonSlug": "han-xuan-di", "yearStart": -49, "yearEnd": -49, "_notes": "黄龙元年十二月宣帝崩。" },
+
+    { "name": "初元", "politySlug": "han-western", "emperorPersonSlug": "han-yuan-di", "yearStart": -48, "yearEnd": -44 },
+    { "name": "永光", "politySlug": "han-western", "emperorPersonSlug": "han-yuan-di", "yearStart": -43, "yearEnd": -39 },
+    { "name": "建昭", "politySlug": "han-western", "emperorPersonSlug": "han-yuan-di", "yearStart": -38, "yearEnd": -34 },
+    { "name": "竟宁", "politySlug": "han-western", "emperorPersonSlug": "han-yuan-di", "yearStart": -33, "yearEnd": -33, "_notes": "竟宁元年五月元帝崩。同年昭君出塞。" },
+
+    { "name": "建始", "politySlug": "han-western", "emperorPersonSlug": "han-cheng-di", "yearStart": -32, "yearEnd": -28 },
+    { "name": "河平", "politySlug": "han-western", "emperorPersonSlug": "han-cheng-di", "yearStart": -28, "yearEnd": -25, "_transitionNote": "建始五年三月黄河治平，改元河平。BC 28 为跨年号年。" },
+    { "name": "阳朔", "politySlug": "han-western", "emperorPersonSlug": "han-cheng-di", "yearStart": -24, "yearEnd": -21 },
+    { "name": "鸿嘉", "politySlug": "han-western", "emperorPersonSlug": "han-cheng-di", "yearStart": -20, "yearEnd": -17 },
+    { "name": "永始", "politySlug": "han-western", "emperorPersonSlug": "han-cheng-di", "yearStart": -16, "yearEnd": -13 },
+    { "name": "元延", "politySlug": "han-western", "emperorPersonSlug": "han-cheng-di", "yearStart": -12, "yearEnd": -9 },
+    { "name": "绥和", "politySlug": "han-western", "emperorPersonSlug": "han-cheng-di", "yearStart": -8, "yearEnd": -7, "_notes": "绥和二年三月成帝崩。" },
+
+    { "name": "建平", "politySlug": "han-western", "emperorPersonSlug": "han-ai-di", "yearStart": -6, "yearEnd": -3 },
+    { "name": "元寿", "politySlug": "han-western", "emperorPersonSlug": "han-ai-di", "yearStart": -2, "yearEnd": -1, "_notes": "元寿二年六月哀帝崩。" },
+
+    { "name": "元始", "politySlug": "han-western", "emperorPersonSlug": "han-ping-di", "yearStart": 1, "yearEnd": 5, "_notes": "跨公元元年：平帝即位 BC 1 九月，改元『元始』行于 CE 1 正月。元始五年十二月平帝崩 (CE 5)。" },
+
+    { "name": "居摄", "politySlug": "han-western", "emperorPersonSlug": "han-ru-zi-ying", "yearStart": 6, "yearEnd": 8, "_notes": "孺子婴元 (两岁)，王莽以『摄皇帝』居摄；居摄三年十一月改元初始。" },
+    { "name": "初始", "politySlug": "han-western", "emperorPersonSlug": "han-ru-zi-ying", "yearStart": 8, "yearEnd": 8, "_notes": "初始元年十一月（持续约一月），王莽即真，改国号新、改元始建国。" },
+
+    { "name": "始建国", "politySlug": "xin", "emperorPersonSlug": "wang-mang", "yearStart": 9, "yearEnd": 13 },
+    { "name": "天凤", "politySlug": "xin", "emperorPersonSlug": "wang-mang", "yearStart": 14, "yearEnd": 19 },
+    { "name": "地皇", "politySlug": "xin", "emperorPersonSlug": "wang-mang", "yearStart": 20, "yearEnd": 23, "_notes": "地皇四年十月王莽死于渐台，新亡。" },
+
+    { "name": "更始", "politySlug": "han-gengshi", "emperorPersonSlug": "han-geng-shi-di", "yearStart": 23, "yearEnd": 25, "_notes": "CE 23 二月淯水即位，同月改元。CE 25 九月为赤眉军所杀，更始三年冬终。与东汉建武元年 (CE 25) 在 CE 25 重叠，参《资治通鉴》卷四十、四十一。" },
+
+    { "name": "建武", "politySlug": "han-eastern", "emperorPersonSlug": "han-guang-wu-di", "yearStart": 25, "yearEnd": 56, "_notes": "建武元年六月己未光武帝即位于鄗（今河北柏乡）。" },
+    { "name": "建武中元", "politySlug": "han-eastern", "emperorPersonSlug": "han-guang-wu-di", "yearStart": 56, "yearEnd": 57, "_notes": "亦称『中元』。建武三十二年四月改元，建武中元二年二月光武帝崩。《后汉书》作『建武中元』，俗作『中元』。" },
+
+    { "name": "永平", "politySlug": "han-eastern", "emperorPersonSlug": "han-ming-di", "yearStart": 58, "yearEnd": 75, "_notes": "永平十年（67）传入佛教（白马寺说）；永平十八年八月明帝崩。" },
+
+    { "name": "建初", "politySlug": "han-eastern", "emperorPersonSlug": "han-zhang-di", "yearStart": 76, "yearEnd": 84 },
+    { "name": "元和", "politySlug": "han-eastern", "emperorPersonSlug": "han-zhang-di", "yearStart": 84, "yearEnd": 87, "_transitionNote": "建初九年八月改元元和，CE 84 跨年号。" },
+    { "name": "章和", "politySlug": "han-eastern", "emperorPersonSlug": "han-zhang-di", "yearStart": 87, "yearEnd": 88, "_transitionNote": "元和四年七月改元章和。章和二年二月章帝崩。" },
+
+    { "name": "永元", "politySlug": "han-eastern", "emperorPersonSlug": "han-he-di", "yearStart": 89, "yearEnd": 105, "_notes": "永元元年六月窦宪破北匈奴于稽落山；永元四年封燕然山。" },
+    { "name": "元兴", "politySlug": "han-eastern", "emperorPersonSlug": "han-he-di", "yearStart": 105, "yearEnd": 105, "_notes": "永元十七年四月改元元兴。元兴元年十二月和帝崩。蔡伦造纸亦载于此年。" },
+
+    { "name": "延平", "politySlug": "han-eastern", "emperorPersonSlug": "han-shang-di", "yearStart": 106, "yearEnd": 106, "_notes": "殇帝在位仅八月（106 年八月崩）。" },
+
+    { "name": "永初", "politySlug": "han-eastern", "emperorPersonSlug": "han-an-di", "yearStart": 107, "yearEnd": 113 },
+    { "name": "元初", "politySlug": "han-eastern", "emperorPersonSlug": "han-an-di", "yearStart": 114, "yearEnd": 120 },
+    { "name": "永宁", "politySlug": "han-eastern", "emperorPersonSlug": "han-an-di", "yearStart": 120, "yearEnd": 121, "_transitionNote": "元初七年四月改元永宁。" },
+    { "name": "建光", "politySlug": "han-eastern", "emperorPersonSlug": "han-an-di", "yearStart": 121, "yearEnd": 122, "_transitionNote": "永宁二年七月改元建光。" },
+    { "name": "延光", "politySlug": "han-eastern", "emperorPersonSlug": "han-an-di", "yearStart": 122, "yearEnd": 125, "_transitionNote": "建光二年三月改元延光。延光四年三月安帝崩于叶县。" },
+
+    { "name": "永建", "politySlug": "han-eastern", "emperorPersonSlug": "han-shun-di", "yearStart": 126, "yearEnd": 132 },
+    { "name": "阳嘉", "politySlug": "han-eastern", "emperorPersonSlug": "han-shun-di", "yearStart": 132, "yearEnd": 135, "_transitionNote": "永建七年三月改元阳嘉。" },
+    { "name": "永和", "politySlug": "han-eastern", "emperorPersonSlug": "han-shun-di", "yearStart": 136, "yearEnd": 141 },
+    { "name": "汉安", "politySlug": "han-eastern", "emperorPersonSlug": "han-shun-di", "yearStart": 142, "yearEnd": 144 },
+    { "name": "建康", "politySlug": "han-eastern", "emperorPersonSlug": "han-shun-di", "yearStart": 144, "yearEnd": 144, "_notes": "建康元年八月顺帝崩。" },
+
+    { "name": "永嘉", "politySlug": "han-eastern", "emperorPersonSlug": "han-chong-di", "yearStart": 145, "yearEnd": 145, "_notes": "亦作『永憙』。冲帝三岁即位，145 年正月崩。与西晋怀帝永嘉 (307–313) 同名，不同朝代。" },
+
+    { "name": "本初", "politySlug": "han-eastern", "emperorPersonSlug": "han-zhi-di", "yearStart": 146, "yearEnd": 146, "_notes": "质帝八岁即位，146 年闰六月为梁冀毒杀。" },
+
+    { "name": "建和", "politySlug": "han-eastern", "emperorPersonSlug": "han-huan-di", "yearStart": 147, "yearEnd": 149 },
+    { "name": "和平", "politySlug": "han-eastern", "emperorPersonSlug": "han-huan-di", "yearStart": 150, "yearEnd": 150 },
+    { "name": "元嘉", "politySlug": "han-eastern", "emperorPersonSlug": "han-huan-di", "yearStart": 151, "yearEnd": 152 },
+    { "name": "永兴", "politySlug": "han-eastern", "emperorPersonSlug": "han-huan-di", "yearStart": 153, "yearEnd": 154 },
+    { "name": "永寿", "politySlug": "han-eastern", "emperorPersonSlug": "han-huan-di", "yearStart": 155, "yearEnd": 158 },
+    { "name": "延熹", "politySlug": "han-eastern", "emperorPersonSlug": "han-huan-di", "yearStart": 158, "yearEnd": 167, "_transitionNote": "永寿四年六月改元延熹。" },
+    { "name": "永康", "politySlug": "han-eastern", "emperorPersonSlug": "han-huan-di", "yearStart": 167, "yearEnd": 167, "_notes": "延熹十年六月改元永康；永康元年十二月桓帝崩。" },
+
+    { "name": "建宁", "politySlug": "han-eastern", "emperorPersonSlug": "han-ling-di", "yearStart": 168, "yearEnd": 172, "_notes": "建宁二年九月发第二次党锢之祸。" },
+    { "name": "熹平", "politySlug": "han-eastern", "emperorPersonSlug": "han-ling-di", "yearStart": 172, "yearEnd": 178, "_transitionNote": "建宁五年五月改元熹平。熹平石经刻于本朝。" },
+    { "name": "光和", "politySlug": "han-eastern", "emperorPersonSlug": "han-ling-di", "yearStart": 178, "yearEnd": 184, "_transitionNote": "熹平七年三月改元光和。" },
+    { "name": "中平", "politySlug": "han-eastern", "emperorPersonSlug": "han-ling-di", "yearStart": 184, "yearEnd": 189, "_notes": "中平元年二月黄巾起义。灵帝于中平六年四月崩。189 年末被昭宁/光熹覆盖又复用，详见 _datingGapNote。" },
+
+    { "name": "光熹", "politySlug": "han-eastern", "emperorPersonSlug": "han-shao-di-bian", "yearStart": 189, "yearEnd": 189, "_notes": "少帝刘辩即位改元。189 年四月—八月。" },
+    { "name": "昭宁", "politySlug": "han-eastern", "emperorPersonSlug": "han-shao-di-bian", "yearStart": 189, "yearEnd": 189, "_notes": "189 年八月董卓入京后改元。九月废少帝为弘农王。" },
+
+    { "name": "永汉", "politySlug": "han-eastern", "emperorPersonSlug": "han-xian-di", "yearStart": 189, "yearEnd": 189, "_notes": "189 年九月献帝即位改元永汉；十二月诏除光熹、昭宁、永汉三号，复称中平六年。" },
+    { "name": "初平", "politySlug": "han-eastern", "emperorPersonSlug": "han-xian-di", "yearStart": 190, "yearEnd": 193, "_notes": "初平元年正月董卓迫献帝迁长安；同年关东联军讨卓。" },
+    { "name": "兴平", "politySlug": "han-eastern", "emperorPersonSlug": "han-xian-di", "yearStart": 194, "yearEnd": 195 },
+    { "name": "建安", "politySlug": "han-eastern", "emperorPersonSlug": "han-xian-di", "yearStart": 196, "yearEnd": 220, "_notes": "建安元年八月曹操迎献帝都许。本年号历时 25 年，为东汉最长；涵盖建安文学、赤壁之战、三国鼎立前夜。" },
+    { "name": "延康", "politySlug": "han-eastern", "emperorPersonSlug": "han-xian-di", "yearStart": 220, "yearEnd": 220, "_notes": "建安二十五年三月改元延康；同年十月献帝禅让曹丕，汉亡，改元黄初（曹魏，Phase 0 范围外）。" }
+
+  ]
+}

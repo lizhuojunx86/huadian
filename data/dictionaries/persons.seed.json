@@ -1,0 +1,705 @@
+{
+  "_meta": {
+    "version": "0.1.0-draft",
+    "scope": "Phase 0 — 秦汉重点人物 40 人",
+    "draftedBy": "historian@huadian",
+    "draftedAt": "2026-04-16",
+    "status": "draft_pending_review",
+    "schemaTable": "persons",
+    "subTable": "person_names (via each entry's _names[] sub-array)",
+    "rowCount": 40,
+    "coverageStrategy": [
+      "(A) 全部 disambiguation_seeds.seed.json 引用的 personSlug（硬 FK）— 21 人",
+      "(B) 鸿门宴 NER 首批金集必要角色（T-P0-006 优先场景）— 项羽/项伯/范增/刘邦/张良/樊哙/陈平（与 A 重合 4）",
+      "(C) 各朝代锚点帝王（用于 reign_eras.emperor_person_id 回填）— 秦始皇 / 高祖 / 文帝 / 景帝 / 武帝 / 光武帝 / 献帝 / 王莽 / 更始帝（与 A 重合 1）",
+      "(D) 其他 Phase 0 内容核心锚点 — 李斯 / 赵高 / 萧何 / 司马迁"
+    ],
+    "notCovered": [
+      "东汉中后期多数帝王（明/章/和/殇/安/顺/冲/质/桓/灵）— 仅作为 reign_eras.emperorPersonSlug 引用，由加载器 stub 生成。",
+      "外戚/党锢/建安文学等次级人物（如袁绍、曹操、孔融、蔡邕、王允、董卓）— 跨三国边界，Phase 1 再纳入。",
+      "女性人物（吕后、卫子夫、赵飞燕、阴丽华、邓绥等）— 下一批扩展（0.2.0）。",
+      "名将（卫青、李广、李广利、赵充国、耿弇、班超）— 下一批扩展。",
+      "经学家 / 方士 / 酷吏等专题人物 — 下一批扩展。"
+    ],
+    "defaultSources": [
+      "《史记》", "《汉书》", "《后汉书》", "《资治通鉴》",
+      "钱穆《秦汉史》", "翦伯赞《秦汉史》",
+      "《中国历代人名大辞典》（上海古籍）"
+    ],
+    "fkConventions": {
+      "dynasty": "采用朝代通名；楚汉过渡用「秦末/楚汉」。非 slug 字段，允许自由文本。",
+      "realityStatus": "本批全部 historical（不填即默认）。",
+      "provenanceTier": "本批全部 primary_text（不填即默认）。",
+      "_names": "sub-array 映射至 person_names 表；加载器拆开入库。nameType 取 schema 枚举：primary/courtesy/art/studio/posthumous/temple/nickname/self_ref/alias。",
+      "_aliasesDisplay": "加载器忽略，仅供历史专家核对常见 surface。",
+      "birthDate/deathDate": "jsonb HistoricalDate：{year_min, year_max, precision}。precision ∈ {year, decade, range, unknown}。BC 用负整数。"
+    },
+    "reviewChecklist": [
+      "[ ] 40 人 slug 无冲突、全小写 kebab-case",
+      "[ ] 每个 disambiguation_seeds.personSlug 在此定义",
+      "[ ] 鸿门宴 7 名角色齐全（项羽/项伯/范增/刘邦/张良/樊哙/陈平）",
+      "[ ] 9 位锚点帝王齐全",
+      "[ ] 年份均为整数、BC 用负号",
+      "[ ] _names 至少包含 primary 或 posthumous 一条"
+    ]
+  },
+
+  "persons": [
+
+    {
+      "slug": "qin-shi-huang",
+      "name": { "zh-Hans": "秦始皇", "zh-Hant": "秦始皇", "en": "Qin Shi Huang" },
+      "dynasty": "秦",
+      "birthDate": { "year_min": -259, "year_max": -259, "precision": "year" },
+      "deathDate": { "year_min": -210, "year_max": -210, "precision": "year" },
+      "biography": { "zh-Hans": "中国首位皇帝。BC 246 即秦王位，BC 221 灭六国建秦朝，自称始皇帝；行郡县、书同文、焚书坑儒、筑长城，BC 210 东巡崩于沙丘。" },
+      "_names": [
+        { "name": "嬴政", "nameType": "primary", "_notes": "姓嬴氏赵名政；一说『赵政』。" },
+        { "name": "秦王政", "nameType": "alias", "startYear": -246, "endYear": -221 },
+        { "name": "始皇帝", "nameType": "self_ref", "startYear": -221, "endYear": -210, "_notes": "废谥法，自号『始皇帝』；其自称『朕』亦起于此时，为帝王专属。" },
+        { "name": "秦始皇", "nameType": "alias", "_notes": "后世通称。" }
+      ],
+      "_aliasesDisplay": ["始皇", "始皇帝", "秦始皇", "嬴政", "秦王政"],
+      "_sources": ["《史记·秦始皇本纪》"]
+    },
+
+    {
+      "slug": "li-si",
+      "name": { "zh-Hans": "李斯", "zh-Hant": "李斯", "en": "Li Si" },
+      "dynasty": "秦",
+      "birthDate": { "year_min": -284, "year_max": -280, "precision": "range" },
+      "deathDate": { "year_min": -208, "year_max": -208, "precision": "year" },
+      "biography": { "zh-Hans": "秦丞相，楚上蔡人，荀子弟子。佐始皇并天下、定郡县、行同文，参与焚书。始皇崩，与赵高谋立胡亥，后为赵高诬陷腰斩于咸阳市，夷三族。" },
+      "_names": [
+        { "name": "李斯", "nameType": "primary" },
+        { "name": "通古", "nameType": "courtesy", "_notes": "字通古。" }
+      ],
+      "_sources": ["《史记·李斯列传》"]
+    },
+
+    {
+      "slug": "zhao-gao",
+      "name": { "zh-Hans": "赵高", "zh-Hant": "趙高", "en": "Zhao Gao" },
+      "dynasty": "秦",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -207, "year_max": -207, "precision": "year" },
+      "biography": { "zh-Hans": "秦宦官（一说非阉），任中车府令。始皇崩后与李斯谋杀扶苏立胡亥，指鹿为马专权，诛李斯。BC 207 杀二世立子婴，旋为子婴所杀。" },
+      "_names": [
+        { "name": "赵高", "nameType": "primary" }
+      ],
+      "_sources": ["《史记·秦始皇本纪》", "《史记·李斯列传》", "《史记·蒙恬列传》"]
+    },
+
+    {
+      "slug": "xiang-yu",
+      "name": { "zh-Hans": "项羽", "zh-Hant": "項羽", "en": "Xiang Yu" },
+      "dynasty": "秦末 / 楚汉",
+      "birthDate": { "year_min": -232, "year_max": -232, "precision": "year" },
+      "deathDate": { "year_min": -202, "year_max": -202, "precision": "year" },
+      "biography": { "zh-Hans": "下相人，楚将项燕孙。秦末随叔父项梁起兵，破秦于巨鹿（BC 207），分封十八诸侯自立西楚霸王。楚汉战争中败于垓下，BC 202 自刎乌江。" },
+      "_names": [
+        { "name": "项籍", "nameType": "primary", "_notes": "本名籍。" },
+        { "name": "羽", "nameType": "courtesy", "_notes": "字羽；故通称『项羽』。" },
+        { "name": "西楚霸王", "nameType": "alias", "startYear": -206, "endYear": -202 },
+        { "name": "项王", "nameType": "alias", "_notes": "《史记·项羽本纪》通称。" }
+      ],
+      "_aliasesDisplay": ["项王", "羽", "项籍", "西楚霸王", "霸王"],
+      "_sources": ["《史记·项羽本纪》"]
+    },
+
+    {
+      "slug": "xiang-bo",
+      "name": { "zh-Hans": "项伯", "zh-Hant": "項伯", "en": "Xiang Bo" },
+      "dynasty": "秦末 / 楚汉 / 西汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -192, "year_max": -192, "precision": "year" },
+      "biography": { "zh-Hans": "项羽季父，本名项缠，字伯。鸿门宴夜驰告张良救刘邦，席上以身翼蔽。汉立，赐姓刘，封射阳侯。" },
+      "_names": [
+        { "name": "项缠", "nameType": "primary" },
+        { "name": "伯", "nameType": "courtesy" },
+        { "name": "项伯", "nameType": "alias", "_notes": "通称。" },
+        { "name": "刘缠", "nameType": "alias", "startYear": -201, "_notes": "汉高祖六年赐姓刘。" },
+        { "name": "射阳侯", "nameType": "alias", "startYear": -201 }
+      ],
+      "_sources": ["《史记·项羽本纪》", "《史记·高祖功臣侯者年表》"]
+    },
+
+    {
+      "slug": "fan-zeng",
+      "name": { "zh-Hans": "范增", "zh-Hant": "范增", "en": "Fan Zeng" },
+      "dynasty": "秦末 / 楚汉",
+      "birthDate": { "year_min": -277, "year_max": -277, "precision": "year" },
+      "deathDate": { "year_min": -204, "year_max": -204, "precision": "year" },
+      "biography": { "zh-Hans": "居鄛人，年七十说项梁立楚后怀王。项羽尊为亚父，谋主。鸿门宴劝杀刘邦不果。后为陈平反间计所离，愤归途中疽发背死。" },
+      "_names": [
+        { "name": "范增", "nameType": "primary" },
+        { "name": "亚父", "nameType": "alias", "_notes": "项羽尊称。" }
+      ],
+      "_sources": ["《史记·项羽本纪》"]
+    },
+
+    {
+      "slug": "han-gao-zu",
+      "name": { "zh-Hans": "汉高祖", "zh-Hant": "漢高祖", "en": "Emperor Gaozu of Han" },
+      "dynasty": "秦末 / 楚汉 / 西汉",
+      "birthDate": { "year_min": -256, "year_max": -256, "precision": "year", "_note": "一作 BC 247；本字典采 BC 256 说（《史记·高祖本纪》索隐引《帝王世纪》）。" },
+      "deathDate": { "year_min": -195, "year_max": -195, "precision": "year" },
+      "biography": { "zh-Hans": "西汉开国皇帝。沛县泗水亭长，秦末起兵。BC 206 入关受秦王子婴降，封汉王。楚汉战争胜项羽。BC 202 称帝，建汉。BC 195 崩于长乐宫。" },
+      "_names": [
+        { "name": "刘邦", "nameType": "primary" },
+        { "name": "季", "nameType": "courtesy", "_notes": "字季。" },
+        { "name": "沛公", "nameType": "alias", "startYear": -209, "endYear": -206 },
+        { "name": "汉王", "nameType": "alias", "startYear": -206, "endYear": -202 },
+        { "name": "高皇帝", "nameType": "posthumous" },
+        { "name": "太祖", "nameType": "temple" },
+        { "name": "高祖", "nameType": "alias", "_notes": "司马迁《史记》用『高祖』称之，后世沿用。严格分庙号为太祖、谥号为高皇帝。" }
+      ],
+      "_aliasesDisplay": ["高祖", "高帝", "汉王", "沛公", "刘季", "刘邦"],
+      "_sources": ["《史记·高祖本纪》", "《汉书·高帝纪》"]
+    },
+
+    {
+      "slug": "zhang-liang",
+      "name": { "zh-Hans": "张良", "zh-Hant": "張良", "en": "Zhang Liang" },
+      "dynasty": "秦末 / 楚汉 / 西汉",
+      "birthDate": { "year_min": -250, "year_max": -250, "precision": "year" },
+      "deathDate": { "year_min": -186, "year_max": -186, "precision": "year" },
+      "biography": { "zh-Hans": "字子房，韩公子后裔。博浪沙刺秦王未果，下邳得黄石公《太公兵法》。汉初三杰之一，定策楚汉，封留侯。辞汉归隐。" },
+      "_names": [
+        { "name": "张良", "nameType": "primary" },
+        { "name": "子房", "nameType": "courtesy" },
+        { "name": "留侯", "nameType": "alias", "startYear": -201, "_notes": "汉六年封留侯。" }
+      ],
+      "_sources": ["《史记·留侯世家》"]
+    },
+
+    {
+      "slug": "xiao-he",
+      "name": { "zh-Hans": "萧何", "zh-Hant": "蕭何", "en": "Xiao He" },
+      "dynasty": "秦末 / 楚汉 / 西汉",
+      "birthDate": { "year_min": -257, "year_max": -257, "precision": "year" },
+      "deathDate": { "year_min": -193, "year_max": -193, "precision": "year" },
+      "biography": { "zh-Hans": "沛县吏，汉初三杰。随刘邦起义。入咸阳独收秦图籍。月下追韩信。汉立为相国，定《九章律》，封酂侯，谥文终。" },
+      "_names": [
+        { "name": "萧何", "nameType": "primary" },
+        { "name": "酂侯", "nameType": "alias" },
+        { "name": "文终", "nameType": "posthumous" },
+        { "name": "相国", "nameType": "alias" }
+      ],
+      "_sources": ["《史记·萧相国世家》", "《汉书·萧何曹参传》"]
+    },
+
+    {
+      "slug": "fan-kuai",
+      "name": { "zh-Hans": "樊哙", "zh-Hant": "樊噲", "en": "Fan Kuai" },
+      "dynasty": "秦末 / 楚汉 / 西汉",
+      "birthDate": { "year_min": -242, "year_max": -242, "precision": "year" },
+      "deathDate": { "year_min": -189, "year_max": -189, "precision": "year" },
+      "biography": { "zh-Hans": "沛县屠狗者，刘邦连襟（妻吕媭）。鸿门宴闯帐护主，食生彘肩斥项羽。封舞阳侯。高祖末下狱，文帝时复。" },
+      "_names": [
+        { "name": "樊哙", "nameType": "primary" },
+        { "name": "舞阳侯", "nameType": "alias" },
+        { "name": "武", "nameType": "posthumous" }
+      ],
+      "_sources": ["《史记·樊郦滕灌列传》"]
+    },
+
+    {
+      "slug": "chen-ping",
+      "name": { "zh-Hans": "陈平", "zh-Hant": "陳平", "en": "Chen Ping" },
+      "dynasty": "秦末 / 楚汉 / 西汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -178, "year_max": -178, "precision": "year" },
+      "biography": { "zh-Hans": "阳武人。先事项羽，后归刘邦，六出奇计助汉定天下（反间项范、伪游云梦擒韩信等）。封曲逆侯，历惠吕文三朝丞相。" },
+      "_names": [
+        { "name": "陈平", "nameType": "primary" },
+        { "name": "曲逆侯", "nameType": "alias" },
+        { "name": "献", "nameType": "posthumous" }
+      ],
+      "_sources": ["《史记·陈丞相世家》"]
+    },
+
+    {
+      "slug": "han-xin-huai-yin-hou",
+      "name": { "zh-Hans": "韩信", "zh-Hant": "韓信", "en": "Han Xin (Marquis of Huaiyin)" },
+      "dynasty": "秦末 / 楚汉 / 西汉",
+      "birthDate": { "year_min": -231, "year_max": -231, "precision": "year" },
+      "deathDate": { "year_min": -196, "year_max": -196, "precision": "year" },
+      "biography": { "zh-Hans": "淮阴人。少贫，受胯下之辱。初事项羽不用，归汉，萧何月下追之，拜大将军。定魏赵燕齐，破项羽于垓下。封齐王→楚王→淮阴侯。BC 196 为吕后诱杀于长乐宫钟室，夷三族。" },
+      "_names": [
+        { "name": "韩信", "nameType": "primary" },
+        { "name": "齐王", "nameType": "alias", "startYear": -203, "endYear": -202 },
+        { "name": "楚王", "nameType": "alias", "startYear": -202, "endYear": -201 },
+        { "name": "淮阴侯", "nameType": "alias", "startYear": -201, "endYear": -196 }
+      ],
+      "_aliasesDisplay": ["淮阴侯", "淮阴", "韩信", "齐王信", "楚王信"],
+      "_sources": ["《史记·淮阴侯列传》"],
+      "_notes": "歧义锚点 — disambiguation_seeds.seed.json 中 surface『韩信』priority 100。"
+    },
+
+    {
+      "slug": "han-xin-han-wang",
+      "name": { "zh-Hans": "韩王信", "zh-Hant": "韓王信", "en": "Han Xin (King of Han)" },
+      "dynasty": "秦末 / 楚汉 / 西汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -196, "year_max": -196, "precision": "year" },
+      "biography": { "zh-Hans": "故韩襄王孽孙。楚汉间随刘邦，汉立封韩王（治颍川），后徙代（治马邑）。BC 201 被匈奴围于马邑，降匈奴。BC 196 为汉将柴武斩于参合。与淮阴侯韩信同年死。" },
+      "_names": [
+        { "name": "韩信", "nameType": "primary", "_notes": "史书因与淮阴侯同名，常写作『韩王信』以区别。" },
+        { "name": "韩王信", "nameType": "alias" },
+        { "name": "韩王", "nameType": "alias", "startYear": -205, "endYear": -201 }
+      ],
+      "_aliasesDisplay": ["韩王信", "韩王", "信"],
+      "_sources": ["《史记·韩信卢绾列传》"],
+      "_notes": "歧义锚点 — disambiguation_seeds 中 surface『韩信』priority 70、surface『韩王』priority 100。"
+    },
+
+    {
+      "slug": "zhang-er",
+      "name": { "zh-Hans": "张耳", "zh-Hant": "張耳", "en": "Zhang Er" },
+      "dynasty": "秦末 / 楚汉 / 西汉",
+      "birthDate": { "year_min": -264, "year_max": -264, "precision": "year" },
+      "deathDate": { "year_min": -202, "year_max": -202, "precision": "year" },
+      "biography": { "zh-Hans": "大梁人。与陈馀为刎颈交，后反目。项羽分封十八侯时为常山王，后归汉。韩信井陉破赵后，立为赵王。子张敖尚高祖长女鲁元公主。" },
+      "_names": [
+        { "name": "张耳", "nameType": "primary" },
+        { "name": "常山王", "nameType": "alias", "startYear": -206, "endYear": -204 },
+        { "name": "赵王", "nameType": "alias", "startYear": -203, "endYear": -202 },
+        { "name": "景", "nameType": "posthumous" }
+      ],
+      "_sources": ["《史记·张耳陈馀列传》"],
+      "_notes": "歧义锚点 — surface『赵王』priority 50。"
+    },
+
+    {
+      "slug": "han-cheng-han-wang",
+      "name": { "zh-Hans": "韩成", "zh-Hant": "韓成", "en": "Han Cheng (King of Han)" },
+      "dynasty": "秦末",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -206, "year_max": -206, "precision": "year" },
+      "biography": { "zh-Hans": "故韩诸公子。张良说项梁立之为韩王（都阳翟）。项羽分封为韩王。因张良从汉，项羽留不遣，后废为侯，杀于彭城。" },
+      "_names": [
+        { "name": "韩成", "nameType": "primary" },
+        { "name": "韩王", "nameType": "alias", "startYear": -208, "endYear": -206 }
+      ],
+      "_sources": ["《史记·项羽本纪》", "《史记·留侯世家》"],
+      "_notes": "歧义锚点 — surface『韩王』priority 70。"
+    },
+
+    {
+      "slug": "liu-jiao-chu-yuan-wang",
+      "name": { "zh-Hans": "刘交", "zh-Hant": "劉交", "en": "Liu Jiao (Prince Yuan of Chu)" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -179, "year_max": -179, "precision": "year" },
+      "biography": { "zh-Hans": "字游，高祖同父少弟。好书，与浮丘伯同受《诗》于荀卿门人。高祖六年封楚王（都彭城）。在位二十三年。作《元王诗》，为楚元王家学之祖。刘向、刘歆其后裔。" },
+      "_names": [
+        { "name": "刘交", "nameType": "primary" },
+        { "name": "游", "nameType": "courtesy" },
+        { "name": "楚王", "nameType": "alias", "startYear": -201, "endYear": -179 },
+        { "name": "元", "nameType": "posthumous", "_notes": "谥元王。" }
+      ],
+      "_sources": ["《史记·楚元王世家》", "《汉书·楚元王传》"],
+      "_notes": "歧义锚点 — surface『楚王』priority 75（西汉初层）。"
+    },
+
+    {
+      "slug": "han-wen-di",
+      "name": { "zh-Hans": "汉文帝", "zh-Hant": "漢文帝", "en": "Emperor Wen of Han" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": -203, "year_max": -203, "precision": "year" },
+      "deathDate": { "year_min": -157, "year_max": -157, "precision": "year" },
+      "biography": { "zh-Hans": "高祖中子，母薄姬。初封代王。BC 180 诸吕之乱平，周勃陈平迎立为帝。在位 23 年，与民休息，除肉刑，行轻徭薄赋，开『文景之治』。" },
+      "_names": [
+        { "name": "刘恒", "nameType": "primary" },
+        { "name": "代王", "nameType": "alias", "startYear": -196, "endYear": -180 },
+        { "name": "孝文皇帝", "nameType": "posthumous" },
+        { "name": "太宗", "nameType": "temple" }
+      ],
+      "_aliasesDisplay": ["文帝", "孝文帝", "汉文帝", "刘恒"],
+      "_sources": ["《史记·孝文本纪》", "《汉书·文帝纪》"]
+    },
+
+    {
+      "slug": "liu-chang-huai-nan-wang",
+      "name": { "zh-Hans": "刘长", "zh-Hant": "劉長", "en": "Liu Chang (Prince Li of Huainan)" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": -198, "year_max": -198, "precision": "year" },
+      "deathDate": { "year_min": -174, "year_max": -174, "precision": "year" },
+      "biography": { "zh-Hans": "高祖少子，文帝异母弟。BC 196 封淮南王（都寿春）。椎杀辟阳侯审食其。文帝前元六年（BC 174）谋反废为庶人，徙蜀道途中绝食死于雍县。谥厉王。" },
+      "_names": [
+        { "name": "刘长", "nameType": "primary" },
+        { "name": "淮南王", "nameType": "alias", "startYear": -196, "endYear": -174 },
+        { "name": "厉", "nameType": "posthumous" }
+      ],
+      "_sources": ["《史记·淮南衡山列传》"],
+      "_notes": "歧义锚点 — surface『淮南王』priority 80。"
+    },
+
+    {
+      "slug": "han-jing-di",
+      "name": { "zh-Hans": "汉景帝", "zh-Hant": "漢景帝", "en": "Emperor Jing of Han" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": -188, "year_max": -188, "precision": "year" },
+      "deathDate": { "year_min": -141, "year_max": -141, "precision": "year" },
+      "biography": { "zh-Hans": "文帝长子。在位 16 年。用晁错削藩，引七国之乱（BC 154），命周亚夫平之。承文帝轻徭薄赋，『文景之治』后期。" },
+      "_names": [
+        { "name": "刘启", "nameType": "primary" },
+        { "name": "孝景皇帝", "nameType": "posthumous" }
+      ],
+      "_sources": ["《史记·孝景本纪》", "《汉书·景帝纪》"]
+    },
+
+    {
+      "slug": "liu-wu-chu-wang",
+      "name": { "zh-Hans": "刘戊", "zh-Hant": "劉戊", "en": "Liu Wu (King of Chu)" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -154, "year_max": -154, "precision": "year" },
+      "biography": { "zh-Hans": "刘交之孙（父刘郢客），楚王。景帝前元三年（BC 154）薄太后丧中私奸，削东海郡，遂与吴王濞同反，兵败自杀。" },
+      "_names": [
+        { "name": "刘戊", "nameType": "primary" },
+        { "name": "楚王", "nameType": "alias", "startYear": -174, "endYear": -154 }
+      ],
+      "_sources": ["《汉书·楚元王传》"],
+      "_notes": "歧义锚点 — surface『楚王』priority 55（七国之乱层）。"
+    },
+
+    {
+      "slug": "liu-sui-zhao-wang",
+      "name": { "zh-Hans": "刘遂", "zh-Hant": "劉遂", "en": "Liu Sui (King of Zhao)" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -154, "year_max": -154, "precision": "year" },
+      "biography": { "zh-Hans": "赵幽王刘友之子，景帝即位前嗣立为赵王（都邯郸）。七国之乱中与吴楚合谋，兵败邯郸被围，自杀。" },
+      "_names": [
+        { "name": "刘遂", "nameType": "primary" },
+        { "name": "赵王", "nameType": "alias", "startYear": -180, "endYear": -154 }
+      ],
+      "_sources": ["《汉书·楚元王传》附赵幽王友"],
+      "_notes": "歧义锚点 — surface『赵王』priority 70（七国之乱层）。"
+    },
+
+    {
+      "slug": "liu-ru-yi-zhao-wang",
+      "name": { "zh-Hans": "刘如意", "zh-Hant": "劉如意", "en": "Liu Ruyi (Prince Yin of Zhao)" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": -207, "year_max": -205, "precision": "range" },
+      "deathDate": { "year_min": -194, "year_max": -194, "precision": "year" },
+      "biography": { "zh-Hans": "高祖与戚夫人子。高祖欲废太子刘盈立之未果。封赵王（都邯郸）。高祖崩后，吕后召入长安鸩杀。谥隐王。周昌曾谏高祖护之。" },
+      "_names": [
+        { "name": "刘如意", "nameType": "primary" },
+        { "name": "赵王", "nameType": "alias", "startYear": -198, "endYear": -194 },
+        { "name": "隐", "nameType": "posthumous" }
+      ],
+      "_sources": ["《史记·吕太后本纪》"],
+      "_notes": "歧义锚点 — surface『赵王』priority 100（西汉初层）。"
+    },
+
+    {
+      "slug": "han-wu-di",
+      "name": { "zh-Hans": "汉武帝", "zh-Hant": "漢武帝", "en": "Emperor Wu of Han" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": -156, "year_max": -156, "precision": "year" },
+      "deathDate": { "year_min": -87, "year_max": -87, "precision": "year" },
+      "biography": { "zh-Hans": "景帝中子。在位 54 年，年号十一（『建元』为中国首个年号）。罢黜百家独尊儒术，行推恩令，通西域（张骞），击匈奴（卫青霍去病），南平两越，置河西四郡，兴太学。晚年巫蛊之祸。" },
+      "_names": [
+        { "name": "刘彻", "nameType": "primary" },
+        { "name": "胶东王", "nameType": "alias", "startYear": -153, "endYear": -150 },
+        { "name": "孝武皇帝", "nameType": "posthumous" },
+        { "name": "世宗", "nameType": "temple" }
+      ],
+      "_aliasesDisplay": ["武帝", "孝武帝", "汉武帝", "刘彻"],
+      "_sources": ["《史记·孝武本纪》", "《汉书·武帝纪》"]
+    },
+
+    {
+      "slug": "liu-an-huai-nan-wang",
+      "name": { "zh-Hans": "刘安", "zh-Hant": "劉安", "en": "Liu An (King of Huainan)" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": -179, "year_max": -179, "precision": "year" },
+      "deathDate": { "year_min": -122, "year_max": -122, "precision": "year" },
+      "biography": { "zh-Hans": "刘长子，文帝八年（BC 172）封阜陵侯，十六年（BC 164）嗣淮南王（都寿春）。招宾客方术之士数千，编《淮南鸿烈》（即《淮南子》）。武帝元狩元年（BC 122）谋反，事觉自杀。" },
+      "_names": [
+        { "name": "刘安", "nameType": "primary" },
+        { "name": "淮南王", "nameType": "alias", "startYear": -164, "endYear": -122 }
+      ],
+      "_sources": ["《史记·淮南衡山列传》", "《汉书·淮南衡山济北王传》"],
+      "_notes": "歧义锚点 — surface『淮南王』priority 100。"
+    },
+
+    {
+      "slug": "huo-qu-bing",
+      "name": { "zh-Hans": "霍去病", "zh-Hant": "霍去病", "en": "Huo Qubing" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": -140, "year_max": -140, "precision": "year" },
+      "deathDate": { "year_min": -117, "year_max": -117, "precision": "year" },
+      "biography": { "zh-Hans": "平阳人，卫青姊子，霍光异母兄。元朔六年以剽姚校尉出击匈奴。元狩二四年六次出征，封狼居胥，饮马瀚海。封冠军侯，官骠骑将军。年二十四卒，谥景桓。" },
+      "_names": [
+        { "name": "霍去病", "nameType": "primary" },
+        { "name": "冠军侯", "nameType": "alias", "startYear": -123, "endYear": -117 },
+        { "name": "骠骑将军", "nameType": "alias", "startYear": -121, "endYear": -117 },
+        { "name": "景桓", "nameType": "posthumous" }
+      ],
+      "_sources": ["《史记·卫将军骠骑列传》", "《汉书·卫青霍去病传》"],
+      "_notes": "歧义锚点 — surface『霍将军』priority 100（武帝朝）。"
+    },
+
+    {
+      "slug": "huo-guang",
+      "name": { "zh-Hans": "霍光", "zh-Hant": "霍光", "en": "Huo Guang" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -68, "year_max": -68, "precision": "year" },
+      "biography": { "zh-Hans": "字子孟，霍去病异母弟。武帝末受遗诏辅少主（昭帝）。昭帝崩，废昌邑王贺，立宣帝。官大司马大将军，封博陆侯，秉政二十年。死后家族以谋反族诛。" },
+      "_names": [
+        { "name": "霍光", "nameType": "primary" },
+        { "name": "子孟", "nameType": "courtesy" },
+        { "name": "博陆侯", "nameType": "alias" },
+        { "name": "大司马大将军", "nameType": "alias" },
+        { "name": "宣成", "nameType": "posthumous" }
+      ],
+      "_sources": ["《汉书·霍光金日磾传》"],
+      "_notes": "歧义锚点 — surface『霍将军』priority 90（昭宣朝）。"
+    },
+
+    {
+      "slug": "gongsun-hong",
+      "name": { "zh-Hans": "公孙弘", "zh-Hant": "公孫弘", "en": "Gongsun Hong" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": -200, "year_max": -200, "precision": "year" },
+      "deathDate": { "year_min": -121, "year_max": -121, "precision": "year" },
+      "biography": { "zh-Hans": "字季（一字次卿），菑川薛人。年四十余始治《春秋》公羊学。武帝建元元年（BC 140）举贤良，不用。元光五年（BC 130）再举对策第一。元朔五年（BC 124）拜相封平津侯，以丞相封侯自此始。年八十卒。" },
+      "_names": [
+        { "name": "公孙弘", "nameType": "primary" },
+        { "name": "季", "nameType": "courtesy" },
+        { "name": "平津侯", "nameType": "alias", "startYear": -124, "endYear": -121 },
+        { "name": "献", "nameType": "posthumous" }
+      ],
+      "_sources": ["《史记·平津侯主父列传》", "《汉书·公孙弘卜式儿宽传》"],
+      "_notes": "歧义锚点 — surface『公孙』priority 100。"
+    },
+
+    {
+      "slug": "gongsun-he",
+      "name": { "zh-Hans": "公孙贺", "zh-Hant": "公孫賀", "en": "Gongsun He" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -91, "year_max": -91, "precision": "year" },
+      "biography": { "zh-Hans": "字子叔，北地义渠人。娶卫皇后妹卫君孺。武帝朝历任轻车将军、骠骑将军、太仆，太初二年（BC 103）拜相封葛绎侯。征和二年（BC 91）因子敬声巫蛊事下狱，父子死狱中，族灭。" },
+      "_names": [
+        { "name": "公孙贺", "nameType": "primary" },
+        { "name": "子叔", "nameType": "courtesy" },
+        { "name": "葛绎侯", "nameType": "alias" }
+      ],
+      "_sources": ["《汉书·公孙贺传》"],
+      "_notes": "歧义锚点 — surface『公孙』priority 75。"
+    },
+
+    {
+      "slug": "gongsun-ao",
+      "name": { "zh-Hans": "公孙敖", "zh-Hant": "公孫敖", "en": "Gongsun Ao" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -96, "year_max": -96, "precision": "year" },
+      "biography": { "zh-Hans": "北地义渠人。武帝朝骑将军，数击匈奴。元狩二年与霍去病出北地失道，减死赎为庶人。后复将，天汉四年（BC 97）与李广利俱出，军败当斩，亡匿民间。后复得，以妻子巫蛊坐腰斩。" },
+      "_names": [
+        { "name": "公孙敖", "nameType": "primary" }
+      ],
+      "_sources": ["《史记·卫将军骠骑列传》", "《汉书·公孙敖传》"],
+      "_notes": "歧义锚点 — surface『公孙』priority 60。"
+    },
+
+    {
+      "slug": "dou-ying",
+      "name": { "zh-Hans": "窦婴", "zh-Hant": "竇嬰", "en": "Dou Ying" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -131, "year_max": -131, "precision": "year" },
+      "biography": { "zh-Hans": "字王孙，窦太后从兄子。景帝时为大将军平七国之乱，封魏其侯。武帝初为丞相，推儒学。后与田蚡交恶。元光四年（BC 131）坐灌夫事弃市。" },
+      "_names": [
+        { "name": "窦婴", "nameType": "primary" },
+        { "name": "王孙", "nameType": "courtesy" },
+        { "name": "魏其侯", "nameType": "alias" }
+      ],
+      "_sources": ["《史记·魏其武安侯列传》"],
+      "_notes": "歧义锚点 — surface『窦将军』priority 90（武帝朝）。"
+    },
+
+    {
+      "slug": "si-ma-qian",
+      "name": { "zh-Hans": "司马迁", "zh-Hant": "司馬遷", "en": "Sima Qian" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": -145, "year_max": -135, "precision": "range", "_note": "BC 145 说（王国维）与 BC 135 说（郭沫若）均有主张，本字典取中间值记 range。" },
+      "deathDate": { "year_min": -90, "year_max": -86, "precision": "range" },
+      "biography": { "zh-Hans": "字子长，夏阳人。父司马谈为太史令。继父业为太史令，继而中书令。天汉三年（BC 98）因李陵事下狱受腐刑。发愤著《太史公书》（《史记》），纪传体通史之祖，记自黄帝至武帝太初间三千年事。" },
+      "_names": [
+        { "name": "司马迁", "nameType": "primary" },
+        { "name": "子长", "nameType": "courtesy" },
+        { "name": "太史公", "nameType": "self_ref" }
+      ],
+      "_sources": ["《史记·太史公自序》", "《汉书·司马迁传》"]
+    },
+
+    {
+      "slug": "wang-feng-yuan-cheng-chao",
+      "name": { "zh-Hans": "王凤", "zh-Hant": "王鳳", "en": "Wang Feng" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -22, "year_max": -22, "precision": "year" },
+      "biography": { "zh-Hans": "字孝卿，元后王政君兄（阳平侯王禁子）。成帝即位（BC 33），以大司马大将军领尚书事，秉政十二年。王氏外戚自此权倾朝野，为新莽篡汉之远因。阳朔三年卒。" },
+      "_names": [
+        { "name": "王凤", "nameType": "primary" },
+        { "name": "孝卿", "nameType": "courtesy" },
+        { "name": "阳平侯", "nameType": "alias" },
+        { "name": "大司马大将军", "nameType": "alias" },
+        { "name": "敬成", "nameType": "posthumous" }
+      ],
+      "_sources": ["《汉书·元后传》", "《汉书·外戚传》"],
+      "_notes": "歧义锚点 — surface『王大将军』priority 100。"
+    },
+
+    {
+      "slug": "wang-shang-cheng-du-hou",
+      "name": { "zh-Hans": "王商", "zh-Hant": "王商", "en": "Wang Shang (Marquis of Chengdu)" },
+      "dynasty": "西汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": -12, "year_max": -12, "precision": "year" },
+      "biography": { "zh-Hans": "字子夏，元后王政君从弟（王曼之子一说王谭之弟）。封成都侯。永始二年（BC 15）继王根为大司马骠骑将军。注意与元帝成帝朝丞相王商（乐昌侯，字子威，?–BC 25）同名，不同人。" },
+      "_names": [
+        { "name": "王商", "nameType": "primary" },
+        { "name": "子夏", "nameType": "courtesy" },
+        { "name": "成都侯", "nameType": "alias" }
+      ],
+      "_sources": ["《汉书·元后传》"],
+      "_notes": "歧义锚点 — surface『王大将军』priority 70。⚠️ 与乐昌侯王商（不在本批 seed）不同人。"
+    },
+
+    {
+      "slug": "liu-xin-guo-shi",
+      "name": { "zh-Hans": "刘歆", "zh-Hant": "劉歆", "en": "Liu Xin" },
+      "dynasty": "西汉末 / 新",
+      "birthDate": { "year_min": -53, "year_max": -46, "precision": "range", "_note": "BC 50 前后一说。" },
+      "deathDate": { "year_min": 23, "year_max": 23, "precision": "year" },
+      "biography": { "zh-Hans": "字子骏，楚元王刘交五世孙，刘向子。领校秘书，续父业撰《七略》，为中国目录学之祖。力主立古文经于学官。王莽时封嘉新公，任国师公。后因谶语『刘秀发兵捕不道』改名刘秀。地皇四年谋诛王莽事败自杀。" },
+      "_names": [
+        { "name": "刘歆", "nameType": "primary" },
+        { "name": "子骏", "nameType": "courtesy" },
+        { "name": "刘秀", "nameType": "alias", "startYear": null, "_notes": "晚年应谶改名。此名极易与汉光武帝混淆。" },
+        { "name": "颖叔", "nameType": "courtesy", "_notes": "改名刘秀后字颖叔。" },
+        { "name": "嘉新公", "nameType": "alias" },
+        { "name": "国师公", "nameType": "alias" }
+      ],
+      "_aliasesDisplay": ["刘歆", "刘秀（新莽）", "国师公", "子骏", "颖叔"],
+      "_sources": ["《汉书·楚元王传》附刘歆传", "《汉书·王莽传》"],
+      "_notes": "歧义锚点 — surface『刘秀』priority 60。"
+    },
+
+    {
+      "slug": "wang-mang",
+      "name": { "zh-Hans": "王莽", "zh-Hant": "王莽", "en": "Wang Mang" },
+      "dynasty": "西汉末 / 新",
+      "birthDate": { "year_min": -45, "year_max": -45, "precision": "year" },
+      "deathDate": { "year_min": 23, "year_max": 23, "precision": "year" },
+      "biography": { "zh-Hans": "字巨君，元后王政君侄（王曼子）。平帝时为大司马，居摄三年（CE 8）称假皇帝；初始元年（CE 8 末）受禅称帝，国号『新』，改制复古。赤眉、绿林并起，地皇四年（CE 23）九月常安被破，死于渐台。" },
+      "_names": [
+        { "name": "王莽", "nameType": "primary" },
+        { "name": "巨君", "nameType": "courtesy" },
+        { "name": "新都侯", "nameType": "alias" },
+        { "name": "安汉公", "nameType": "alias" },
+        { "name": "摄皇帝", "nameType": "alias", "startYear": 6, "endYear": 8 },
+        { "name": "新皇帝", "nameType": "alias", "startYear": 9, "endYear": 23 }
+      ],
+      "_aliasesDisplay": ["王莽", "王巨君", "摄皇帝", "新莽"],
+      "_sources": ["《汉书·王莽传》"]
+    },
+
+    {
+      "slug": "han-geng-shi-di",
+      "name": { "zh-Hans": "更始帝", "zh-Hant": "更始帝", "en": "Emperor Gengshi" },
+      "dynasty": "更始（过渡）",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": 25, "year_max": 25, "precision": "year" },
+      "biography": { "zh-Hans": "字圣公，南阳蔡阳人，景帝后裔，汉光武帝族兄。新莽末从舂陵兵起，绿林拥立。地皇四年二月（CE 23）即位于淯水，改元更始。先都宛，再徙洛阳、长安。CE 25 冬为赤眉所杀。《后汉书》立《刘玄刘盆子列传》。" },
+      "_names": [
+        { "name": "刘玄", "nameType": "primary" },
+        { "name": "圣公", "nameType": "courtesy" },
+        { "name": "更始帝", "nameType": "alias" },
+        { "name": "更始将军", "nameType": "alias", "startYear": 23, "endYear": 23 }
+      ],
+      "_sources": ["《后汉书·刘玄刘盆子列传》"],
+      "_notes": "归属存争议（见 polities.seed.json → han-gengshi 的 _notes）。"
+    },
+
+    {
+      "slug": "han-guang-wu-di",
+      "name": { "zh-Hans": "汉光武帝", "zh-Hant": "漢光武帝", "en": "Emperor Guangwu of Han" },
+      "dynasty": "东汉",
+      "birthDate": { "year_min": -5, "year_max": -5, "precision": "year" },
+      "deathDate": { "year_min": 57, "year_max": 57, "precision": "year" },
+      "biography": { "zh-Hans": "字文叔，南阳蔡阳人，景帝后裔。新莽末从兄刘縯起兵舂陵。地皇四年六月昆阳以少胜多破王莽军。更始拜司隶校尉。CE 25 六月己未即位于鄗，建元建武。定都洛阳，中兴汉室。在位 33 年。谥光武，庙号世祖。" },
+      "_names": [
+        { "name": "刘秀", "nameType": "primary" },
+        { "name": "文叔", "nameType": "courtesy" },
+        { "name": "光武皇帝", "nameType": "posthumous" },
+        { "name": "世祖", "nameType": "temple" }
+      ],
+      "_aliasesDisplay": ["光武帝", "光武", "汉光武", "刘秀", "文叔", "世祖"],
+      "_sources": ["《后汉书·光武帝纪》"],
+      "_notes": "歧义锚点 — surface『刘秀』priority 100。"
+    },
+
+    {
+      "slug": "dou-xian",
+      "name": { "zh-Hans": "窦宪", "zh-Hant": "竇憲", "en": "Dou Xian" },
+      "dynasty": "东汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": 92, "year_max": 92, "precision": "year" },
+      "biography": { "zh-Hans": "字伯度，扶风平陵人，章德窦皇后兄。和帝永元元年（CE 89）为车骑将军，北击匈奴，破之于稽落山。永元三年（CE 91）为大将军，永元四年勒石燕然，班固作铭。同年以谋反赐死。" },
+      "_names": [
+        { "name": "窦宪", "nameType": "primary" },
+        { "name": "伯度", "nameType": "courtesy" },
+        { "name": "冠军侯", "nameType": "alias" },
+        { "name": "大将军", "nameType": "alias" }
+      ],
+      "_sources": ["《后汉书·窦融列传》附窦宪"],
+      "_notes": "歧义锚点 — surface『窦将军』priority 100（东汉和帝朝）。"
+    },
+
+    {
+      "slug": "dou-wu",
+      "name": { "zh-Hans": "窦武", "zh-Hant": "竇武", "en": "Dou Wu" },
+      "dynasty": "东汉",
+      "birthDate": { "year_min": null, "year_max": null, "precision": "unknown" },
+      "deathDate": { "year_min": 168, "year_max": 168, "precision": "year" },
+      "biography": { "zh-Hans": "字游平，扶风平陵人，东汉桓思窦皇后父。桓帝时封槐里侯。灵帝立，为大将军辅政，与太傅陈蕃谋诛宦官。建宁元年（CE 168）九月事泄，兵败自杀，族灭。" },
+      "_names": [
+        { "name": "窦武", "nameType": "primary" },
+        { "name": "游平", "nameType": "courtesy" },
+        { "name": "槐里侯", "nameType": "alias" },
+        { "name": "大将军", "nameType": "alias" }
+      ],
+      "_sources": ["《后汉书·窦武传》"],
+      "_notes": "歧义锚点 — surface『窦将军』priority 70（东汉桓灵朝）。"
+    },
+
+    {
+      "slug": "han-xian-di",
+      "name": { "zh-Hans": "汉献帝", "zh-Hant": "漢獻帝", "en": "Emperor Xian of Han" },
+      "dynasty": "东汉",
+      "birthDate": { "year_min": 181, "year_max": 181, "precision": "year" },
+      "deathDate": { "year_min": 234, "year_max": 234, "precision": "year" },
+      "biography": { "zh-Hans": "灵帝少子，名协。中平六年（CE 189）九月董卓废少帝立之。初平元年（CE 190）被迫迁长安。建安元年（CE 196）曹操迎都许。延康元年（CE 220）十月禅让曹丕，降为山阳公，魏青龙二年（CE 234）卒。" },
+      "_names": [
+        { "name": "刘协", "nameType": "primary" },
+        { "name": "伯和", "nameType": "courtesy" },
+        { "name": "陈留王", "nameType": "alias", "startYear": 181, "endYear": 189 },
+        { "name": "孝献皇帝", "nameType": "posthumous" },
+        { "name": "山阳公", "nameType": "alias", "startYear": 220, "endYear": 234 }
+      ],
+      "_aliasesDisplay": ["献帝", "汉献帝", "刘协", "山阳公"],
+      "_sources": ["《后汉书·孝献帝纪》", "《三国志·魏书·武帝纪》"]
+    }
+
+  ]
+}
