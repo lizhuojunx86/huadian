@@ -1,0 +1,86 @@
+# Shared value types used across A/B/C/D layer entity SDLs.
+# Q-4 ruling B: MultiLangText and HistoricalDate are GraphQL Object Types,
+# NOT scalars. Any proposal to flip them back to scalars requires a new ADR
+# (R-3).
+
+"""
+Multi-language text for user-facing display fields (constitutional
+requirement C-12). Mirrors the JSONB structure defined by
+multiLangTextSchema in @huadian/shared-types.
+
+Field name mapping between GraphQL (camelCase) and the persisted JSONB
+keys (language tags with hyphens):
+  zhHans  ↔  "zh-Hans"  (REQUIRED in source data)
+  zhHant  ↔  "zh-Hant"
+  en      ↔  "en"
+"""
+type MultiLangText {
+  zhHans: String!
+  zhHant: String
+  en: String
+}
+
+"""
+Date precision classifier used by HistoricalDate.precision.
+Case MUST match the "precision" enum in
+packages/shared-types/src/historical-date.ts (R-1 mirror rule extended
+to shared value types).
+"""
+enum DatePrecision {
+  day
+  month
+  year
+  year_range
+  decade
+  era
+  unknown
+}
+
+"""
+HistoricalDate — flexible historical date model that supports open-ended
+ranges, lunar calendar, sexagenary cycle, and reign-era references.
+Mirrors the JSONB structure defined by historicalDateSchema in
+@huadian/shared-types.
+
+Field name mapping (GraphQL camelCase ↔ JSONB snake_case):
+  yearMin         ↔  year_min
+  yearMax         ↔  year_max
+  reignEra        ↔  reign_era
+  reignYear       ↔  reign_year
+  polityId        ↔  polity_id
+  lunarMonth      ↔  lunar_month
+  lunarDay        ↔  lunar_day
+  sexagenaryYear  ↔  sexagenary_year
+  originalText    ↔  original_text
+"""
+type HistoricalDate {
+  yearMin: Int
+  yearMax: Int
+  month: Int
+  day: Int
+  precision: DatePrecision!
+  reignEra: String
+  reignYear: PositiveInt
+  polityId: UUID
+  lunarMonth: Int
+  lunarDay: Int
+  sexagenaryYear: String
+  season: String
+  originalText: String
+}
+
+"""
+Traceable — GraphQL-layer enforcement of constitutional article C-2
+(provenance tracking). Every user-facing entity type MUST implement this
+interface.
+
+Architect ruling R-1 fixes the minimum field set to exactly three fields.
+Additions / relaxations require a new ADR. The provenanceTier enum case
+is synced with packages/shared-types/src/enums.ts via codegen; manual
+edits on either side will be caught by CI.
+"""
+interface Traceable {
+  sourceEvidenceId: ID!
+  provenanceTier: ProvenanceTier!
+  updatedAt: DateTime!
+}

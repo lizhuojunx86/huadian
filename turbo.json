@@ -22,7 +22,9 @@
       "outputs": [
         "packages/shared-types/dist/**",
         "packages/shared-types/schema/**",
-        "services/pipeline/src/shared_types/**"
+        "services/pipeline/src/shared_types/**",
+        "services/api/src/__generated__/**",
+        "services/api/src/schema/__snapshot__/**"
       ]
     },
     "clean": {

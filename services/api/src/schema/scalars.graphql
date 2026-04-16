@@ -1,0 +1,27 @@
+# Custom scalars — architect-approved whitelist (T-P0-003 R-3).
+# Any addition here REQUIRES a new ADR. Do NOT add HistoricalDate /
+# MultiLangText here; they are Object Types per Q-4 ruling B.
+
+"""
+ISO 8601 date-time string (UTC, e.g. 2026-04-16T11:16:00Z).
+Provided by graphql-scalars' DateTimeResolver.
+"""
+scalar DateTime
+
+"""
+RFC 4122 UUID string (v4).
+Provided by graphql-scalars' UUIDResolver.
+"""
+scalar UUID
+
+"""
+Arbitrary JSON value. Use sparingly — prefer concrete types.
+Provided by graphql-scalars' JSONResolver.
+"""
+scalar JSON
+
+"""
+Positive integer (>= 1).
+Provided by graphql-scalars' PositiveIntResolver.
+"""
+scalar PositiveInt
