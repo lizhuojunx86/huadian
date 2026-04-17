@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { validateSlug } from "../src/utils/slug.js";
+
 import { HuadianGraphQLError } from "../src/errors.js";
+import { validateSlug } from "../src/utils/slug.js";
 
 const TRACE_ID = "test-trace-id";
 

@@ -1,4 +1,5 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
+
 import {
   toGraphQLPerson,
   toGraphQLPersonName,
@@ -133,8 +134,8 @@ describe("toGraphQLHypothesis", () => {
   });
 
   it("handles null evidenceIds gracefully", () => {
-    const row = { ...mockHypothesisRow, evidenceIds: null };
-    const result = toGraphQLHypothesis(row as any);
+    const row = { ...mockHypothesisRow, evidenceIds: null as unknown as string[] };
+    const result = toGraphQLHypothesis(row);
     expect(result.evidenceIds).toEqual([]);
   });
 });

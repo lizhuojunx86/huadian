@@ -1,11 +1,10 @@
-import { eq, isNull, desc } from "drizzle-orm";
 import {
   persons,
   personNames,
   identityHypotheses,
 } from "@huadian/db-schema";
+import { eq, isNull, desc } from "drizzle-orm";
 
-import type { DrizzleClient } from "../context.js";
 import type {
   Person as GqlPerson,
   PersonName as GqlPersonName,
@@ -15,6 +14,7 @@ import type {
   NameType,
   HypothesisRelationType,
 } from "../__generated__/graphql.js";
+import type { DrizzleClient } from "../context.js";
 
 // ----------------------------------------------------------------
 // Drizzle row types (inferred from select)
