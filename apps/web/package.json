@@ -9,6 +9,8 @@
     "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "clean": "rm -rf .next .turbo node_modules"
   },
   "dependencies": {
@@ -36,7 +38,9 @@
     "@types/node": "^20.17.12",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^6.0.1",
     "autoprefixer": "^10.5.0",
+    "esbuild": "^0.28.0",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.37.3",
     "eslint-plugin-react-hooks": "^5.1.0",
