@@ -7,6 +7,38 @@
 
 ## 2026-04-18
 
+### [feat] T-P0-008 完成 — Web MVP: 人物卡片页（23 unit tests + 2 E2E）
+- **角色**：前端工程师（执行）
+- **任务**：T-P0-008（S-0 依赖 → S-1 codegen → S-2 路由 → S-3 PersonCard → S-4 Names/Hypotheses → S-5 三态 → S-6 vitest → S-7 E2E → S-8 收尾）
+- **变更**：
+  - S-0：Tailwind CSS v3 + PostCSS + shadcn/ui 初始化（Card / Badge / Skeleton / Button）+ 全依赖安装
+  - S-1：`apps/web/codegen.ts` client-preset 配置 + `PersonQuery` typed document + `graphql-request` client
+  - S-2：`apps/web/app/persons/[slug]/page.tsx` — async Server Component + `generateMetadata` SEO
+  - S-3：`PersonCard.tsx` — name / dynasty / realityStatus / provenanceTier 徽标 / birthDate / deathDate / biography
+  - S-3：`HistoricalDateDisplay.tsx` — originalText 优先 / yearMin~yearMax 范围 / BC 年份格式化 / 朝号注释
+  - S-4：`PersonNames.tsx` — 别名列表（nameType / pinyin / isPrimary / 年份范围）+ 空占位
+  - S-4：`PersonHypotheses.tsx` — 身份假说卡片（relationType / scholarlySupport / acceptedByDefault）+ 空占位
+  - S-5：`loading.tsx` 骨架屏 / `error.tsx` 错误边界重试 / `not-found.tsx` 404 页
+  - S-6：vitest 23 test cases（HistoricalDateDisplay 7 + PersonCard 7 + PersonNames 5 + PersonHypotheses 4）
+  - S-7：Playwright E2E 2 cases（valid slug smoke + 404 smoke）
+  - tsconfig paths `@/*` 改为 `./*`（支持 `@/lib` / `@/components`）
+  - `globals.css` shadcn CSS variables（light/dark theme tokens）
+- **架构师豁免**：Q-1 — Phase 0 暂免 UI/UX 角色参与，使用 shadcn 默认样式
+- **预裁决策**：
+  - Q-2：Server Component 直接 fetch（@tanstack/react-query 延到 T-P1-XXX）
+  - Q-3：codegen 输出在 `apps/web/lib/graphql/generated/`（前后端独立）
+  - Q-4：`NEXT_PUBLIC_API_URL` 环境变量（P1 部署拆 INTERNAL/PUBLIC）
+- **DoD 满足**：
+  - `/persons/liu-bang` 渲染人物卡片 ✅（需 API + DB 运行）
+  - 别名 / 身份假说区域正确显示或空占位 ✅
+  - 404 / Loading / Error 三态完整 ✅
+  - 23 vitest cases 全绿 ✅
+  - 2 Playwright E2E cases ✅（需 API + DB）
+  - lint 0 errors / typecheck / build / codegen 全绿 ✅
+- **下一步候选**：T-P0-006（Pipeline NER）/ T-P0-004 批次 2 / T-P0-005a（SigNoz）/ T-P0-009（人物列表页）
+
+---
+
 ### [feat] T-P0-007 完成 — API MVP: person query（31 tests 全绿）
 - **角色**：后端工程师（执行），架构师裁决 Q-1~Q-5 已落地
 - **任务**：T-P0-007（S-0.5 SDL nullable → S-1 slug → S-2 service → S-3 resolver → S-4 integration → S-5 验证 → S-6 收尾）

@@ -3,8 +3,8 @@
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
 - **最近更新**：2026-04-18
-- **更新人**：后端工程师（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅；Web MVP 待启动**
+- **更新人**：前端工程师（Claude Opus）
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅**
 
 ---
 
@@ -29,6 +29,18 @@
 ---
 
 ## 已完成
+
+### T-P0-008 Web MVP — 人物卡片页（2026-04-18）
+- [x] S-0：Tailwind CSS v3 + shadcn/ui 初始化 + 全依赖安装
+- [x] S-1：GraphQL codegen 前端管线（client-preset typed documents）
+- [x] S-2：路由 `/persons/[slug]` + async Server Component + generateMetadata
+- [x] S-3：PersonCard + HistoricalDateDisplay 组件
+- [x] S-4：PersonNames + PersonHypotheses 分区（含空状态占位）
+- [x] S-5：Loading 骨架屏 / Error 重试 / notFound 404
+- [x] S-6：vitest 单元测试 23 cases 全绿
+- [x] S-7：Playwright E2E 冒烟 2 cases（需 API + DB）
+- [x] Q-1 架构师豁免：Phase 0 暂免 UI/UX 角色参与
+- [x] lint 0 errors / typecheck / build / codegen 全绿
 
 ### T-P0-007 API MVP — person query（2026-04-18）
 - [x] S-0.5：SDL nullable 变更（ADR-009 实施）— 6 文件 `sourceEvidenceId: ID!` → `ID` + codegen
@@ -118,7 +130,7 @@
 
 ## 进行中
 
-无。等待用户选择下一任务。
+无。等待用户选择下一任务。（T-P0-008 刚完成）
 
 ---
 
@@ -128,6 +140,7 @@
 |--------|---------|------|---------|------|------|
 | 🔴 高 | T-P0-005 | LLM Gateway + TraceGuard 基础集成 | 管线工程师 | T-P0-002 ✅ / T-TG-002 ✅ | ✅ **done** |
 | 🔴 高 | T-P0-007 | API MVP：person query（首个真实 resolver） | 后端工程师 | T-P0-003 ✅ | ✅ **done** |
+| 🔴 高 | T-P0-008 | Web MVP：人物卡片页 | 前端工程师 | T-P0-007 ✅ | ✅ **done** |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + 10 父级郡国 slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ / 可选启动 |
 | 🟢 低 | T-P0-006 | Pipeline MVP：鸿门宴 NER（前置：T-P0-006 加载器须吸收 _NOTES.md TODO-001） | 管线工程师 | T-P0-005 + T-P0-004 批次 1 ✅ |
@@ -160,12 +173,12 @@
 
 - 📘 文档覆盖度：核心 7/7 ✅
 - 🧭 ADR 数量：9 accepted / 9 planned
-- 📋 任务卡数量：T-P0-001 done；T-P0-002 done；T-P0-003 done；T-P0-004 批次 1 done；T-TG-002 done；T-P0-005 done；T-P0-007 done；T-P0-005a planned
+- 📋 任务卡数量：T-P0-001 done；T-P0-002 done；T-P0-003 done；T-P0-004 批次 1 done；T-TG-002 done；T-P0-005 done；T-P0-007 done；T-P0-008 done；T-P0-005a planned
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：159 passed（ai/ 46 + qc/ 82 + api/ 31）
+- 🧪 测试覆盖：182 passed（ai/ 46 + qc/ 82 + api/ 31 + web/ 23）
 - 🚦 阻塞项数量：0 ✅
 
 ---
@@ -183,4 +196,5 @@
 - 2026-04-17：ADR-009 accepted — Traceable.sourceEvidenceId nullable 放宽（T-P0-007 Q-5 裁决）；T-P0-007 任务卡 v2 更新（新增 S-0.5 SDL 变更子任务）
 - 2026-04-17：T-P0-003 done — GraphQL schema 骨架（12 entity types + Traceable + 5 Query + codegen + CI graphql:breaking；6 commits）
 - 2026-04-18：T-P0-007 done — API Person Query（SDL nullable ADR-009 + slug 验证 + service layer + resolver + 31 tests；5 commits）
+- 2026-04-18：T-P0-008 done — Web MVP 人物卡片页（Tailwind + shadcn + codegen + /persons/[slug] + 4 组件 + 23 tests + 2 E2E；8 commits）
 - 2026-04-17：T-P0-005 done — LLM Gateway + TraceGuard 基础集成（ai/ 子包 6 文件 + anthropic SDK + 46 tests；4 commits）
