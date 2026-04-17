@@ -19,6 +19,7 @@ USER_INPUT = "鸿门宴者，项羽与刘邦之事也。"
 
 def _make_anthropic_response() -> MagicMock:
     content_block = MagicMock()
+    content_block.type = "text"
     content_block.text = '{"entities": [{"name": "项羽"}, {"name": "刘邦"}]}'
 
     usage = MagicMock()

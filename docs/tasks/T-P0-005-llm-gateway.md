@@ -1,6 +1,6 @@
 # T-P0-005: LLM Gateway + TraceGuard 基础集成
 
-- **状态**：ready
+- **状态**：done
 - **主导角色**：管线工程师
 - **协作角色**：首席架构师（评审）、后端工程师（Drizzle llm_calls 表对齐评议）
 - **所属 Phase**：Phase 0

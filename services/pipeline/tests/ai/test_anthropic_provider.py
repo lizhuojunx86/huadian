@@ -34,6 +34,7 @@ def _make_anthropic_response(
 ) -> MagicMock:
     """Build a mock anthropic.types.Message."""
     content_block = MagicMock()
+    content_block.type = "text"
     content_block.text = text
 
     usage = MagicMock()

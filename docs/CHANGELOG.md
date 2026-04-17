@@ -7,6 +7,26 @@
 
 ## 2026-04-17
 
+### [feat] T-P0-005 完成 — LLM Gateway + TraceGuard 基础集成（46 tests 全绿��
+- **角色**：管线工程师（执行）+ 首席架构师��Q-1~Q-4 预裁定）
+- **任务**：T-P0-005（S-1 调研 → S-2 接口 → S-3 Anthropic → S-4 TG 集成 → S-5 审计 → S-6 收尾）
+- **变更**：
+  - `services/pipeline/src/huadian_pipeline/ai/`：6 个源文件
+  - `types.py`：LLMResponse / LLMGatewayError / PromptSpec dataclasses
+  - `gateway.py`：LLMGateway Protocol（C-7 统一 LLM 访问合同）
+  - `hashing.py`：prompt_hash / input_hash（SHA-256 确定性）
+  - `anthropic_provider.py`：AnthropicGateway（AsyncAnthropic SDK）
+    - HTTP 层指数退避 retry（429/529/5xx，最多 3 次）
+    - TraceGuard checkpoint 内置（Q-1 裁定 A）：5 种 action 路由
+    - Token 定价 hardcode 成本计算（Q-3：Sonnet $3/$15、Haiku $0.8/$4、Opus $15/$75 per 1M）
+  - `audit.py`：LLMCallAuditWriter（asyncpg → llm_calls 表全字段写入，Q-2）
+  - `__init__.py`：公��接口导出（8 符号）
+  - `pyproject.toml`：新增 `anthropic>=0.40.0` 依赖（架构师批准）
+  - 46 条测试：types 7 + hashing 8 + protocol 2 + provider 18 + audit 8 + e2e 3
+  - basedpyright 0/0/0
+- **架构师裁定**：Q-1（Gateway 接收 TG Port）/ Q-2（asyncpg 直写）/ Q-3（hardcode 定价）/ Q-4（HTTP + TG 双层独立 retry）
+- **解除阻塞**：T-P0-006（鸿门宴 NER）可启动
+
 ### [fix] T-TG-002-F6 完成 — Drizzle schema 同步 traceguard_raw + idempotent index
 - **角色**：后端工程师
 - **任务**：T-TG-002-F6
