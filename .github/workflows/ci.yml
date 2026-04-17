@@ -175,33 +175,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # ── Step 8: GraphQL breaking change detection (R-4) ─────────
-  graphql-breaking:
-    name: "graphql:breaking (warn only)"
-    runs-on: ubuntu-22.04
-    if: github.event_name == 'pull_request'
-    continue-on-error: true  # Phase 0: warn, don't block. ADR-008 will flip to required.
-    timeout-minutes: 5
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: GraphQL breaking change check
-        run: |
-          echo "⚠️ graphql:breaking — Phase 0 stub. Will be implemented with graphql-inspector after ADR-008."
-          echo "::warning::GraphQL breaking change detection is a stub in Phase 0."
+  # ── Step 8: GraphQL breaking change detection ───────────────
+  # Migrated to dedicated workflow: .github/workflows/graphql-breaking.yml
+  # (T-P0-003 subtask 6). Triggers on services/api/src/schema/** changes.
+  # Phase 0: warn-only (continue-on-error); ADR-008 promotes to required.

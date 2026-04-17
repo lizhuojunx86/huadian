@@ -1,0 +1,166 @@
+# GraphQL Breaking Change Detection (T-P0-003 subtask 6)
+#
+# Architect rulings:
+#   R-2(b) ①  Schema snapshot drift check (schema:merge output == committed snapshot)
+#   R-2(b) ②  graphql-inspector diff vs base branch (breaking = warn, not block)
+#   Q-7       Phase 0 warn-only; ADR-008 promotes to required gate.
+#
+# Triggers on SDL source changes and codegen config changes only.
+# Push to main: drift check only (no diff / no PR comment).
+# PR to main:   drift check + breaking diff + PR comment.
+
+name: "GraphQL Breaking Change Detection"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "services/api/src/schema/**"
+      - "services/api/codegen.ts"
+  pull_request:
+    branches: [main]
+    paths:
+      - "services/api/src/schema/**"
+      - "services/api/codegen.ts"
+
+concurrency:
+  group: graphql-breaking-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20"
+  PNPM_VERSION: "9.15.4"
+
+jobs:
+  graphql-breaking:
+    name: "graphql:breaking"
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: write  # needed for PR comment
+
+    steps:
+      # ── Setup ──────────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # need parent commit for push diff
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # ── R-2(b) ①  Schema snapshot drift check ─────────────────
+      # This step runs on BOTH push and PR. If the snapshot or codegen
+      # output does not match what pnpm codegen produces, it fails.
+      - name: "Regenerate schema + codegen"
+        run: pnpm --filter @huadian/api codegen
+
+      - name: "Drift check — snapshot + codegen (R-2b step 1)"
+        run: |
+          if ! git diff --exit-code \
+            services/api/src/schema/__snapshot__/schema.graphql \
+            services/api/src/__generated__/graphql.ts; then
+            echo "::error::Schema snapshot or codegen output drifted. Run 'pnpm --filter @huadian/api codegen' locally and commit the result."
+            exit 1
+          fi
+          echo "✅ Snapshot and codegen output are up-to-date."
+
+      # ── R-2(b) ②  Breaking change diff (PR only) ──────────────
+      - name: "Fetch base branch schema"
+        if: github.event_name == 'pull_request'
+        id: fetch-base
+        run: |
+          git fetch origin ${{ github.base_ref }} --depth=1
+          if git show origin/${{ github.base_ref }}:services/api/src/schema/__snapshot__/schema.graphql > /tmp/base-schema.graphql 2>/dev/null; then
+            echo "base_exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::No schema snapshot on base branch yet (first merge). Skipping breaking diff."
+            echo "base_exists=false" >> "$GITHUB_OUTPUT"
+            touch /tmp/base-schema.graphql
+          fi
+
+      - name: "Breaking change diff (R-2b step 2)"
+        if: github.event_name == 'pull_request' && steps.fetch-base.outputs.base_exists == 'true'
+        id: diff
+        continue-on-error: true  # Phase 0: warn, don't block (Q-7)
+        run: |
+          set +e
+          pnpm --filter @huadian/api exec graphql-inspector diff \
+            /tmp/base-schema.graphql \
+            services/api/src/schema/__snapshot__/schema.graphql \
+            2>&1 | tee /tmp/graphql-diff.txt
+          DIFF_EXIT=$?
+          set -e
+
+          # Capture output for PR comment
+          {
+            echo "DIFF_OUTPUT<<HEREDOC_EOF"
+            cat /tmp/graphql-diff.txt
+            echo "HEREDOC_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "diff_exit=$DIFF_EXIT" >> "$GITHUB_OUTPUT"
+
+      - name: "Post PR comment"
+        if: github.event_name == 'pull_request' && steps.fetch-base.outputs.base_exists == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const diff = process.env.DIFF_OUTPUT || '(no output captured)';
+            const diffExit = process.env.DIFF_EXIT || '0';
+            const hasBreaking = diffExit !== '0';
+            const icon = hasBreaking ? '⚠️' : '✅';
+            const title = hasBreaking
+              ? 'GraphQL Breaking Changes Detected (warn-only in Phase 0)'
+              : 'GraphQL Schema — No Breaking Changes';
+
+            const body = [
+              `## ${icon} ${title}`,
+              '',
+              '```',
+              diff,
+              '```',
+              '',
+              '> **Phase 0**: this check is informational only (`continue-on-error: true`).',
+              '> ADR-008 will promote it to a required gate.',
+              '',
+              `Triggered by commit \`${context.sha.slice(0, 8)}\``,
+            ].join('\n');
+
+            const marker = '<!-- graphql-breaking-bot -->';
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find(c => c.body?.includes(marker));
+            const fullBody = `${marker}\n${body}`;
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                ...context.repo,
+                comment_id: existing.id,
+                body: fullBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: context.issue.number,
+                body: fullBody,
+              });
+            }
+        env:
+          DIFF_OUTPUT: ${{ steps.diff.outputs.DIFF_OUTPUT }}
+          DIFF_EXIT: ${{ steps.diff.outputs.diff_exit }}
