@@ -46,10 +46,12 @@ repos:
         language: system
         types: [python]
         pass_filenames: true
+        exclude: /generated/
 
       - id: format-staged-py
         name: ruff format (staged Python)
-        entry: ruff format
+        entry: ruff format --check
         language: system
         types: [python]
         pass_filenames: true
+        exclude: /generated/
