@@ -9,14 +9,13 @@ import anthropic
 import pytest
 
 from huadian_pipeline.ai.anthropic_provider import (
+    _DEGRADE_MODEL,
     AnthropicGateway,
     _compute_cost,
-    _DEGRADE_MODEL,
 )
 from huadian_pipeline.ai.types import LLMGatewayError, LLMResponse, PromptSpec
 from huadian_pipeline.qc.mock import MockTraceGuardPort
 from huadian_pipeline.qc.types import CheckpointInput, CheckpointResult, Violation
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -199,9 +198,8 @@ class TestCheckpointActions:
         mock_resp = _make_anthropic_response()
         with patch.object(
             gw._client.messages, "create", new_callable=AsyncMock, return_value=mock_resp
-        ):
-            with pytest.raises(LLMGatewayError, match="retry exhausted"):
-                await gw.call(PROMPT, USER_INPUT)
+        ), pytest.raises(LLMGatewayError, match="retry exhausted"):
+            await gw.call(PROMPT, USER_INPUT)
 
     async def test_degrade_action(self) -> None:
         """TG returns degrade → Gateway switches to haiku model."""
@@ -237,9 +235,8 @@ class TestCheckpointActions:
         mock_resp = _make_anthropic_response(model="claude-haiku-4-5")
         with patch.object(
             gw._client.messages, "create", new_callable=AsyncMock, return_value=mock_resp
-        ):
-            with pytest.raises(LLMGatewayError, match="cannot degrade further"):
-                await gw.call(PROMPT, USER_INPUT, model="claude-haiku-4-5")
+        ), pytest.raises(LLMGatewayError, match="cannot degrade further"):
+            await gw.call(PROMPT, USER_INPUT, model="claude-haiku-4-5")
 
     async def test_fail_fast_action(self) -> None:
         tg = MockTraceGuardPort(
@@ -254,9 +251,8 @@ class TestCheckpointActions:
         mock_resp = _make_anthropic_response()
         with patch.object(
             gw._client.messages, "create", new_callable=AsyncMock, return_value=mock_resp
-        ):
-            with pytest.raises(LLMGatewayError, match="fail_fast"):
-                await gw.call(PROMPT, USER_INPUT)
+        ), pytest.raises(LLMGatewayError, match="fail_fast"):
+            await gw.call(PROMPT, USER_INPUT)
 
     async def test_human_queue_action(self) -> None:
         tg = MockTraceGuardPort(
@@ -267,9 +263,8 @@ class TestCheckpointActions:
         mock_resp = _make_anthropic_response()
         with patch.object(
             gw._client.messages, "create", new_callable=AsyncMock, return_value=mock_resp
-        ):
-            with pytest.raises(LLMGatewayError, match="human_queue"):
-                await gw.call(PROMPT, USER_INPUT)
+        ), pytest.raises(LLMGatewayError, match="human_queue"):
+            await gw.call(PROMPT, USER_INPUT)
 
 
 # ---------------------------------------------------------------------------
@@ -288,9 +283,8 @@ class TestHTTPRetry:
             "create",
             new_callable=AsyncMock,
             side_effect=_make_auth_error(),
-        ):
-            with pytest.raises(LLMGatewayError, match="authentication"):
-                await gw.call(PROMPT, USER_INPUT)
+        ), pytest.raises(LLMGatewayError, match="authentication"):
+            await gw.call(PROMPT, USER_INPUT)
 
     async def test_rate_limit_retry_then_success(self, _sleep: AsyncMock) -> None:
         """429 retried, then succeeds."""
@@ -321,9 +315,8 @@ class TestHTTPRetry:
             "create",
             new_callable=AsyncMock,
             side_effect=_make_rate_limit_error(),
-        ):
-            with pytest.raises(LLMGatewayError, match="retries exhausted"):
-                await gw.call(PROMPT, USER_INPUT)
+        ), pytest.raises(LLMGatewayError, match="retries exhausted"):
+            await gw.call(PROMPT, USER_INPUT)
 
 
 # ---------------------------------------------------------------------------

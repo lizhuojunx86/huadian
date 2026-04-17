@@ -11,6 +11,7 @@ extractions_history. They are independent.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
 import uuid
@@ -84,10 +85,8 @@ class LLMCallAuditWriter:
         tg_checkpoint_id: uuid.UUID | None = None
         raw_cp_id = checkpoint_result.raw.get("checkpoint_run_id")
         if raw_cp_id:
-            try:
+            with contextlib.suppress(ValueError):
                 tg_checkpoint_id = uuid.UUID(str(raw_cp_id))
-            except ValueError:
-                pass
 
         response_json: dict[str, Any] = {
             "content": response.content,
