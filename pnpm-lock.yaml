@@ -17,6 +17,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@graphql-typed-document-node/core':
+        specifier: ^3.2.0
+        version: 3.2.0(graphql@16.13.2)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1

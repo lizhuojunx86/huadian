@@ -8,9 +8,11 @@
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
+    "codegen": "graphql-codegen --config codegen.ts",
     "clean": "rm -rf .next .turbo node_modules"
   },
   "dependencies": {
+    "@graphql-typed-document-node/core": "^3.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "graphql": "^16.9.0",
