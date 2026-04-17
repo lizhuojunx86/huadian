@@ -5,6 +5,36 @@
 
 ---
 
+## 2026-04-18
+
+### [feat] T-P0-007 完成 — API MVP: person query（31 tests 全绿）
+- **角色**：后端工程师（执行），架构师裁决 Q-1~Q-5 已落地
+- **任务**：T-P0-007（S-0.5 SDL nullable → S-1 slug → S-2 service → S-3 resolver → S-4 integration → S-5 验证 → S-6 收尾）
+- **变更**：
+  - S-0.5：SDL nullable 变更 — 6 个 `.graphql` 文件 `sourceEvidenceId: ID!` → `ID`（ADR-009）+ codegen 重生成
+  - `services/api/src/utils/slug.ts`：slug 验证函数（C-13 URL 稳定），可复用
+  - `services/api/src/services/person.service.ts`：
+    - `findPersonBySlug(db, slug)` — Drizzle select + eager load names/hypotheses（Q-4A）
+    - `findPersons(db, limit, offset)` — pagination + soft-delete filter（Q-4B lazy）
+    - DTO mappers：JSONB snake_case → GraphQL camelCase（`toGraphQLPerson` / `toGraphQLPersonName` / `toGraphQLHypothesis`）
+  - `services/api/src/resolvers/query.ts`：`person(slug)` / `persons(limit, offset)` 真实 resolver
+  - `services/api/src/resolvers/person.ts`：`names` / `identityHypotheses` field resolvers（eager/lazy detection）
+  - `services/api/src/resolvers/index.ts`：注册 Person resolvers
+  - vitest 引入 + 31 tests（9 slug + 7 DTO + 7 resolver + 8 integration）
+  - `tsconfig.test.json` + `.eslintrc.cjs` 支持 tests 目录
+- **架构师裁决**：Q-1（C：fixture 自包含）/ Q-2（A：按实体拆 service）/ Q-3（A：显式 DTO mapper）/ Q-4（A+B：单体 eager / 列表 lazy）/ Q-5（ADR-009 nullable）
+- **DoD 满足**：
+  - `person(slug)` 返回真实 Person + names + hypotheses ✅
+  - `person(slug: "nonexistent")` → null ✅
+  - `person(slug: "INVALID!")` → VALIDATION_ERROR ✅
+  - `persons(limit: 5)` 分页 ✅
+  - soft-deleted person 过滤 ✅
+  - 31 tests 全绿 ✅
+  - lint / typecheck / build / codegen 全绿 ✅
+- **解除阻塞**：T-P0-008（Web MVP 人物卡片页）可启动
+
+---
+
 ## 2026-04-17
 
 ### [feat] T-P0-005 完成 — LLM Gateway + TraceGuard 基础集成（46 tests 全绿��
