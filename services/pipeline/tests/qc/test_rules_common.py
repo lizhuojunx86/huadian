@@ -31,6 +31,7 @@ def _mk_payload(
 # common.json_schema
 # ---------------------------------------------------------------------------
 
+
 def test_json_schema_noop_when_no_schema_in_metadata() -> None:
     v = rule_json_schema(_mk_payload({"foo": 1}))
     assert v == []
@@ -74,6 +75,7 @@ def test_json_schema_flags_malformed_schema_metadata() -> None:
 # ---------------------------------------------------------------------------
 # common.confidence_threshold
 # ---------------------------------------------------------------------------
+
 
 def test_confidence_noop_when_outputs_has_no_confidence() -> None:
     v = rule_confidence_threshold(_mk_payload({"entities": []}))

@@ -29,6 +29,7 @@ from .types import CheckpointInput, CheckpointResult
 # Data structures
 # ---------------------------------------------------------------------------
 
+
 @dataclass(slots=True)
 class ReplayDiff:
     """One paragraph's original-vs-replayed comparison."""
@@ -62,6 +63,7 @@ class ReplayReport:
 # RecordLoader protocol — abstracts PG access for testability
 # ---------------------------------------------------------------------------
 
+
 class RecordLoader(Protocol):
     """Load stored extraction records for replay.
 
@@ -84,6 +86,7 @@ class RecordLoader(Protocol):
 # ---------------------------------------------------------------------------
 # Core replay logic
 # ---------------------------------------------------------------------------
+
 
 def _reconstruct_input(record: dict[str, Any]) -> CheckpointInput:
     """Rebuild a `CheckpointInput` from a stored extraction record.
@@ -124,12 +127,10 @@ def _reconstruct_input(record: dict[str, Any]) -> CheckpointInput:
         step_name=step_name,
         trace_id=str(tg_raw.get("trace_id", "")),
         prompt_version=pv,
-        model=str(
-            tg_raw.get("checkpoint_result", {}).get("model", "unknown")
-        ),
+        model=str(tg_raw.get("checkpoint_result", {}).get("model", "unknown")),
         inputs={},  # original inputs not persisted; rules that need
-                     # paragraph_text will see empty → violations expected
-                     # to differ from original (flagged as "inputs_missing")
+        # paragraph_text will see empty → violations expected
+        # to differ from original (flagged as "inputs_missing")
         outputs=outputs,
         metadata={
             "paragraph_id": str(record.get("paragraph_id", "")),
@@ -171,15 +172,12 @@ def _original_to_comparable(original: dict[str, Any]) -> dict[str, Any]:
         "confidence": round(float(original.get("confidence", 0)), 3),
         "violation_count": len(violations),
         "violation_ids": sorted(
-            v.get("rule_id", "") if isinstance(v, dict) else ""
-            for v in violations
+            v.get("rule_id", "") if isinstance(v, dict) else "" for v in violations
         ),
     }
 
 
-def _diff_fields(
-    original: dict[str, Any], replayed: dict[str, Any]
-) -> list[str]:
+def _diff_fields(original: dict[str, Any], replayed: dict[str, Any]) -> list[str]:
     """Return the list of keys whose values differ."""
     all_keys = sorted(set(original) | set(replayed))
     return [k for k in all_keys if original.get(k) != replayed.get(k)]
@@ -258,6 +256,7 @@ async def replay_batch(
 # ---------------------------------------------------------------------------
 # Wire Adapter.replay (Port method) — delegates here
 # ---------------------------------------------------------------------------
+
 
 async def port_replay(
     trace_id: str,

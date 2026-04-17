@@ -10,9 +10,7 @@ from huadian_pipeline.qc.rules.ner_rules import (
 )
 from huadian_pipeline.qc.types import CheckpointInput
 
-_PARAGRAPH = (
-    "项羽引兵入咸阳，烧秦宫室，火三月不灭。韩信为楚将，后归刘邦。"
-)
+_PARAGRAPH = "项羽引兵入咸阳，烧秦宫室，火三月不灭。韩信为楚将，后归刘邦。"
 
 
 def _ner_payload(entities: list[dict[str, Any]]) -> CheckpointInput:
@@ -30,6 +28,7 @@ def _ner_payload(entities: list[dict[str, Any]]) -> CheckpointInput:
 # ---------------------------------------------------------------------------
 # ner.surface_in_source
 # ---------------------------------------------------------------------------
+
 
 def test_surface_in_source_passes_when_every_surface_is_present() -> None:
     vs = rule_surface_in_source(
@@ -58,9 +57,7 @@ def test_surface_in_source_flags_missing_span() -> None:
 
 
 def test_surface_in_source_flags_empty_surface() -> None:
-    vs = rule_surface_in_source(
-        _ner_payload([{"surface_form": "", "entity_type": "PERSON"}])
-    )
+    vs = rule_surface_in_source(_ner_payload([{"surface_form": "", "entity_type": "PERSON"}]))
     assert len(vs) == 1
     assert "missing" in vs[0].message or "empty" in vs[0].message
 
@@ -90,6 +87,7 @@ def test_surface_in_source_flags_non_str_paragraph_text() -> None:
 # ---------------------------------------------------------------------------
 # ner.no_duplicate_entities
 # ---------------------------------------------------------------------------
+
 
 def test_no_duplicate_passes_when_all_unique() -> None:
     vs = rule_no_duplicate_entities(

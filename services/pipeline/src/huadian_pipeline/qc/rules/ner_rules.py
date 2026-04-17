@@ -47,10 +47,7 @@ def rule_surface_in_source(payload: CheckpointInput) -> list[Violation]:
             Violation(
                 rule_id=_RULE_ID_SURFACE,
                 severity=_SEV_SURFACE,
-                message=(
-                    f"inputs.paragraph_text expected str, got "
-                    f"{type(source_text).__name__}"
-                ),
+                message=(f"inputs.paragraph_text expected str, got {type(source_text).__name__}"),
                 location={"field": "inputs.paragraph_text"},
             )
         ]
@@ -61,10 +58,7 @@ def rule_surface_in_source(payload: CheckpointInput) -> list[Violation]:
             Violation(
                 rule_id=_RULE_ID_SURFACE,
                 severity=_SEV_SURFACE,
-                message=(
-                    f"outputs.entities expected list, got "
-                    f"{type(entities).__name__}"
-                ),
+                message=(f"outputs.entities expected list, got {type(entities).__name__}"),
                 location={"field": "outputs.entities"},
             )
         ]
@@ -97,14 +91,10 @@ def rule_surface_in_source(payload: CheckpointInput) -> list[Violation]:
                 Violation(
                     rule_id=_RULE_ID_SURFACE,
                     severity=_SEV_SURFACE,
-                    message=(
-                        f"entity surface_form {surface!r} not found in "
-                        f"paragraph_text"
-                    ),
+                    message=(f"entity surface_form {surface!r} not found in paragraph_text"),
                     location={"field": f"outputs.entities[{i}].surface_form"},
                     suggested_fix=(
-                        "ensure prompt enforces grounded extraction "
-                        "(quote verbatim spans)"
+                        "ensure prompt enforces grounded extraction (quote verbatim spans)"
                     ),
                 )
             )
@@ -167,6 +157,6 @@ def rule_no_duplicate_entities(payload: CheckpointInput) -> list[Violation]:
 # ---------------------------------------------------------------------------
 
 RULES: list[tuple[str, Any, Severity, list[str]]] = [
-    (_RULE_ID_SURFACE, rule_surface_in_source,   _SEV_SURFACE, ["ner_*"]),
-    (_RULE_ID_NO_DUP,  rule_no_duplicate_entities, _SEV_NO_DUP,  ["ner_*"]),
+    (_RULE_ID_SURFACE, rule_surface_in_source, _SEV_SURFACE, ["ner_*"]),
+    (_RULE_ID_NO_DUP, rule_no_duplicate_entities, _SEV_NO_DUP, ["ner_*"]),
 ]

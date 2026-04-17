@@ -54,8 +54,7 @@ def test_tg_exports_only_4_symbols() -> None:
     missing = _EXPECTED_TG_EXPORTS - actual
     extra = actual - _EXPECTED_TG_EXPORTS
     assert not missing, (
-        f"TG removed expected symbol(s): {sorted(missing)}. "
-        "Revise Adapter before bumping the pin."
+        f"TG removed expected symbol(s): {sorted(missing)}. Revise Adapter before bumping the pin."
     )
     assert not extra, (
         f"TG added new symbol(s): {sorted(extra)}. "
@@ -71,11 +70,11 @@ def test_tg_exports_only_4_symbols() -> None:
 # (rather than imported from action_map._BASE_MAP) on purpose: if someone
 # edits _BASE_MAP without updating this table, the test catches it.
 _EXPECTED_MAPPING: dict[str, str] = {
-    "pass":        "pass_through",
+    "pass": "pass_through",
     "passthrough": "pass_through",
-    "retry":       "retry",
-    "abort":       "fail_fast",
-    "alert":       "human_queue",
+    "retry": "retry",
+    "abort": "fail_fast",
+    "alert": "human_queue",
 }
 
 
@@ -99,6 +98,7 @@ def test_translate_rejects_unknown_literals() -> None:
 # Contract #3 — TG action vocabulary exhaustive
 # ---------------------------------------------------------------------------
 
+
 def test_tg_action_set_exhaustive() -> None:
     """TG's set of action literals is exactly the five we pinned.
 
@@ -107,9 +107,7 @@ def test_tg_action_set_exhaustive() -> None:
     fold / route the new literal, then update `TG_ACTION_SET`, `_BASE_MAP`,
     and this test together.
     """
-    assert frozenset(
-        {"pass", "passthrough", "retry", "abort", "alert"}
-    ) == TG_ACTION_SET
+    assert frozenset({"pass", "passthrough", "retry", "abort", "alert"}) == TG_ACTION_SET
     # And it matches the keys of the translation table so the two can
     # never drift apart without the mapping tests also failing.
     assert frozenset(_EXPECTED_MAPPING.keys()) == TG_ACTION_SET

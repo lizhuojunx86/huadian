@@ -82,8 +82,7 @@ def rule_participants_exist(payload: CheckpointInput) -> list[Violation]:
                         ),
                         location={"field": f"outputs.relations[{i}].{side}"},
                         suggested_fix=(
-                            "either extract the missing entity in NER step "
-                            "or drop the relation"
+                            "either extract the missing entity in NER step or drop the relation"
                         ),
                     )
                 )
