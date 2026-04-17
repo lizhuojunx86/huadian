@@ -41,7 +41,7 @@
     "@graphql-inspector/cli": "^6.0.7",
     "@huadian/config-eslint": "workspace:*",
     "@huadian/config-typescript": "workspace:*",
-    "@types/node": "^20.17.12",
+    "@types/node": "^25.6.0",
     "drizzle-kit": "^0.30.2",
     "eslint": "^8.57.0",
     "tsx": "^4.19.2",
