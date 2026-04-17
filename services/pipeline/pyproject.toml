@@ -3,7 +3,13 @@ name = "huadian-pipeline"
 version = "0.0.0"
 description = "华典智谱 data pipeline — ingest, extract, validate"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    # TG (TraceGuard) — pinned to v0.1.0-huadian-baseline
+    # SHA: 0350b0a54ec646a96e3f25949b7ce604284c49eb
+    "pipeline-guardian @ git+https://github.com/lizhuojunx86/traceguard.git@v0.1.0-huadian-baseline",
+    # PG driver for audit sink (S-7: llm_calls / extractions_history)
+    "asyncpg>=0.29",
+]
 
 [project.scripts]
 huadian-pipeline = "huadian_pipeline.cli:main"
@@ -11,6 +17,12 @@ huadian-pipeline = "huadian_pipeline.cli:main"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+# Required for the `pipeline-guardian @ git+...` direct reference in
+# [project].dependencies. Upstream is pinned by tag + SHA in that declaration,
+# so reproducibility is preserved. Remove when TG publishes to PyPI (ADR-004).
+allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/huadian_pipeline"]
@@ -20,5 +32,15 @@ dev-dependencies = [
   "basedpyright>=1.22.0",
   "datamodel-code-generator>=0.26.3",
   "pytest>=8.3.4",
+  "pytest-asyncio>=0.23.0",
   "ruff>=0.8.6",
+  "testcontainers[postgres]>=4.0",
 ]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+# "prepend" import mode required for editable packages (.pth) in uv
+# workspace layouts. Without this, pytest 9+ importlib mode misses
+# the .pth-based editable install of huadian-pipeline.
+import_mode = "prepend"

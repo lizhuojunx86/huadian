@@ -23,7 +23,9 @@ repos:
     hooks:
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
+        exclude: (__generated__|__snapshot__|migrations/)
       - id: end-of-file-fixer
+        exclude: (__generated__|__snapshot__|migrations/)
       - id: check-yaml
       - id: check-json
       - id: check-added-large-files
@@ -34,21 +36,24 @@ repos:
     hooks:
       - id: lint-staged-ts
         name: eslint (staged TS/TSX)
-        entry: npx eslint --fix
+        entry: npx eslint
         language: system
         types_or: [ts, tsx]
         pass_filenames: true
+        exclude: (__generated__|codegen\.ts|drizzle\.config\.ts|scripts/)
 
       - id: lint-staged-py
         name: ruff (staged Python)
-        entry: ruff check --fix
+        entry: ruff check
         language: system
         types: [python]
         pass_filenames: true
+        exclude: /generated/
 
       - id: format-staged-py
         name: ruff format (staged Python)
-        entry: ruff format
+        entry: ruff format --check
         language: system
         types: [python]
         pass_filenames: true
+        exclude: /generated/

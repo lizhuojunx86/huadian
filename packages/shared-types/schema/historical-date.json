@@ -1,0 +1,73 @@
+{
+  "$ref": "#/definitions/HistoricalDate",
+  "definitions": {
+    "HistoricalDate": {
+      "type": "object",
+      "properties": {
+        "year_min": {
+          "type": "integer"
+        },
+        "year_max": {
+          "type": "integer"
+        },
+        "month": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "day": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 31
+        },
+        "precision": {
+          "type": "string",
+          "enum": [
+            "day",
+            "month",
+            "year",
+            "year_range",
+            "decade",
+            "era",
+            "unknown"
+          ]
+        },
+        "reign_era": {
+          "type": "string"
+        },
+        "reign_year": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "polity_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "lunar_month": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 13
+        },
+        "lunar_day": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30
+        },
+        "sexagenary_year": {
+          "type": "string"
+        },
+        "season": {
+          "type": "string"
+        },
+        "original_text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "precision"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
