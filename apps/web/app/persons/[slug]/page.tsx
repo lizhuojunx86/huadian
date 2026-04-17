@@ -1,8 +1,9 @@
-import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+import { PersonCard } from "@/components/person/PersonCard";
 import { graphqlClient } from "@/lib/graphql/client";
 import { PersonDocument } from "@/lib/graphql/generated/graphql";
-import { PersonCard } from "@/components/person/PersonCard";
 
 interface PersonPageProps {
   params: { slug: string };
