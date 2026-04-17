@@ -1027,3 +1027,4 @@ export type Resolvers<ContextType = GraphQLContext> = {
   Traceable?: TraceableResolvers<ContextType>;
   UUID?: GraphQLScalarType;
 };
+

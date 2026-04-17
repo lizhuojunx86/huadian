@@ -23,7 +23,9 @@ repos:
     hooks:
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
+        exclude: (__generated__|__snapshot__|migrations/)
       - id: end-of-file-fixer
+        exclude: (__generated__|__snapshot__|migrations/)
       - id: check-yaml
       - id: check-json
       - id: check-added-large-files
