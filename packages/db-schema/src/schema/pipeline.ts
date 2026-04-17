@@ -36,6 +36,9 @@ export const llmCalls = pgTable("llm_calls", {
   costUsd: numeric("cost_usd", { precision: 10, scale: 6 }),
   latencyMs: integer("latency_ms"),
   response: jsonb("response"),
+  // Semantic: 华典 adapter-generated uuid4 per checkpoint invocation
+  // (not TG-native — TG has no checkpoint ID concept as of 0.1.0).
+  // Used to join llm_calls ↔ extractions_history.traceguard_raw.checkpoint_run_id.
   traceguardCheckpointId: uuid("traceguard_checkpoint_id"),
   status: llmCallStatusEnum("status"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -72,6 +75,9 @@ export const extractionsHistory = pgTable("extractions_history", {
   step: pipelineStepEnum("step").notNull(),
   promptVersion: text("prompt_version").notNull(),
   output: jsonb("output").notNull(),
+  traceguardRaw: jsonb("traceguard_raw"),
   confidence: numeric("confidence", { precision: 4, scale: 3 }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+}, (table) => [
+  uniqueIndex("idx_ext_hist_idempotent").on(table.paragraphId, table.step, table.promptVersion),
+]);

@@ -1,0 +1,2 @@
+ALTER TABLE "extractions_history" ADD COLUMN "traceguard_raw" jsonb;--> statement-breakpoint
+CREATE UNIQUE INDEX "idx_ext_hist_idempotent" ON "extractions_history" USING btree ("paragraph_id","step","prompt_version");
