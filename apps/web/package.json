@@ -11,20 +11,37 @@
     "clean": "rm -rf .next .turbo node_modules"
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "graphql": "^16.9.0",
+    "graphql-request": "^7.4.0",
     "next": "^14.2.21",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^6.3.0",
+    "@graphql-codegen/client-preset": "^5.3.0",
+    "@graphql-tools/load-files": "^7.0.1",
     "@huadian/config-eslint": "workspace:*",
     "@huadian/config-typescript": "workspace:*",
     "@next/eslint-plugin-next": "^14.2.21",
+    "@playwright/test": "^1.59.1",
+    "@tailwindcss/typography": "^0.5.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^20.17.12",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "autoprefixer": "^10.5.0",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.37.3",
     "eslint-plugin-react-hooks": "^5.1.0",
-    "typescript": "^5.7.3"
+    "jsdom": "^29.0.2",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.7.3",
+    "vitest": "^4.1.4"
   }
 }
