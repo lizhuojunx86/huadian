@@ -14,11 +14,15 @@ Public surface:
   - input_hash          — deterministic input fingerprint
 """
 
+from .anthropic_provider import AnthropicGateway
+from .audit import LLMCallAuditWriter
 from .gateway import LLMGateway
 from .hashing import input_hash, prompt_hash
 from .types import LLMGatewayError, LLMResponse, PromptSpec
 
 __all__ = [
+    "AnthropicGateway",
+    "LLMCallAuditWriter",
     "LLMGateway",
     "LLMGatewayError",
     "LLMResponse",
