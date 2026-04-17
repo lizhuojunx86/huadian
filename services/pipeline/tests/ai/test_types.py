@@ -48,7 +48,7 @@ class TestLLMResponse:
         )
         try:
             resp.content = "y"  # type: ignore[misc]
-            assert False, "Should be frozen"
+            raise AssertionError("Should be frozen")
         except AttributeError:
             pass
 

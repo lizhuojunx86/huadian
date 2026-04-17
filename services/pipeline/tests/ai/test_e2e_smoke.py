@@ -12,7 +12,6 @@ from huadian_pipeline.ai.types import PromptSpec
 from huadian_pipeline.qc.mock import MockTraceGuardPort
 from huadian_pipeline.qc.types import CheckpointResult
 
-
 PROMPT = PromptSpec(prompt_id="ner", version="v3", system_prompt="Extract entities.")
 USER_INPUT = "鸿门宴者，项羽与刘邦之事也。"
 

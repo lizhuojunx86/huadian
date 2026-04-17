@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
 from huadian_pipeline.ai.audit import LLMCallAuditWriter, _llm_call_status
 from huadian_pipeline.ai.types import LLMResponse, PromptSpec
 from huadian_pipeline.qc.types import CheckpointResult
-
 
 # ---------------------------------------------------------------------------
 # Status mapping
