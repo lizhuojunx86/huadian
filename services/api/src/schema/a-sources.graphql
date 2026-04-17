@@ -24,7 +24,7 @@ License note:
 """
 type Book implements Traceable {
   id: ID!
-  sourceEvidenceId: ID!
+  sourceEvidenceId: ID
   provenanceTier: ProvenanceTier!
   updatedAt: DateTime!
 
@@ -51,7 +51,7 @@ Traceable compliance note:
 """
 type SourceEvidence implements Traceable {
   id: ID!
-  sourceEvidenceId: ID!
+  sourceEvidenceId: ID
   provenanceTier: ProvenanceTier!
   updatedAt: DateTime!
 
