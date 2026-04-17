@@ -75,6 +75,9 @@ jobs:
       - name: "Step 1: pnpm install"
         run: pnpm install --frozen-lockfile
 
+      - name: Configure git for private deps
+        run: git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
+
       - name: "Step 1: uv sync"
         run: uv sync --all-packages
 
@@ -163,6 +166,9 @@ jobs:
     name: "gitleaks secret-scan"
     runs-on: ubuntu-22.04
     timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
 
     steps:
       - name: Checkout
