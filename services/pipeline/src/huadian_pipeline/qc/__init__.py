@@ -16,7 +16,6 @@ from .action_map import (
 from .adapter import TraceGuardAdapter
 from .audit import AuditSink
 from .mock import MockTraceGuardPort
-from .replay import RecordLoader, ReplayDiff, ReplayReport, replay_batch, replay_one
 from .policy import (
     ActionPolicy,
     PolicyConfigError,
@@ -25,6 +24,7 @@ from .policy import (
     max_severity,
 )
 from .port import TraceGuardPort
+from .replay import RecordLoader, ReplayDiff, ReplayReport, replay_batch, replay_one
 from .rule_registry import (
     DuplicateRuleIdError,
     RegisteredRule,

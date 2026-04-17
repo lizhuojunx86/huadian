@@ -43,4 +43,4 @@ testpaths = ["tests"]
 # "prepend" import mode required for editable packages (.pth) in uv
 # workspace layouts. Without this, pytest 9+ importlib mode misses
 # the .pth-based editable install of huadian-pipeline.
-importmode = "prepend"
+import_mode = "prepend"
