@@ -5,6 +5,32 @@
 
 ---
 
+## 2026-04-17
+
+### [feat] T-TG-002 完成 — TraceGuard Adapter（Port/Adapter 六边形架构，82 tests 全绿）
+- **角色**：管线工程师（执行）+ 首席架构师（评审 Q-D1~Q-D7 + Mismatch 表 + 契约测试要求）
+- **任务**：T-TG-002（S-1 调研 → S-2 依赖 → S-3 骨架 → S-4 规则 → S-5 adapter → S-6 policy → S-7 audit → S-8 replay）
+- **变更**：
+  - `services/pipeline/src/huadian_pipeline/qc/`：11 个源文件 + `rules/` 子包 3 文件
+  - `_imports.py`：唯一 TG ingress（4 冻结符号）+ 3 条契约测试锁定上游 `guardian.__all__`
+  - `action_map.py`：Mismatch #1 翻译表 + `ActionEscalator` Protocol + `UnknownTGActionError` 防御
+  - `types.py`：ADR-004 协议（`CheckpointInput` / `CheckpointResult` / `Violation` / `ActionType`）
+  - `adapter.py`：完整决策链 TG eval → registry → policy → audit → result；mode off/shadow/enforce 三态
+  - `rule_registry.py`：`RuleRegistry` + `RuleSet` + fnmatch step 路由 + severity/rule_id 注册时覆盖
+  - `rules/{common,ner,relation}_rules.py`：5 条首批规则（json_schema / confidence_threshold / surface_in_source / no_duplicate_entities / participants_exist）
+  - `policy.py`：`ActionPolicy.from_yaml` / `resolve` / `make_escalator`（closure 填 Protocol 坑）
+  - `config/traceguard_policy.yml`：ADR-004 §五 三段策略（defaults / by_severity / by_step）
+  - `audit.py`：`AuditSink` 双写 `llm_calls` + `extractions_history`（ON CONFLICT DO UPDATE 幂等）
+  - `migrations/0001_add_traceguard_raw_and_idempotent_idx.sql`：pipeline-side idempotent DDL
+  - `replay.py`：`replay_one` / `replay_batch` / `ReplayReport` / `ReplayDiff` drift detection
+  - `mock.py`：`MockTraceGuardPort`（零 TG 依赖单测桩）
+  - `pyproject.toml`：`pipeline-guardian` git+tag pin + `asyncpg` + `testcontainers[postgres]` dev dep + `allow-direct-references`
+  - 82 条测试（8 contract + 30 rules/registry + 22 policy + 10 audit/PG + 12 replay）+ basedpyright 0/0/0
+- **follow-up**：T-TG-002-F6（Drizzle schema 同步 traceguard_raw + UNIQUE INDEX + 列注释）deferred to 后端工程师
+- **解除阻塞**：T-P0-005（LLM Gateway）可启动
+
+---
+
 ## 2026-04-16
 
 ### [feat] T-P0-004 批次 1 完成 — 历史专家字典种子初稿（秦汉 185 条）
