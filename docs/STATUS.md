@@ -2,9 +2,9 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-16
-- **更新人**：历史专家（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅；GraphQL 进行中；管线待启动**
+- **最近更新**：2026-04-17
+- **更新人**：后端工程师（Claude Opus）
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅；API Person Query / LLM Gateway 待启动**
 
 ---
 
@@ -29,6 +29,29 @@
 ---
 
 ## 已完成
+
+### T-P0-003 GraphQL schema 骨架（2026-04-17）
+- [x] SDL 骨架：8 个 .graphql 文件（scalars / enums / common / a-sources / b-persons / c-events / d-places / queries + _bootstrap）
+- [x] 12 entity types（Book / SourceEvidence / Person / PersonName / IdentityHypothesis / Event / EventAccount / AccountConflict / Place / PlaceName / Polity / ReignEra）+ 3 JSONB ref types + Traceable interface
+- [x] 5 implements Traceable（Book / SourceEvidence / Person / Event / Place）— R-1 三字段（sourceEvidenceId / provenanceTier / updatedAt）
+- [x] 5 Query 入口（person / persons / event / place / sourceEvidence）全抛 NOT_IMPLEMENTED（Q-10）
+- [x] graphql-codegen（SDL → 1020 行 TS types）+ 确定性 schema:merge 快照
+- [x] HuadianGraphQLError + 6 codes + GraphQLContext（db / requestId / tracer）
+- [x] CI graphql-breaking.yml（drift check + graphql-inspector diff warn-only）
+- [x] pnpm -r build / lint / typecheck / codegen 全绿；GraphiQL 本地验证通过
+
+### T-TG-002 TraceGuard Adapter 实现（2026-04-17）
+- [x] Port/Adapter 六边形架构（`src/huadian_pipeline/qc/`）
+- [x] `_imports.py` 唯一 TG ingress（4 冻结符号）+ 3 条契约测试
+- [x] `action_map.py` Mismatch #1 翻译 + `ActionEscalator` Protocol
+- [x] `types.py` ADR-004 协议（CheckpointInput / CheckpointResult / Violation）
+- [x] `adapter.py` 完整决策链：TG eval → rules → policy → audit → result
+- [x] `rule_registry.py` + 5 条首批规则（common ×2 / ner ×2 / relation ×1）
+- [x] `policy.py` + `traceguard_policy.yml`（defaults / by_severity / by_step 三段）
+- [x] `audit.py` 双写 llm_calls + extractions_history（ON CONFLICT DO UPDATE 幂等）
+- [x] `replay.py` 回放回归检测（ReplayReport / ReplayDiff / drift detection）
+- [x] 82 条测试全绿 + basedpyright 0/0/0
+- [x] follow-up F-6：Drizzle schema 同步 deferred to 后端
 
 ### T-P0-004 历史专家字典初稿 · 批次 1（2026-04-16）
 - [x] `data/dictionaries/_NOTES.md` — 架构师 5 点裁决 + 5 条工作约束（C-01~C-05）+ TODO-001（T-P0-006 stub 前置要求）
@@ -70,11 +93,7 @@
 
 ## 进行中
 
-### T-P0-003 GraphQL schema 骨架（2026-04-16 起）
-- **主导角色**：后端工程师
-- **状态**：架构师 Q-1~Q-11 全部按后端提议采纳；追加 R-1/R-2/R-3；依赖全批准
-- **当前子任务**：1 — 依赖与 codegen 基建
-- **参见**：`docs/tasks/T-P0-003-graphql-skeleton.md`
+无。等待用户选择下一任务。
 
 ---
 
@@ -82,7 +101,8 @@
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 |
 |--------|---------|------|---------|------|
-| 🔴 高 | T-P0-005 | LLM Gateway + TraceGuard 基础集成 | 管线工程师 | T-P0-002 ✅ |
+| 🔴 高 | T-P0-005 | LLM Gateway + TraceGuard 基础集成 | 管线工程师 | T-P0-002 ✅ / T-TG-002 ✅ |
+| 🔴 高 | T-P0-007 | API MVP：person query（首个真实 resolver） | 后端工程师 | T-P0-003 ✅ |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + 10 父级郡国 slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ / 可选启动 |
 | 🟢 低 | T-P0-006 | Pipeline MVP：鸿门宴 NER（前置：T-P0-006 加载器须吸收 _NOTES.md TODO-001） | 管线工程师 | T-P0-005 + T-P0-004 批次 1 ✅ |
@@ -113,12 +133,12 @@
 
 - 📘 文档覆盖度：核心 7/7 ✅
 - 🧭 ADR 数量：7 accepted / 9 planned
-- 📋 任务卡数量：T-P0-001 done；T-P0-002 done；T-P0-004 批次 1 done；T-P0-003 in progress；T-P0-005a planned
+- 📋 任务卡数量：T-P0-001 done；T-P0-002 done；T-P0-004 批次 1 done；T-TG-002 done；T-P0-003 in progress；T-P0-005a planned
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：N/A（Phase 0 无业务逻辑代码）
+- 🧪 测试覆盖：82 passed（qc/：契约 8 + 规则 30 + policy 22 + audit 10 + replay 12）
 - 🚦 阻塞项数量：0 ✅
 
 ---
@@ -131,3 +151,4 @@
 - 2026-04-15：T-P0-001 done — Monorepo 骨架落地；SigNoz deferred to T-P0-005a；T-P0-002 进入 ready
 - 2026-04-16：T-P0-002 done — DB Schema 落地（33 表 + Drizzle 迁移 + shared-types + ADR-005 errata）
 - 2026-04-16：T-P0-004 批次 1 done — 字典种子 185 条（polities/reign_eras/disamb/persons/places）+ _NOTES.md（5 裁决 + 5 约束 + TODO-001）
+- 2026-04-17：T-TG-002 done — TraceGuard Adapter 实现（Port/Adapter + 5 rules + policy + audit + replay；82 tests；6 commits）

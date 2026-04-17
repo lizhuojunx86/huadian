@@ -1,6 +1,6 @@
 # T-TG-002: TraceGuard Adapter 实现
 
-- **状态**：ready（上游基线就绪 + Q-D1/D2/D5/D6 已决，可开工）
+- **状态**：done（2026-04-17 完成，S-1~S-8 全部交付）
 - **主导角色**：管线工程师
 - **协作角色**：首席架构师（评审 / 仲裁 Q-D* 待决策点）、后端工程师（审 extractions_history schema）、DevOps（CI 依赖）
 - **依赖任务**：

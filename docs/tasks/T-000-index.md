@@ -12,12 +12,13 @@
 | 任务 ID | 标题 | 状态 | 主导角色 | 所属 Phase |
 |---------|------|------|---------|-----------|
 | T-P0-003 | GraphQL schema 骨架 | **in_progress** | 后端工程师 | Phase 0 |
-| T-TG-002 | TraceGuard Adapter 实现 | **review**（待架构师决策 Q-D1~Q-D7） | 管线工程师 | Phase 0 |
+| T-TG-002-F6 | Drizzle schema 同步（traceguard_raw + UNIQUE INDEX + 列注释） | **backlog** | 后端 + DevOps | Phase 0 |
 | T-P0-005a | SigNoz 版本对齐与接入 | **planned** | DevOps + 管线 | Phase 0 |
 
 ## 已完成
 | 任务 ID | 标题 | 完成日期 | 主导角色 |
 |---------|------|---------|---------|
+| T-TG-002 | TraceGuard Adapter 实现（Port/Adapter + 5 rules + policy + audit + replay；82 tests） | 2026-04-17 | 管线工程师 | Phase 0 |
 | T-P0-004（批次 1） | 历史专家字典初稿（185 条：polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25） | 2026-04-16 | 历史专家 | Phase 0 |
 | T-P0-002 | DB Schema 落地（33 表 Drizzle + 迁移） | 2026-04-16 | 后端工程师 | Phase 0 |
 | T-P0-001 | Monorepo 骨架落地 | 2026-04-15 | DevOps | Phase 0 |
@@ -37,7 +38,8 @@
 - T-P0-004 批次 2 字典扩展（秦汉二线人物 + 封国/战役地 + 10 父级郡国 slug 补齐）← 可选，不阻塞
 - T-P0-005 LLM Gateway + TraceGuard 集成（管线）
 - T-P0-005a SigNoz 版本对齐与接入（DevOps + 管线）← 从 T-P0-001 拆出
-- T-TG-002 TraceGuard Adapter 实现（管线）← T-P0-005 内嵌前置；review 中
+- ~~T-TG-002 TraceGuard Adapter 实现（管线）~~ ✅ done（2026-04-17）
+- T-TG-002-F6 Drizzle schema 同步（后端 + DevOps）← backlog，不阻塞
 - T-P0-006 Pipeline MVP：鸿门宴 NER（管线）
 - T-P0-007 API MVP：person query（后端）
 - T-P0-008 Web MVP：人物卡片页（前端 + 设计师）
