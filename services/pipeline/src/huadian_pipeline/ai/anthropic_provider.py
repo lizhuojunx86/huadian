@@ -65,9 +65,7 @@ _RETRYABLE_STATUSES = frozenset({429, 529, 500, 502, 503})
 def _extract_text(response: anthropic.types.Message) -> str:
     """Extract text content from a Message, ignoring non-text blocks."""
     for block in response.content:
-        if getattr(block, "type", None) == "text" or isinstance(
-            block, anthropic.types.TextBlock
-        ):
+        if getattr(block, "type", None) == "text" or isinstance(block, anthropic.types.TextBlock):
             return block.text  # type: ignore[union-attr]
     return ""
 
@@ -98,9 +96,7 @@ class AnthropicGateway:
     ) -> None:
         self._tg = tg
         self._api_key = api_key or os.environ.get("ANTHROPIC_API_KEY", "")
-        self._default_model = default_model or os.environ.get(
-            "LLM_DEFAULT_MODEL", DEFAULT_MODEL
-        )
+        self._default_model = default_model or os.environ.get("LLM_DEFAULT_MODEL", DEFAULT_MODEL)
         self._max_retries = max_retries or int(
             os.environ.get("LLM_MAX_RETRIES", str(DEFAULT_MAX_RETRIES))
         )
@@ -222,8 +218,7 @@ class AnthropicGateway:
 
             # human_queue / fail_fast → raise
             raise LLMGatewayError(
-                f"TraceGuard action={action}: "
-                f"{[v.message for v in checkpoint_result.violations]}",
+                f"TraceGuard action={action}: {[v.message for v in checkpoint_result.violations]}",
                 action=action,
             )
 
@@ -276,9 +271,7 @@ class AnthropicGateway:
             except anthropic.APIStatusError as exc:
                 if exc.status_code in _RETRYABLE_STATUSES:
                     last_error = exc
-                    delay = min(
-                        _RETRY_BASE_DELAY * (2 ** (attempt - 1)), _RETRY_MAX_DELAY
-                    )
+                    delay = min(_RETRY_BASE_DELAY * (2 ** (attempt - 1)), _RETRY_MAX_DELAY)
                     logger.warning(
                         "Retryable status %d, retry %d/%d after %.1fs",
                         exc.status_code,

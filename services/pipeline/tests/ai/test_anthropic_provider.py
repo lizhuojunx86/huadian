@@ -190,15 +190,16 @@ class TestCheckpointActions:
 
     async def test_retry_exhausted(self) -> None:
         """TG always returns retry → Gateway raises after max_retries."""
-        tg = MockTraceGuardPort(
-            default_response=CheckpointResult(status="fail", action="retry")
-        )
+        tg = MockTraceGuardPort(default_response=CheckpointResult(status="fail", action="retry"))
         gw = _make_gateway(tg=tg, max_retries=2)
 
         mock_resp = _make_anthropic_response()
-        with patch.object(
-            gw._client.messages, "create", new_callable=AsyncMock, return_value=mock_resp
-        ), pytest.raises(LLMGatewayError, match="retry exhausted"):
+        with (
+            patch.object(
+                gw._client.messages, "create", new_callable=AsyncMock, return_value=mock_resp
+            ),
+            pytest.raises(LLMGatewayError, match="retry exhausted"),
+        ):
             await gw.call(PROMPT, USER_INPUT)
 
     async def test_degrade_action(self) -> None:
@@ -227,15 +228,16 @@ class TestCheckpointActions:
 
     async def test_degrade_already_on_haiku(self) -> None:
         """TG returns degrade when already on haiku → error."""
-        tg = MockTraceGuardPort(
-            default_response=CheckpointResult(status="fail", action="degrade")
-        )
+        tg = MockTraceGuardPort(default_response=CheckpointResult(status="fail", action="degrade"))
         gw = _make_gateway(tg=tg)
 
         mock_resp = _make_anthropic_response(model="claude-haiku-4-5")
-        with patch.object(
-            gw._client.messages, "create", new_callable=AsyncMock, return_value=mock_resp
-        ), pytest.raises(LLMGatewayError, match="cannot degrade further"):
+        with (
+            patch.object(
+                gw._client.messages, "create", new_callable=AsyncMock, return_value=mock_resp
+            ),
+            pytest.raises(LLMGatewayError, match="cannot degrade further"),
+        ):
             await gw.call(PROMPT, USER_INPUT, model="claude-haiku-4-5")
 
     async def test_fail_fast_action(self) -> None:
@@ -249,9 +251,12 @@ class TestCheckpointActions:
         gw = _make_gateway(tg=tg)
 
         mock_resp = _make_anthropic_response()
-        with patch.object(
-            gw._client.messages, "create", new_callable=AsyncMock, return_value=mock_resp
-        ), pytest.raises(LLMGatewayError, match="fail_fast"):
+        with (
+            patch.object(
+                gw._client.messages, "create", new_callable=AsyncMock, return_value=mock_resp
+            ),
+            pytest.raises(LLMGatewayError, match="fail_fast"),
+        ):
             await gw.call(PROMPT, USER_INPUT)
 
     async def test_human_queue_action(self) -> None:
@@ -261,9 +266,12 @@ class TestCheckpointActions:
         gw = _make_gateway(tg=tg)
 
         mock_resp = _make_anthropic_response()
-        with patch.object(
-            gw._client.messages, "create", new_callable=AsyncMock, return_value=mock_resp
-        ), pytest.raises(LLMGatewayError, match="human_queue"):
+        with (
+            patch.object(
+                gw._client.messages, "create", new_callable=AsyncMock, return_value=mock_resp
+            ),
+            pytest.raises(LLMGatewayError, match="human_queue"),
+        ):
             await gw.call(PROMPT, USER_INPUT)
 
 
@@ -278,12 +286,15 @@ class TestHTTPRetry:
         """AuthenticationError raises immediately, no retry."""
         gw = _make_gateway()
 
-        with patch.object(
-            gw._client.messages,
-            "create",
-            new_callable=AsyncMock,
-            side_effect=_make_auth_error(),
-        ), pytest.raises(LLMGatewayError, match="authentication"):
+        with (
+            patch.object(
+                gw._client.messages,
+                "create",
+                new_callable=AsyncMock,
+                side_effect=_make_auth_error(),
+            ),
+            pytest.raises(LLMGatewayError, match="authentication"),
+        ):
             await gw.call(PROMPT, USER_INPUT)
 
     async def test_rate_limit_retry_then_success(self, _sleep: AsyncMock) -> None:
@@ -300,7 +311,9 @@ class TestHTTPRetry:
                 raise _make_rate_limit_error()
             return mock_resp
 
-        with patch.object(gw._client.messages, "create", new_callable=AsyncMock, side_effect=side_effect):
+        with patch.object(
+            gw._client.messages, "create", new_callable=AsyncMock, side_effect=side_effect
+        ):
             resp = await gw.call(PROMPT, USER_INPUT)
 
         assert resp.content == "entities found"
@@ -310,12 +323,15 @@ class TestHTTPRetry:
         """All HTTP retries fail → LLMGatewayError."""
         gw = _make_gateway(max_retries=2)
 
-        with patch.object(
-            gw._client.messages,
-            "create",
-            new_callable=AsyncMock,
-            side_effect=_make_rate_limit_error(),
-        ), pytest.raises(LLMGatewayError, match="retries exhausted"):
+        with (
+            patch.object(
+                gw._client.messages,
+                "create",
+                new_callable=AsyncMock,
+                side_effect=_make_rate_limit_error(),
+            ),
+            pytest.raises(LLMGatewayError, match="retries exhausted"),
+        ):
             await gw.call(PROMPT, USER_INPUT)
 
 
