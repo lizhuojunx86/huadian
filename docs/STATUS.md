@@ -99,10 +99,10 @@
 
 ## 下一步候选（按建议优先级）
 
-| 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 |
-|--------|---------|------|---------|------|
-| 🔴 高 | T-P0-005 | LLM Gateway + TraceGuard 基础集成 | 管线工程师 | T-P0-002 ✅ / T-TG-002 ✅ |
-| 🔴 高 | T-P0-007 | API MVP：person query（首个真实 resolver） | 后端工程师 | T-P0-003 ✅ |
+| 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
+|--------|---------|------|---------|------|------|
+| 🔴 高 | T-P0-005 | LLM Gateway + TraceGuard 基础集成 | 管线工程师 | T-P0-002 ✅ / T-TG-002 ✅ | **ready**（任务卡就绪） |
+| 🔴 高 | T-P0-007 | API MVP：person query（首个真实 resolver） | 后端工程师 | T-P0-003 ✅ | **ready**（任务卡就绪） |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + 10 父级郡国 slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ / 可选启动 |
 | 🟢 低 | T-P0-006 | Pipeline MVP：鸿门宴 NER（前置：T-P0-006 加载器须吸收 _NOTES.md TODO-001） | 管线工程师 | T-P0-005 + T-P0-004 批次 1 ✅ |
@@ -126,14 +126,15 @@
 - `ADR-005` — Embedding 多槽位与模型切换策略（errata：entity_id UUID）
 - `ADR-006` — 未决项 U-01~U-07 封版决策
 - `ADR-007` — Monorepo 布局与包管理（pnpm + uv + Turborepo）
+- `ADR-008` — License 策略（GraphQL Book.license `CC_BY` 规范化 + workspace 包 `UNLICENSED`）
 
 ---
 
 ## 健康度指标
 
 - 📘 文档覆盖度：核心 7/7 ✅
-- 🧭 ADR 数量：7 accepted / 9 planned
-- 📋 任务卡数量：T-P0-001 done；T-P0-002 done；T-P0-003 done；T-P0-004 批次 1 done；T-TG-002 done；T-P0-005a planned
+- 🧭 ADR 数量：8 accepted / 9 planned
+- 📋 任务卡数量：T-P0-001 done；T-P0-002 done；T-P0-003 done；T-P0-004 批次 1 done；T-TG-002 done；T-P0-005 ready；T-P0-005a planned；T-P0-007 ready
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
@@ -151,5 +152,6 @@
 - 2026-04-15：T-P0-001 done — Monorepo 骨架落地；SigNoz deferred to T-P0-005a；T-P0-002 进入 ready
 - 2026-04-16：T-P0-002 done — DB Schema 落地（33 表 + Drizzle 迁移 + shared-types + ADR-005 errata）
 - 2026-04-16：T-P0-004 批次 1 done — 字典种子 185 条（polities/reign_eras/disamb/persons/places）+ _NOTES.md（5 裁决 + 5 约束 + TODO-001）
+- 2026-04-17：T-P0-007 / T-P0-005 任务卡就绪（ready）；ADR-008 accepted（License 策略）
 - 2026-04-17：T-TG-002 done — TraceGuard Adapter 实现（Port/Adapter + 5 rules + policy + audit + replay；82 tests；6 commits）
 - 2026-04-17：T-P0-003 done — GraphQL schema 骨架（12 entity types + Traceable + 5 Query + codegen + CI graphql:breaking；6 commits）

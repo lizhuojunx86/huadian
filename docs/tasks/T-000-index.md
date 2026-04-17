@@ -37,12 +37,12 @@
 - ~~T-P0-003 GraphQL schema 骨架（后端）~~ ✅ done（2026-04-17）
 - ~~T-P0-004 历史专家字典初稿 批次 1（历史专家）~~ ✅ done（2026-04-16）
 - T-P0-004 批次 2 字典扩展（秦汉二线人物 + 封国/战役地 + 10 父级郡国 slug 补齐）← 可选，不阻塞
-- T-P0-005 LLM Gateway + TraceGuard 集成（管线）
+- T-P0-005 LLM Gateway + TraceGuard 集成（管线）← **ready**（任务卡 2026-04-17）
 - T-P0-005a SigNoz 版本对齐与接入（DevOps + 管线）← 从 T-P0-001 拆出
 - ~~T-TG-002 TraceGuard Adapter 实现（管线）~~ ✅ done（2026-04-17）
 - T-TG-002-F6 Drizzle schema 同步（后端 + DevOps）← backlog，不阻塞
 - T-P0-006 Pipeline MVP：鸿门宴 NER（管线）
-- T-P0-007 API MVP：person query（后端）
+- T-P0-007 API MVP：person query（后端）← **ready**（任务卡 2026-04-17）
 - T-P0-008 Web MVP：人物卡片页（前端 + 设计师）
 - T-P0-009 Docker Compose 一键启动验证（DevOps）
 - T-P0-010 端到端验收（QA）
