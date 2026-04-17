@@ -9,6 +9,8 @@ dependencies = [
     "pipeline-guardian @ git+https://github.com/lizhuojunx86/traceguard.git@v0.1.0-huadian-baseline",
     # PG driver for audit sink (S-7: llm_calls / extractions_history)
     "asyncpg>=0.29",
+    # Anthropic SDK — LLM Gateway provider (T-P0-005, architect-approved)
+    "anthropic>=0.40.0",
 ]
 
 [project.scripts]
