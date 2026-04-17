@@ -62,6 +62,16 @@ _RETRY_MAX_DELAY = 30.0  # seconds
 _RETRYABLE_STATUSES = frozenset({429, 529, 500, 502, 503})
 
 
+def _extract_text(response: anthropic.types.Message) -> str:
+    """Extract text content from a Message, ignoring non-text blocks."""
+    for block in response.content:
+        if getattr(block, "type", None) == "text" or isinstance(
+            block, anthropic.types.TextBlock
+        ):
+            return block.text  # type: ignore[union-attr]
+    return ""
+
+
 def _compute_cost(model: str, input_tokens: int, output_tokens: int) -> float:
     """Compute cost in USD from token counts."""
     input_rate, output_rate = _PRICING.get(model, _DEFAULT_PRICING)
@@ -136,7 +146,7 @@ class AnthropicGateway:
 
             input_tokens = response.usage.input_tokens
             output_tokens = response.usage.output_tokens
-            content = response.content[0].text if response.content else ""
+            content = _extract_text(response)
             cost = _compute_cost(effective_model, input_tokens, output_tokens)
 
             llm_response = LLMResponse(

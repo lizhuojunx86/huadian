@@ -18,6 +18,7 @@
 ## 已完成
 | 任务 ID | 标题 | 完成日期 | 主导角色 |
 |---------|------|---------|---------|
+| T-P0-005 | LLM Gateway + TraceGuard 基础集成（ai/ 子包 + anthropic SDK + 46 tests） | 2026-04-17 | 管线工程师 | Phase 0 |
 | T-P0-003 | GraphQL schema 骨架（12 types + Traceable + 5 Query + codegen + CI graphql:breaking） | 2026-04-17 | 后端工程师 | Phase 0 |
 | T-TG-002 | TraceGuard Adapter 实现（Port/Adapter + 5 rules + policy + audit + replay；82 tests） | 2026-04-17 | 管线工程师 | Phase 0 |
 | T-P0-004（批次 1） | 历史专家字典初稿（185 条：polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25） | 2026-04-16 | 历史专家 | Phase 0 |
@@ -37,7 +38,7 @@
 - ~~T-P0-003 GraphQL schema 骨架（后端）~~ ✅ done（2026-04-17）
 - ~~T-P0-004 历史专家字典初稿 批次 1（历史专家）~~ ✅ done（2026-04-16）
 - T-P0-004 批次 2 字典扩展（秦汉二线人物 + 封国/战役地 + 10 父级郡国 slug 补齐）← 可选，不阻塞
-- T-P0-005 LLM Gateway + TraceGuard 集成（管线）← **ready**（任务卡 2026-04-17）
+- ~~T-P0-005 LLM Gateway + TraceGuard 集成（管线）~~ ✅ done（2026-04-17）
 - T-P0-005a SigNoz 版本对齐与接入（DevOps + 管线）← 从 T-P0-001 拆出
 - ~~T-TG-002 TraceGuard Adapter 实现（管线）~~ ✅ done（2026-04-17）
 - T-TG-002-F6 Drizzle schema 同步（后端 + DevOps）← backlog，不阻塞
