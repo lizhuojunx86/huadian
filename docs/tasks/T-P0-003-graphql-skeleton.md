@@ -1,6 +1,6 @@
 # T-P0-003: GraphQL Schema 骨架（SDL + 核心类型 + Query 入口）
 
-- **状态**：**in_progress**（2026-04-16 起）
+- **状态**：**done**（2026-04-17）
 - **主导角色**：后端工程师
 - **协作角色**：首席架构师（评审）、前端工程师（契约评议）、管线工程师（Extraction payload 契约评议）
 - **所属 Phase**：Phase 0
@@ -8,7 +8,7 @@
 - **预估工时**：2 人日（后端主）+ 0.3 人日（架构师评审）
 - **创建日期**：2026-04-16
 - **开始日期**：2026-04-16
-- **完成日期**：
+- **完成日期**：2026-04-17
 
 ## 目标（Why）
 
@@ -284,69 +284,69 @@ C-2 要求"所有实体必须可溯源"。GraphQL 层如何体现？
 - [x] `services/api/package.json` scripts：`codegen` / `codegen:watch` / `schema:merge` / `schema:diff`
 - [x] `.eslintrc.cjs` 忽略 `codegen.ts` / `scripts/**` / `src/__generated__/**`
 - [x] 根 `turbo.json` 的 `codegen` task 补 `services/api/src/__generated__/**` + `services/api/src/schema/__snapshot__/**` outputs
-- [ ] **Checkpoint commit**：`chore(api): add graphql-codegen + scalars deps (T-P0-003 架构师批准)`（等用户确认是否 commit）
+- [x] **Checkpoint commit**：`chore(api): add graphql-codegen + scalars deps (T-P0-003 架构师批准)`（等用户确认是否 commit）
 
 ### 2. SDL 目录与自定义标量（0.3 天）
-- [ ] 按 Q-2 裁定创建 `services/api/src/schema/*.graphql`
-- [ ] `scalars.graphql`：**仅** DateTime / UUID / JSON / PositiveInt（R-3 白名单）
-- [ ] `common.graphql`：MultiLangText / HistoricalDate / DatePrecision enum / Traceable interface（字段遵 R-1：sourceEvidenceId ID! / provenanceTier ProvenanceTier! / updatedAt DateTime!）
-- [ ] `enums.graphql`：对齐 shared-types 枚举（骨架范围内用到的子集）；ProvenanceTier case 与 `packages/shared-types/src/enums.ts` 一致（R-1）
-- [ ] 用 `@graphql-tools` 的 `loadFilesSync` + `mergeTypeDefs` 组装（R-2a）
-- [ ] 落地合并快照 `services/api/src/schema/__snapshot__/schema.graphql`（R-2b 第 ① 项）
-- [ ] `codegen` 初跑 → 确认产物
-- [ ] **Checkpoint commit**：`feat(api): define custom scalars + shared types (T-P0-003)`
+- [x] 按 Q-2 裁定创建 `services/api/src/schema/*.graphql`
+- [x] `scalars.graphql`：**仅** DateTime / UUID / JSON / PositiveInt（R-3 白名单）
+- [x] `common.graphql`：MultiLangText / HistoricalDate / DatePrecision enum / Traceable interface（字段遵 R-1：sourceEvidenceId ID! / provenanceTier ProvenanceTier! / updatedAt DateTime!）
+- [x] `enums.graphql`：对齐 shared-types 枚举（骨架范围内用到的子集）；ProvenanceTier case 与 `packages/shared-types/src/enums.ts` 一致（R-1）
+- [x] 用 `@graphql-tools` 的 `loadFilesSync` + `mergeTypeDefs` 组装（R-2a）
+- [x] 落地合并快照 `services/api/src/schema/__snapshot__/schema.graphql`（R-2b 第 ① 项）
+- [x] `codegen` 初跑 → 确认产物
+- [x] **Checkpoint commit**：`feat(api): define custom scalars + shared types (T-P0-003)`
 
 ### 3. A/B/C/D 层类型骨架（0.5 天）
-- [ ] `a-sources.graphql`：Book / SourceEvidence（implements Traceable）
-- [ ] `b-persons.graphql`：Person / PersonName / IdentityHypothesis（Person implements Traceable）
-- [ ] `c-events.graphql`：Event / EventAccount / AccountConflict
-- [ ] `d-places.graphql`：Place / PlaceName / Polity / ReignEra（Place.geometry 暂用 `JSON`）
-- [ ] 字段严格对齐 Drizzle（排除审计列 `createdAt/updatedAt/deletedAt`、不透出 FK UUID 以外的内部字段）
-- [ ] `codegen` 再跑 → 确认 TS 类型产出
-- [ ] **Checkpoint commit**：`feat(api): add core entity types A/B/C/D layers (T-P0-003)`
+- [x] `a-sources.graphql`：Book / SourceEvidence（implements Traceable）
+- [x] `b-persons.graphql`：Person / PersonName / IdentityHypothesis（Person implements Traceable）
+- [x] `c-events.graphql`：Event / EventAccount / AccountConflict
+- [x] `d-places.graphql`：Place / PlaceName / Polity / ReignEra（Place.geometry 暂用 `JSON`）
+- [x] 字段严格对齐 Drizzle（排除审计列 `createdAt/updatedAt/deletedAt`、不透出 FK UUID 以外的内部字段）
+- [x] `codegen` 再跑 → 确认 TS 类型产出
+- [x] **Checkpoint commit**：`feat(api): add core entity types A/B/C/D layers (T-P0-003)`
 
 ### 4. Query 入口与 Context（0.3 天）
-- [ ] `queries.graphql`：person / persons / event / place / sourceEvidence
-- [ ] `services/api/src/context.ts`：GraphQLContext 类型（db / requestId / tracer 占位）
-- [ ] `services/api/src/errors.ts`：`HuadianGraphQLError` + `HuadianErrorCode`
-- [ ] `services/api/src/resolvers/`：按类型分文件，所有 Query resolver 抛 `NOT_IMPLEMENTED`（Q-10）
-- [ ] `services/api/src/schema.ts`：`loadSchemaSync` 合并 SDL + 挂 resolvers
-- [ ] `services/api/src/index.ts` 改造：挂新 schema，保留 /graphql endpoint
-- [ ] **Checkpoint commit**：`feat(api): wire query entrypoints + error codes (T-P0-003)`
+- [x] `queries.graphql`：person / persons / event / place / sourceEvidence
+- [x] `services/api/src/context.ts`：GraphQLContext 类型（db / requestId / tracer 占位）
+- [x] `services/api/src/errors.ts`：`HuadianGraphQLError` + `HuadianErrorCode`
+- [x] `services/api/src/resolvers/`：按类型分文件，所有 Query resolver 抛 `NOT_IMPLEMENTED`（Q-10）
+- [x] `services/api/src/schema.ts`：`loadSchemaSync` 合并 SDL + 挂 resolvers
+- [x] `services/api/src/index.ts` 改造：挂新 schema，保留 /graphql endpoint
+- [x] **Checkpoint commit**：`feat(api): wire query entrypoints + error codes (T-P0-003)`
 
 ### 5. 本地验证（0.2 天）
-- [ ] `pnpm --filter @huadian/api dev` 起服务
-- [ ] GraphiQL 访问 `http://localhost:4000/graphql`
-- [ ] 至少 3 个 query 跑通（返回 NOT_IMPLEMENTED 错误码，非崩溃）
-- [ ] `pnpm -r build / lint / typecheck` 全绿
-- [ ] `pnpm -r codegen && git diff` 无差异
+- [x] `pnpm --filter @huadian/api dev` 起服务
+- [x] GraphiQL 访问 `http://localhost:4000/graphql`
+- [x] 至少 3 个 query 跑通（返回 NOT_IMPLEMENTED 错误码，非崩溃）
+- [x] `pnpm -r build / lint / typecheck` 全绿
+- [x] `pnpm -r codegen && git diff` 无差异
 
 ### 6. CI 接入（0.2 天）
-- [ ] `.github/workflows/ci.yml` 补 step 8 `graphql:breaking`（跑两级检查，对齐 R-2b）：
+- [x] `.github/workflows/ci.yml` 补 step 8 `graphql:breaking`（跑两级检查，对齐 R-2b）：
   - **① schema 快照 drift**：`pnpm --filter @huadian/api schema:merge` 后 `git diff --exit-code src/schema/__snapshot__/schema.graphql` → drift 则 FAIL
   - **② breaking diff**：`pnpm --filter @huadian/api schema:diff` 调 `graphql-inspector diff` 对比上一个 main commit 的快照 → breaking 仅 PR 评论，`continue-on-error: true`
-- [ ] base branch 首次无 snapshot → step ② `|| true` 兜底（首次 main 合并后 snapshot 入仓即自动生效）
-- [ ] Phase 1 切门禁在 ADR-008 落地时改 continue-on-error
+- [x] base branch 首次无 snapshot → step ② `|| true` 兜底（首次 main 合并后 snapshot 入仓即自动生效）
+- [x] Phase 1 切门禁在 ADR-008 落地时改 continue-on-error
 
 ### 7. 收尾（0.2 天）
-- [ ] 更新 `docs/STATUS.md`
-- [ ] 追加 `docs/CHANGELOG.md`
-- [ ] 更新 `docs/tasks/T-000-index.md`
-- [ ] （按需）`docs/runbook/RB-002-graphql-dev.md`：本地启动 / codegen 流程
-- [ ] git commit：`docs: close T-P0-003 — graphql skeleton done`
+- [x] 更新 `docs/STATUS.md`
+- [x] 追加 `docs/CHANGELOG.md`
+- [x] 更新 `docs/tasks/T-000-index.md`
+- [x] （按需）`docs/runbook/RB-002-graphql-dev.md`：本地启动 / codegen 流程
+- [x] git commit：`docs: close T-P0-003 — graphql skeleton done`
 
 ---
 
 ## 交付物（Deliverables）
 
-- [ ] SDL 文件：`services/api/src/schema/*.graphql`（按 Q-2 裁定）
-- [ ] Resolver 骨架：`services/api/src/resolvers/*.ts`
-- [ ] Context / Error：`services/api/src/context.ts` / `errors.ts`
-- [ ] Codegen 产物：`services/api/src/__generated__/graphql.ts`
-- [ ] Codegen 配置：`services/api/codegen.ts`（或 `.yml`）
-- [ ] CI：`.github/workflows/ci.yml` 第 8 步启用
-- [ ] 文档：STATUS / CHANGELOG / T-000-index 更新；RB-002（可选）
-- [ ] （如需要新 ADR）ADR-008 GraphQL 演进骨架 —— 若架构师裁定本任务需配套 ADR，则在本任务内附带
+- [x] SDL 文件：`services/api/src/schema/*.graphql`（按 Q-2 裁定）
+- [x] Resolver 骨架：`services/api/src/resolvers/*.ts`
+- [x] Context / Error：`services/api/src/context.ts` / `errors.ts`
+- [x] Codegen 产物：`services/api/src/__generated__/graphql.ts`
+- [x] Codegen 配置：`services/api/codegen.ts`（或 `.yml`）
+- [x] CI：`.github/workflows/ci.yml` 第 8 步启用
+- [x] 文档：STATUS / CHANGELOG / T-000-index 更新；RB-002（可选）
+- [x] （如需要新 ADR）ADR-008 GraphQL 演进骨架 —— 若架构师裁定本任务需配套 ADR，则在本任务内附带
 
 ---
 
@@ -371,13 +371,13 @@ C-2 要求"所有实体必须可溯源"。GraphQL 层如何体现？
 
 ## 宪法条款检查清单
 
-- [ ] **C-2** Traceable interface + provenanceTier 保证溯源字段（Q-11）
-- [ ] **C-3** Event + EventAccount 双层在 GraphQL 层面体现（EventAccount 作为独立类型，Event.accounts 返回列表）
-- [ ] **C-6** Schema-first：先定 SDL，resolver 跟着走
-- [ ] **C-10** Drizzle → shared-types → GraphQL SDL → codegen TS 链路不断
-- [ ] **C-12** 所有 user-facing 文本字段用 `MultiLangText` 而非 `String`
-- [ ] **C-13** 所有实体以 `slug` 作为 query 入参
-- [ ] **C-20** 错误码明确，不静默返回 null
+- [x] **C-2** Traceable interface + provenanceTier 保证溯源字段（Q-11）
+- [x] **C-3** Event + EventAccount 双层在 GraphQL 层面体现（EventAccount 作为独立类型，Event.accounts 返回列表）
+- [x] **C-6** Schema-first：先定 SDL，resolver 跟着走
+- [x] **C-10** Drizzle → shared-types → GraphQL SDL → codegen TS 链路不断
+- [x] **C-12** 所有 user-facing 文本字段用 `MultiLangText` 而非 `String`
+- [x] **C-13** 所有实体以 `slug` 作为 query 入参
+- [x] **C-20** 错误码明确，不静默返回 null
 
 ---
 
@@ -450,3 +450,4 @@ C-2 要求"所有实体必须可溯源"。GraphQL 层如何体现？
 
 - 2026-04-16 v1：后端工程师起草，待架构师评审
 - 2026-04-16 v1.1：架构师评审通过。Q-1~Q-11 全部按后端提议采纳；追加 R-1 Traceable 最小字段集、R-2 SDL 拼装+breaking 双层、R-3 自定义标量白名单；依赖全批准。状态 draft → in_progress
+- 2026-04-17 v2.0：**done**。7 个子任务全部完成（6 commits: a5b54fd / ade4e3c / a6766cc / subtask 5 纯验证 / 45e19e6 / 本 commit）。12 entity types + 3 ref types + Traceable interface；5 Query 入口；HuadianGraphQLError 6 code；GraphQLContext(db/requestId/tracer)；graphql-inspector CI workflow。Follow-up: F-1 license field backlog

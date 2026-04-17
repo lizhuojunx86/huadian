@@ -7,6 +7,32 @@
 
 ## 2026-04-17
 
+### [feat] T-P0-003 完成 — GraphQL Schema 骨架（12 entity types, 5 Traceable, CI codegen:verify + graphql:breaking）
+- **角色**：后端工程师（执行）+ 首席架构师（评审 Q-1~Q-11 + R-1/R-2/R-3）
+- **任务**：T-P0-003
+- **变更**：
+  - `services/api/src/schema/` 新增 8 个 SDL 文件（scalars / enums / common / a-sources / b-persons / c-events / d-places / queries + _bootstrap）
+  - 12 个 GraphQL entity types：Book / SourceEvidence / Person / PersonName / IdentityHypothesis / Event / EventAccount / AccountConflict / Place / PlaceName / Polity / ReignEra
+  - 3 个 JSONB ref types：EventParticipantRef / EventPlaceRef / EventSequenceStep
+  - `Traceable` interface（R-1：sourceEvidenceId / provenanceTier / updatedAt）；5 个实现（Book / SourceEvidence / Person / Event / Place）
+  - 9 个 GraphQL enums 对齐 `packages/shared-types/src/enums.ts`（ProvenanceTier / RealityStatus / NameType / HypothesisRelationType / EventType / ConflictType / AdminLevel / CredibilityTier / BookGenre）
+  - 自定义标量白名单 R-3：DateTime / UUID / JSON / PositiveInt（via graphql-scalars）
+  - `MultiLangText` + `HistoricalDate` 暴露为 GraphQL Object Types（Q-4 裁定 B）
+  - 5 个 Query 入口：`person(slug)` / `persons(limit,offset)` / `event(slug)` / `place(slug)` / `sourceEvidence(id)` — 全抛 NOT_IMPLEMENTED（Q-10）
+  - `src/context.ts`：GraphQLContext（db: DrizzleClient / requestId: uuid v4 / tracer: null）
+  - `src/errors.ts`：HuadianGraphQLError + 6 HuadianErrorCode（NOT_IMPLEMENTED / NOT_FOUND / VALIDATION_ERROR / INTERNAL_ERROR / UNAUTHORIZED / RATE_LIMITED）；extensions = { code, traceId }
+  - `src/resolvers/{index,query,scalars,traceable}.ts`：resolver 骨架
+  - `codegen.ts` + `scripts/merge-schema.ts`：graphql-codegen 全链路（SDL → 合并快照 → TS types）
+  - `src/index.ts` 改造：SDL loadFilesSync + mergeTypeDefs + createSchema<GraphQLContext> + drizzle lazy DB
+  - `.github/workflows/graphql-breaking.yml`：独立 CI workflow（drift check + graphql-inspector diff warn-only）
+  - `.github/workflows/ci.yml`：Step 8 stub 迁移为指向独立 workflow 的注释
+  - 依赖新增（架构师全批准）：graphql-scalars / @graphql-tools/load-files / @graphql-tools/merge / @graphql-codegen/{cli,typescript,typescript-resolvers,add} / @graphql-inspector/cli
+- **架构师裁定**：Q-1~Q-11 全部按后端提议采纳；追加 R-1（Traceable 最小字段集）/ R-2（SDL 拼装 + breaking 检测双层）/ R-3（自定义标量白名单）
+- **遗留**：
+  - L-1：Book.license 暂用 String（shared-types licenseEnum 含 `CC-BY` 连字符不合 GraphQL enum）；需后续 ADR 决定规范化方式
+  - F-1：services/api/package.json 缺 license 字段（backlog，见 `docs/tasks/T-P0-003-F1-license-field.md`）
+- **下一步**：T-P0-007（API Person Query 首个真实 resolver）/ T-P0-005（LLM Gateway）可并行启动
+
 ### [feat] T-TG-002 完成 — TraceGuard Adapter（Port/Adapter 六边形架构，82 tests 全绿）
 - **角色**：管线工程师（执行）+ 首席架构师（评审 Q-D1~Q-D7 + Mismatch 表 + 契约测试要求）
 - **任务**：T-TG-002（S-1 调研 → S-2 依赖 → S-3 骨架 → S-4 规则 → S-5 adapter → S-6 policy → S-7 audit → S-8 replay）

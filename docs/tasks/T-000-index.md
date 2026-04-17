@@ -11,13 +11,14 @@
 
 | 任务 ID | 标题 | 状态 | 主导角色 | 所属 Phase |
 |---------|------|------|---------|-----------|
-| T-P0-003 | GraphQL schema 骨架 | **in_progress** | 后端工程师 | Phase 0 |
 | T-TG-002-F6 | Drizzle schema 同步（traceguard_raw + UNIQUE INDEX + 列注释） | **backlog** | 后端 + DevOps | Phase 0 |
+| T-P0-003-F1 | License 字段规范化（GraphQL enum 连字符 + package.json license） | **backlog** | 后端 + 架构师 | Phase 0 |
 | T-P0-005a | SigNoz 版本对齐与接入 | **planned** | DevOps + 管线 | Phase 0 |
 
 ## 已完成
 | 任务 ID | 标题 | 完成日期 | 主导角色 |
 |---------|------|---------|---------|
+| T-P0-003 | GraphQL schema 骨架（12 types + Traceable + 5 Query + codegen + CI graphql:breaking） | 2026-04-17 | 后端工程师 | Phase 0 |
 | T-TG-002 | TraceGuard Adapter 实现（Port/Adapter + 5 rules + policy + audit + replay；82 tests） | 2026-04-17 | 管线工程师 | Phase 0 |
 | T-P0-004（批次 1） | 历史专家字典初稿（185 条：polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25） | 2026-04-16 | 历史专家 | Phase 0 |
 | T-P0-002 | DB Schema 落地（33 表 Drizzle + 迁移） | 2026-04-16 | 后端工程师 | Phase 0 |
@@ -33,7 +34,7 @@
 ### Phase 0 — 地基
 - ~~T-P0-001 Monorepo 骨架（DevOps + 后端）~~ ✅ done
 - ~~T-P0-002 DB Schema 落地（后端）~~ ✅ done
-- ~~T-P0-003 GraphQL schema 骨架（后端）~~ → in_progress
+- ~~T-P0-003 GraphQL schema 骨架（后端）~~ ✅ done（2026-04-17）
 - ~~T-P0-004 历史专家字典初稿 批次 1（历史专家）~~ ✅ done（2026-04-16）
 - T-P0-004 批次 2 字典扩展（秦汉二线人物 + 封国/战役地 + 10 父级郡国 slug 补齐）← 可选，不阻塞
 - T-P0-005 LLM Gateway + TraceGuard 集成（管线）
