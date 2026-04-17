@@ -1,0 +1,101 @@
+# ========================================
+# 华典智谱 .gitignore
+# ========================================
+
+# Dependencies - JavaScript/TypeScript
+node_modules/
+.pnpm-store/
+.pnp.*
+*.tsbuildinfo
+
+# Dependencies - Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.uv/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+*.egg-info/
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+.turbo/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets/
+
+# Claude Code - 本地会话与凭据（不提交）
+.claude/local/
+.claude/sessions/
+.claude/settings.local.json
+
+# Data directories - 原始和处理中数据不进库
+data/raw/
+data/processed/
+data/cache/
+data/seeds/*.sqlite
+!data/seeds/.gitkeep
+
+# Database volumes (docker-compose 本地卷)
+db/pgdata/
+pgdata/
+redisdata/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+# macOS duplicate files (Finder "Copy" or iCloud sync artifacts)
+* 2.*
+* 2
+.idea/
+.vscode/
+!.vscode/settings.json.example
+*.swp
+*.swo
+
+# Coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# Temporary
+tmp/
+temp/
+.cache/
+
+# TraceGuard 本地实例数据（如集成）
+traceguard-data/
+traceguard-local/
+
+# Monorepo tooling
+.nx/
+.rush/
+
+# Python notebooks checkpoints
+.ipynb_checkpoints/
+
+# PyInstaller
+*.manifest
+*.spec
