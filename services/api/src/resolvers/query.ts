@@ -1,24 +1,31 @@
 import type { QueryResolvers } from "../__generated__/graphql.js";
 import { notImplemented } from "../errors.js";
+import {
+  findPersonBySlug,
+  findPersons,
+} from "../services/person.service.js";
+import { validateSlug } from "../utils/slug.js";
 
 /**
- * Query resolvers. Every entity lookup throws NOT_IMPLEMENTED per the
- * architect's Q-10 ruling for T-P0-003; real implementations arrive
- * with T-P0-007 (person) and later tasks.
+ * Query resolvers. person/persons are real implementations backed by
+ * Drizzle (T-P0-007). Remaining entity lookups remain NOT_IMPLEMENTED
+ * stubs for later tasks.
  *
- * `_schemaVersion` is the exception: it is a permanent health probe
- * that returns a constant string so CI smoke tests and dev-tooling
- * can confirm the server is live without touching the DB.
+ * `_schemaVersion` is a permanent health probe.
  */
 export const queryResolvers: QueryResolvers = {
-  _schemaVersion: () => "T-P0-003 skeleton",
+  _schemaVersion: () => "T-P0-007 person-query",
 
-  person: (_parent, _args, ctx) => {
-    throw notImplemented("Query.person", ctx);
+  person: async (_parent, { slug }, ctx) => {
+    validateSlug(slug, ctx.requestId);
+
+    const person = await findPersonBySlug(ctx.db, slug);
+    if (!person) return null;
+    return person;
   },
 
-  persons: (_parent, _args, ctx) => {
-    throw notImplemented("Query.persons", ctx);
+  persons: async (_parent, { limit, offset }, ctx) => {
+    return findPersons(ctx.db, limit ?? 20, offset ?? 0);
   },
 
   event: (_parent, _args, ctx) => {
