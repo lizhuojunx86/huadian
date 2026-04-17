@@ -7,6 +7,17 @@
 
 ## 2026-04-17
 
+### [fix] T-TG-002-F6 完成 — Drizzle schema 同步 traceguard_raw + idempotent index
+- **角色**：后端工程师
+- **任务**：T-TG-002-F6
+- **变更**：
+  - `packages/db-schema/src/schema/pipeline.ts`：`extractionsHistory` 新增 `traceguardRaw: jsonb` 列 + `idx_ext_hist_idempotent` unique index (paragraph_id, step, prompt_version)
+  - `packages/db-schema/src/schema/pipeline.ts`：`llmCalls.traceguardCheckpointId` 列注释更新（语义：华典 adapter uuid4，非 TG 原生）
+  - `services/api/migrations/0001_dry_cerebro.sql`：Drizzle 生成的增量 migration，与 pipeline-side `0001_add_traceguard_raw_and_idempotent_idx.sql` 语义等价
+  - `pyproject.toml`：根级新增 `[tool.pytest.ini_options] import_mode = "prepend"` 与 pipeline 侧保持一致
+- **验证**：`pnpm --filter @huadian/db-schema build` / `pnpm typecheck` / `pnpm lint` 全绿
+- **已知问题**：pipeline pytest 在 origin/main 上有 pre-existing 的 `ModuleNotFoundError: huadian_pipeline`（本地 main 的 conftest.py fix 未推送），与本次改动无关
+
 ### [feat] T-P0-003 完成 — GraphQL Schema 骨架（12 entity types, 5 Traceable, CI codegen:verify + graphql:breaking）
 - **角色**：后端工程师（执行）+ 首席架构师（评审 Q-1~Q-11 + R-1/R-2/R-3）
 - **任务**：T-P0-003

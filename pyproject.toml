@@ -10,4 +10,7 @@ dev-dependencies = []
 [tool.uv.workspace]
 members = ["services/pipeline"]
 
+[tool.pytest.ini_options]
+import_mode = "prepend"
+
 # Ruff config lives in /ruff.toml (single source of truth)
