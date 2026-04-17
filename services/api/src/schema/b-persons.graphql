@@ -1,0 +1,76 @@
+# B layer — Identity
+# Types exposed: Person, PersonName, IdentityHypothesis
+# Traceable: only Person (architect #2 ruling).
+#
+# PersonName carries a nullable source_evidence_id column in Drizzle,
+# which cannot satisfy Traceable.sourceEvidenceId: ID! (non-null). It
+# therefore does NOT implement Traceable; the evidence link is exposed
+# as a plain nullable UUID field for callers that need it.
+
+"""
+Person — canonical identity (one row per disambiguated historical or
+legendary person). Backs packages/db-schema/src/schema/persons.ts → persons.
+
+Related collections (resolved lazily, DataLoader territory per architect #3):
+  - names:              [PersonName!]!           person_names WHERE person_id = this.id
+  - identityHypotheses: [IdentityHypothesis!]!   identity_hypotheses WHERE canonical_person_id = this.id
+"""
+type Person implements Traceable {
+  id: ID!
+  sourceEvidenceId: ID!
+  provenanceTier: ProvenanceTier!
+  updatedAt: DateTime!
+
+  slug: String!
+  name: MultiLangText!
+  dynasty: String
+  realityStatus: RealityStatus!
+  birthDate: HistoricalDate
+  deathDate: HistoricalDate
+  biography: MultiLangText
+
+  names: [PersonName!]!
+  identityHypotheses: [IdentityHypothesis!]!
+}
+
+"""
+PersonName — one of multiple historical appellations for a Person
+(courtesy name, posthumous name, nickname, etc.). The canonical name is
+expressed on Person.name (MultiLangText); PersonName.name is the raw
+historical string (kept as TEXT per architect Q-3 ruling on T-P0-002).
+
+Does not implement Traceable because sourceEvidenceId is nullable here.
+"""
+type PersonName {
+  id: ID!
+  personId: UUID!
+  name: String!
+  namePinyin: String
+  nameType: NameType!
+  startYear: Int
+  endYear: Int
+  isPrimary: Boolean
+  sourceEvidenceId: UUID
+  createdAt: DateTime!
+}
+
+"""
+IdentityHypothesis — scholarly hypothesis about whether two Person
+records refer to the same historical figure (e.g. Laozi / Li Er /
+Lao Laizi). See docs/02 §2.2 and ADR-001.
+
+evidenceIds is a JSONB string[] of source_evidences.id UUIDs backing
+the hypothesis; the architect #3 ruling defers turning this into an
+embedded SourceEvidence collection to a later DataLoader pass.
+"""
+type IdentityHypothesis {
+  id: ID!
+  canonicalPersonId: UUID!
+  hypothesisPersonId: UUID
+  relationType: HypothesisRelationType!
+  scholarlySupport: String
+  evidenceIds: [UUID!]!
+  acceptedByDefault: Boolean
+  notes: String
+  createdAt: DateTime!
+}

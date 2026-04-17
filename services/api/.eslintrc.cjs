@@ -6,5 +6,10 @@ module.exports = {
     project: true,
     tsconfigRootDir: __dirname,
   },
-  ignorePatterns: ["drizzle.config.ts"],
+  ignorePatterns: [
+    "drizzle.config.ts",
+    "codegen.ts",
+    "scripts/**",
+    "src/__generated__/**",
+  ],
 };

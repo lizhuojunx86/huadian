@@ -1,0 +1,24 @@
+{
+  "$ref": "#/definitions/EventPlaceRef",
+  "definitions": {
+    "EventPlaceRef": {
+      "type": "object",
+      "properties": {
+        "place_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "place_id",
+        "role"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

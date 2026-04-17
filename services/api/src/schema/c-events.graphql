@@ -1,0 +1,86 @@
+# C layer — Events (Event + EventAccount dual-layer per ADR-002)
+# Types exposed: Event, EventAccount, AccountConflict
+# Traceable: only Event (architect #2 ruling).
+#
+# EventAccount stores sourceEvidenceIds as a JSONB string[] (not a single
+# column), so it cannot satisfy Traceable.sourceEvidenceId: ID! (non-null,
+# singular). It therefore does NOT implement Traceable.
+# AccountConflict has no source_evidence_id column and likewise does not
+# implement Traceable.
+
+"""
+Event — abstract event anchor (see ADR-002). One Event may have multiple
+EventAccount narratives across different source texts; AccountConflict
+records structured disagreements between two accounts.
+Backs packages/db-schema/src/schema/events.ts → events.
+
+Related collections (resolved lazily, DataLoader territory per architect #3):
+  - accounts:  [EventAccount!]!     event_accounts WHERE event_id = this.id
+  - conflicts: [AccountConflict!]!  account_conflicts WHERE event_id = this.id
+"""
+type Event implements Traceable {
+  id: ID!
+  sourceEvidenceId: ID!
+  provenanceTier: ProvenanceTier!
+  updatedAt: DateTime!
+
+  slug: String!
+  title: MultiLangText!
+  summary: MultiLangText
+  significance: MultiLangText
+  timePeriodStart: HistoricalDate
+  timePeriodEnd: HistoricalDate
+  placeId: UUID
+  eventType: EventType
+  importanceScore: Float
+  canonicalAccountId: UUID
+  realityStatus: RealityStatus!
+
+  accounts: [EventAccount!]!
+  conflicts: [AccountConflict!]!
+}
+
+"""
+EventAccount — one specific narrative of an Event from one source.
+ADR-002 core table: multi-account coexistence is a constitutional
+requirement (C-3).
+
+JSONB embedded fields (participants / places / sequence) are modeled as
+typed GraphQL Object Types mirroring shared-types zod schemas; the key
+mapping from snake_case persisted keys (person_id, place_id) to
+camelCase GraphQL fields (personId, placeId) happens in resolvers.
+"""
+type EventAccount {
+  id: ID!
+  eventId: UUID!
+  sourceBookId: UUID
+  narrative: MultiLangText!
+  participants: [EventParticipantRef!]!
+  places: [EventPlaceRef!]!
+  sequence: [EventSequenceStep!]!
+  sourceEvidenceIds: [UUID!]!
+  reliabilityScore: Float
+  isCanonical: Boolean!
+  provenanceTier: ProvenanceTier!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+AccountConflict — structured disagreement between two EventAccounts.
+Replaces v1 version_conflicts (architect Q-2 on T-P0-002). Required for
+the dual-account story to be usable (architect T-P0-003 #4).
+
+diffSummary / analysis remain JSON at Phase 0; a concrete type will be
+defined alongside the conflict-resolution UI in Phase 1.
+"""
+type AccountConflict {
+  id: ID!
+  eventId: UUID!
+  accountAId: UUID!
+  accountBId: UUID!
+  conflictType: ConflictType
+  diffSummary: JSON
+  analysis: JSON
+  createdAt: DateTime!
+}

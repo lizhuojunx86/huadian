@@ -1,0 +1,125 @@
+# Enums — case MUST match the zod enums in
+# packages/shared-types/src/enums.ts verbatim (R-1).
+# Phase 0 skeleton exposes only the subset needed by A/B/C/D layer types
+# (T-P0-003 Q-8). Further enums (mention / feedback / pipeline / ...) are
+# added in later tasks when their types become user-facing.
+
+"""
+Provenance tier — constitutional requirement C-2.
+Required by the Traceable interface (R-1).
+"""
+enum ProvenanceTier {
+  primary_text
+  scholarly_consensus
+  ai_inferred
+  crowdsourced
+  unverified
+}
+
+"""
+Reality status — applied to persons, events, places, etc.
+Distinguishes historical records from legend / myth / fiction / composite
+identities / unknown-category entities.
+"""
+enum RealityStatus {
+  historical
+  legendary
+  mythical
+  fictional
+  composite
+  uncertain
+}
+
+"""
+Person name type (B layer).
+"""
+enum NameType {
+  primary
+  courtesy
+  art
+  studio
+  posthumous
+  temple
+  nickname
+  self_ref
+  alias
+}
+
+"""
+Identity hypothesis relation type (B layer).
+See docs/02 §2.2 for examples (Laozi / Li Er / Lao Laizi).
+"""
+enum HypothesisRelationType {
+  same_person
+  possibly_same
+  conflated
+  distinct_despite_similar_name
+}
+
+"""
+Event type (C layer).
+"""
+enum EventType {
+  political
+  military
+  cultural
+  economic
+  social
+  religious
+  diplomatic
+  natural_disaster
+  other
+}
+
+"""
+Conflict type between two event accounts (C layer).
+Backs account_conflicts.conflict_type.
+"""
+enum ConflictType {
+  factual
+  chronological
+  interpretive
+  omission
+  attribution
+}
+
+"""
+Administrative level for historical places / polities (D layer).
+"""
+enum AdminLevel {
+  dao
+  lu
+  fu
+  zhou
+  jun
+  xian
+  guan
+  other
+}
+
+"""
+Book credibility tier (A layer).
+"""
+enum CredibilityTier {
+  primary_official
+  primary_unofficial
+  secondary_compilation
+  tertiary_reference
+  folk
+}
+
+"""
+Book genre (A layer).
+"""
+enum BookGenre {
+  official_history
+  unofficial_history
+  poetry
+  philosophy
+  classic
+  geography
+  military
+  medical
+  encyclopedia
+  other
+}

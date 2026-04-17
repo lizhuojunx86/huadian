@@ -1,0 +1,124 @@
+{
+  "_meta": {
+    "version": "0.1.0-draft",
+    "scope": "Phase 0 — 秦 / 西汉 / 新莽 / 更始 / 东汉",
+    "draftedBy": "historian@huadian",
+    "draftedAt": "2026-04-16",
+    "status": "draft_pending_review",
+    "schemaTable": "polities",
+    "defaultSources": [
+      "《史记》",
+      "《汉书》",
+      "《后汉书》",
+      "《资治通鉴》",
+      "白寿彝主编《中国通史》",
+      "翦伯赞《秦汉史》"
+    ],
+    "knownUncertainties": [
+      "更始政权 (CE 23–25) 是否独立成 polity 存在学界争议；本字典独立列出以便年号归属清晰，默认叙述归并方式需 ADR 记录。",
+      "西汉起始年份取 BC 202 刘邦称帝；亦有以 BC 206 汉王元年起算说，需 ADR 定默认。",
+      "东汉末都城多迁（洛阳 → 长安 → 许昌），capitalPlaceSlug 仅取主要都城洛阳，迁都事件由 events 表承载。",
+      "新莽都城「常安」即长安改名，capitalPlaceSlug 复用 changan，改名事件由 place_names 承载。"
+    ],
+    "fkConventions": {
+      "capitalPlaceSlug": "引用 places.slug；若该地未落库，加载器应 stub 占位或置 null。",
+      "founderPersonSlug": "引用 persons.slug；仅作元数据提示，不是外键。"
+    }
+  },
+  "polities": [
+    {
+      "slug": "qin",
+      "name": { "zh-Hans": "秦", "zh-Hant": "秦", "en": "Qin" },
+      "dynasty": "秦",
+      "yearStart": -221,
+      "yearEnd": -207,
+      "capitalPlaceSlug": "xianyang",
+      "metadata": {
+        "noFormalEra": true,
+        "datingConvention": "以君主在位年纪年，例「始皇二十六年 = BC 221」。",
+        "unificationYear": -221,
+        "rulerSequence": [
+          { "personSlug": "qin-shi-huang", "title": "始皇帝", "reignStart": -246, "reignEnd": -210, "note": "BC 246 即秦王位；BC 221 灭六国称皇帝。" },
+          { "personSlug": "qin-er-shi", "title": "二世皇帝", "reignStart": -210, "reignEnd": -207, "note": "胡亥。" },
+          { "personSlug": "qin-zi-ying", "title": "秦王子婴", "reignStart": -207, "reignEnd": -207, "note": "在位 46 日，去帝号复称王，后降刘邦。" }
+        ]
+      },
+      "_notes": "polities.yearStart 取统一后称帝年 (BC 221)；BC 246–BC 222 的秦王国纪年不纳入本 polity，属战国诸侯秦（Phase 0 范围外）。",
+      "_sources": ["《史记·秦始皇本纪》", "《史记·秦本纪》"]
+    },
+    {
+      "slug": "han-western",
+      "name": { "zh-Hans": "西汉", "zh-Hant": "西漢", "en": "Western Han" },
+      "dynasty": "汉",
+      "yearStart": -202,
+      "yearEnd": 9,
+      "capitalPlaceSlug": "changan",
+      "metadata": {
+        "alsoKnownAs": ["前汉"],
+        "founderPersonSlug": "han-gao-zu",
+        "capitalHistory": [
+          { "placeSlug": "luoyang", "yearStart": -202, "yearEnd": -200, "note": "高祖五年二月甲午称帝后初都洛阳。" },
+          { "placeSlug": "changan", "yearStart": -200, "yearEnd": 9, "note": "高祖七年徙都长安，迄王莽代汉。" }
+        ],
+        "endingEvent": "CE 9 王莽受禅代汉建新。"
+      },
+      "_notes": "起始年份采用 BC 202 刘邦称帝说。BC 206 汉王元年说见于《汉书·高帝纪》『汉元年』等处，若采用需改 yearStart=-206 并记 ADR。",
+      "_sources": ["《史记·高祖本纪》", "《汉书·高帝纪》", "钱穆《秦汉史》"]
+    },
+    {
+      "slug": "xin",
+      "name": { "zh-Hans": "新", "zh-Hant": "新", "en": "Xin" },
+      "dynasty": "新",
+      "yearStart": 9,
+      "yearEnd": 23,
+      "capitalPlaceSlug": "changan",
+      "metadata": {
+        "founderPersonSlug": "wang-mang",
+        "note": "王莽代汉建新；都城沿用长安，改名「常安」，由 place_names 表承载名称变更。",
+        "endingEvent": "CE 23 九月 绿林军破常安，王莽死于渐台。"
+      },
+      "_notes": "部分史家将新莽视为西汉末篡位事件，不单立朝代；本字典作独立 polity 处理以便年号 (始建国/天凤/地皇) 归属清晰。若默认叙述改为『西汉附录』需 ADR。",
+      "_sources": ["《汉书·王莽传》", "翦伯赞《秦汉史》"]
+    },
+    {
+      "slug": "han-gengshi",
+      "name": { "zh-Hans": "更始", "zh-Hant": "更始", "en": "Gengshi (Han Restoration)" },
+      "dynasty": "汉",
+      "yearStart": 23,
+      "yearEnd": 25,
+      "capitalPlaceSlug": "changan",
+      "metadata": {
+        "rulerPersonSlug": "han-geng-shi-di",
+        "classification": "han_restoration",
+        "note": "更始帝刘玄 CE 23 二月于淯水称帝，先都宛，后徙洛阳，再徙长安；CE 25 冬为赤眉军所杀。",
+        "capitalHistory": [
+          { "placeSlug": "wancheng", "yearStart": 23, "yearEnd": 23 },
+          { "placeSlug": "luoyang", "yearStart": 23, "yearEnd": 24 },
+          { "placeSlug": "changan", "yearStart": 24, "yearEnd": 25 }
+        ]
+      },
+      "_notes": "史学上归属存争议：《后汉书》立《刘玄传》不入本纪；司马光《资治通鉴》以更始年号纪年。本字典独立列出以便「更始」年号可稳定引用。若默认叙述定为「东汉前身」归并入 han-eastern，需 ADR。",
+      "_sources": ["《后汉书·刘玄刘盆子列传》", "《资治通鉴》卷三十九至四十"]
+    },
+    {
+      "slug": "han-eastern",
+      "name": { "zh-Hans": "东汉", "zh-Hant": "東漢", "en": "Eastern Han" },
+      "dynasty": "汉",
+      "yearStart": 25,
+      "yearEnd": 220,
+      "capitalPlaceSlug": "luoyang",
+      "metadata": {
+        "alsoKnownAs": ["后汉"],
+        "founderPersonSlug": "han-guang-wu-di",
+        "capitalHistory": [
+          { "placeSlug": "luoyang", "yearStart": 25, "yearEnd": 190, "note": "光武帝建武元年六月定都洛阳。" },
+          { "placeSlug": "changan", "yearStart": 190, "yearEnd": 196, "note": "初平元年董卓迫献帝西迁长安。" },
+          { "placeSlug": "xuchang", "yearStart": 196, "yearEnd": 220, "note": "建安元年曹操迎献帝都许（许昌）。" }
+        ],
+        "endingEvent": "CE 220 十月 献帝禅让曹丕，汉亡。"
+      },
+      "_notes": "capitalPlaceSlug 取主要都城洛阳；迁都 long-form 由 events 表承载。",
+      "_sources": ["《后汉书·光武帝纪》", "《后汉书·献帝纪》", "《三国志·魏书·武帝纪》"]
+    }
+  ]
+}
