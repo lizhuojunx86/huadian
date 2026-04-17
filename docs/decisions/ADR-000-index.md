@@ -21,12 +21,13 @@
 | [ADR-006](ADR-006-undecided-items-closure.md) | 未决项 U-01~U-07 封版决策 | 2026-04-15 | PM + 历史专家 + DevOps（用户授权）|
 | [ADR-007](ADR-007-monorepo-layout.md) | Monorepo 布局与包管理（pnpm + uv + Turborepo） | 2026-04-15 | DevOps 提议 / 架构师签字 |
 | [ADR-008](ADR-008-license-policy.md) | License 策略（GraphQL Book.license 规范化 + Workspace 包 license） | 2026-04-17 | 后端提议 / 架构师裁决 |
+| [ADR-009](ADR-009-person-source-evidence-traceability.md) | Person sourceEvidenceId Traceability — Traceable 接口 nullable 放宽 | 2026-04-17 | 架构师（T-P0-007 Q-5 裁决） |
 
 ### 已规划（尚未起草）
 
 | # | 标题 | 状态 | 优先级 | 负责人 |
 |---|------|------|--------|--------|
-| ADR-009 | Slug 规则与 URL 稳定性 | planned | 🟡 | 架构师 + 历史专家 |
+| ADR-018 | Slug 规则与 URL 稳定性 | planned | 🟡 | 架构师 + 历史专家 |
 | ADR-010 | 多语言字段 JSONB 结构 | planned | 🟡 | 架构师 + 前端 |
 | ADR-011 | Prompt 版本化与缓存键 | planned | 🟡 | 管线 |
 | ADR-012 | 地理模糊性建模（Point/Line/Polygon + fuzziness） | planned | 🟢 | 架构师 + 历史专家 |
