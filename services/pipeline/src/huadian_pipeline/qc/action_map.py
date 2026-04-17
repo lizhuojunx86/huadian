@@ -91,11 +91,11 @@ class ActionEscalator(Protocol):
 
     def __call__(
         self,
-        base_action: "ActionType",
+        base_action: ActionType,
         *,
         confidence: float,
         attempt: int,
-    ) -> "ActionType": ...
+    ) -> ActionType: ...
 
 
 def translate(tg_action: str) -> ActionType:

@@ -19,7 +19,6 @@ from huadian_pipeline.qc.replay import (
 )
 from huadian_pipeline.qc.types import CheckpointInput, CheckpointResult, Violation
 
-
 # ---------------------------------------------------------------------------
 # In-memory RecordLoader
 # ---------------------------------------------------------------------------

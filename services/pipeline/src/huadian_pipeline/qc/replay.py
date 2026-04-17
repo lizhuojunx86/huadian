@@ -25,7 +25,6 @@ from typing import Any, Protocol
 from .port import TraceGuardPort
 from .types import CheckpointInput, CheckpointResult
 
-
 # ---------------------------------------------------------------------------
 # Data structures
 # ---------------------------------------------------------------------------

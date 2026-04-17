@@ -172,14 +172,13 @@ class AuditSink:
         checkpoint_run_id = uuid.uuid4()
         pool = await self._ensure_pool()
 
-        async with pool.acquire() as conn:
-            async with conn.transaction():
-                await self._insert_llm_call(
-                    conn, payload, result, checkpoint_run_id,
-                )
-                await self._upsert_extraction(
-                    conn, payload, result, checkpoint_run_id,
-                )
+        async with pool.acquire() as conn, conn.transaction():
+            await self._insert_llm_call(
+                conn, payload, result, checkpoint_run_id,
+            )
+            await self._upsert_extraction(
+                conn, payload, result, checkpoint_run_id,
+            )
 
         logger.debug(
             "audit: wrote checkpoint %s for step=%s para=%s",

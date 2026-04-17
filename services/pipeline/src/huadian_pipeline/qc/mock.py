@@ -14,7 +14,6 @@ from typing import Any
 from .port import TraceGuardPort
 from .types import CheckpointInput, CheckpointResult
 
-
 ResponseFactory = Callable[[CheckpointInput], CheckpointResult]
 
 

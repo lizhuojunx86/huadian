@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import json
 import uuid
-
 from collections.abc import Iterator
 
 import pytest
@@ -102,7 +101,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_ext_hist_idempotent
 # ---------------------------------------------------------------------------
 
 @pytest.fixture(scope="module")
-def pg_dsn() -> "Iterator[str]":
+def pg_dsn() -> Iterator[str]:
     """Spin up a Postgres 16 container and return the DSN."""
     from testcontainers.postgres import PostgresContainer  # type: ignore[import-untyped]
 
@@ -110,6 +109,7 @@ def pg_dsn() -> "Iterator[str]":
         dsn = pg.get_connection_url().replace("+psycopg2", "")
         # Apply minimal schema
         import asyncio
+
         import asyncpg  # type: ignore[import-untyped]
 
         async def _init() -> None:

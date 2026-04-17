@@ -33,7 +33,6 @@ from huadian_pipeline.qc.action_map import (
     translate,
 )
 
-
 # ---------------------------------------------------------------------------
 # Contract #1 — public symbol surface
 # ---------------------------------------------------------------------------
@@ -108,9 +107,9 @@ def test_tg_action_set_exhaustive() -> None:
     fold / route the new literal, then update `TG_ACTION_SET`, `_BASE_MAP`,
     and this test together.
     """
-    assert TG_ACTION_SET == frozenset(
+    assert frozenset(
         {"pass", "passthrough", "retry", "abort", "alert"}
-    )
+    ) == TG_ACTION_SET
     # And it matches the keys of the translation table so the two can
     # never drift apart without the mapping tests also failing.
-    assert TG_ACTION_SET == frozenset(_EXPECTED_MAPPING.keys())
+    assert frozenset(_EXPECTED_MAPPING.keys()) == TG_ACTION_SET
