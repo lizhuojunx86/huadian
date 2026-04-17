@@ -1,6 +1,6 @@
 # T-P0-007: API MVP — person query（首个真实 resolver）
 
-- **状态**：ready
+- **状态**：done
 - **主导角色**：后端工程师
 - **协作角色**：首席架构师（评审）、QA 工程师（integration test 评议）
 - **所属 Phase**：Phase 0
