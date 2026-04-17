@@ -1,6 +1,6 @@
-import type { PersonQuery } from "@/lib/graphql/generated/graphql";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { PersonQuery } from "@/lib/graphql/generated/graphql";
 
 type IdentityHypothesis = NonNullable<PersonQuery["person"]>["identityHypotheses"][number];
 

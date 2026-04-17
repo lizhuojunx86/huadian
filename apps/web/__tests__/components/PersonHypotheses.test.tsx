@@ -1,6 +1,8 @@
-import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+
 import { PersonHypotheses } from "@/components/person/PersonHypotheses";
+
 import { mockPerson } from "../fixtures";
 
 describe("PersonHypotheses", () => {

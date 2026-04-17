@@ -1,9 +1,10 @@
-import type { PersonQuery } from "@/lib/graphql/generated/graphql";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { PersonQuery } from "@/lib/graphql/generated/graphql";
+
 import { HistoricalDateDisplay } from "./HistoricalDateDisplay";
-import { PersonNames } from "./PersonNames";
 import { PersonHypotheses } from "./PersonHypotheses";
+import { PersonNames } from "./PersonNames";
 
 type Person = NonNullable<PersonQuery["person"]>;
 
