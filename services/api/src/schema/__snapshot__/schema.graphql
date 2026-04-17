@@ -459,7 +459,7 @@ type Query {
   person(slug: String!): Person
   """
   List Persons with offset-based pagination.
-
+  
   Arguments:
     limit  maximum rows to return; clamped to [1, 100] server-side.
     offset number of rows to skip; MUST be non-negative.
