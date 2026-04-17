@@ -16,6 +16,7 @@ from .action_map import (
 from .adapter import TraceGuardAdapter
 from .audit import AuditSink
 from .mock import MockTraceGuardPort
+from .replay import RecordLoader, ReplayDiff, ReplayReport, replay_batch, replay_one
 from .policy import (
     ActionPolicy,
     PolicyConfigError,
@@ -50,6 +51,9 @@ __all__ = [
     "DuplicateRuleIdError",
     "MockTraceGuardPort",
     "PolicyConfigError",
+    "RecordLoader",
+    "ReplayDiff",
+    "ReplayReport",
     "PolicyDefaults",
     "PolicyMode",
     "RegisteredRule",
@@ -63,4 +67,6 @@ __all__ = [
     "UnknownTGActionError",
     "Violation",
     "max_severity",
+    "replay_batch",
+    "replay_one",
 ]
