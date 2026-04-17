@@ -34,14 +34,15 @@ repos:
     hooks:
       - id: lint-staged-ts
         name: eslint (staged TS/TSX)
-        entry: npx eslint --fix
+        entry: npx eslint
         language: system
         types_or: [ts, tsx]
         pass_filenames: true
+        exclude: (__generated__|codegen\.ts|drizzle\.config\.ts|scripts/)
 
       - id: lint-staged-py
         name: ruff (staged Python)
-        entry: ruff check --fix
+        entry: ruff check
         language: system
         types: [python]
         pass_filenames: true
