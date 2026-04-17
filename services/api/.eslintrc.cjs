@@ -3,7 +3,7 @@ module.exports = {
   root: true,
   extends: [require.resolve("@huadian/config-eslint/node")],
   parserOptions: {
-    project: true,
+    project: ["./tsconfig.json", "./tsconfig.test.json"],
     tsconfigRootDir: __dirname,
   },
   ignorePatterns: [

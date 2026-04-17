@@ -1,0 +1,9 @@
+{
+  "extends": "@huadian/config-typescript/tsconfig.node.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "."
+  },
+  "include": ["src", "tests"],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,13 +1,14 @@
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { drizzle } from "drizzle-orm/postgres-js";
-import { eq } from "drizzle-orm";
-import postgres from "postgres";
 import { persons, personNames, identityHypotheses } from "@huadian/db-schema";
+import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+
+import type { DrizzleClient } from "../src/context.js";
 import {
   findPersonBySlug,
   findPersons,
 } from "../src/services/person.service.js";
-import type { DrizzleClient } from "../src/context.js";
 
 // ----------------------------------------------------------------
 // Test infra: connect to real PG
@@ -32,7 +33,6 @@ const FIXTURE_IDS = {
 };
 
 async function seedFixtures() {
-  // Insert persons
   await db.insert(persons).values([
     {
       id: FIXTURE_IDS.liuBang,
@@ -71,7 +71,6 @@ async function seedFixtures() {
     },
   ]);
 
-  // Insert person_names for liu-bang
   await db.insert(personNames).values([
     {
       id: FIXTURE_IDS.liuBangName1,
@@ -91,7 +90,6 @@ async function seedFixtures() {
     },
   ]);
 
-  // Insert identity_hypothesis for liu-bang
   await db.insert(identityHypotheses).values([
     {
       id: FIXTURE_IDS.liuBangHyp,
@@ -105,8 +103,6 @@ async function seedFixtures() {
 }
 
 async function cleanupFixtures() {
-  const ids = Object.values(FIXTURE_IDS);
-  // Delete in reverse FK order
   await db.delete(identityHypotheses).where(
     eq(identityHypotheses.id, FIXTURE_IDS.liuBangHyp),
   );
@@ -134,13 +130,12 @@ beforeAll(async () => {
   sql = postgres(DATABASE_URL, { max: 2 });
   db = drizzle(sql);
 
-  // Clean any leftover fixtures then seed
-  await cleanupFixtures().catch(() => {});
+  await cleanupFixtures().catch(() => { /* ignore if fixtures don't exist */ });
   await seedFixtures();
 });
 
 afterAll(async () => {
-  await cleanupFixtures().catch(() => {});
+  await cleanupFixtures().catch(() => { /* ignore cleanup errors */ });
   await sql.end();
 });
 
@@ -193,7 +188,6 @@ describe("findPersons (integration)", () => {
   it("returns paginated persons excluding soft-deleted", async () => {
     const result = await findPersons(db, 100, 0);
 
-    // Should include our 3 non-deleted fixtures (plus any existing data)
     const testSlugs = result.map((p) => p.slug).filter((s) => s.startsWith("test-"));
     expect(testSlugs).toContain("test-liu-bang");
     expect(testSlugs).toContain("test-xiang-yu");
@@ -207,9 +201,7 @@ describe("findPersons (integration)", () => {
   });
 
   it("clamps limit to max 100", async () => {
-    // Should not throw even with absurd limit
     const result = await findPersons(db, 999, 0);
-    // Service clamps to 100
     expect(result.length).toBeLessThanOrEqual(100);
   });
 
