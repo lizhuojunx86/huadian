@@ -14,6 +14,7 @@ from .action_map import (
     UnknownTGActionError,
 )
 from .adapter import TraceGuardAdapter
+from .audit import AuditSink
 from .mock import MockTraceGuardPort
 from .policy import (
     ActionPolicy,
@@ -42,6 +43,7 @@ __all__ = [
     "ActionEscalator",
     "ActionPolicy",
     "ActionType",
+    "AuditSink",
     "CheckpointInput",
     "CheckpointResult",
     "CheckpointStatus",

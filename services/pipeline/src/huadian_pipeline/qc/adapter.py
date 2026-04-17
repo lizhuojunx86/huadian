@@ -37,6 +37,7 @@ from .action_map import (
     maybe_escalate,
     translate,
 )
+from .audit import AuditSink
 from .policy import ActionPolicy, PolicyMode, max_severity
 from .port import TraceGuardPort
 from .rule_registry import RuleRegistry
@@ -93,6 +94,7 @@ class TraceGuardAdapter(TraceGuardPort):
         rule_registry: RuleRegistry | None = None,
         policy: ActionPolicy | None = None,
         mode: PolicyMode = "enforce",
+        audit_sink: AuditSink | None = None,
     ) -> None:
         # `escalator` is a raw Protocol-shaped override for tests and
         # one-off injection. When `policy` is provided, the Adapter
@@ -105,6 +107,7 @@ class TraceGuardAdapter(TraceGuardPort):
         self._registry: RuleRegistry = rule_registry or RuleRegistry()
         self._policy: ActionPolicy | None = policy
         self._mode: PolicyMode = mode
+        self._audit: AuditSink | None = audit_sink
 
     # ------------------------------------------------------------------
     # Core hot path
@@ -184,6 +187,20 @@ class TraceGuardAdapter(TraceGuardPort):
             step_name=payload.step_name,
         )
         result.duration_ms = int((time.perf_counter() - t0) * 1000)
+
+        # S-7: persist to PG (non-blocking on failure — checkpoint result
+        # is authoritative; audit is best-effort). Shadow mode writes too
+        # (raw["mode"] is the filter key for analysts).
+        if self._audit is not None:
+            try:
+                await self._audit.write_checkpoint(payload, result)
+            except Exception:  # pragma: no cover — PG down / schema drift
+                logger.exception(
+                    "audit sink failed for step %r; checkpoint result still "
+                    "returned (audit is best-effort)",
+                    payload.step_name,
+                )
+
         return result
 
     def _run_registry(self, payload: CheckpointInput) -> list[Violation]:
@@ -245,6 +262,7 @@ class TraceGuardAdapter(TraceGuardPort):
             "escalator": self._escalator is not None,
             "policy": self._policy is not None,
             "mode": self._mode,
+            "audit_sink": self._audit is not None,
         }
 
     # ------------------------------------------------------------------
