@@ -80,7 +80,7 @@ is synced with packages/shared-types/src/enums.ts via codegen; manual
 edits on either side will be caught by CI.
 """
 interface Traceable {
-  sourceEvidenceId: ID!
+  sourceEvidenceId: ID
   provenanceTier: ProvenanceTier!
   updatedAt: DateTime!
 }

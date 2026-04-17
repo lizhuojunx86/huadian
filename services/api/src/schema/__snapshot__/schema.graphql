@@ -59,7 +59,7 @@ License note:
 """
 type Book implements Traceable {
   id: ID!
-  sourceEvidenceId: ID!
+  sourceEvidenceId: ID
   provenanceTier: ProvenanceTier!
   updatedAt: DateTime!
   slug: String!
@@ -142,7 +142,7 @@ Related collections (resolved lazily, DataLoader territory per architect #3):
 """
 type Event implements Traceable {
   id: ID!
-  sourceEvidenceId: ID!
+  sourceEvidenceId: ID
   provenanceTier: ProvenanceTier!
   updatedAt: DateTime!
   slug: String!
@@ -330,7 +330,7 @@ Related collections (resolved lazily, DataLoader territory per architect #3):
 """
 type Person implements Traceable {
   id: ID!
-  sourceEvidenceId: ID!
+  sourceEvidenceId: ID
   provenanceTier: ProvenanceTier!
   updatedAt: DateTime!
   slug: String!
@@ -375,7 +375,7 @@ Related collections (resolved lazily, DataLoader territory per architect #3):
 """
 type Place implements Traceable {
   id: ID!
-  sourceEvidenceId: ID!
+  sourceEvidenceId: ID
   provenanceTier: ProvenanceTier!
   updatedAt: DateTime!
   slug: String!
@@ -516,7 +516,7 @@ Traceable compliance note:
 """
 type SourceEvidence implements Traceable {
   id: ID!
-  sourceEvidenceId: ID!
+  sourceEvidenceId: ID
   provenanceTier: ProvenanceTier!
   updatedAt: DateTime!
   rawTextId: UUID
@@ -540,7 +540,7 @@ is synced with packages/shared-types/src/enums.ts via codegen; manual
 edits on either side will be caught by CI.
 """
 interface Traceable {
-  sourceEvidenceId: ID!
+  sourceEvidenceId: ID
   provenanceTier: ProvenanceTier!
   updatedAt: DateTime!
 }

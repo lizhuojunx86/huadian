@@ -103,7 +103,7 @@ export type Book = Traceable & {
   metadata: Maybe<Scalars['JSON']['output']>;
   provenanceTier: ProvenanceTier;
   slug: Scalars['String']['output'];
-  sourceEvidenceId: Scalars['ID']['output'];
+  sourceEvidenceId: Maybe<Scalars['ID']['output']>;
   title: MultiLangText;
   updatedAt: Scalars['DateTime']['output'];
 };
@@ -182,7 +182,7 @@ export type Event = Traceable & {
   realityStatus: RealityStatus;
   significance: Maybe<MultiLangText>;
   slug: Scalars['String']['output'];
-  sourceEvidenceId: Scalars['ID']['output'];
+  sourceEvidenceId: Maybe<Scalars['ID']['output']>;
   summary: Maybe<MultiLangText>;
   timePeriodEnd: Maybe<HistoricalDate>;
   timePeriodStart: Maybe<HistoricalDate>;
@@ -372,7 +372,7 @@ export type Person = Traceable & {
   provenanceTier: ProvenanceTier;
   realityStatus: RealityStatus;
   slug: Scalars['String']['output'];
-  sourceEvidenceId: Scalars['ID']['output'];
+  sourceEvidenceId: Maybe<Scalars['ID']['output']>;
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -418,7 +418,7 @@ export type Place = Traceable & {
   provenanceTier: ProvenanceTier;
   realityStatus: RealityStatus;
   slug: Scalars['String']['output'];
-  sourceEvidenceId: Scalars['ID']['output'];
+  sourceEvidenceId: Maybe<Scalars['ID']['output']>;
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -583,7 +583,7 @@ export type SourceEvidence = Traceable & {
   provenanceTier: ProvenanceTier;
   quotedText: Maybe<Scalars['String']['output']>;
   rawTextId: Maybe<Scalars['UUID']['output']>;
-  sourceEvidenceId: Scalars['ID']['output'];
+  sourceEvidenceId: Maybe<Scalars['ID']['output']>;
   textVersion: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['DateTime']['output'];
 };
@@ -600,7 +600,7 @@ export type SourceEvidence = Traceable & {
  */
 export type Traceable = {
   provenanceTier: ProvenanceTier;
-  sourceEvidenceId: Scalars['ID']['output'];
+  sourceEvidenceId: Maybe<Scalars['ID']['output']>;
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -781,7 +781,7 @@ export type BookResolvers<ContextType = GraphQLContext, ParentType extends Resol
   metadata?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
   provenanceTier?: Resolver<ResolversTypes['ProvenanceTier'], ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  sourceEvidenceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['MultiLangText'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -803,7 +803,7 @@ export type EventResolvers<ContextType = GraphQLContext, ParentType extends Reso
   realityStatus?: Resolver<ResolversTypes['RealityStatus'], ParentType, ContextType>;
   significance?: Resolver<Maybe<ResolversTypes['MultiLangText']>, ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  sourceEvidenceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   summary?: Resolver<Maybe<ResolversTypes['MultiLangText']>, ParentType, ContextType>;
   timePeriodEnd?: Resolver<Maybe<ResolversTypes['HistoricalDate']>, ParentType, ContextType>;
   timePeriodStart?: Resolver<Maybe<ResolversTypes['HistoricalDate']>, ParentType, ContextType>;
@@ -895,7 +895,7 @@ export type PersonResolvers<ContextType = GraphQLContext, ParentType extends Res
   provenanceTier?: Resolver<ResolversTypes['ProvenanceTier'], ParentType, ContextType>;
   realityStatus?: Resolver<ResolversTypes['RealityStatus'], ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  sourceEvidenceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -924,7 +924,7 @@ export type PlaceResolvers<ContextType = GraphQLContext, ParentType extends Reso
   provenanceTier?: Resolver<ResolversTypes['ProvenanceTier'], ParentType, ContextType>;
   realityStatus?: Resolver<ResolversTypes['RealityStatus'], ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  sourceEvidenceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -988,7 +988,7 @@ export type SourceEvidenceResolvers<ContextType = GraphQLContext, ParentType ext
   provenanceTier?: Resolver<ResolversTypes['ProvenanceTier'], ParentType, ContextType>;
   quotedText?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   rawTextId?: Resolver<Maybe<ResolversTypes['UUID']>, ParentType, ContextType>;
-  sourceEvidenceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   textVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

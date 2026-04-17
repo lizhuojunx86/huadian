@@ -16,7 +16,7 @@ Related collections (resolved lazily, DataLoader territory per architect #3):
 """
 type Place implements Traceable {
   id: ID!
-  sourceEvidenceId: ID!
+  sourceEvidenceId: ID
   provenanceTier: ProvenanceTier!
   updatedAt: DateTime!
 
