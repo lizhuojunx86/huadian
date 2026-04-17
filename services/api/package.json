@@ -18,7 +18,9 @@
     "schema:merge": "tsx scripts/merge-schema.ts",
     "schema:diff": "graphql-inspector diff git:main:services/api/src/schema/__snapshot__/schema.graphql src/schema/__snapshot__/schema.graphql",
     "codegen": "pnpm schema:merge && graphql-codegen --config codegen.ts",
-    "codegen:watch": "graphql-codegen --config codegen.ts --watch"
+    "codegen:watch": "graphql-codegen --config codegen.ts --watch",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@graphql-tools/load-files": "^7.0.1",
@@ -43,6 +45,7 @@
     "drizzle-kit": "^0.30.2",
     "eslint": "^8.57.0",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^4.1.4"
   }
 }
