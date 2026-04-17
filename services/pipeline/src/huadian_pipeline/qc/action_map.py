@@ -33,16 +33,12 @@ from typing import Literal, Protocol
 # Sourced from guardian.core.config.ActionConfig literal unions (TG 0.1.0).
 # Update ONLY in lockstep with a TG version bump + test + ADR-004 errata.
 # ---------------------------------------------------------------------------
-TG_ACTION_SET: frozenset[str] = frozenset(
-    {"pass", "passthrough", "retry", "abort", "alert"}
-)
+TG_ACTION_SET: frozenset[str] = frozenset({"pass", "passthrough", "retry", "abort", "alert"})
 
 # ADR-004 ActionType. Mirrors qc/types.py::ActionType — duplicated here as
 # a plain Literal so that action_map.py has no intra-package imports and
 # can be unit-tested in isolation.
-ActionType = Literal[
-    "pass_through", "retry", "degrade", "human_queue", "fail_fast"
-]
+ActionType = Literal["pass_through", "retry", "degrade", "human_queue", "fail_fast"]
 
 # ---------------------------------------------------------------------------
 # Mismatch #1 table.
@@ -53,11 +49,11 @@ ActionType = Literal[
 # two cases later (see adapter.py).
 # ---------------------------------------------------------------------------
 _BASE_MAP: dict[str, ActionType] = {
-    "pass":        "pass_through",
+    "pass": "pass_through",
     "passthrough": "pass_through",
-    "retry":       "retry",
-    "abort":       "fail_fast",
-    "alert":       "human_queue",
+    "retry": "retry",
+    "abort": "fail_fast",
+    "alert": "human_queue",
 }
 
 

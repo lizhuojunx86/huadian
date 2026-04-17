@@ -40,10 +40,7 @@ def rule_json_schema(payload: CheckpointInput) -> list[Violation]:
             Violation(
                 rule_id=_RULE_ID_JSON_SCHEMA,
                 severity=_SEV_JSON_SCHEMA,
-                message=(
-                    f"metadata.output_schema expected dict, got "
-                    f"{type(schema).__name__}"
-                ),
+                message=(f"metadata.output_schema expected dict, got {type(schema).__name__}"),
                 location={"field": "metadata.output_schema"},
                 suggested_fix="check prompt version manifest",
             )
@@ -87,9 +84,7 @@ def rule_confidence_threshold(payload: CheckpointInput) -> list[Violation]:
     if "confidence" not in payload.outputs:
         return []
 
-    threshold_any: Any = payload.metadata.get(
-        "min_confidence", _DEFAULT_MIN_CONFIDENCE
-    )
+    threshold_any: Any = payload.metadata.get("min_confidence", _DEFAULT_MIN_CONFIDENCE)
     try:
         threshold = float(threshold_any)
     except (TypeError, ValueError):
@@ -97,10 +92,7 @@ def rule_confidence_threshold(payload: CheckpointInput) -> list[Violation]:
             Violation(
                 rule_id=_RULE_ID_CONFIDENCE,
                 severity=_SEV_CONFIDENCE,
-                message=(
-                    f"metadata.min_confidence not coercible to float: "
-                    f"{threshold_any!r}"
-                ),
+                message=(f"metadata.min_confidence not coercible to float: {threshold_any!r}"),
                 location={"field": "metadata.min_confidence"},
             )
         ]
@@ -124,10 +116,7 @@ def rule_confidence_threshold(payload: CheckpointInput) -> list[Violation]:
             Violation(
                 rule_id=_RULE_ID_CONFIDENCE,
                 severity=_SEV_CONFIDENCE,
-                message=(
-                    f"outputs.confidence {conf:.3f} below threshold "
-                    f"{threshold:.3f}"
-                ),
+                message=(f"outputs.confidence {conf:.3f} below threshold {threshold:.3f}"),
                 location={"field": "outputs.confidence"},
                 suggested_fix="raise prompt quality, switch to a stronger model, or lower threshold",
             )
@@ -141,6 +130,6 @@ def rule_confidence_threshold(payload: CheckpointInput) -> list[Violation]:
 
 # (rule_id, fn, severity, step_patterns)  — step_patterns=[] means "all steps".
 RULES: list[tuple[str, Any, Severity, list[str]]] = [
-    (_RULE_ID_JSON_SCHEMA,  rule_json_schema,          _SEV_JSON_SCHEMA,  []),
-    (_RULE_ID_CONFIDENCE,   rule_confidence_threshold, _SEV_CONFIDENCE,   []),
+    (_RULE_ID_JSON_SCHEMA, rule_json_schema, _SEV_JSON_SCHEMA, []),
+    (_RULE_ID_CONFIDENCE, rule_confidence_threshold, _SEV_CONFIDENCE, []),
 ]

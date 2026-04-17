@@ -59,9 +59,7 @@ class RegisteredRule:
     def matches(self, step_name: str) -> bool:
         if not self.step_patterns:
             return True
-        return any(
-            fnmatch.fnmatchcase(step_name, pat) for pat in self.step_patterns
-        )
+        return any(fnmatch.fnmatchcase(step_name, pat) for pat in self.step_patterns)
 
 
 class DuplicateRuleIdError(ValueError):
@@ -98,9 +96,7 @@ class RuleSet:
         for rule in self.rules:
             findings = rule.fn(payload)
             for v in findings:
-                out.append(
-                    replace(v, rule_id=rule.rule_id, severity=rule.severity)
-                )
+                out.append(replace(v, rule_id=rule.rule_id, severity=rule.severity))
         return out
 
 
@@ -152,9 +148,7 @@ class RuleRegistry:
         """
         rules: list[tuple[str, RuleFn, Severity, list[str]]] = module.RULES
         for rule_id, fn, severity, step_patterns in rules:
-            self.register(
-                rule_id, fn, severity=severity, step_patterns=step_patterns
-            )
+            self.register(rule_id, fn, severity=severity, step_patterns=step_patterns)
 
     def for_step(self, step_name: str) -> RuleSet:
         matched = tuple(r for r in self._rules if r.matches(step_name))

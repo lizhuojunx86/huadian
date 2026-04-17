@@ -100,9 +100,7 @@ class TraceGuardAdapter(TraceGuardPort):
         # one-off injection. When `policy` is provided, the Adapter
         # constructs an escalator per-checkpoint via
         # `policy.make_escalator(...)` and `escalator` is ignored.
-        self._config_provider: ConfigProvider = (
-            config_provider or _default_config_provider
-        )
+        self._config_provider: ConfigProvider = config_provider or _default_config_provider
         self._escalator: ActionEscalator | None = escalator
         self._registry: RuleRegistry = rule_registry or RuleRegistry()
         self._policy: ActionPolicy | None = policy
@@ -157,9 +155,7 @@ class TraceGuardAdapter(TraceGuardPort):
             )
         except Exception as exc:  # pragma: no cover — TG eval failure path
             duration_ms = int((time.perf_counter() - t0) * 1000)
-            logger.exception(
-                "TG evaluate_async raised; surfacing as fail_fast"
-            )
+            logger.exception("TG evaluate_async raised; surfacing as fail_fast")
             return CheckpointResult(
                 status="fail",
                 action="fail_fast",
@@ -223,9 +219,7 @@ class TraceGuardAdapter(TraceGuardPort):
     # Stub implementations — mature in follow-up subtasks
     # ------------------------------------------------------------------
 
-    async def batch_checkpoint(
-        self, payloads: list[CheckpointInput]
-    ) -> list[CheckpointResult]:
+    async def batch_checkpoint(self, payloads: list[CheckpointInput]) -> list[CheckpointResult]:
         """Naïve concurrent fan-out. Concurrency cap + policy comes later."""
         return list(await asyncio.gather(*(self.checkpoint(p) for p in payloads)))
 
@@ -236,19 +230,13 @@ class TraceGuardAdapter(TraceGuardPort):
         *,
         severity: str,
     ) -> None:
-        raise NotImplementedError(
-            "register_rule lands in T-TG-002 S-4 (rule registry)."
-        )
+        raise NotImplementedError("register_rule lands in T-TG-002 S-4 (rule registry).")
 
     def register_rule_bundle(self, bundle_path: str) -> None:
-        raise NotImplementedError(
-            "register_rule_bundle lands in T-TG-002 S-4 (rule registry)."
-        )
+        raise NotImplementedError("register_rule_bundle lands in T-TG-002 S-4 (rule registry).")
 
     async def replay(self, trace_id: str) -> CheckpointResult:
-        raise NotImplementedError(
-            "replay lands in T-TG-002 S-8 (needs extractions_history sink)."
-        )
+        raise NotImplementedError("replay lands in T-TG-002 S-8 (needs extractions_history sink).")
 
     def health(self) -> dict[str, Any]:
         try:
@@ -391,6 +379,7 @@ class TraceGuardAdapter(TraceGuardPort):
 # ---------------------------------------------------------------------------
 # Module-level translators (keep class body lean)
 # ---------------------------------------------------------------------------
+
 
 def _violations_from_issues(
     *,

@@ -100,6 +100,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_ext_hist_idempotent
 # Fixtures
 # ---------------------------------------------------------------------------
 
+
 @pytest.fixture(scope="module")
 def pg_dsn() -> Iterator[str]:
     """Spin up a Postgres 16 container and return the DSN."""
@@ -166,10 +167,9 @@ def _mk_result(
 # Tests
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.asyncio
-async def test_write_checkpoint_inserts_both_tables(
-    pg_dsn: str, para_id: uuid.UUID
-) -> None:
+async def test_write_checkpoint_inserts_both_tables(pg_dsn: str, para_id: uuid.UUID) -> None:
     sink = AuditSink(pg_dsn)
     try:
         payload = _mk_payload(para_id)
@@ -202,9 +202,7 @@ async def test_write_checkpoint_inserts_both_tables(
 
 
 @pytest.mark.asyncio
-async def test_upsert_overwrites_on_conflict(
-    pg_dsn: str, para_id: uuid.UUID
-) -> None:
+async def test_upsert_overwrites_on_conflict(pg_dsn: str, para_id: uuid.UUID) -> None:
     sink = AuditSink(pg_dsn)
     try:
         payload = _mk_payload(para_id)
@@ -234,9 +232,7 @@ async def test_upsert_overwrites_on_conflict(
 
 
 @pytest.mark.asyncio
-async def test_shadow_mode_still_writes(
-    pg_dsn: str, para_id: uuid.UUID
-) -> None:
+async def test_shadow_mode_still_writes(pg_dsn: str, para_id: uuid.UUID) -> None:
     sink = AuditSink(pg_dsn)
     try:
         payload = _mk_payload(para_id)
@@ -300,6 +296,7 @@ async def test_run_migration_is_idempotent(pg_dsn: str) -> None:
 # ---------------------------------------------------------------------------
 # Unit tests (no PG needed)
 # ---------------------------------------------------------------------------
+
 
 @pytest.mark.parametrize(
     ("step_name", "expected"),

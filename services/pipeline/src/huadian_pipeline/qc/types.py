@@ -51,12 +51,12 @@ class CheckpointInput:
     the Adapter never mutates it.
     """
 
-    step_name: str                   # e.g. "ner_v3"
-    trace_id: str                    # threaded through the whole pipeline run
-    prompt_version: str              # e.g. "ner_v3.json#sha256:abc..."
-    model: str                       # e.g. "claude-opus-4-6"
-    inputs: dict[str, Any]           # upstream step outputs / prompt inputs
-    outputs: dict[str, Any]          # this step's outputs (subject of checks)
+    step_name: str  # e.g. "ner_v3"
+    trace_id: str  # threaded through the whole pipeline run
+    prompt_version: str  # e.g. "ner_v3.json#sha256:abc..."
+    model: str  # e.g. "claude-opus-4-6"
+    inputs: dict[str, Any]  # upstream step outputs / prompt inputs
+    outputs: dict[str, Any]  # this step's outputs (subject of checks)
     parent_trace_id: str | None = None
     metadata: dict[str, Any] = field(default_factory=dict)  # book_id, paragraph_id, attempt, ...
 
@@ -70,11 +70,11 @@ class Violation:
     at a fixed `rule_id` (see adapter.py).
     """
 
-    rule_id: str                          # e.g. "ner.surface_in_source"
-    severity: Severity                    # critical / major / minor / info
-    message: str                          # human-readable
+    rule_id: str  # e.g. "ner.surface_in_source"
+    severity: Severity  # critical / major / minor / info
+    message: str  # human-readable
     location: dict[str, Any] = field(default_factory=dict)  # e.g. {"field": "entities[2]"}
-    suggested_fix: str | None = None      # TG retry_hint lands here when applicable
+    suggested_fix: str | None = None  # TG retry_hint lands here when applicable
 
 
 @dataclass(slots=True)
@@ -86,10 +86,10 @@ class CheckpointResult:
     """
 
     status: CheckpointStatus
-    action: ActionType                    # translated via action_map.translate
+    action: ActionType  # translated via action_map.translate
     violations: list[Violation] = field(default_factory=list)
-    confidence: float = 1.0               # ← TG `score` lands here (0.0 – 1.0)
-    duration_ms: int = 0                  # Adapter-computed
+    confidence: float = 1.0  # ← TG `score` lands here (0.0 – 1.0)
+    duration_ms: int = 0  # Adapter-computed
     raw: dict[str, Any] = field(default_factory=dict)
     # ^ Holds everything we do NOT promote to a first-class field:
     #     raw["tg_action"]          — original TG literal (distinguishes

@@ -30,9 +30,7 @@ def test_participants_exist_passes_when_all_ids_resolve() -> None:
                 {"entity_id": "e1", "surface_form": "项羽"},
                 {"entity_id": "e2", "surface_form": "刘邦"},
             ],
-            relations=[
-                {"subject_id": "e1", "predicate": "attacks", "object_id": "e2"}
-            ],
+            relations=[{"subject_id": "e1", "predicate": "attacks", "object_id": "e2"}],
         )
     )
     assert vs == []
@@ -42,9 +40,7 @@ def test_participants_exist_flags_missing_subject() -> None:
     vs = rule_participants_exist(
         _rel_payload(
             entities=[{"entity_id": "e2", "surface_form": "刘邦"}],
-            relations=[
-                {"subject_id": "e1", "predicate": "attacks", "object_id": "e2"}
-            ],
+            relations=[{"subject_id": "e1", "predicate": "attacks", "object_id": "e2"}],
         )
     )
     assert len(vs) == 1
@@ -56,9 +52,7 @@ def test_participants_exist_flags_missing_object() -> None:
     vs = rule_participants_exist(
         _rel_payload(
             entities=[{"entity_id": "e1", "surface_form": "项羽"}],
-            relations=[
-                {"subject_id": "e1", "predicate": "attacks", "object_id": "eX"}
-            ],
+            relations=[{"subject_id": "e1", "predicate": "attacks", "object_id": "eX"}],
         )
     )
     assert len(vs) == 1
@@ -69,9 +63,7 @@ def test_participants_exist_flags_empty_id() -> None:
     vs = rule_participants_exist(
         _rel_payload(
             entities=[{"entity_id": "e1", "surface_form": "项羽"}],
-            relations=[
-                {"subject_id": "", "predicate": "attacks", "object_id": "e1"}
-            ],
+            relations=[{"subject_id": "", "predicate": "attacks", "object_id": "e1"}],
         )
     )
     assert len(vs) == 1

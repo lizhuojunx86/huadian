@@ -68,9 +68,7 @@ class ActionPolicy:
 
     defaults: PolicyDefaults
     by_severity: dict[Severity, list[ActionType]]
-    by_step: dict[str, dict[Severity, list[ActionType]]] = field(
-        default_factory=dict
-    )
+    by_step: dict[str, dict[Severity, list[ActionType]]] = field(default_factory=dict)
 
     # ------------------------------------------------------------------
     # Loading
@@ -90,9 +88,7 @@ class ActionPolicy:
         defaults = _parse_defaults(raw.get("defaults", {}))
         by_severity = _parse_severity_table(raw.get("by_severity", {}), where="by_severity")
         if not by_severity:
-            raise PolicyConfigError(
-                "by_severity is required and must cover at least one severity"
-            )
+            raise PolicyConfigError("by_severity is required and must cover at least one severity")
         by_step_raw: Any = raw.get("by_step", {}) or {}
         if not isinstance(by_step_raw, dict):
             raise PolicyConfigError("by_step must be a mapping")
@@ -100,9 +96,7 @@ class ActionPolicy:
         for step_pat, table in by_step_raw.items():
             if not isinstance(step_pat, str):
                 raise PolicyConfigError(f"by_step key must be str, got {step_pat!r}")
-            by_step[step_pat] = _parse_severity_table(
-                table or {}, where=f"by_step[{step_pat!r}]"
-            )
+            by_step[step_pat] = _parse_severity_table(table or {}, where=f"by_step[{step_pat!r}]")
         return cls(defaults=defaults, by_severity=by_severity, by_step=by_step)
 
     # ------------------------------------------------------------------
@@ -147,9 +141,7 @@ class ActionPolicy:
             return "fail_fast"
         return ladder[idx]
 
-    def _ladder_for(
-        self, step_name: str, severity: Severity
-    ) -> list[ActionType]:
+    def _ladder_for(self, step_name: str, severity: Severity) -> list[ActionType]:
         # First fnmatch hit in by_step wins (insertion order preserved
         # by dict since 3.7). Fall back to by_severity.
         for pat, table in self.by_step.items():
@@ -198,6 +190,7 @@ class ActionPolicy:
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def max_severity(violations: list[Violation]) -> Severity | None:
     """Return the highest severity seen, or None if violations is empty.
 
@@ -224,9 +217,7 @@ def _parse_defaults(raw: Any) -> PolicyDefaults:
     try:
         backoff = tuple(int(x) for x in backoff_raw)
     except (TypeError, ValueError) as err:
-        raise PolicyConfigError(
-            f"defaults.retry_backoff_ms must be ints: {err}"
-        ) from err
+        raise PolicyConfigError(f"defaults.retry_backoff_ms must be ints: {err}") from err
     return PolicyDefaults(
         retry_backoff_ms=backoff,
         degrade_to=str(raw.get("degrade_to", "")),
@@ -234,17 +225,14 @@ def _parse_defaults(raw: Any) -> PolicyDefaults:
     )
 
 
-def _parse_severity_table(
-    raw: Any, *, where: str
-) -> dict[Severity, list[ActionType]]:
+def _parse_severity_table(raw: Any, *, where: str) -> dict[Severity, list[ActionType]]:
     if not isinstance(raw, dict):
         raise PolicyConfigError(f"{where} must be a mapping of severity → ladder")
     out: dict[Severity, list[ActionType]] = {}
     for sev, ladder in raw.items():
         if sev not in _SEVERITY_RANK:
             raise PolicyConfigError(
-                f"{where}: unknown severity {sev!r}; expected one of "
-                f"{sorted(_SEVERITY_RANK)}"
+                f"{where}: unknown severity {sev!r}; expected one of {sorted(_SEVERITY_RANK)}"
             )
         if not isinstance(ladder, list):
             raise PolicyConfigError(f"{where}[{sev!r}] must be a list of actions")

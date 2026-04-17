@@ -51,10 +51,18 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 # Known values from enums.ts: pipeline_step enum.
-_PIPELINE_STEPS: frozenset[str] = frozenset({
-    "ingestion", "preprocessing", "ner", "relations",
-    "events", "disambiguation", "geocoding", "validation",
-})
+_PIPELINE_STEPS: frozenset[str] = frozenset(
+    {
+        "ingestion",
+        "preprocessing",
+        "ner",
+        "relations",
+        "events",
+        "disambiguation",
+        "geocoding",
+        "validation",
+    }
+)
 
 _VERSION_SUFFIX = re.compile(r"_v\d+$")
 
@@ -78,6 +86,7 @@ def _step_enum(step_name: str) -> str:
 # Hash helpers (G-6)
 # ---------------------------------------------------------------------------
 
+
 def _sha256(data: Any) -> str:
     """Deterministic SHA-256 of a JSON-serialisable value."""
     raw = json.dumps(data, sort_keys=True, ensure_ascii=False)
@@ -87,6 +96,7 @@ def _sha256(data: Any) -> str:
 # ---------------------------------------------------------------------------
 # llm_call_status mapping
 # ---------------------------------------------------------------------------
+
 
 def _llm_call_status(result: CheckpointResult) -> str:
     """Map CheckpointResult.action → llm_call_status enum."""
@@ -103,6 +113,7 @@ def _llm_call_status(result: CheckpointResult) -> str:
 # ---------------------------------------------------------------------------
 # Serialisation
 # ---------------------------------------------------------------------------
+
 
 def _build_traceguard_raw(
     payload: CheckpointInput,
@@ -130,6 +141,7 @@ def _build_traceguard_raw(
 # AuditSink
 # ---------------------------------------------------------------------------
 
+
 class AuditSink:
     """Write llm_calls + extractions_history to PG after each checkpoint.
 
@@ -151,7 +163,9 @@ class AuditSink:
     async def _ensure_pool(self) -> asyncpg.Pool:
         if self._pool is None:
             self._pool = await asyncpg.create_pool(
-                self._dsn, min_size=self._pool_min, max_size=self._pool_max,
+                self._dsn,
+                min_size=self._pool_min,
+                max_size=self._pool_max,
             )
         return self._pool
 
@@ -174,10 +188,16 @@ class AuditSink:
 
         async with pool.acquire() as conn, conn.transaction():
             await self._insert_llm_call(
-                conn, payload, result, checkpoint_run_id,
+                conn,
+                payload,
+                result,
+                checkpoint_run_id,
             )
             await self._upsert_extraction(
-                conn, payload, result, checkpoint_run_id,
+                conn,
+                payload,
+                result,
+                checkpoint_run_id,
             )
 
         logger.debug(
@@ -209,15 +229,15 @@ class AuditSink:
                 traceguard_checkpoint_id, status
             ) VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9::llm_call_status)
             """,
-            payload.step_name,            # prompt_id
-            payload.prompt_version,       # prompt_version
-            prompt_hash,                  # prompt_hash
-            input_hash,                   # input_hash
-            payload.model,                # model
-            result.duration_ms,           # latency_ms
+            payload.step_name,  # prompt_id
+            payload.prompt_version,  # prompt_version
+            prompt_hash,  # prompt_hash
+            input_hash,  # input_hash
+            payload.model,  # model
+            result.duration_ms,  # latency_ms
             json.dumps(payload.outputs, ensure_ascii=False),  # response
-            checkpoint_run_id,            # traceguard_checkpoint_id
-            _llm_call_status(result),     # status
+            checkpoint_run_id,  # traceguard_checkpoint_id
+            _llm_call_status(result),  # status
         )
 
     @staticmethod
@@ -230,8 +250,7 @@ class AuditSink:
         paragraph_id_raw = payload.metadata.get("paragraph_id")
         if paragraph_id_raw is None:
             logger.warning(
-                "audit: skipping extractions_history — no paragraph_id in "
-                "metadata for step %s",
+                "audit: skipping extractions_history — no paragraph_id in metadata for step %s",
                 payload.step_name,
             )
             return
@@ -240,8 +259,7 @@ class AuditSink:
             paragraph_id = uuid.UUID(str(paragraph_id_raw))
         except ValueError:
             logger.warning(
-                "audit: skipping extractions_history — paragraph_id %r is not "
-                "a valid UUID",
+                "audit: skipping extractions_history — paragraph_id %r is not a valid UUID",
                 paragraph_id_raw,
             )
             return
@@ -263,12 +281,12 @@ class AuditSink:
                 confidence      = EXCLUDED.confidence,
                 traceguard_raw  = EXCLUDED.traceguard_raw
             """,
-            paragraph_id,                                          # $1
-            step_enum,                                             # $2
-            payload.prompt_version,                                # $3
-            json.dumps(payload.outputs, ensure_ascii=False),       # $4
-            float(result.confidence),                              # $5
-            json.dumps(tg_raw, ensure_ascii=False, default=str),   # $6
+            paragraph_id,  # $1
+            step_enum,  # $2
+            payload.prompt_version,  # $3
+            json.dumps(payload.outputs, ensure_ascii=False),  # $4
+            float(result.confidence),  # $5
+            json.dumps(tg_raw, ensure_ascii=False, default=str),  # $6
         )
 
     # ------------------------------------------------------------------
@@ -282,8 +300,7 @@ class AuditSink:
         Safe to call on every startup — uses IF NOT EXISTS / IF NOT EXISTS.
         """
         await conn.execute(
-            "ALTER TABLE extractions_history "
-            "ADD COLUMN IF NOT EXISTS traceguard_raw JSONB"
+            "ALTER TABLE extractions_history ADD COLUMN IF NOT EXISTS traceguard_raw JSONB"
         )
         await conn.execute(
             "CREATE UNIQUE INDEX IF NOT EXISTS idx_ext_hist_idempotent "

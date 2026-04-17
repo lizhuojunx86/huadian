@@ -23,9 +23,7 @@ class TraceGuardPort(Protocol):
         """Synchronous (per-step) validation. Core hot path."""
         ...
 
-    async def batch_checkpoint(
-        self, payloads: list[CheckpointInput]
-    ) -> list[CheckpointResult]:
+    async def batch_checkpoint(self, payloads: list[CheckpointInput]) -> list[CheckpointResult]:
         """Batched validation for large pipeline runs."""
         ...
 

@@ -41,9 +41,7 @@ class MockTraceGuardPort(TraceGuardPort):
         factory: ResponseFactory | None = None,
     ) -> None:
         if default_response is None and factory is None:
-            default_response = CheckpointResult(
-                status="pass", action="pass_through"
-            )
+            default_response = CheckpointResult(status="pass", action="pass_through")
         self._default = default_response
         self._factory = factory
         self.calls: list[CheckpointInput] = []
@@ -57,9 +55,7 @@ class MockTraceGuardPort(TraceGuardPort):
         assert self._default is not None  # guaranteed by __init__
         return self._default
 
-    async def batch_checkpoint(
-        self, payloads: list[CheckpointInput]
-    ) -> list[CheckpointResult]:
+    async def batch_checkpoint(self, payloads: list[CheckpointInput]) -> list[CheckpointResult]:
         return [await self.checkpoint(p) for p in payloads]
 
     def register_rule(

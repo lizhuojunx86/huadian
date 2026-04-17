@@ -23,6 +23,7 @@ from huadian_pipeline.qc.types import CheckpointInput, CheckpointResult, Violati
 # In-memory RecordLoader
 # ---------------------------------------------------------------------------
 
+
 class MemoryLoader:
     """Trivial RecordLoader backed by a list of dicts."""
 
@@ -50,6 +51,7 @@ class MemoryLoader:
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _make_stored_record(
     *,
     para_id: str | None = None,
@@ -68,26 +70,29 @@ def _make_stored_record(
         "step": step,
         "prompt_version": pv,
         "output": json.dumps({"entities": [{"surface_form": "项羽", "entity_type": "PERSON"}]}),
-        "traceguard_raw": json.dumps({
-            "checkpoint_run_id": str(uuid.uuid4()),
-            "trace_id": trace_id,
-            "attempt": 1,
-            "mode": "enforce",
-            "guardian_decision": {},
-            "checkpoint_result": {
-                "status": status,
-                "action": action,
-                "confidence": confidence,
-                "duration_ms": 5,
-                "violations": violations or [],
-            },
-        }),
+        "traceguard_raw": json.dumps(
+            {
+                "checkpoint_run_id": str(uuid.uuid4()),
+                "trace_id": trace_id,
+                "attempt": 1,
+                "mode": "enforce",
+                "guardian_decision": {},
+                "checkpoint_result": {
+                    "status": status,
+                    "action": action,
+                    "confidence": confidence,
+                    "duration_ms": 5,
+                    "violations": violations or [],
+                },
+            }
+        ),
     }
 
 
 # ---------------------------------------------------------------------------
 # Tests — replay_one
 # ---------------------------------------------------------------------------
+
 
 @pytest.mark.asyncio
 async def test_replay_one_no_drift_when_adapter_matches() -> None:
@@ -134,7 +139,7 @@ async def test_replay_one_detects_violation_count_drift() -> None:
         default_response=CheckpointResult(
             status="fail",
             action="pass_through",  # action same
-            confidence=0.95,        # confidence same
+            confidence=0.95,  # confidence same
             violations=[Violation(rule_id="new.rule", severity="minor", message="m")],
         )
     )
@@ -180,6 +185,7 @@ async def test_replay_one_handles_missing_traceguard_raw() -> None:
 # Tests — replay_batch
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.asyncio
 async def test_replay_batch_aggregates_correctly() -> None:
     """2 records: 1 pass, 1 drift."""
@@ -189,9 +195,7 @@ async def test_replay_batch_aggregates_correctly() -> None:
     ]
     # Adapter always returns pass_through — matches p1, drifts p2
     mock = MockTraceGuardPort(
-        default_response=CheckpointResult(
-            status="pass", action="pass_through", confidence=0.95
-        )
+        default_response=CheckpointResult(status="pass", action="pass_through", confidence=0.95)
     )
     loader = MemoryLoader(records)
     report = await replay_batch(loader, mock)
@@ -209,9 +213,7 @@ async def test_replay_batch_all_pass_is_ok() -> None:
         for i in range(3)
     ]
     mock = MockTraceGuardPort(
-        default_response=CheckpointResult(
-            status="pass", action="pass_through", confidence=0.95
-        )
+        default_response=CheckpointResult(status="pass", action="pass_through", confidence=0.95)
     )
     loader = MemoryLoader(records)
     report = await replay_batch(loader, mock)
@@ -236,9 +238,7 @@ async def test_replay_batch_filters_by_paragraph_id() -> None:
         _make_stored_record(para_id="other", action="pass_through", confidence=0.95),
     ]
     mock = MockTraceGuardPort(
-        default_response=CheckpointResult(
-            status="pass", action="pass_through", confidence=0.95
-        )
+        default_response=CheckpointResult(status="pass", action="pass_through", confidence=0.95)
     )
     loader = MemoryLoader(records)
     report = await replay_batch(loader, mock, paragraph_id="target")
@@ -273,6 +273,7 @@ async def test_replay_batch_with_errors_counts_correctly() -> None:
 # ---------------------------------------------------------------------------
 # Tests — _reconstruct_input
 # ---------------------------------------------------------------------------
+
 
 @pytest.mark.asyncio
 async def test_reconstructed_input_has_replay_marker() -> None:

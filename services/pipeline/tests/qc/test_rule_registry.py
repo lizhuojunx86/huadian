@@ -53,9 +53,9 @@ def test_register_and_run_one_rule() -> None:
     reg.register("my.rule", one_rule, severity="critical", step_patterns=None)
     vs = reg.for_step("ner_v3").run_all(_payload())
     assert len(vs) == 1
-    assert vs[0].rule_id == "my.rule"       # override kicked in
-    assert vs[0].severity == "critical"     # override kicked in
-    assert vs[0].message == "hi"            # preserved
+    assert vs[0].rule_id == "my.rule"  # override kicked in
+    assert vs[0].severity == "critical"  # override kicked in
+    assert vs[0].message == "hi"  # preserved
 
 
 def test_register_duplicate_rule_id_raises() -> None:
