@@ -7,6 +7,8 @@ dependencies = [
     # TG (TraceGuard) — pinned to v0.1.0-huadian-baseline
     # SHA: 0350b0a54ec646a96e3f25949b7ce604284c49eb
     "pipeline-guardian @ git+https://github.com/lizhuojunx86/traceguard.git@v0.1.0-huadian-baseline",
+    # PG driver for audit sink (S-7: llm_calls / extractions_history)
+    "asyncpg>=0.29",
 ]
 
 [project.scripts]
@@ -32,8 +34,13 @@ dev-dependencies = [
   "pytest>=8.3.4",
   "pytest-asyncio>=0.23.0",
   "ruff>=0.8.6",
+  "testcontainers[postgres]>=4.0",
 ]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+# "prepend" import mode required for editable packages (.pth) in uv
+# workspace layouts. Without this, pytest 9+ importlib mode misses
+# the .pth-based editable install of huadian-pipeline.
+importmode = "prepend"
