@@ -43,7 +43,7 @@ jobs:
     steps:
       # ── Setup ──────────────────────────────────────────────────
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 2  # need parent commit for push diff
 
