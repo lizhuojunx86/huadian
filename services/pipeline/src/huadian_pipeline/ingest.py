@@ -11,7 +11,7 @@ from __future__ import annotations
 import logging
 import uuid
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     import asyncpg
@@ -72,7 +72,7 @@ async def ingest_chapter(pool: asyncpg.Pool, chapter: ChapterData) -> IngestResu
         )
 
 
-async def _upsert_book(conn: asyncpg.Connection, chapter: ChapterData) -> str:
+async def _upsert_book(conn: Any, chapter: ChapterData) -> str:
     """Upsert a book record, returning the book ID."""
     book_slug = f"{chapter.book_slug}-{chapter.chapter_slug}"
     title_json = {
@@ -102,11 +102,12 @@ async def _upsert_book(conn: asyncpg.Connection, chapter: ChapterData) -> str:
             }
         ),
     )
-    return str(row["id"])  # type: ignore[index]
+    assert row is not None, "INSERT ... RETURNING should always return a row"
+    return str(row["id"])
 
 
 async def _insert_raw_texts(
-    conn: asyncpg.Connection,
+    conn: Any,
     book_id: str,
     chapter: ChapterData,
 ) -> tuple[int, int]:
@@ -148,7 +149,7 @@ async def _insert_raw_texts(
 
 
 async def _record_pipeline_run(
-    conn: asyncpg.Connection,
+    conn: Any,
     *,
     book_id: str,
     step: str,
@@ -175,7 +176,7 @@ async def _record_pipeline_run(
     return run_id
 
 
-def _to_json(obj: dict) -> str:  # type: ignore[type-arg]
+def _to_json(obj: dict[str, Any]) -> str:
     """Convert dict to JSON string for asyncpg JSONB parameter."""
     import json
 

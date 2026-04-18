@@ -12,7 +12,7 @@ import logging
 import re
 import uuid
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     import asyncpg
@@ -142,7 +142,7 @@ async def load_persons(
 
 
 async def _upsert_person(
-    conn: asyncpg.Connection,
+    conn: Any,
     person: MergedPerson,
 ) -> tuple[str, bool]:
     """Upsert a person by slug. Returns (person_id, is_new)."""
@@ -193,7 +193,7 @@ async def _upsert_person(
 
 
 async def _insert_person_names(
-    conn: asyncpg.Connection,
+    conn: Any,
     person_id: str,
     person: MergedPerson,
 ) -> int:
