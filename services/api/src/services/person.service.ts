@@ -3,12 +3,13 @@ import {
   personNames,
   identityHypotheses,
 } from "@huadian/db-schema";
-import { eq, isNull, desc } from "drizzle-orm";
+import { eq, isNull, desc, sql, inArray } from "drizzle-orm";
 
 import type {
   Person as GqlPerson,
   PersonName as GqlPersonName,
   IdentityHypothesis as GqlIdentityHypothesis,
+  PersonSearchResult,
   RealityStatus,
   ProvenanceTier,
   NameType,
@@ -229,4 +230,185 @@ export async function findHypothesesByPersonId(
     .from(identityHypotheses)
     .where(eq(identityHypotheses.canonicalPersonId, personId));
   return rows.map(toGraphQLHypothesis);
+}
+
+// ----------------------------------------------------------------
+// Search (T-P0-009)
+// ----------------------------------------------------------------
+
+type PersonItem = GqlPerson & { __typename: "Person" };
+
+/**
+ * Search and paginate persons. When `search` is empty/null, returns all
+ * persons ordered by created_at DESC. When non-empty, uses pg_trgm
+ * similarity on person_names.name (threshold 0.3) + ILIKE on
+ * persons.name->>'zh-Hans', ordered by relevance score DESC.
+ *
+ * Falls back to pure ILIKE if pg_trgm extension is unavailable.
+ */
+export async function searchPersons(
+  db: DrizzleClient,
+  search: string | null | undefined,
+  limit: number,
+  offset: number,
+): Promise<Omit<PersonSearchResult, "__typename">> {
+  const clampedLimit = Math.max(1, Math.min(limit, 100));
+  const clampedOffset = Math.max(0, offset);
+  const term = search?.trim() ?? "";
+
+  if (term === "") {
+    return listAllPersons(db, clampedLimit, clampedOffset);
+  }
+
+  try {
+    return await trigramSearch(db, term, clampedLimit, clampedOffset);
+  } catch (err) {
+    // Fallback: pg_trgm not available → pure ILIKE
+    if (err instanceof Error && err.message.includes("similarity")) {
+      return ilikeSearch(db, term, clampedLimit, clampedOffset);
+    }
+    throw err;
+  }
+}
+
+async function listAllPersons(
+  db: DrizzleClient,
+  limit: number,
+  offset: number,
+): Promise<Omit<PersonSearchResult, "__typename">> {
+  const [countRows, dataRows] = await Promise.all([
+    db.select({ total: sql<string>`count(*)` }).from(persons).where(isNull(persons.deletedAt)),
+    db.select().from(persons).where(isNull(persons.deletedAt))
+      .orderBy(desc(persons.createdAt)).limit(limit).offset(offset),
+  ]);
+  const total = Number(countRows[0]?.total ?? 0);
+  return {
+    items: dataRows.map(toPersonItem),
+    total,
+    hasMore: offset + limit < total,
+  };
+}
+
+async function trigramSearch(
+  db: DrizzleClient,
+  term: string,
+  limit: number,
+  offset: number,
+): Promise<Omit<PersonSearchResult, "__typename">> {
+  const likePattern = `%${term}%`;
+
+  // Run count + paginated IDs in parallel
+  const [countResult, idsResult] = await Promise.all([
+    db.execute(sql`
+      SELECT count(DISTINCT p.id)::int AS total
+      FROM persons p
+      LEFT JOIN person_names pn ON pn.person_id = p.id
+      WHERE p.deleted_at IS NULL
+        AND (
+          similarity(pn.name, ${term}) > 0.3
+          OR p.name->>'zh-Hans' ILIKE ${likePattern}
+        )
+    `),
+    db.execute(sql`
+      SELECT p.id
+      FROM persons p
+      LEFT JOIN person_names pn ON pn.person_id = p.id
+      WHERE p.deleted_at IS NULL
+        AND (
+          similarity(pn.name, ${term}) > 0.3
+          OR p.name->>'zh-Hans' ILIKE ${likePattern}
+        )
+      GROUP BY p.id
+      ORDER BY MAX(GREATEST(
+        COALESCE(similarity(pn.name, ${term}), 0),
+        CASE WHEN p.name->>'zh-Hans' ILIKE ${likePattern} THEN 0.5 ELSE 0 END
+      )) DESC, p.created_at DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `),
+  ]);
+
+  const total = (countResult as unknown as Array<{ total: number }>)[0]?.total ?? 0;
+  const matchedIds = (idsResult as unknown as Array<{ id: string }>).map(r => r.id);
+
+  return fetchAndOrder(db, matchedIds, total, offset, limit);
+}
+
+async function ilikeSearch(
+  db: DrizzleClient,
+  term: string,
+  limit: number,
+  offset: number,
+): Promise<Omit<PersonSearchResult, "__typename">> {
+  const likePattern = `%${term}%`;
+
+  const [countResult, idsResult] = await Promise.all([
+    db.execute(sql`
+      SELECT count(DISTINCT p.id)::int AS total
+      FROM persons p
+      LEFT JOIN person_names pn ON pn.person_id = p.id
+      WHERE p.deleted_at IS NULL
+        AND (
+          pn.name ILIKE ${likePattern}
+          OR p.name->>'zh-Hans' ILIKE ${likePattern}
+        )
+    `),
+    db.execute(sql`
+      SELECT p.id
+      FROM persons p
+      LEFT JOIN person_names pn ON pn.person_id = p.id
+      WHERE p.deleted_at IS NULL
+        AND (
+          pn.name ILIKE ${likePattern}
+          OR p.name->>'zh-Hans' ILIKE ${likePattern}
+        )
+      GROUP BY p.id
+      ORDER BY p.created_at DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `),
+  ]);
+
+  const total = (countResult as unknown as Array<{ total: number }>)[0]?.total ?? 0;
+  const matchedIds = (idsResult as unknown as Array<{ id: string }>).map(r => r.id);
+
+  return fetchAndOrder(db, matchedIds, total, offset, limit);
+}
+
+/**
+ * Given ordered person IDs from a search query, fetch full rows via
+ * Drizzle (proper type mapping) and re-order to preserve relevance.
+ */
+async function fetchAndOrder(
+  db: DrizzleClient,
+  orderedIds: string[],
+  total: number,
+  offset: number,
+  limit: number,
+): Promise<Omit<PersonSearchResult, "__typename">> {
+  if (orderedIds.length === 0) {
+    return { items: [], total, hasMore: false };
+  }
+
+  const rows = await db.select().from(persons)
+    .where(inArray(persons.id, orderedIds));
+
+  // Re-order to match the search relevance order
+  const rowMap = new Map(rows.map(r => [r.id, r]));
+  const items: PersonItem[] = orderedIds
+    .map(id => rowMap.get(id))
+    .filter((r): r is NonNullable<typeof r> => r != null)
+    .map(toPersonItem);
+
+  return {
+    items,
+    total,
+    hasMore: offset + limit < total,
+  };
+}
+
+function toPersonItem(row: PersonRow): PersonItem {
+  return {
+    ...toGraphQLPerson(row),
+    names: [],
+    identityHypotheses: [],
+  };
 }

@@ -2,7 +2,7 @@ import type { QueryResolvers } from "../__generated__/graphql.js";
 import { notImplemented } from "../errors.js";
 import {
   findPersonBySlug,
-  findPersons,
+  searchPersons,
 } from "../services/person.service.js";
 import { validateSlug } from "../utils/slug.js";
 
@@ -24,8 +24,8 @@ export const queryResolvers: QueryResolvers = {
     return person;
   },
 
-  persons: async (_parent, { limit, offset }, ctx) => {
-    return findPersons(ctx.db, limit ?? 20, offset ?? 0);
+  persons: async (_parent, { search, limit, offset }, ctx) => {
+    return searchPersons(ctx.db, search ?? null, limit ?? 20, offset ?? 0);
   },
 
   event: (_parent, _args, ctx) => {
