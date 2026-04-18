@@ -7,6 +7,21 @@
 
 ## 2026-04-19
 
+### [fix] T-P1-001 resolved — API 集成测试隔离修复：2 skip → 0 skip（1 commit）
+- **角色**：QA 工程师（主导）
+- **性质**：技术债清理（W-8 衍生债）
+- **根因**：
+  - Case 1（hasMore=false）：`searchPersons(null, 100, 0)` 假设全局 total ≤ 100，但 CI DB 有 152 条 persons，service 层 limit 截断到 100 → `hasMore` 永远 true
+  - Case 2（ordering desc）：断言字段 `updatedAt` 与实现 `orderBy(createdAt)` 错配 + 全局 result 含其他 fixture 数据
+- **修复**：
+  - Case 1：先 probe total，再 offset 到 `total-3` 取尾页，验证 `hasMore=false`——不假设固定 total
+  - Case 2：filter result 到 `test-*` slug 再验证 `updatedAt` desc 顺序——隔离其他 fixture
+- **验证**：本地 6 次全绿（152 条 persons 在库），monorepo full suite 45/45 pass, 0 skip
+- **无新依赖，无 schema 变更，无业务代码变更**
+- **1 commit**
+
+---
+
 ### [fix] T-P0-014 完成 — 非人实体清理：5 条 soft-delete（5 commits, 22 new tests）
 - **角色**：管线工程师（主导）+ 古籍/历史专家（实体归属仲裁）
 - **性质**：Phase 0 数据质量修复

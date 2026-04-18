@@ -1,5 +1,7 @@
 # T-P1-001 — Turbo monorepo test isolation for API integration tests
 
+> **RESOLVED 2026-04-19** — Fixed by scoping assertions to own fixtures and probing actual DB total; root cause was global-count assumption + field mismatch (updatedAt vs createdAt). Commit `be4f59b`.
+
 ## Symptom
 
 - `pnpm --filter @huadian/api test` → 45/45 pass (isolated run)

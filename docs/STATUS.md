@@ -231,7 +231,7 @@
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
 | 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | T-P0-011 ✅ | planned |
-| 🟢 低 | T-P1-001 | API 集成测试 isolation 修复（hasMore + ordering 2 case） | 后端 | — | registered（[debt doc](../docs/debts/T-P1-001-test-isolation.md)） |
+| ~~🟢 低~~ | ~~T-P1-001~~ | ~~API 集成测试 isolation 修复（hasMore + ordering 2 case）~~ | ~~QA~~ | ~~—~~ | **closed**（2026-04-19, [debt doc](../docs/debts/T-P1-001-test-isolation.md)） |
 | 🟢 低 | T-P1-002 | merge 后 person_names nameType 未降级 + 重复名未去重 | 管线 / 后端 | T-P0-011 | registered（2026-04-18 T-P0-013 sanity check） |
 | 🟢 低 | T-P1-003 | pg_trgm 搜索对"帝X"类查询召回过宽 | 后端 | T-P0-009 | registered（2026-04-18 T-P0-013 sanity check） |
 | ⚪ 微 | T-P2-001 | codegen 输出 trailing newline 不一致 — `pnpm codegen` 生成无尾换行，git 版本有尾换行。修复候选：codegen.ts 配置 prettier plugin 或 post-hook `sed -i -e '$a\'`。影响 cosmetic，CI 不受影响 | DevOps | — | registered（2026-04-18 T-P0-013 S-5 清理发现） |
@@ -269,7 +269,7 @@
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：250 passed + 2 skipped（ai/ 46 + qc/ 82 + resolve/ 67 + api/ 43(2 T-P1-001 skip) + web/ 55）；E2E 7 specs
+- 🧪 测试覆盖：252 passed + 0 skipped（ai/ 46 + qc/ 82 + resolve/ 67 + api/ 45 + web/ 55）；E2E 7 specs
 - 🔗 合并状态：152 canonical persons（12 soft-merged via T-P0-011 + 5 non-person soft-deleted via T-P0-014）
 - 🚦 阻塞项数量：0 ✅
 
@@ -296,6 +296,7 @@
 - 2026-04-18：W-8 done — CI 基建修复（自定义 PG 镜像 + db:migrate + turbo passThroughEnv；Run 24600242038 全绿；3 commits）；衍生债 T-P1-001 registered
 - 2026-04-18：T-P0-013 done — Canonical 帝X 前缀去偏差（has_di_prefix_peer + select_canonical 优先级链；1 组 canonical 反转 帝中丁→中丁；11 new tests → 45 resolve tests；4 commits）；ADR-010 Follow-up #1 闭环
 - 2026-04-19：T-P0-014 done — 非人实体清理（is_likely_non_person 规则 + HONORIFIC_SHI_WHITELIST 13 条 + X氏 pattern；5 entities soft-deleted 157→152 persons；22 new tests → 67 resolve tests；5 commits）；衍生债 T-P2-002 registered
+- 2026-04-19：T-P1-001 closed — API 集成测试隔离修复（2 skip → 0 skip；hasMore 断言改用 probe+offset、ordering 断言 scope 到 test-* fixtures；1 commit）
 
 ---
 
