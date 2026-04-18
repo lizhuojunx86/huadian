@@ -30,6 +30,15 @@
 
 ## 已完成
 
+### T-P0-013 Canonical 选择策略优化 — 帝X 前缀去偏差（2026-04-18）
+- [x] S-1：`has_di_prefix_peer()` 辅助函数 + `select_canonical()` sort_key 插入帝X惩罚项（priority #2）
+- [x] S-2：11 新 test cases（TestSelectCanonical 6 + TestHasDiPrefixPeer 5），45 total pass
+- [x] S-3：`verify_canonical.py` 验证全部 12 条 merge — 仅 1 组需改（帝中丁→中丁），武乙组旧规则已正确
+- [x] S-4：SQL 反转帝中丁/中丁 canonical 方向（事务执行，V1/V2/V3 验证通过）
+- [x] S-5：STATUS / CHANGELOG 更新
+- ADR-010 Known Follow-up #1 闭环
+- 累计：4 commits / 11 new tests / 1 DB data fix（canonical reversal）
+
 ### [W-8] CI 基建修复 — DB schema apply + turbo env passthrough（2026-04-18）
 - [x] S-1：调查 Drizzle vs pipeline raw SQL 覆盖范围 + extension 依赖验证
 - [x] S-2：ci.yml 改用自定义 PG 镜像（`docker/postgres/Dockerfile`）+ Step 4b `db:migrate`
@@ -205,7 +214,7 @@
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
 | 🔴 高 | T-P0-014 | 冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥） | 管线 + historian | T-P0-011 ✅ | planned |
-| 🔴 高 | T-P0-013 | Canonical 选择算法优化（帝X 前缀偏差） | 管线 | T-P0-011 ✅ | planned |
+| ~~🔴 高~~ | ~~T-P0-013~~ | ~~Canonical 选择算法优化（帝X 前缀偏差）~~ | ~~管线~~ | ~~T-P0-011 ✅~~ | **done** |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
 | 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | T-P0-011 ✅ | planned |
@@ -239,12 +248,12 @@
 
 - 📘 文档覆盖度：核心 7/7 ✅
 - 🧭 ADR 数量：10 accepted / 9 planned
-- 📋 任务卡数量：T-P0-001~T-P0-012 done（12）；T-P0-005a / T-P0-013 / T-P0-014 planned
+- 📋 任务卡数量：T-P0-001~T-P0-013 done（13）；T-P0-005a / T-P0-014 planned
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：246 passed + 2 skipped（ai/ 46 + qc/ 82 + resolve/ 34 + api/ 43(2 T-P1-001 skip) + web/ 55）；E2E 7 specs
+- 🧪 测试覆盖：257 passed + 2 skipped（ai/ 46 + qc/ 82 + resolve/ 45 + api/ 43(2 T-P1-001 skip) + web/ 55）；E2E 7 specs
 - 🔗 合并状态：157 canonical persons（12 soft-merged via T-P0-011, run_id=39b495d0）
 - 🚦 阻塞项数量：0 ✅
 
@@ -269,3 +278,4 @@
 - 2026-04-18：T-P0-011 done — 跨 chunk 身份消歧（ADR-010 + identity_resolver 5 规则 + 2 YAML 字典 + schema migration + API resolveCanonical；11 组合并 169→157 persons；34 pipeline tests + 5 web 验证；6 commits）
 - 2026-04-18：T-P0-012 done — Web 首页 + 全局导航（Header/Footer layout + Hero + FeaturedPersonCard×6 + Stats SDL 扩展 + StatsBlock + /about + SEO；17 unit tests + 3 E2E；7 commits）；原 T-P0-012 冗余实体 soft-delete 重编号为 T-P0-014
 - 2026-04-18：W-8 done — CI 基建修复（自定义 PG 镜像 + db:migrate + turbo passThroughEnv；Run 24600242038 全绿；3 commits）；衍生债 T-P1-001 registered
+- 2026-04-18：T-P0-013 done — Canonical 帝X 前缀去偏差（has_di_prefix_peer + select_canonical 优先级链；1 组 canonical 反转 帝中丁→中丁；11 new tests → 45 resolve tests；4 commits）；ADR-010 Follow-up #1 闭环
