@@ -219,6 +219,8 @@
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
 | 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | T-P0-011 ✅ | planned |
 | 🟢 低 | T-P1-001 | API 集成测试 isolation 修复（hasMore + ordering 2 case） | 后端 | — | registered（[debt doc](../docs/debts/T-P1-001-test-isolation.md)） |
+| 🟢 低 | T-P1-002 | merge 后 person_names nameType 未降级 + 重复名未去重 | 管线 / 后端 | T-P0-011 | registered（2026-04-18 T-P0-013 sanity check） |
+| 🟢 低 | T-P1-003 | pg_trgm 搜索对"帝X"类查询召回过宽 | 后端 | T-P0-009 | registered（2026-04-18 T-P0-013 sanity check） |
 | ⚪ 微 | T-P2-001 | codegen 输出 trailing newline 不一致 — `pnpm codegen` 生成无尾换行，git 版本有尾换行。修复候选：codegen.ts 配置 prettier plugin 或 post-hook `sed -i -e '$a\'`。影响 cosmetic，CI 不受影响 | DevOps | — | registered（2026-04-18 T-P0-013 S-5 清理发现） |
 
 ---
@@ -280,3 +282,26 @@
 - 2026-04-18：T-P0-012 done — Web 首页 + 全局导航（Header/Footer layout + Hero + FeaturedPersonCard×6 + Stats SDL 扩展 + StatsBlock + /about + SEO；17 unit tests + 3 E2E；7 commits）；原 T-P0-012 冗余实体 soft-delete 重编号为 T-P0-014
 - 2026-04-18：W-8 done — CI 基建修复（自定义 PG 镜像 + db:migrate + turbo passThroughEnv；Run 24600242038 全绿；3 commits）；衍生债 T-P1-001 registered
 - 2026-04-18：T-P0-013 done — Canonical 帝X 前缀去偏差（has_di_prefix_peer + select_canonical 优先级链；1 组 canonical 反转 帝中丁→中丁；11 new tests → 45 resolve tests；4 commits）；ADR-010 Follow-up #1 闭环
+
+---
+
+## 技术债索引
+
+### T-P1-002: merge 后 person_names 的 nameType 未降级 + 重复名未去重
+
+- **现象**：查 canonical 人物时，names 列表出现如 {帝中丁 primary, 中丁 primary, 中丁 primary} — primary 没降级，"中丁" 重复
+- **根因**：merge 操作（resolve apply）只更新 persons.merged_into_id，未触发 person_names 的 nameType rewrite 或 dedup
+- **修复方向**（A/B 二选一）：
+  - A. 写端：merge apply 时 UPDATE person_names SET nameType='ancient_honorific' WHERE person_id=merged_id AND nameType='primary'，再 dedup
+  - B. 读端：API resolveCanonical 聚合 aliases 时 rewrite nameType + dedup，不动底层数据
+- **优先级**：P1（不阻塞 MVP，影响 UI 别名列表正确性）
+- **登记**：2026-04-18 by T-P0-013 sanity check
+
+### T-P1-003: pg_trgm 搜索对"帝X"类查询召回过宽
+
+- **现象**：搜"帝中丁"命中中壬 / 中康 / 帝中壬 / 帝中康（trigram "帝中" 通配）
+- **根因**：searchPersons 用 ILIKE + pg_trgm，threshold 太低且未处理尊称前缀 stopword
+- **影响**：精确查询噪音大；探索式浏览下可能是 feature
+- **修复方向**：threshold 调高至 0.5；或 "帝/王/皇/太" 前缀做 stopword 剥离再匹配；或 exact+trigram 两级查询
+- **优先级**：P1（UX 调优）
+- **登记**：2026-04-18 by T-P0-013 sanity check
