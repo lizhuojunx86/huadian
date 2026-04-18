@@ -65,8 +65,8 @@ _RETRYABLE_STATUSES = frozenset({429, 529, 500, 502, 503})
 def _extract_text(response: anthropic.types.Message) -> str:
     """Extract text content from a Message, ignoring non-text blocks."""
     for block in response.content:
-        if getattr(block, "type", None) == "text" or isinstance(block, anthropic.types.TextBlock):
-            return block.text  # type: ignore[union-attr]
+        if isinstance(block, anthropic.types.TextBlock):
+            return block.text
     return ""
 
 

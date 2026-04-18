@@ -7,6 +7,8 @@ from __future__ import annotations
 
 from unittest.mock import AsyncMock, MagicMock, patch
 
+import anthropic
+
 from huadian_pipeline.ai.anthropic_provider import AnthropicGateway
 from huadian_pipeline.ai.types import PromptSpec
 from huadian_pipeline.qc.mock import MockTraceGuardPort
@@ -17,7 +19,7 @@ USER_INPUT = "鸿门宴者，项羽与刘邦之事也。"
 
 
 def _make_anthropic_response() -> MagicMock:
-    content_block = MagicMock()
+    content_block = MagicMock(spec=anthropic.types.TextBlock)
     content_block.type = "text"
     content_block.text = '{"entities": [{"name": "项羽"}, {"name": "刘邦"}]}'
 
