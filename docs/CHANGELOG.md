@@ -7,6 +7,37 @@
 
 ## 2026-04-18
 
+### [feat] T-P0-011 完成 — 跨 Chunk 身份消歧（11 组合并，169→157 persons）
+- **角色**：首席架构师（ADR）+ 管线工程师（实现）+ 古籍/历史专家（抽样复核）
+- **性质**：Phase 0 数据质量治理
+- **ADR-010**：规则引擎（Option A）accepted
+  - 评分函数：first-match-wins 决策树（R1→R2→R3→R5→R4）
+  - Soft merge：`merged_into_id` + `person_merge_log` 审计表
+  - 可逆性：run_id 批量回滚，zero data migration
+- **Schema 变更**：
+  - `persons.merged_into_id` UUID FK（Drizzle migration）
+  - `person_merge_log` 表 + CHECK 约束 + 3 索引（pipeline raw SQL）
+  - Partial index `idx_persons_merged_into`
+- **Pipeline 模块**：
+  - `resolve.py`：IdentityResolver 主模块（Union-Find + canonical 选择 + apply_merges）
+  - `resolve_rules.py`：R1-R5 规则引擎 + score_pair() + R1 stop words + cross-dynasty guard
+  - `resolve_types.py`：MatchResult / MergeGroup / ResolveResult
+  - `data/dictionaries/tongjia.yaml`：通假字字典（1 条有效 + 4 条参考）
+  - `data/dictionaries/miaohao.yaml`：庙号/谥号字典（12 条，覆盖五帝+殷本纪）
+- **API 变更**：
+  - `findPersonBySlug`：merged person 透明返回 canonical（slug redirect 语义）
+  - `trigramSearch` / `ilikeSearch`：`COALESCE(merged_into_id, id)` 穿透搜索
+  - `findPersonNamesByPersonId`：聚合 canonical + merged persons 的别名
+- **Data Fix**：DELETE 尧名下错误的"帝舜"person_name（Related Fix #2）
+- **Apply**：11 组合并，12 persons soft-deleted（run_id=39b495d0）
+- **质量**：Historian 抽样 5/5 正确；Web API 验证 5/5 通过
+- **测试**：34 pipeline tests（TP/TN/boundary/canonical/Union-Find）；159 pipeline 全绿
+- **已知 follow-up**：canonical 帝X 偏差 / 益伯益争议 / 5 冗余实体待清理 / 2 API 预存 test fail
+- **无新依赖**
+- **6 commits**
+
+---
+
 ### [feat] T-P0-010 完成 — Pipeline 基础设施 + 真书 Pilot（史记·本纪前 3 篇）
 - **角色**：管线工程师（主导）+ 古籍/历史专家（质量抽检）
 - **性质**：Phase 0 pipeline 基础设施建设 + 首次真实数据 pilot
