@@ -35,7 +35,7 @@ export default async function PersonsPage({ searchParams }: PersonsPageProps) {
   const result = await fetchPersons(search || undefined, page);
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-8">
+    <div className="mx-auto max-w-3xl px-4 py-8">
       <h1 className="mb-6 text-2xl font-bold text-gray-900">人物搜索</h1>
 
       <Suspense>
@@ -51,6 +51,6 @@ export default async function PersonsPage({ searchParams }: PersonsPageProps) {
         pageSize={PAGE_SIZE}
         currentPage={page}
       />
-    </main>
+    </div>
   );
 }

@@ -9,7 +9,7 @@ interface ErrorProps {
 
 export default function PersonsError({ error, reset }: ErrorProps) {
   return (
-    <main className="mx-auto max-w-3xl px-4 py-8">
+    <div className="mx-auto max-w-3xl px-4 py-8">
       <h1 className="mb-6 text-2xl font-bold text-gray-900">人物搜索</h1>
 
       <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -21,6 +21,6 @@ export default function PersonsError({ error, reset }: ErrorProps) {
           重试
         </Button>
       </div>
-    </main>
+    </div>
   );
 }
