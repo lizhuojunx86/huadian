@@ -17,7 +17,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     import asyncpg
 
-from .extract import ExtractedPerson
+from .extract import ExtractedPerson, SurfaceForm
 
 logger = logging.getLogger(__name__)
 
@@ -28,11 +28,11 @@ class MergedPerson:
 
     name_zh: str
     slug: str
-    surface_forms: list[str]
-    name_type: str
+    surface_forms: list[SurfaceForm]
     dynasty: str
     reality_status: str
     briefs: list[str]
+    identity_notes: list[str]
     confidence: float
     chunk_ids: list[str]
     paragraph_nos: list[int]
@@ -60,13 +60,18 @@ def merge_persons(persons: list[ExtractedPerson]) -> list[MergedPerson]:
 
         if key in by_name:
             existing = by_name[key]
-            # Merge surface forms
+            # Merge surface forms (dedup by text)
+            existing_texts = {sf.text for sf in existing.surface_forms}
             for sf in p.surface_forms:
-                if sf not in existing.surface_forms:
+                if sf.text not in existing_texts:
                     existing.surface_forms.append(sf)
+                    existing_texts.add(sf.text)
             # Merge briefs
             if p.brief and p.brief not in existing.briefs:
                 existing.briefs.append(p.brief)
+            # Merge identity_notes
+            if p.identity_notes and p.identity_notes not in existing.identity_notes:
+                existing.identity_notes.append(p.identity_notes)
             # Update confidence (take max)
             existing.confidence = max(existing.confidence, p.confidence)
             # Track chunks
@@ -84,9 +89,9 @@ def merge_persons(persons: list[ExtractedPerson]) -> list[MergedPerson]:
                 name_zh=key,
                 slug=_generate_slug(key),
                 surface_forms=list(p.surface_forms),
-                name_type=p.name_type,
                 dynasty=p.dynasty,
                 reality_status=p.reality_status,
+                identity_notes=[p.identity_notes] if p.identity_notes else [],
                 briefs=[p.brief] if p.brief else [],
                 confidence=p.confidence,
                 chunk_ids=[p.chunk_id],
@@ -194,46 +199,59 @@ async def _insert_person_names(
 ) -> int:
     """Insert person_names for each surface form. Returns count inserted."""
     inserted = 0
+    seen_names: set[str] = set()
 
-    # Primary name
-    existing = await conn.fetchval(
-        "SELECT id FROM person_names WHERE person_id = $1 AND name = $2",
-        person_id,
-        person.name_zh,
-    )
-    if not existing:
-        await conn.execute(
-            """
-            INSERT INTO person_names (id, person_id, name, name_type, is_primary)
-            VALUES ($1, $2, $3, $4::name_type, true)
-            """,
-            str(uuid.uuid4()),
-            person_id,
-            person.name_zh,
-            person.name_type,
-        )
-        inserted += 1
-
-    # Additional surface forms (aliases)
+    # Determine which surface form is the "primary" name
+    # Use the first surface_form whose text matches name_zh, or fallback to first
+    primary_name_type = "primary"
     for sf in person.surface_forms:
-        if sf == person.name_zh:
-            continue
+        if sf.text == person.name_zh:
+            primary_name_type = sf.name_type
+            break
+
+    # Insert primary name (name_zh)
+    if person.name_zh not in seen_names:
         existing = await conn.fetchval(
             "SELECT id FROM person_names WHERE person_id = $1 AND name = $2",
             person_id,
-            sf,
+            person.name_zh,
         )
         if not existing:
             await conn.execute(
                 """
                 INSERT INTO person_names (id, person_id, name, name_type, is_primary)
-                VALUES ($1, $2, $3, 'alias'::name_type, false)
+                VALUES ($1, $2, $3, $4::name_type, true)
                 """,
                 str(uuid.uuid4()),
                 person_id,
-                sf,
+                person.name_zh,
+                primary_name_type,
             )
             inserted += 1
+        seen_names.add(person.name_zh)
+
+    # Insert all surface forms with their individual name_types
+    for sf in person.surface_forms:
+        if sf.text in seen_names:
+            continue
+        existing = await conn.fetchval(
+            "SELECT id FROM person_names WHERE person_id = $1 AND name = $2",
+            person_id,
+            sf.text,
+        )
+        if not existing:
+            await conn.execute(
+                """
+                INSERT INTO person_names (id, person_id, name, name_type, is_primary)
+                VALUES ($1, $2, $3, $4::name_type, false)
+                """,
+                str(uuid.uuid4()),
+                person_id,
+                sf.text,
+                sf.name_type,
+            )
+            inserted += 1
+        seen_names.add(sf.text)
 
     return inserted
 
