@@ -210,10 +210,14 @@ describe("findPersons (integration)", () => {
     expect(result).toEqual([]);
   });
 
-  it.skip("returns persons ordered by created_at desc [T-P1-001]", async () => {
+  it("returns persons ordered by created_at desc", async () => {
     const result = await findPersons(db, 100, 0);
-    for (let i = 1; i < result.length; i++) {
-      expect(result[i - 1].updatedAt >= result[i].updatedAt).toBe(true);
+    // Filter to own fixtures to avoid cross-file data interference
+    const own = result.filter((p) => p.slug.startsWith("test-"));
+    expect(own.length).toBeGreaterThanOrEqual(3);
+    // updatedAt mirrors createdAt for never-updated rows; verify desc order
+    for (let i = 1; i < own.length; i++) {
+      expect(own[i - 1].updatedAt >= own[i].updatedAt).toBe(true);
     }
   });
 });

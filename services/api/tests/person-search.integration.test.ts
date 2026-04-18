@@ -154,9 +154,13 @@ describe("searchPersons — no search term", () => {
     expect(result.hasMore).toBe(true);
   });
 
-  it.skip("returns hasMore=false when at the end [T-P1-001]", async () => {
-    const result = await searchPersons(db, null, 100, 0);
+  it("returns hasMore=false when at the end", async () => {
+    // Probe total, then offset to near the end so remaining items < limit
+    const probe = await searchPersons(db, null, 1, 0);
+    const nearEnd = Math.max(0, probe.total - 3);
+    const result = await searchPersons(db, null, 100, nearEnd);
     expect(result.hasMore).toBe(false);
+    expect(result.items.length).toBeLessThanOrEqual(3);
   });
 
   it("returns empty items for offset beyond data", async () => {
