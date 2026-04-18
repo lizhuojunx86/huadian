@@ -16,6 +16,7 @@
 | T-P0-009 | Web 人物搜索/列表页（/persons search + list） | **done** | 前端 + 后端 | Phase 0 |
 | T-P0-008 | Web MVP：人物卡片页（/persons/[slug]） | **done** | 前端工程师 | Phase 0 |
 | T-P0-003-F1 | License 字段规范化（GraphQL enum 连字符 + package.json license） | **backlog** | 后端 + 架构师 | Phase 0 |
+| T-P0-010 | Pipeline 基础设施 + 真书 Pilot（史记·本纪前 3 篇） | **in-progress** | 管线 + 历史专家 | Phase 0 |
 | T-P0-005a | SigNoz 版本对齐与接入 | **planned** | DevOps + 管线 | Phase 0 |
 
 ## 已完成
@@ -53,6 +54,9 @@
 - ~~T-P0-008 Web MVP：人物卡片页（前端）~~ ✅ done（2026-04-18）
 - T-P0-009 Docker Compose 一键启动验证（DevOps）
 - T-P0-010 端到端验收（QA）
+
+### Phase 1 — 已规划
+- T-P1-XXX 真正的 ctext.org API adapter（替换 Phase 0 硬编码 fixtures）
 
 ### 质检 / 监控（横向，穿插各 Phase）
 - T-QC-001 PG 约束与触发器
