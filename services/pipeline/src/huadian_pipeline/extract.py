@@ -31,16 +31,24 @@ MAX_CHUNK_COST_USD = 2.0
 
 
 @dataclass(frozen=True, slots=True)
+class SurfaceForm:
+    """A single surface form with its name type."""
+
+    text: str
+    name_type: str
+
+
+@dataclass(frozen=True, slots=True)
 class ExtractedPerson:
     """A single person entity extracted from a text chunk."""
 
     name_zh: str
-    surface_forms: list[str]
-    name_type: str
+    surface_forms: list[SurfaceForm]
     dynasty: str
     reality_status: str
     brief: str
     confidence: float
+    identity_notes: str | None
     chunk_paragraph_no: int  # which paragraph this was extracted from
     chunk_id: str  # raw_texts.id
 
@@ -262,14 +270,18 @@ def _parse_response(
         if not isinstance(item, dict):
             continue
         try:
+            # Parse structured surface_forms (object array or string array fallback)
+            raw_sf = item.get("surface_forms", [])
+            surface_forms = _parse_surface_forms(raw_sf)
+
             person = ExtractedPerson(
                 name_zh=item.get("name_zh", ""),
-                surface_forms=item.get("surface_forms", []),
-                name_type=_normalize_name_type(item.get("name_type", "primary")),
+                surface_forms=surface_forms,
                 dynasty=item.get("dynasty", ""),
                 reality_status=_normalize_reality_status(item.get("reality_status", "uncertain")),
                 brief=item.get("brief", ""),
                 confidence=float(item.get("confidence", 0.5)),
+                identity_notes=item.get("identity_notes"),
                 chunk_paragraph_no=paragraph_no,
                 chunk_id=chunk_id,
             )
@@ -279,6 +291,25 @@ def _parse_response(
             logger.warning("§%d: Skipping malformed person entry: %s", paragraph_no, e)
 
     return persons
+
+
+def _parse_surface_forms(raw: list[object]) -> list[SurfaceForm]:
+    """Parse surface_forms from LLM output.
+
+    Handles both structured format [{"text": ..., "name_type": ...}]
+    and legacy flat format ["name1", "name2"] (fallback).
+    """
+    result: list[SurfaceForm] = []
+    for item in raw:
+        if isinstance(item, dict):
+            text = item.get("text", "")
+            name_type = _normalize_name_type(item.get("name_type", "alias"))
+            if text:
+                result.append(SurfaceForm(text=text, name_type=name_type))
+        elif isinstance(item, str) and item:
+            # Fallback: flat string list → all treated as alias
+            result.append(SurfaceForm(text=item, name_type="alias"))
+    return result
 
 
 def _normalize_name_type(raw: str) -> str:
