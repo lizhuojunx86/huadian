@@ -8,14 +8,14 @@ import { queryResolvers } from "../src/resolvers/query.js";
 // Mock the service layer
 vi.mock("../src/services/person.service.js", () => ({
   findPersonBySlug: vi.fn(),
-  findPersons: vi.fn(),
+  searchPersons: vi.fn(),
 }));
 
 // Import after mock
-import { findPersonBySlug, findPersons } from "../src/services/person.service.js";
+import { findPersonBySlug, searchPersons } from "../src/services/person.service.js";
 
 const mockFindBySlug = vi.mocked(findPersonBySlug);
-const mockFindPersons = vi.mocked(findPersons);
+const mockSearchPersons = vi.mocked(searchPersons);
 
 const mockCtx: GraphQLContext = {
   db: {} as GraphQLContext["db"],
@@ -115,43 +115,63 @@ describe("Query.person", () => {
 describe("Query.persons", () => {
   const personsResolver = queryResolvers.persons!;
 
-  it("returns array of persons with default pagination", async () => {
-    mockFindPersons.mockResolvedValue([mockPerson] as Awaited<ReturnType<typeof findPersons>>);
+  const searchResult = {
+    items: [mockPerson],
+    total: 1,
+    hasMore: false,
+  };
+
+  it("returns PersonSearchResult with default pagination", async () => {
+    mockSearchPersons.mockResolvedValue(searchResult as Awaited<ReturnType<typeof searchPersons>>);
 
     const result = await personsResolver(
       emptyParent,
-      { limit: 20, offset: 0 } satisfies QueryPersonsArgs,
+      { limit: 20, offset: 0, search: null } satisfies QueryPersonsArgs,
       mockCtx,
       info,
     );
 
-    expect(result).toEqual([mockPerson]);
-    expect(mockFindPersons).toHaveBeenCalledWith(mockCtx.db, 20, 0);
+    expect(result).toEqual(searchResult);
+    expect(mockSearchPersons).toHaveBeenCalledWith(mockCtx.db, null, 20, 0);
   });
 
-  it("passes custom limit and offset to service", async () => {
-    mockFindPersons.mockResolvedValue([]);
+  it("passes search term, limit and offset to service", async () => {
+    mockSearchPersons.mockResolvedValue({ items: [], total: 0, hasMore: false });
 
     await personsResolver(
       emptyParent,
-      { limit: 5, offset: 10 } satisfies QueryPersonsArgs,
+      { search: "刘邦", limit: 5, offset: 10 } satisfies QueryPersonsArgs,
       mockCtx,
       info,
     );
 
-    expect(mockFindPersons).toHaveBeenCalledWith(mockCtx.db, 5, 10);
+    expect(mockSearchPersons).toHaveBeenCalledWith(mockCtx.db, "刘邦", 5, 10);
   });
 
-  it("returns empty array when no persons exist", async () => {
-    mockFindPersons.mockResolvedValue([]);
+  it("returns empty result when no persons match", async () => {
+    const emptyResult = { items: [], total: 0, hasMore: false };
+    mockSearchPersons.mockResolvedValue(emptyResult);
 
     const result = await personsResolver(
       emptyParent,
-      { limit: 20, offset: 0 } satisfies QueryPersonsArgs,
+      { limit: 20, offset: 0, search: null } satisfies QueryPersonsArgs,
       mockCtx,
       info,
     );
 
-    expect(result).toEqual([]);
+    expect(result).toEqual(emptyResult);
+  });
+
+  it("treats undefined search as null", async () => {
+    mockSearchPersons.mockResolvedValue({ items: [], total: 0, hasMore: false });
+
+    await personsResolver(
+      emptyParent,
+      { limit: 20, offset: 0 } as QueryPersonsArgs,
+      mockCtx,
+      info,
+    );
+
+    expect(mockSearchPersons).toHaveBeenCalledWith(mockCtx.db, null, 20, 0);
   });
 });
