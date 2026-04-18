@@ -1,0 +1,60 @@
+# Tongjia (通假字) and variant character dictionary for person name normalization.
+#
+# Each entry maps a variant/borrowed character to its canonical form.
+# Used by resolve_rules.py R3 rule.
+#
+# Fields:
+#   variant:   the character as written in the source text (variant/borrowed)
+#   canonical: the standard/canonical character
+#   source:    bibliographic source for this mapping
+#   notes:     optional scholar notes
+#
+# Phase 0 coverage: Shiji Benji (五帝 / 夏 / 殷 本纪)
+
+_meta:
+  version: "0.1.0"
+  scope: "Phase 0 — Shiji Benji person names"
+  draftedBy: "historian@huadian"
+  draftedAt: "2026-04-18"
+
+entries:
+  # 倕 / 垂 — two graphs for the same legendary craftsman-minister of Shun
+  - variant: "垂"
+    canonical: "倕"
+    source: "《史记·五帝本纪》正义引《尚书》"
+    notes: "垂为通假，倕为本字（《说文》从人崔声）。同一人，舜之工官。"
+
+  # 弃 / 后稷 — personal name vs. posthumous title of the Zhou ancestor
+  # Handled as surface_form overlap (R1), listed here for completeness but
+  # these are multi-character strings not single-char tongjia.
+
+  # 益 / 伯益 — personal name vs. courtesy appellation
+  # Similarly handled by R1 surface overlap; listed for awareness.
+
+  # 帝鸿 / 鸿 — abbreviation in some passages
+  - variant: "鸿"
+    canonical: "帝鸿氏"
+    source: "《左传·文公十八年》"
+    notes: "帝鸿氏之不才子，即浑敦。"
+
+  # 放齐 / 方齐 — rare orthographic variant
+  - variant: "方齐"
+    canonical: "放齐"
+    source: "《尚书·尧典》异文"
+    notes: "少数版本作方齐，通行本作放齐。"
+
+  # 共工 / 龚工 — variant in some Tang-era commentaries
+  - variant: "龚工"
+    canonical: "共工"
+    source: "《史记·五帝本纪》集解"
+    notes: "音近通用，现代通行作共工。"
+
+  # 殷本纪 — Shang king name variants
+  # 沃丁 / 沃丁 (no variant known for Phase 0)
+  # 帝武乙 and 武乙 are handled by R2 (帝X prefix rule), not tongjia.
+
+  # 微 / 微子 — abbreviation used in 殷本纪
+  - variant: "微"
+    canonical: "微子"
+    source: "《史记·殷本纪》"
+    notes: "部分段落简称微，指微子启。需结合上下文（R1 surface overlap优先）。"

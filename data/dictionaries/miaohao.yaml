@@ -1,0 +1,132 @@
+# Temple name (庙号 miaohao) and posthumous title (谥号) dictionary
+# for Shang (殷) dynasty kings.
+#
+# Each entry maps a canonical name to one or more aliases (alternate appellations).
+# Used by resolve_rules.py R5 rule.
+#
+# Fields:
+#   canonical:  the name as used in the "primary" record (e.g. Shiji Yinbenji)
+#   aliases:    list of alternate names (temple titles, posthumous titles, short forms)
+#   dynasty:    dynasty slug (must match persons.dynasty field values)
+#   source:     bibliographic source
+#   notes:      optional scholar notes
+#
+# Phase 0 coverage: 殷本纪 + 五帝本纪 (Shang kings with dual-name problem)
+
+_meta:
+  version: "0.1.0"
+  scope: "Phase 0 — Shang dynasty kings (殷本纪)"
+  draftedBy: "historian@huadian"
+  draftedAt: "2026-04-18"
+
+entries:
+  # 太甲 / 太宗 — 成汤之孙，殷第四王，庙号太宗
+  - canonical: "太甲"
+    aliases:
+      - "太宗"
+    dynasty: "商"
+    source: "《史记·殷本纪》；《书·太甲》三篇"
+    notes: "太甲初暴虐，被伊尹放桐宫，悔过后复位，谥太宗。司马迁两种称呼并用。"
+
+  # 太戊 / 中宗 — 殷第九王，庙号中宗
+  - canonical: "太戊"
+    aliases:
+      - "中宗"
+    dynasty: "商"
+    source: "《史记·殷本纪》；《书·无逸》"
+    notes: "太戊时殷道复兴，伊陟、巫咸辅政，谥中宗。"
+
+  # 祖甲 / 帝甲 — 殷第二十二王（武丁子），又称帝甲
+  - canonical: "祖甲"
+    aliases:
+      - "帝甲"
+    dynasty: "商"
+    source: "《史记·殷本纪》"
+    notes: "祖甲为武丁幼子，庙号祖甲，《史记》有时称帝甲。"
+
+  # 成汤 / 汤 / 天乙 — 殷朝创立者，多种称呼
+  - canonical: "成汤"
+    aliases:
+      - "汤"
+      - "天乙"
+      - "大乙"
+      - "武汤"
+    dynasty: "商"
+    source: "《史记·殷本纪》；《尚书·汤誓》"
+    notes: "《史记》多称成汤或汤；甲骨文称大乙/天乙；《荀子》称武汤。本管线以成汤为规范名。"
+
+  # 帝辛 / 纣 — 殷末王，本名受（帝辛），谥纣
+  - canonical: "帝辛"
+    aliases:
+      - "纣"
+      - "商纣"
+      - "纣王"
+    dynasty: "商"
+    source: "《史记·殷本纪》"
+    notes: "帝辛为本名（庙号），纣为周人所加恶谥。两个名称在史记中交替出现。"
+
+  # 微子启 / 微子 — 帝辛兄，封微国
+  - canonical: "微子启"
+    aliases:
+      - "微子"
+    dynasty: "商"
+    source: "《史记·殷本纪》；《史记·宋微子世家》"
+    notes: "微子为封号，启为名。史记两者并用。"
+
+  # 五帝 — 上古帝王庙号/谥号/别称
+  # 帝尧 / 尧 / 放勋
+  - canonical: "帝尧"
+    aliases:
+      - "尧"
+      - "放勋"
+      - "陶唐氏"
+    dynasty: "上古"
+    source: "《史记·五帝本纪》"
+    notes: "帝尧名放勋，陶唐氏。《史记》正文多用「尧」。"
+
+  # 帝舜 / 舜 / 重华
+  - canonical: "帝舜"
+    aliases:
+      - "舜"
+      - "重华"
+      - "虞舜"
+      - "有虞氏"
+    dynasty: "上古"
+    source: "《史记·五帝本纪》"
+    notes: "帝舜名重华，有虞氏。《史记》多用「舜」。"
+
+  # 颛顼 / 高阳
+  - canonical: "颛顼"
+    aliases:
+      - "高阳"
+      - "高阳氏"
+    dynasty: "上古"
+    source: "《史记·五帝本纪》"
+    notes: "颛顼，高阳氏，黄帝之孙。"
+
+  # 帝喾 / 高辛
+  - canonical: "帝喾"
+    aliases:
+      - "高辛"
+      - "高辛氏"
+    dynasty: "上古"
+    source: "《史记·五帝本纪》"
+    notes: "帝喾，高辛氏，玄嚣之孙。"
+
+  # 后稷 / 弃 — 周朝始祖
+  - canonical: "后稷"
+    aliases:
+      - "弃"
+    dynasty: "上古"
+    source: "《史记·周本纪》；《诗·大雅·生民》"
+    notes: "后稷名弃，帝喾之子，周族始祖。史记两名并用，弃为本名，后稷为官职/封号。"
+
+  # 益 / 伯益 / 柏翳
+  - canonical: "伯益"
+    aliases:
+      - "益"
+      - "柏翳"
+      - "伯翳"
+    dynasty: "上古"
+    source: "《史记·五帝本纪》；《史记·秦本纪》"
+    notes: "伯益助禹治水，秦之先祖。史记有时称益，有时称伯益，《秦本纪》称柏翳。"
