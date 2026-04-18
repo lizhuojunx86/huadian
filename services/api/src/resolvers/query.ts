@@ -1,3 +1,6 @@
+import { persons, personNames, books } from "@huadian/db-schema";
+import { and, isNull, sql } from "drizzle-orm";
+
 import type { QueryResolvers } from "../__generated__/graphql.js";
 import { notImplemented } from "../errors.js";
 import {
@@ -38,5 +41,26 @@ export const queryResolvers: QueryResolvers = {
 
   sourceEvidence: (_parent, _args, ctx) => {
     throw notImplemented("Query.sourceEvidence", ctx);
+  },
+
+  stats: async (_parent, _args, ctx) => {
+    const [personsResult, namesResult, booksResult] = await Promise.all([
+      ctx.db
+        .select({ count: sql<number>`count(*)::int` })
+        .from(persons)
+        .where(and(isNull(persons.mergedIntoId), isNull(persons.deletedAt))),
+      ctx.db
+        .select({ count: sql<number>`count(*)::int` })
+        .from(personNames),
+      ctx.db
+        .select({ count: sql<number>`count(*)::int` })
+        .from(books),
+    ]);
+
+    return {
+      personsCount: personsResult[0]?.count ?? 0,
+      namesCount: namesResult[0]?.count ?? 0,
+      booksCount: booksResult[0]?.count ?? 0,
+    };
   },
 };

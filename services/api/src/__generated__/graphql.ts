@@ -519,6 +519,11 @@ export type Query = {
    * human-readable identifiers.
    */
   sourceEvidence: Maybe<SourceEvidence>;
+  /**
+   * Aggregate counts for the knowledge graph. Live COUNT queries
+   * (no materialized view). Phase 0 scale (~200 persons) is fine.
+   */
+  stats: Stats;
 };
 
 
@@ -602,6 +607,17 @@ export type SourceEvidence = Traceable & {
   sourceEvidenceId: Maybe<Scalars['ID']['output']>;
   textVersion: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['DateTime']['output'];
+};
+
+/** Platform-level aggregate statistics. */
+export type Stats = {
+  __typename?: 'Stats';
+  /** Number of ingested books. */
+  booksCount: Scalars['Int']['output'];
+  /** Total number of person name records. */
+  namesCount: Scalars['Int']['output'];
+  /** Number of canonical (non-merged, non-deleted) persons. */
+  personsCount: Scalars['Int']['output'];
 };
 
 /**
@@ -739,6 +755,7 @@ export type ResolversTypes = {
   RealityStatus: RealityStatus;
   ReignEra: ResolverTypeWrapper<ReignEra>;
   SourceEvidence: ResolverTypeWrapper<SourceEvidence>;
+  Stats: ResolverTypeWrapper<Stats>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Traceable: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Traceable']>;
   UUID: ResolverTypeWrapper<Scalars['UUID']['output']>;
@@ -772,6 +789,7 @@ export type ResolversParentTypes = {
   Query: Record<PropertyKey, never>;
   ReignEra: ReignEra;
   SourceEvidence: SourceEvidence;
+  Stats: Stats;
   String: Scalars['String']['output'];
   Traceable: ResolversInterfaceTypes<ResolversParentTypes>['Traceable'];
   UUID: Scalars['UUID']['output'];
@@ -989,6 +1007,7 @@ export type QueryResolvers<ContextType = GraphQLContext, ParentType extends Reso
   persons?: Resolver<ResolversTypes['PersonSearchResult'], ParentType, ContextType, RequireFields<QueryPersonsArgs, 'limit' | 'offset'>>;
   place?: Resolver<Maybe<ResolversTypes['Place']>, ParentType, ContextType, RequireFields<QueryPlaceArgs, 'slug'>>;
   sourceEvidence?: Resolver<Maybe<ResolversTypes['SourceEvidence']>, ParentType, ContextType, RequireFields<QuerySourceEvidenceArgs, 'id'>>;
+  stats?: Resolver<ResolversTypes['Stats'], ParentType, ContextType>;
 };
 
 export type ReignEraResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['ReignEra'] = ResolversParentTypes['ReignEra']> = {
@@ -1016,6 +1035,12 @@ export type SourceEvidenceResolvers<ContextType = GraphQLContext, ParentType ext
   textVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type StatsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Stats'] = ResolversParentTypes['Stats']> = {
+  booksCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  namesCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  personsCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 };
 
 export type TraceableResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Traceable'] = ResolversParentTypes['Traceable']> = {
@@ -1049,6 +1074,7 @@ export type Resolvers<ContextType = GraphQLContext> = {
   Query?: QueryResolvers<ContextType>;
   ReignEra?: ReignEraResolvers<ContextType>;
   SourceEvidence?: SourceEvidenceResolvers<ContextType>;
+  Stats?: StatsResolvers<ContextType>;
   Traceable?: TraceableResolvers<ContextType>;
   UUID?: GraphQLScalarType;
 };

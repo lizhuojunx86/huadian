@@ -1,7 +1,14 @@
+import Link from "next/link";
+
 import { FeaturedPersonCard } from "@/components/home/FeaturedPersonCard";
 import { HeroSearch } from "@/components/home/HeroSearch";
+import { StatsBlock } from "@/components/home/StatsBlock";
+import { buttonVariants } from "@/components/ui/button";
 import { graphqlClient } from "@/lib/graphql/client";
-import { FeaturedPersonDocument } from "@/lib/graphql/generated/graphql";
+import {
+  FeaturedPersonDocument,
+  StatsDocument,
+} from "@/lib/graphql/generated/graphql";
 
 const FEATURED_SLUGS = [
   "huang-di",
@@ -26,8 +33,20 @@ async function fetchFeaturedPersons() {
   );
 }
 
+async function fetchStats() {
+  try {
+    const data = await graphqlClient.request(StatsDocument);
+    return data.stats;
+  } catch {
+    return null;
+  }
+}
+
 export default async function Home() {
-  const persons = await fetchFeaturedPersons();
+  const [persons, stats] = await Promise.all([
+    fetchFeaturedPersons(),
+    fetchStats(),
+  ]);
 
   return (
     <>
@@ -61,6 +80,27 @@ export default async function Home() {
           </div>
         </section>
       )}
+
+      {/* Stats */}
+      {stats && (
+        <section className="mx-auto max-w-5xl px-4 pb-16">
+          <h2 className="mb-6 text-center text-2xl font-semibold">
+            数据概览
+          </h2>
+          <StatsBlock
+            personsCount={stats.personsCount}
+            namesCount={stats.namesCount}
+            booksCount={stats.booksCount}
+          />
+        </section>
+      )}
+
+      {/* CTA */}
+      <section className="flex justify-center px-4 pb-20">
+        <Link href="/persons" className={buttonVariants({ size: "lg" })}>
+          探索全部人物 →
+        </Link>
+      </section>
     </>
   );
 }
