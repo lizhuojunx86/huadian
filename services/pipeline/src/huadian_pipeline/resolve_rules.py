@@ -474,6 +474,25 @@ _RULE_ORDER = [_rule_r1, _rule_r2, _rule_r3, _rule_r5, _rule_r4]
 MERGE_CONFIDENCE_THRESHOLD = 0.90
 
 
+def has_di_prefix_peer(p: PersonSnapshot, group: list[PersonSnapshot]) -> bool:
+    """Return True if p.name is a 帝X honorific and the bare name X exists in group.
+
+    Conditions (all must hold):
+      1. p.name starts with "帝"
+      2. The stripped name (p.name[1:]) is 1–2 characters
+      3. Another person in the same group has name == stripped
+
+    When True, p should be deprioritised in canonical selection so the
+    bare-name peer becomes canonical instead.
+    """
+    if not p.name.startswith("帝"):
+        return False
+    stripped = p.name[1:]
+    if len(stripped) not in (1, 2):
+        return False
+    return any(other.id != p.id and other.name == stripped for other in group)
+
+
 def score_pair(a: PersonSnapshot, b: PersonSnapshot) -> MatchResult | None:
     """Evaluate a pair of persons against all rules (first-match-wins).
 

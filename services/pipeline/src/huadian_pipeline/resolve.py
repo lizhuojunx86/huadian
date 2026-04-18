@@ -10,11 +10,12 @@ Entry points:
       non-canonical persons, writes person_merge_log rows.
 
   select_canonical(persons) -> PersonSnapshot
-      Canonical selection priority (ADR-010):
+      Canonical selection priority (ADR-010 + T-P0-013):
         1. has_pinyin_slug (not u{hex} fallback)
-        2. more surface_forms (len)
-        3. earlier created_at
-        4. smaller id (stable tiebreaker)
+        2. NOT a 帝X honorific with bare-name peer in group
+        3. more surface_forms (len)
+        4. earlier created_at
+        5. smaller id (stable tiebreaker)
 
   generate_dry_run_report(result) -> str
       Produces a human-readable report string.
@@ -33,6 +34,7 @@ if TYPE_CHECKING:
 from .resolve_rules import (
     MERGE_CONFIDENCE_THRESHOLD,
     PersonSnapshot,
+    has_di_prefix_peer,
     score_pair,
 )
 from .resolve_types import (
@@ -183,16 +185,18 @@ async def _load_persons(conn: Any) -> list[PersonSnapshot]:
 def select_canonical(persons: list[PersonSnapshot]) -> PersonSnapshot:
     """Select the canonical person from a merge group.
 
-    Priority (ADR-010):
+    Priority (ADR-010 + T-P0-013 帝X fix):
       1. has_pinyin_slug (True sorts before False)
-      2. more surface_forms (descending)
-      3. earlier created_at (ascending lexicographic ISO string)
-      4. smaller id (ascending, stable UUID tiebreaker)
+      2. NOT a 帝X honorific with a bare-name peer in the group (T-P0-013)
+      3. more surface_forms (descending)
+      4. earlier created_at (ascending lexicographic ISO string)
+      5. smaller id (ascending, stable UUID tiebreaker)
     """
 
-    def sort_key(p: PersonSnapshot) -> tuple[int, int, str, str]:
+    def sort_key(p: PersonSnapshot) -> tuple[int, int, int, str, str]:
         return (
             0 if p.has_pinyin_slug() else 1,  # 0 = pinyin, 1 = hex fallback
+            1 if has_di_prefix_peer(p, persons) else 0,  # 1 = demoted (帝X with peer)
             -len(p.surface_forms),  # more forms = lower sort key = preferred
             p.created_at,  # earlier = smaller string (ISO)
             p.id,  # UUID string tiebreaker
