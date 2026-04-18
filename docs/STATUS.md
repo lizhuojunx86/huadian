@@ -30,6 +30,15 @@
 
 ## 已完成
 
+### [W-8] CI 基建修复 — DB schema apply + turbo env passthrough（2026-04-18）
+- [x] S-1：调查 Drizzle vs pipeline raw SQL 覆盖范围 + extension 依赖验证
+- [x] S-2：ci.yml 改用自定义 PG 镜像（`docker/postgres/Dockerfile`）+ Step 4b `db:migrate`
+- [x] S-4.5：skip T-P1-001 已知隔离 2 case + 登记 `docs/debts/T-P1-001-test-isolation.md`
+- [x] S-2b：turbo.json `passThroughEnv: ["DATABASE_URL", "REDIS_URL"]`（strict env mode 修复）
+- CI Run [24600242038](https://github.com/lizhuojunx86/huadian/actions/runs/24600242038) 全绿（3 jobs success）
+- 累计：3 commits / 0 新测试 / 2 case skip（T-P1-001 债）
+- 衍生技术债：[T-P1-001](../docs/debts/T-P1-001-test-isolation.md)（API integration test isolation）
+
 ### T-P0-012 Web 首页 + 全局导航（2026-04-18）
 - [x] S-1：布局骨架（Header + Footer → layout.tsx，子页面 `<main>` → `<div>` 修正）
 - [x] S-2：首页 Hero（站名 + 定位语 + HeroSearch 搜索框）
@@ -200,7 +209,7 @@
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
 | 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | T-P0-011 ✅ | planned |
-| 🟢 低 | T-P1-XXX | API 集成测试 isolation 修复（hasMore + ordering 2 case） | 后端 | — | planned |
+| 🟢 低 | T-P1-001 | API 集成测试 isolation 修复（hasMore + ordering 2 case） | 后端 | — | registered（[debt doc](../docs/debts/T-P1-001-test-isolation.md)） |
 
 ---
 
@@ -235,7 +244,7 @@
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：248 passed（ai/ 46 + qc/ 82 + resolve/ 34 + api/ 43(2 pre-existing fail) + web/ 55）；E2E 7 specs
+- 🧪 测试覆盖：246 passed + 2 skipped（ai/ 46 + qc/ 82 + resolve/ 34 + api/ 43(2 T-P1-001 skip) + web/ 55）；E2E 7 specs
 - 🔗 合并状态：157 canonical persons（12 soft-merged via T-P0-011, run_id=39b495d0）
 - 🚦 阻塞项数量：0 ✅
 
@@ -259,3 +268,4 @@
 - 2026-04-18：T-P0-009 done — Web 人物搜索/列表页（SDL PersonSearchResult + pg_trgm search + /persons 路由 + SearchBar + Pagination + 28 新增 tests + 2 E2E；7 commits）
 - 2026-04-18：T-P0-011 done — 跨 chunk 身份消歧（ADR-010 + identity_resolver 5 规则 + 2 YAML 字典 + schema migration + API resolveCanonical；11 组合并 169→157 persons；34 pipeline tests + 5 web 验证；6 commits）
 - 2026-04-18：T-P0-012 done — Web 首页 + 全局导航（Header/Footer layout + Hero + FeaturedPersonCard×6 + Stats SDL 扩展 + StatsBlock + /about + SEO；17 unit tests + 3 E2E；7 commits）；原 T-P0-012 冗余实体 soft-delete 重编号为 T-P0-014
+- 2026-04-18：W-8 done — CI 基建修复（自定义 PG 镜像 + db:migrate + turbo passThroughEnv；Run 24600242038 全绿；3 commits）；衍生债 T-P1-001 registered
