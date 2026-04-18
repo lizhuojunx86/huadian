@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { FeaturedPersonCard } from "@/components/home/FeaturedPersonCard";
@@ -9,6 +10,18 @@ import {
   FeaturedPersonDocument,
   StatsDocument,
 } from "@/lib/graphql/generated/graphql";
+
+export const metadata: Metadata = {
+  title: "华典智谱 — 中国古籍 AI 知识平台",
+  description:
+    "探索中国古籍中的人物、事件与地理。AI 驱动的古籍知识图谱，结构化呈现历史人物关系网络。",
+  openGraph: {
+    title: "华典智谱 — 中国古籍 AI 知识平台",
+    description:
+      "探索中国古籍中的人物、事件与地理。AI 驱动的古籍知识图谱。",
+    type: "website",
+  },
+};
 
 const FEATURED_SLUGS = [
   "huang-di",
