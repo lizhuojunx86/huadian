@@ -25,7 +25,9 @@ mkdir -p "$PYDANTIC_OUT"
 for schema_file in "$SCHEMA_DIR"/*.json; do
   [ -f "$schema_file" ] || continue
   base="$(basename "$schema_file" .json)"
-  output_file="$PYDANTIC_OUT/${base}.py"
+  # Sanitize hyphens to underscores for valid Python module names
+  module="${base//-/_}"
+  output_file="$PYDANTIC_OUT/${module}.py"
 
   uv run --project services/pipeline \
     datamodel-codegen \
@@ -45,9 +47,9 @@ init_file="$PYDANTIC_OUT/__init__.py"
 echo '"""Auto-generated Pydantic models from shared-types JSON Schema. DO NOT EDIT."""' > "$init_file"
 for py_file in "$PYDANTIC_OUT"/*.py; do
   [ -f "$py_file" ] || continue
-  base="$(basename "$py_file" .py)"
-  [[ "$base" == "__init__" ]] && continue
-  echo "from .${base} import *" >> "$init_file"
+  module="$(basename "$py_file" .py)"
+  [[ "$module" == "__init__" ]] && continue
+  echo "from .${module} import *" >> "$init_file"
 done
 
 echo "[gen-types] Done. ${PYDANTIC_OUT}/ updated."
