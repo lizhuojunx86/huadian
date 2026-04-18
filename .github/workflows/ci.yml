@@ -23,20 +23,6 @@ jobs:
     timeout-minutes: 20
 
     services:
-      postgres:
-        image: postgis/postgis:16-3.4
-        env:
-          POSTGRES_USER: huadian
-          POSTGRES_PASSWORD: huadian_ci
-          POSTGRES_DB: huadian_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U huadian -d huadian_test"
-          --health-interval 5s
-          --health-timeout 3s
-          --health-retries 10
-
       redis:
         image: redis:7.2-alpine
         ports:
@@ -50,6 +36,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # ── Step 0: Start PostgreSQL (custom image) ──────────────
+      - name: "Step 0: start postgres (custom image)"
+        run: |
+          docker build -t huadian-postgres docker/postgres/
+          docker run -d --name postgres \
+            -e POSTGRES_USER=huadian \
+            -e POSTGRES_PASSWORD=huadian_ci \
+            -e POSTGRES_DB=huadian_test \
+            -v ${{ github.workspace }}/db/init:/docker-entrypoint-initdb.d:ro \
+            -p 5432:5432 \
+            huadian-postgres
+          # Wait for PG ready
+          for i in $(seq 1 60); do
+            if docker exec postgres pg_isready -U huadian -d huadian_test &>/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          # Wait for initdb scripts (extensions) to finish
+          sleep 5
+          # Verify extensions actually loaded (fail early if not)
+          docker exec postgres psql -U huadian -d huadian_test -t -c '\dx' | grep -q vector
+          docker exec postgres psql -U huadian -d huadian_test -t -c '\dx' | grep -q pg_trgm
+          echo "✅ PostgreSQL ready with all extensions"
 
       # ── Install toolchains ───────────────────────────────────
       - name: Setup pnpm
@@ -104,6 +115,12 @@ jobs:
             exit 1
           }
 
+      # ── Step 4b: Apply DB schema ─────────────────────────────
+      - name: "Step 4b: apply DB schema (drizzle migrate)"
+        run: pnpm --filter @huadian/api db:migrate
+        env:
+          DATABASE_URL: postgresql://huadian:huadian_ci@localhost:5432/huadian_test
+
       # ── Step 5: Test ─────────────────────────────────────────
       - name: "Step 5: test (vitest)"
         run: pnpm test
@@ -119,6 +136,11 @@ jobs:
       # ── Step 6: Build ────────────────────────────────────────
       - name: "Step 6: build"
         run: pnpm build
+
+      # ── Debug: dump postgres logs on failure ─────────────────
+      - name: "Debug: postgres logs"
+        if: failure()
+        run: docker logs postgres 2>&1 | tail -80
 
   # ── Step 7: Docker smoke (parallel) ──────────────────────────
   docker-smoke:
