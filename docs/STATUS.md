@@ -3,8 +3,8 @@
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
 - **最近更新**：2026-04-18
-- **更新人**：前端工程师 + 后端工程师（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅**
+- **更新人**：管线工程师 + 古籍/历史专家（Claude Opus）
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅**
 
 ---
 
@@ -29,6 +29,19 @@
 ---
 
 ## 已完成
+
+### T-P0-010 Pipeline 基础设施 + 真书 Pilot（2026-04-18）
+- [x] S-prep 1~8：管线基础设施从零建设（8 模块，8 commits）
+  - Python 模块导入修复 / ctext adapter + fixtures / ingest / NER prompt v1 / extract / load / CLI / seed dump
+- [x] Phase A：五帝本纪 smoke（29 段，62 persons，$0.54）
+  - 精确率 ~94%，召回率 ~100%
+  - Historian 抽检 8/10 正确
+- [x] Prompt v1-r2：A-class fixes（帝X校验 / 姓氏规则 / 部族排除 / 合称规则）
+- [x] Phase B：夏本纪 + 殷本纪 扩容（70 段，107 new persons，$1.23）
+  - 精确率 ~93%，召回率 ~100%，抽样正确率 90%（改善）
+  - 帝X 误归 Phase A→1 处 → Phase B→0 处（修复验证）
+- [x] 发现问题清单 + T-P0-011 建立
+- 累计产出：3 books / 169 persons / 273 names / $1.77 总成本
 
 ### T-P0-009 Web 人物搜索/列表页（2026-04-18）
 - [x] S-0：任务卡起草
@@ -145,7 +158,9 @@
 
 ## 进行中
 
-无。等待用户选择下一任务。（T-P0-009 刚完成）
+无。等待用户选择下一任务。（T-P0-010 刚完成）
+
+建议下一步：**T-P0-011 跨 chunk 身份消歧**（解决 pilot 暴露的 13 对同人重复）
 
 ---
 

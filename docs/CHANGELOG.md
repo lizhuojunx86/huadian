@@ -7,6 +7,33 @@
 
 ## 2026-04-18
 
+### [feat] T-P0-010 完成 — Pipeline 基础设施 + 真书 Pilot（史记·本纪前 3 篇）
+- **角色**：管线工程师（主导）+ 古籍/历史专家（质量抽检）
+- **性质**：Phase 0 pipeline 基础设施建设 + 首次真实数据 pilot
+- **S-prep（基础设施，8 commits）**：
+  - Python 模块导入修复（Homebrew 3.12.11 `.pth` skip bug）
+  - ctext source adapter + 三篇 fixtures（五帝/夏/殷本纪，~12k 字）
+  - ingest 模块（books + raw_texts upsert）
+  - NER prompt v1（structured surface_forms + identity_notes）
+  - extract 模块（LLM Gateway 调用 + JSON 解析 + 成本追踪）
+  - validate + load 模块（persons/person_names upsert + slug 生成）
+  - CLI 升级（ingest/extract/pilot/seed-dump 四命令）
+  - seed dump 工具（稳定排序 + 可重放 SQL）
+- **Phase A（五帝本纪）**：29 段 → 62 persons / 93 names / $0.54
+  - 精确率 ~94%，召回率 ~100%，抽样正确率 80%
+  - 发现：帝舜误归尧（CRITICAL）/ 弃-后稷未合并 / 姓氏遗漏
+- **Prompt v1-r2**：帝X校验 / 姓氏规则 / 部族排除 / 合称规则
+- **Phase B（夏+殷本纪）**：70 段 → 107 new persons / 180 names / $1.23
+  - 抽样正确率 90%（改善）/ 帝X 误归 0（修复验证）
+  - 新发现：同人重复 11 对（跨 chunk 身份消歧问题）
+- **总成本**：$1.77（预算 $20 的 8.9%）
+- **DB 累计**：3 books / 169 persons / 273 person_names
+- **后续**：T-P0-011（跨 chunk 身份消歧 identity_resolver）已建卡
+- **无新依赖**
+- **14 commits**
+
+---
+
 ### [feat] T-P0-009 完成 — Web 人物搜索/列表页（28 new tests + 2 E2E）
 - **角色**：前端工程师（主导）+ 后端工程师（API 扩展）
 - **任务**：T-P0-009（S-0 任务卡 → S-1 SDL → S-2 service → S-3 集成测试 → S-4 codegen → S-5 路由 → S-6 SearchBar → S-7 列表 → S-8 分页 → S-9 三态 → S-10 测试 → S-11 收尾）

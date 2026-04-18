@@ -1,6 +1,6 @@
 # T-P0-010: Pipeline 基础设施建设 + 真书端到端 Pilot — 史记·本纪（前 3 篇）
 
-- **状态**：in-progress
+- **状态**：done
 - **主导角色**：管线工程师
 - **协作角色**：古籍/历史专家（质量抽检 + NER prompt review）
 - **所属 Phase**：Phase 0
