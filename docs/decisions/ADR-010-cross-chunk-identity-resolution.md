@@ -1,6 +1,6 @@
 # ADR-010: Cross-Chunk Identity Resolution (跨 Chunk 身份消歧)
 
-- **状态**：proposed
+- **状态**：accepted
 - **日期**：2026-04-18
 - **提议人**：首席架构师 (chief-architect)
 - **决策人**：用户 + 首席架构师
@@ -525,9 +525,36 @@ WHERE run_id = $1 ORDER BY merged_at;
 
 ---
 
+## Implementation Notes（Phase 4 实施后追加）
+
+### API resolveCanonical 实现方式
+
+选择**透明返回 canonical**（非 HTTP redirect）：
+- `person(slug:"u5782")` 直接返回 canonical 倕 的完整数据（slug:"chui"），不返回 301/302
+- 前端可通过比较请求 slug 与返回 slug 是否一致来决定是否做客户端 redirect
+- 理由：GraphQL 无 redirect 语义，且透明返回对搜索引擎更友好（单一 canonical URL 积累权重）
+
+### Pipeline raw SQL 与 API Drizzle 的 schema 同步约定
+
+凡涉及 API 侧表结构变更的 pipeline migration，**必须同步更新 API Drizzle schema 文件**：
+1. 在 `packages/db-schema/src/schema/*.ts` 中声明新列/表
+2. 跑 `pnpm db:generate`，验证输出 "No schema changes"
+3. 如果 Drizzle 生成了 migration，对比 SQL 一致性后删除 Drizzle 生成的（避免双重 apply）
+4. Pipeline-only 的表（如 `person_merge_log`）不进 Drizzle schema，但须在 pipeline migration 注释中说明
+
+违反此约定会导致下次 `db:generate` 反向生成删除 migration（定时炸弹）。
+
+### Known Follow-ups
+
+1. **Canonical 选择对"帝X"前缀有系统性偏差**：surface_forms 数量 tiebreaker 导致"帝中丁"优先于"中丁"。建议增加"去尊称前缀优先"规则（`select_canonical` 中，如果候选 A.name == "帝" + 候选 B.name，优先选 B）。小任务，<1 天。
+2. **益/伯益 canonical 选择的学术争议**：选了"益"（本名），传统索引惯用"伯益"。学术上均可，记录在案，historian 在 Phase 1 扩量时可选择覆盖。
+
+---
+
 ## 相关链接
 
 - 任务卡：T-P0-011
+- 合并报告：`docs/reports/T-P0-011-apply-report.md`
 - 质量报告：`docs/reports/T-P0-010-findings.md` / `T-P0-010-phase-a-quality.md` / `T-P0-010-phase-b-quality.md`
 - 相关 ADR：ADR-009（Person sourceEvidenceId traceability）
 - 已规划 ADR：ADR-015（Identity Hypotheses 表达机制）— 本 ADR 的合并结果会产生 identity_hypothesis 记录，两者互补

@@ -3,8 +3,8 @@
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
 - **最近更新**：2026-04-18
-- **更新人**：管线工程师 + 古籍/历史专家（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅**
+- **更新人**：首席架构师 + 管线工程师 + 古籍/历史专家（Claude Opus）
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅**
 
 ---
 
@@ -29,6 +29,21 @@
 ---
 
 ## 已完成
+
+### T-P0-011 跨 Chunk 身份消歧（2026-04-18）
+- [x] Phase 1：ADR-010 起草 + v2 修订（评分函数/字典/soft merge/可逆性）
+- [x] Phase 3：Schema migration（persons.merged_into_id + person_merge_log）
+- [x] Phase 3：字典文件（tongjia.yaml + miaohao.yaml，带 source 字段）
+- [x] Phase 3：identity_resolver 模块（resolve.py / resolve_rules.py / resolve_types.py）
+- [x] Phase 3：R1 stop words + cross-dynasty guard（修复 3 个 false positive）
+- [x] Phase 3：单元测试 34 cases 全绿
+- [x] Phase 3：帝舜 data fix（Related Fix #2）
+- [x] Phase 3：Dry-run 11 组全绿（169→157）
+- [x] Phase 4：Apply merges（run_id=39b495d0，12 persons soft-merged）
+- [x] Phase 4：API resolveCanonical（搜索穿透 + slug 透明返回 + 别名聚合）
+- [x] Phase 4：Historian 抽样 5/5 正确
+- [x] Phase 4：Web API 端到端验证 5/5 通过
+- 累计：ADR-010 accepted / 3 schema migrations / 5 new Python modules / 2 YAML dicts / 34 pipeline tests / 6 commits
 
 ### T-P0-010 Pipeline 基础设施 + 真书 Pilot（2026-04-18）
 - [x] S-prep 1~8：管线基础设施从零建设（8 模块，8 commits）
@@ -158,9 +173,7 @@
 
 ## 进行中
 
-无。等待用户选择下一任务。（T-P0-010 刚完成）
-
-建议下一步：**T-P0-011 跨 chunk 身份消歧**（解决 pilot 暴露的 13 对同人重复）
+无。等待用户选择下一任务。（T-P0-011 刚完成）
 
 ---
 
@@ -168,12 +181,12 @@
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
-| 🔴 高 | T-P0-005 | LLM Gateway + TraceGuard 基础集成 | 管线工程师 | T-P0-002 ✅ / T-TG-002 ✅ | ✅ **done** |
-| 🔴 高 | T-P0-007 | API MVP：person query（首个真实 resolver） | 后端工程师 | T-P0-003 ✅ | ✅ **done** |
-| 🔴 高 | T-P0-008 | Web MVP：人物卡片页 | 前端工程师 | T-P0-007 ✅ | ✅ **done** |
-| 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 |
-| 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + 10 父级郡国 slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ / 可选启动 |
-| 🟢 低 | T-P0-006 | Pipeline MVP：鸿门宴 NER（前置：T-P0-006 加载器须吸收 _NOTES.md TODO-001） | 管线工程师 | T-P0-005 + T-P0-004 批次 1 ✅ |
+| 🔴 高 | T-P0-012 (新) | 冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥） | 管线 + historian | T-P0-011 ✅ | planned |
+| 🔴 高 | T-P0-013 (新) | Canonical 选择算法优化（帝X 前缀偏差） | 管线 | T-P0-011 ✅ | planned |
+| 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
+| 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
+| 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | T-P0-011 ✅ | planned |
+| 🟢 低 | T-P1-XXX | API 集成测试 isolation 修复（hasMore + ordering 2 case） | 后端 | — | planned |
 
 ---
 
@@ -202,13 +215,14 @@
 ## 健康度指标
 
 - 📘 文档覆盖度：核心 7/7 ✅
-- 🧭 ADR 数量：9 accepted / 9 planned
-- 📋 任务卡数量：T-P0-001 done；T-P0-002 done；T-P0-003 done；T-P0-004 批次 1 done；T-TG-002 done；T-P0-005 done；T-P0-007 done；T-P0-008 done；T-P0-009 done；T-P0-005a planned
+- 🧭 ADR 数量：10 accepted / 9 planned
+- 📋 任务卡数量：T-P0-001~T-P0-011 done（11）；T-P0-005a / T-P0-012 / T-P0-013 planned
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：210 passed（ai/ 46 + qc/ 82 + api/ 45 + web/ 38）
+- 🧪 测试覆盖：231 passed（ai/ 46 + qc/ 82 + resolve/ 34 + api/ 43(2 pre-existing fail) + web/ 38）
+- 🔗 合并状态：157 canonical persons（12 soft-merged via T-P0-011, run_id=39b495d0）
 - 🚦 阻塞项数量：0 ✅
 
 ---
@@ -229,3 +243,4 @@
 - 2026-04-18：T-P0-008 done — Web MVP 人物卡片页（Tailwind + shadcn + codegen + /persons/[slug] + 4 组件 + 23 tests + 2 E2E；8 commits）
 - 2026-04-17：T-P0-005 done — LLM Gateway + TraceGuard 基础集成（ai/ 子包 6 文件 + anthropic SDK + 46 tests；4 commits）
 - 2026-04-18：T-P0-009 done — Web 人物搜索/列表页（SDL PersonSearchResult + pg_trgm search + /persons 路由 + SearchBar + Pagination + 28 新增 tests + 2 E2E；7 commits）
+- 2026-04-18：T-P0-011 done — 跨 chunk 身份消歧（ADR-010 + identity_resolver 5 规则 + 2 YAML 字典 + schema migration + API resolveCanonical；11 组合并 169→157 persons；34 pipeline tests + 5 web 验证；6 commits）
