@@ -7,6 +7,22 @@
 
 ## 2026-04-18
 
+### [fix] T-P0-013 完成 — Canonical 选择策略优化：帝X 前缀去偏差（4 commits, 11 new tests）
+- **角色**：管线工程师（主导）
+- **性质**：Phase 0 数据质量修复（ADR-010 Known Follow-up #1 闭环）
+- **根因**：`select_canonical()` 的 surface_forms 数量 tiebreaker 在两个 person 都是 hex slug 时，优先选了 surface_forms 更多的"帝中丁"而非本名"中丁"
+- **修复**：
+  - `resolve_rules.py`：新增 `has_di_prefix_peer(p, group)` — 检测"帝X"尊称且组内有裸名 peer（X 为 1–2 字）
+  - `resolve.py`：`select_canonical()` sort_key 插入 priority #2（pinyin_slug 之后、surface_forms 之前）：帝X有peer则降权
+- **数据修复**：SQL 事务反转 1 组 canonical 方向（帝中丁→中丁），person_merge_log 旧行 reverted + 新行插入
+- **验证**：verify_canonical.py 确认 12 条 merge 中 11 条不变、1 条 canonical 反转正确；V1/V2/V3 查询通过
+- **测试**：11 new cases（TestSelectCanonical 6 + TestHasDiPrefixPeer 5），resolve/ 34→45，全绿
+- **发现**：武乙组旧规则已正确（surface_forms 2>1），新规则为双重保险，不触发是正确行为
+- **无新依赖**
+- **4 commits**
+
+---
+
 ### [ci] W-8 完成 — CI DB schema apply + turbo env passthrough（3 commits）
 - **性质**：CI 基建修复（清债任务）
 - **根因**：ci.yml 用原始 `postgis/postgis:16-3.4` 空库（无 schema、缺 pgvector extension），integration tests 在 beforeAll INSERT 时挂；Turbo v2 strict env mode 过滤 `DATABASE_URL`
