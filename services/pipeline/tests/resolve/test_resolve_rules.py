@@ -13,11 +13,13 @@ import pytest
 
 from huadian_pipeline.resolve import UnionFind, select_canonical
 from huadian_pipeline.resolve_rules import (
+    HONORIFIC_SHI_WHITELIST,
     MERGE_CONFIDENCE_THRESHOLD,
     PersonSnapshot,
     _extract_noted_names,
     ensure_dicts_loaded,
     has_di_prefix_peer,
+    is_likely_non_person,
     score_pair,
 )
 
@@ -587,3 +589,161 @@ class TestFirstMatchWins:
         assert result is not None
         # R1 doesn't fire (no name overlap), R2 fires
         assert result.rule == "R2"
+
+
+# ---------------------------------------------------------------------------
+# is_likely_non_person (T-P0-014)
+# ---------------------------------------------------------------------------
+
+
+class TestIsLikelyNonPerson:
+    """Tests for the non-person entity classification rule."""
+
+    # --- True positives: should detect as non-person ---
+
+    def test_tp_hunyu_tribal_group(self) -> None:
+        """荤粥 — hardcoded tribal group (匈奴古称)."""
+        p = _person(name="荤粥", surface_forms={"荤粥"})
+        is_non, category = is_likely_non_person(p)
+        assert is_non is True
+        assert category == "tribal_group"
+
+    def test_tp_baixing_abstract(self) -> None:
+        """百姓 — hardcoded abstract collective."""
+        p = _person(name="百姓", surface_forms={"百姓"})
+        is_non, category = is_likely_non_person(p)
+        assert is_non is True
+        assert category == "abstract_collective"
+
+    def test_tp_wanguo_abstract(self) -> None:
+        """万国 — hardcoded abstract collective."""
+        p = _person(name="万国", surface_forms={"万国"})
+        is_non, category = is_likely_non_person(p)
+        assert is_non is True
+        assert category == "abstract_collective"
+
+    def test_tp_kunwushi_tribal(self) -> None:
+        """昆吾氏 — X氏 pattern, multi-char, no bare name in surface_forms."""
+        p = _person(name="昆吾氏", surface_forms={"昆吾氏"})
+        is_non, category = is_likely_non_person(p)
+        assert is_non is True
+        assert category == "tribal_group"
+
+    def test_tp_sishi_clan_surname(self) -> None:
+        """姒氏 — X氏 pattern, single-char before 氏, clan surname."""
+        p = _person(name="姒氏", surface_forms={"姒氏"})
+        is_non, category = is_likely_non_person(p)
+        assert is_non is True
+        assert category == "clan_surname"
+
+    def test_tp_youhushi_tribal(self) -> None:
+        """有扈氏 — X氏 pattern, future data, tribal group."""
+        p = _person(name="有扈氏", surface_forms={"有扈氏"})
+        is_non, category = is_likely_non_person(p)
+        assert is_non is True
+        assert category == "tribal_group"
+
+    def test_tp_jishi_clan_surname(self) -> None:
+        """姬氏 — X氏 pattern, single-char, clan surname (future data)."""
+        p = _person(name="姬氏", surface_forms={"姬氏"})
+        is_non, category = is_likely_non_person(p)
+        assert is_non is True
+        assert category == "clan_surname"
+
+    # --- True negatives: should keep as person ---
+
+    def test_tn_whitelist_shennongshi(self) -> None:
+        """神农氏 — in whitelist, must be kept."""
+        p = _person(name="神农氏", surface_forms={"神农氏"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    def test_tn_whitelist_dihongshi(self) -> None:
+        """帝鸿氏 — in whitelist, must be kept."""
+        p = _person(name="帝鸿氏", surface_forms={"帝鸿氏"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    def test_tn_whitelist_tushanshi(self) -> None:
+        """涂山氏 — in whitelist, must be kept."""
+        p = _person(name="涂山氏", surface_forms={"涂山氏", "涂山", "涂山氏之女"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    def test_tn_whitelist_shaohao(self) -> None:
+        """少暤氏 — in whitelist, must be kept."""
+        p = _person(name="少暤氏", surface_forms={"少暤氏"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    def test_tn_whitelist_youxiongshi(self) -> None:
+        """有熊氏 — in whitelist, must be kept."""
+        p = _person(name="有熊氏", surface_forms={"有熊氏"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    def test_tn_regular_person_huangdi(self) -> None:
+        """黄帝 — regular person, no pattern match."""
+        p = _person(name="黄帝", surface_forms={"黄帝", "轩辕"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    def test_tn_regular_person_yao(self) -> None:
+        """尧 — regular person, no pattern match."""
+        p = _person(name="尧", surface_forms={"尧", "帝尧", "放勋"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    def test_tn_four_evils_hundun(self) -> None:
+        """浑沌 — four evils, kept as anonymous individuals."""
+        p = _person(name="浑沌", surface_forms={"浑沌"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    def test_tn_four_evils_taowu(self) -> None:
+        """梼杌 — four evils, kept."""
+        p = _person(name="梼杌", surface_forms={"梼杌"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    def test_tn_four_evils_taotie(self) -> None:
+        """饕餮 — four evils, kept."""
+        p = _person(name="饕餮", surface_forms={"饕餮"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    # --- Boundary: surface_forms bare-name guard ---
+
+    def test_boundary_xishi_bare_name_guard(self) -> None:
+        """羲氏 with surface_form '羲' — bare name present, keep (ambiguous)."""
+        p = _person(name="羲氏", surface_forms={"羲", "羲氏"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    def test_boundary_heshi_bare_name_guard(self) -> None:
+        """和氏 with surface_form '和' — bare name present, keep (ambiguous)."""
+        p = _person(name="和氏", surface_forms={"和", "和氏"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    def test_boundary_xishi_without_bare_name(self) -> None:
+        """羲氏 WITHOUT bare name '羲' — no guard, classify as non-person."""
+        p = _person(name="羲氏", surface_forms={"羲氏"})
+        is_non, category = is_likely_non_person(p)
+        assert is_non is True
+        assert category == "clan_surname"
+
+    def test_boundary_shi_alone(self) -> None:
+        """氏 alone (edge: len=1, endswith 氏) — too short, no match."""
+        p = _person(name="氏", surface_forms={"氏"})
+        is_non, _ = is_likely_non_person(p)
+        assert is_non is False
+
+    # --- Whitelist completeness sanity check ---
+
+    def test_whitelist_all_entries_keep(self) -> None:
+        """Every name in the whitelist should return (False, '')."""
+        for name in HONORIFIC_SHI_WHITELIST:
+            p = _person(name=name, surface_forms={name})
+            is_non, _ = is_likely_non_person(p)
+            assert is_non is False, f"Whitelist entry {name} was misclassified as non-person"

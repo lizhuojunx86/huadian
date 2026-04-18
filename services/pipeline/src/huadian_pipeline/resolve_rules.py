@@ -463,6 +463,91 @@ def _rule_r4(a: PersonSnapshot, b: PersonSnapshot) -> MatchResult | None:
 
 
 # ---------------------------------------------------------------------------
+# Non-person entity classification (T-P0-014)
+# ---------------------------------------------------------------------------
+
+# Rulers / legendary figures whose names end in 氏 but are individual persons.
+# Priority: checked BEFORE the X氏 suffix rule so they are never misclassified.
+HONORIFIC_SHI_WHITELIST = frozenset(
+    {
+        "神农氏",
+        "伏羲氏",
+        "女娲氏",
+        "轩辕氏",
+        "少昊氏",
+        "少暤氏",
+        "颛顼氏",
+        "高阳氏",
+        "高辛氏",
+        "有熊氏",
+        "帝鸿氏",
+        "缙云氏",
+        "涂山氏",
+    }
+)
+
+# Names that are unambiguously not individual persons.
+# Values are the classification category.
+_KNOWN_NON_PERSON_NAMES: dict[str, str] = {
+    # Tribal / ethnic groups (部族/族群)
+    "荤粥": "tribal_group",  # 匈奴古称
+    "猃狁": "tribal_group",  # 周代北方族群
+    "鬼方": "tribal_group",  # 商周北方族群
+    "山戎": "tribal_group",  # 北方游牧族
+    "三苗": "tribal_group",  # 上古南方族群
+    # Abstract collectives (抽象集合)
+    "百姓": "abstract_collective",
+    "万国": "abstract_collective",
+}
+
+
+def is_likely_non_person(p: PersonSnapshot) -> tuple[bool, str]:
+    """Determine if a PersonSnapshot is likely not an individual person.
+
+    Evaluation order:
+      1. HONORIFIC_SHI_WHITELIST — known rulers with 氏 suffix → keep
+      2. _KNOWN_NON_PERSON_NAMES — hardcoded non-person dictionary → reject
+      3. X氏 suffix pattern:
+         a. If surface_forms contains the bare name (without 氏), the entity
+            may represent both a clan and a specific person → keep (ambiguous)
+         b. Otherwise → reject as tribal_group or clan_surname
+
+    Args:
+        p: PersonSnapshot to evaluate.
+
+    Returns:
+        (True, category) if likely non-person.
+          category is one of: 'tribal_group', 'clan_surname', 'abstract_collective'
+        (False, '') if should be kept.
+    """
+    name = p.name
+
+    # 1. Whitelist — known rulers whose names end in 氏
+    if name in HONORIFIC_SHI_WHITELIST:
+        return (False, "")
+
+    # 2. Hardcoded non-person dictionary
+    if name in _KNOWN_NON_PERSON_NAMES:
+        return (True, _KNOWN_NON_PERSON_NAMES[name])
+
+    # 3. X氏 suffix pattern
+    if name.endswith("氏") and len(name) >= 2:
+        bare_name = name[:-1]
+        # Guard: if surface_forms contains the bare name, this entity may
+        # simultaneously refer to a clan AND a specific person (e.g. 羲氏
+        # with surface_form "羲") → do not classify as non-person.
+        if bare_name in p.surface_forms:
+            return (False, "")
+        # Single char + 氏 (e.g. 姒氏, 姬氏) → clan surname
+        if len(bare_name) == 1:
+            return (True, "clan_surname")
+        # Multi-char + 氏 (e.g. 昆吾氏, 有扈氏) → tribal group
+        return (True, "tribal_group")
+
+    return (False, "")
+
+
+# ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
 
