@@ -5,6 +5,28 @@
 
 ---
 
+## 2026-04-19
+
+### [fix] T-P0-014 完成 — 非人实体清理：5 条 soft-delete（5 commits, 22 new tests）
+- **角色**：管线工程师（主导）+ 古籍/历史专家（实体归属仲裁）
+- **性质**：Phase 0 数据质量修复
+- **根因**：NER 抽取阶段将官职世家（羲氏/和氏）、部族名（荤粥/昆吾氏）、氏族姓氏（姒氏）误录为 person 实体
+- **修复**：
+  - `resolve_rules.py`：新增 `is_likely_non_person(PersonSnapshot)` 纯函数
+    - `HONORIFIC_SHI_WHITELIST`：13 条白名单（神农氏/帝鸿氏/涂山氏 等）
+    - `_KNOWN_NON_PERSON_NAMES`：硬编码非人词典（荤粥/百姓/万国 等）
+    - X氏 suffix pattern + bare-name guard（surface_forms 含裸名则不判为非人）
+  - 羲氏/和氏：裸名 guard 触发 → historian override 确认 delete（裸名为族称缩写）
+  - 熊罴/龙：historian 确认 KEEP（舜臣，五帝本纪 P25/P26 证据）
+- **数据修复**：SQL 事务 soft-delete 5 条（deleted_at + merged_into_id=NULL），person_merge_log 5 行（merge_rule='R3-non-person'）
+- **验证**：active persons 157→152；V-1 lint/typecheck/test 全绿；V-2/V-3 DB 查询通过
+- **测试**：22 new cases（7 TP + 9 TN + 4 boundary + 2 extra），resolve/ 45→67，pipeline 195 全绿
+- **无新依赖**
+- **衍生债**：T-P2-002（slug 命名不一致）
+- **5 commits**
+
+---
+
 ## 2026-04-18
 
 ### [fix] T-P0-013 完成 — Canonical 选择策略优化：帝X 前缀去偏差（4 commits, 11 new tests）

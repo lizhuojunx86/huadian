@@ -2,9 +2,9 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-18
-- **更新人**：首席架构师 + 管线工程师 + 古籍/历史专家（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅**
+- **最近更新**：2026-04-19
+- **更新人**：管线工程师 + 古籍/历史专家（Claude Opus）
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅**
 
 ---
 
@@ -29,6 +29,19 @@
 ---
 
 ## 已完成
+
+### T-P0-014 非人实体清理 — soft-delete 5 条（2026-04-19）
+- [x] S-1：候选审计（157 persons 扫描 → 7 候选 A 类 + 9 B 类）
+- [x] S-1 核查规程：surface_forms 裸名检查 + 原文上下文验证
+  - 羲氏/和氏 触发裸名 guard → historian override → delete
+  - 熊罴/龙 确认为舜臣 → KEEP
+- [x] S-2：`is_likely_non_person()` 规则函数（HONORIFIC_SHI_WHITELIST 13 条 + _KNOWN_NON_PERSON_NAMES 词典 + X氏 suffix pattern + bare-name guard）
+- [x] S-3：22 新 test cases（7 TP + 9 TN + 4 boundary + 1 whitelist sanity + 1 extra），67 total resolve
+- [x] S-4：SQL soft-delete 5 条（荤粥/昆吾氏/姒氏/羲氏/和氏），person_merge_log 5 行（merge_rule='R3-non-person'）
+- [x] S-5：V-1 lint/typecheck/test 全绿；V-2/V-3 DB 验证通过
+- 结果：157 → 152 active persons
+- 累计：5 commits / 22 new tests / 5 DB soft-deletes / 1 新规则函数
+- 衍生债：T-P2-002（slug 命名不一致）
 
 ### T-P0-013 Canonical 选择策略优化 — 帝X 前缀去偏差（2026-04-18）
 - [x] S-1：`has_di_prefix_peer()` 辅助函数 + `select_canonical()` sort_key 插入帝X惩罚项（priority #2）
@@ -205,7 +218,7 @@
 
 ## 进行中
 
-无。等待用户选择下一任务。（T-P0-012 刚完成）
+无。等待用户选择下一任务。（T-P0-014 刚完成）
 
 ---
 
@@ -213,7 +226,7 @@
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
-| 🔴 高 | T-P0-014 | 冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥） | 管线 + historian | T-P0-011 ✅ | planned |
+| ~~🔴 高~~ | ~~T-P0-014~~ | ~~冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥）~~ | ~~管线 + historian~~ | ~~T-P0-011 ✅~~ | **done** |
 | ~~🔴 高~~ | ~~T-P0-013~~ | ~~Canonical 选择算法优化（帝X 前缀偏差）~~ | ~~管线~~ | ~~T-P0-011 ✅~~ | **done** |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
@@ -251,13 +264,13 @@
 
 - 📘 文档覆盖度：核心 7/7 ✅
 - 🧭 ADR 数量：10 accepted / 9 planned
-- 📋 任务卡数量：T-P0-001~T-P0-013 done（13）；T-P0-005a / T-P0-014 planned
+- 📋 任务卡数量：T-P0-001~T-P0-014 done（14）；T-P0-005a planned
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：257 passed + 2 skipped（ai/ 46 + qc/ 82 + resolve/ 45 + api/ 43(2 T-P1-001 skip) + web/ 55）；E2E 7 specs
-- 🔗 合并状态：157 canonical persons（12 soft-merged via T-P0-011, run_id=39b495d0）
+- 🧪 测试覆盖：250 passed + 2 skipped（ai/ 46 + qc/ 82 + resolve/ 67 + api/ 43(2 T-P1-001 skip) + web/ 55）；E2E 7 specs
+- 🔗 合并状态：152 canonical persons（12 soft-merged via T-P0-011 + 5 non-person soft-deleted via T-P0-014）
 - 🚦 阻塞项数量：0 ✅
 
 ---
@@ -282,6 +295,7 @@
 - 2026-04-18：T-P0-012 done — Web 首页 + 全局导航（Header/Footer layout + Hero + FeaturedPersonCard×6 + Stats SDL 扩展 + StatsBlock + /about + SEO；17 unit tests + 3 E2E；7 commits）；原 T-P0-012 冗余实体 soft-delete 重编号为 T-P0-014
 - 2026-04-18：W-8 done — CI 基建修复（自定义 PG 镜像 + db:migrate + turbo passThroughEnv；Run 24600242038 全绿；3 commits）；衍生债 T-P1-001 registered
 - 2026-04-18：T-P0-013 done — Canonical 帝X 前缀去偏差（has_di_prefix_peer + select_canonical 优先级链；1 组 canonical 反转 帝中丁→中丁；11 new tests → 45 resolve tests；4 commits）；ADR-010 Follow-up #1 闭环
+- 2026-04-19：T-P0-014 done — 非人实体清理（is_likely_non_person 规则 + HONORIFIC_SHI_WHITELIST 13 条 + X氏 pattern；5 entities soft-deleted 157→152 persons；22 new tests → 67 resolve tests；5 commits）；衍生债 T-P2-002 registered
 
 ---
 
