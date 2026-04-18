@@ -17,6 +17,7 @@ from huadian_pipeline.resolve_rules import (
     PersonSnapshot,
     _extract_noted_names,
     ensure_dicts_loaded,
+    has_di_prefix_peer,
     score_pair,
 )
 
@@ -375,6 +376,150 @@ class TestSelectCanonical:
         )
         canonical = select_canonical([tang, cheng_tang, shang_tang])
         assert canonical.slug == "tang"
+
+    # --- T-P0-013: 帝X canonical demotion ---
+
+    def test_di_prefix_zhongding(self) -> None:
+        """T-P0-013 fix: {帝中丁, 中丁} → canonical = 中丁."""
+        zhongding = _person(
+            id="a",
+            name="中丁",
+            slug="u4e2d-u4e01",
+            dynasty="商",
+            surface_forms={"中丁"},
+        )
+        di_zhongding = _person(
+            id="b",
+            name="帝中丁",
+            slug="u5e1d-u4e2d-u4e01",
+            dynasty="商",
+            surface_forms={"帝中丁", "中丁"},
+        )
+        canonical = select_canonical([zhongding, di_zhongding])
+        assert canonical.name == "中丁"
+
+    def test_di_prefix_wuyi(self) -> None:
+        """T-P0-013 fix: {帝武乙, 武乙} → canonical = 武乙."""
+        wuyi = _person(
+            id="a",
+            name="武乙",
+            slug="u6b66-u4e59",
+            dynasty="商",
+            surface_forms={"武乙"},
+        )
+        di_wuyi = _person(
+            id="b",
+            name="帝武乙",
+            slug="u5e1d-u6b66-u4e59",
+            dynasty="商",
+            surface_forms={"帝武乙", "武乙"},
+        )
+        canonical = select_canonical([wuyi, di_wuyi])
+        assert canonical.name == "武乙"
+
+    def test_di_prefix_yao_no_regression(self) -> None:
+        """Protection: {帝尧, 尧} → canonical = 尧 (was already correct)."""
+        yao = _person(
+            id="a",
+            name="尧",
+            slug="yao",
+            dynasty="上古",
+            surface_forms={"尧", "帝尧", "放勋"},
+        )
+        di_yao = _person(
+            id="b",
+            name="帝尧",
+            slug="u5e1d-u5c27",
+            dynasty="上古",
+            surface_forms={"帝尧"},
+        )
+        canonical = select_canonical([yao, di_yao])
+        assert canonical.name == "尧"
+
+    def test_di_prefix_shun_no_regression(self) -> None:
+        """Protection: {帝舜, 舜} → canonical = 舜 (was already correct)."""
+        shun = _person(
+            id="a",
+            name="舜",
+            slug="shun",
+            dynasty="上古",
+            surface_forms={"舜", "帝舜", "重华"},
+        )
+        di_shun = _person(
+            id="b",
+            name="帝舜",
+            slug="u5e1d-u821c",
+            dynasty="上古",
+            surface_forms={"帝舜"},
+        )
+        canonical = select_canonical([shun, di_shun])
+        assert canonical.name == "舜"
+
+    def test_di_prefix_no_peer_single_group(self) -> None:
+        """Boundary: {帝喾} alone — no peer, rule does not fire."""
+        di_ku = _person(
+            id="a",
+            name="帝喾",
+            slug="u5e1d-u559e",
+            dynasty="上古",
+            surface_forms={"帝喾", "高辛"},
+        )
+        canonical = select_canonical([di_ku])
+        assert canonical.name == "帝喾"
+
+    def test_di_prefix_not_triggered_by_non_pattern(self) -> None:
+        """Boundary: {黄帝, 帝鸿氏} — neither is '帝' + the other, rule inactive."""
+        huangdi = _person(
+            id="a",
+            name="黄帝",
+            slug="huang-di",
+            dynasty="上古",
+            surface_forms={"黄帝", "轩辕"},
+        )
+        dihong = _person(
+            id="b",
+            name="帝鸿氏",
+            slug="u5e1d-u9e3f-u6c0f",
+            dynasty="上古",
+            surface_forms={"帝鸿氏"},
+        )
+        canonical = select_canonical([huangdi, dihong])
+        # "黄帝" has pinyin slug → wins on priority #1, rule irrelevant
+        assert canonical.name == "黄帝"
+
+
+# ---------------------------------------------------------------------------
+# has_di_prefix_peer helper
+# ---------------------------------------------------------------------------
+
+
+class TestHasDiPrefixPeer:
+    """Direct tests for the has_di_prefix_peer() helper function."""
+
+    def test_true_when_peer_exists(self) -> None:
+        di_p = _person(id="a", name="帝中丁")
+        bare_p = _person(id="b", name="中丁")
+        assert has_di_prefix_peer(di_p, [di_p, bare_p]) is True
+
+    def test_false_for_bare_name(self) -> None:
+        di_p = _person(id="a", name="帝中丁")
+        bare_p = _person(id="b", name="中丁")
+        assert has_di_prefix_peer(bare_p, [di_p, bare_p]) is False
+
+    def test_false_when_no_peer(self) -> None:
+        di_p = _person(id="a", name="帝喾")
+        assert has_di_prefix_peer(di_p, [di_p]) is False
+
+    def test_false_for_long_stripped_name(self) -> None:
+        """帝 + 3-char name should NOT trigger (stripped len > 2)."""
+        di_p = _person(id="a", name="帝太甲乙")
+        bare_p = _person(id="b", name="太甲乙")
+        assert has_di_prefix_peer(di_p, [di_p, bare_p]) is False
+
+    def test_false_for_non_di_prefix(self) -> None:
+        """'黄帝' does not start with '帝'."""
+        p = _person(id="a", name="黄帝")
+        assert has_di_prefix_peer(p, [p]) is False
 
 
 # ---------------------------------------------------------------------------
