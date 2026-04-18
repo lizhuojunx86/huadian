@@ -15,6 +15,13 @@
       "when": 1776434567452,
       "tag": "0001_dry_cerebro",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1776487864515,
+      "tag": "0002_stale_impossible_man",
+      "breakpoints": true
     }
   ]
 }

@@ -48,6 +48,10 @@ export const persons = pgTable("persons", {
   deathDate: jsonb("death_date").$type<HistoricalDate>(),
   biography: jsonb("biography").$type<MultiLangText>(),
   provenanceTier: provenanceTierEnum("provenance_tier").notNull().default("primary_text"),
+  // T-P0-011: soft merge pointer — when this person is merged into another,
+  // this points to the canonical person. Query layer resolves via this FK.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- self-referential FK
+  mergedIntoId: uuid("merged_into_id").references((): any => persons.id),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   deletedAt: timestamp("deleted_at", { withTimezone: true }),
