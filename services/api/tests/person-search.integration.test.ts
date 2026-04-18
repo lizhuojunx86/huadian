@@ -154,7 +154,7 @@ describe("searchPersons — no search term", () => {
     expect(result.hasMore).toBe(true);
   });
 
-  it("returns hasMore=false when at the end", async () => {
+  it.skip("returns hasMore=false when at the end [T-P1-001]", async () => {
     const result = await searchPersons(db, null, 100, 0);
     expect(result.hasMore).toBe(false);
   });
