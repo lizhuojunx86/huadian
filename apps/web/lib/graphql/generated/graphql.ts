@@ -387,6 +387,17 @@ export type PersonName = {
   startYear?: Maybe<Scalars['Int']['output']>;
 };
 
+/** Paginated search result for persons. Returned by Query.persons. */
+export type PersonSearchResult = {
+  __typename?: 'PersonSearchResult';
+  /** True when there are more rows beyond the current page. */
+  hasMore: Scalars['Boolean']['output'];
+  /** Matching Person rows for the current page. */
+  items: Array<Person>;
+  /** Total number of matching rows (across all pages). */
+  total: Scalars['Int']['output'];
+};
+
 /**
  * Place — geographic entity. The PostGIS GEOMETRY column is exposed here
  * as the opaque JSON scalar for Phase 0 (task card explicit non-goal);
@@ -477,13 +488,17 @@ export type Query = {
    */
   person?: Maybe<Person>;
   /**
-   * List Persons with offset-based pagination.
+   * Search and list Persons with offset-based pagination.
    *
    * Arguments:
+   *   search optional text query; triggers pg_trgm similarity search
+   *          on person_names.name (threshold 0.3) and ILIKE on
+   *          persons.name->>'zh-Hans'. When omitted or empty, returns
+   *          all persons ordered by created_at DESC.
    *   limit  maximum rows to return; clamped to [1, 100] server-side.
    *   offset number of rows to skip; MUST be non-negative.
    */
-  persons: Array<Person>;
+  persons: PersonSearchResult;
   /** Fetch one Place by stable slug. Returns null when absent. */
   place?: Maybe<Place>;
   /**
@@ -508,6 +523,7 @@ export type QueryPersonArgs = {
 export type QueryPersonsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -598,5 +614,15 @@ export type PersonQueryVariables = Exact<{
 
 export type PersonQuery = { __typename?: 'Query', person?: { __typename?: 'Person', id: string, slug: string, dynasty?: string | null, realityStatus: RealityStatus, provenanceTier: ProvenanceTier, name: { __typename?: 'MultiLangText', zhHans: string, zhHant?: string | null, en?: string | null }, birthDate?: { __typename?: 'HistoricalDate', yearMin?: number | null, yearMax?: number | null, precision: DatePrecision, originalText?: string | null, reignEra?: string | null, reignYear?: number | null } | null, deathDate?: { __typename?: 'HistoricalDate', yearMin?: number | null, yearMax?: number | null, precision: DatePrecision, originalText?: string | null, reignEra?: string | null, reignYear?: number | null } | null, biography?: { __typename?: 'MultiLangText', zhHans: string, en?: string | null } | null, names: Array<{ __typename?: 'PersonName', id: string, name: string, namePinyin?: string | null, nameType: NameType, isPrimary?: boolean | null, startYear?: number | null, endYear?: number | null }>, identityHypotheses: Array<{ __typename?: 'IdentityHypothesis', id: string, relationType: HypothesisRelationType, scholarlySupport?: string | null, acceptedByDefault?: boolean | null, notes?: string | null }> } | null };
 
+export type PersonsSearchQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type PersonsSearchQuery = { __typename?: 'Query', persons: { __typename?: 'PersonSearchResult', total: number, hasMore: boolean, items: Array<{ __typename?: 'Person', id: string, slug: string, dynasty?: string | null, realityStatus: RealityStatus, provenanceTier: ProvenanceTier, name: { __typename?: 'MultiLangText', zhHans: string, en?: string | null } }> } };
+
 
 export const PersonDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Person"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"person"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"zhHans"}},{"kind":"Field","name":{"kind":"Name","value":"zhHant"}},{"kind":"Field","name":{"kind":"Name","value":"en"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dynasty"}},{"kind":"Field","name":{"kind":"Name","value":"realityStatus"}},{"kind":"Field","name":{"kind":"Name","value":"provenanceTier"}},{"kind":"Field","name":{"kind":"Name","value":"birthDate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"yearMin"}},{"kind":"Field","name":{"kind":"Name","value":"yearMax"}},{"kind":"Field","name":{"kind":"Name","value":"precision"}},{"kind":"Field","name":{"kind":"Name","value":"originalText"}},{"kind":"Field","name":{"kind":"Name","value":"reignEra"}},{"kind":"Field","name":{"kind":"Name","value":"reignYear"}}]}},{"kind":"Field","name":{"kind":"Name","value":"deathDate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"yearMin"}},{"kind":"Field","name":{"kind":"Name","value":"yearMax"}},{"kind":"Field","name":{"kind":"Name","value":"precision"}},{"kind":"Field","name":{"kind":"Name","value":"originalText"}},{"kind":"Field","name":{"kind":"Name","value":"reignEra"}},{"kind":"Field","name":{"kind":"Name","value":"reignYear"}}]}},{"kind":"Field","name":{"kind":"Name","value":"biography"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"zhHans"}},{"kind":"Field","name":{"kind":"Name","value":"en"}}]}},{"kind":"Field","name":{"kind":"Name","value":"names"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"namePinyin"}},{"kind":"Field","name":{"kind":"Name","value":"nameType"}},{"kind":"Field","name":{"kind":"Name","value":"isPrimary"}},{"kind":"Field","name":{"kind":"Name","value":"startYear"}},{"kind":"Field","name":{"kind":"Name","value":"endYear"}}]}},{"kind":"Field","name":{"kind":"Name","value":"identityHypotheses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"relationType"}},{"kind":"Field","name":{"kind":"Name","value":"scholarlySupport"}},{"kind":"Field","name":{"kind":"Name","value":"acceptedByDefault"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}}]}}]}}]}}]} as unknown as DocumentNode<PersonQuery, PersonQueryVariables>;
+export const PersonsSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PersonsSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"search"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}},"defaultValue":{"kind":"IntValue","value":"20"}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}},"defaultValue":{"kind":"IntValue","value":"0"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"persons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"search"},"value":{"kind":"Variable","name":{"kind":"Name","value":"search"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"zhHans"}},{"kind":"Field","name":{"kind":"Name","value":"en"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dynasty"}},{"kind":"Field","name":{"kind":"Name","value":"realityStatus"}},{"kind":"Field","name":{"kind":"Name","value":"provenanceTier"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"hasMore"}}]}}]}}]} as unknown as DocumentNode<PersonsSearchQuery, PersonsSearchQueryVariables>;
