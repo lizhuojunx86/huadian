@@ -139,13 +139,41 @@ export function toGraphQLHypothesis(row: IdentityHypothesisRow): GqlIdentityHypo
 // ----------------------------------------------------------------
 
 /**
- * Find a single person by slug. Returns null if not found or soft-deleted.
- * Eager-loads person_names and identity_hypotheses (Q-4 ruling A for single entity).
+ * Resolve a potentially merged person to its canonical person.
+ * Follows the merged_into_id chain (max 5 hops to prevent infinite loops).
+ * Returns null if the chain leads to a deleted non-merged person.
+ */
+async function resolveCanonical(
+  db: DrizzleClient,
+  row: PersonRow,
+): Promise<PersonRow | null> {
+  let current = row;
+  let hops = 0;
+  while (current.mergedIntoId && hops < 5) {
+    const next = await db
+      .select()
+      .from(persons)
+      .where(eq(persons.id, current.mergedIntoId))
+      .limit(1);
+    if (!next[0]) return null;
+    current = next[0];
+    hops++;
+  }
+  // Only return if the final person is active (not deleted or is itself canonical)
+  if (current.deletedAt != null && !current.mergedIntoId) return null;
+  return current;
+}
+
+/**
+ * Find a single person by slug. Returns null if not found.
+ * If slug matches a merged person, resolves to its canonical person.
+ * Eager-loads person_names from both canonical AND merged persons,
+ * plus identity_hypotheses (Q-4 ruling A for single entity).
  */
 export async function findPersonBySlug(
   db: DrizzleClient,
   slug: string,
-): Promise<(GqlPerson & { __typename: "Person"; _namesLoaded: boolean; _hypothesesLoaded: boolean }) | null> {
+): Promise<(GqlPerson & { __typename: "Person"; _namesLoaded: boolean; _hypothesesLoaded: boolean; _redirectedFrom?: string }) | null> {
   const rows = await db
     .select()
     .from(persons)
@@ -153,26 +181,35 @@ export async function findPersonBySlug(
     .limit(1);
 
   const row = rows[0];
-  if (!row || row.deletedAt != null) return null;
+  if (!row) return null;
 
-  // Sequential queries for related data (N is small, Q-4 ruling A)
+  // If this person is merged, resolve to canonical
+  let canonical = row;
+  let redirectedFrom: string | undefined;
+  if (row.mergedIntoId || row.deletedAt != null) {
+    if (!row.mergedIntoId) return null; // deleted but not merged
+    const resolved = await resolveCanonical(db, row);
+    if (!resolved) return null;
+    canonical = resolved;
+    redirectedFrom = slug;
+  }
+
+  // Load names from canonical + all persons merged into it
   const [nameRows, hypothesisRows] = await Promise.all([
-    db
-      .select()
-      .from(personNames)
-      .where(eq(personNames.personId, row.id)),
+    findPersonNamesWithMerged(db, canonical.id),
     db
       .select()
       .from(identityHypotheses)
-      .where(eq(identityHypotheses.canonicalPersonId, row.id)),
+      .where(eq(identityHypotheses.canonicalPersonId, canonical.id)),
   ]);
 
   return {
-    ...toGraphQLPerson(row),
-    names: nameRows.map(toGraphQLPersonName),
+    ...toGraphQLPerson(canonical),
+    names: nameRows,
     identityHypotheses: hypothesisRows.map(toGraphQLHypothesis),
     _namesLoaded: true,
     _hypothesesLoaded: true,
+    _redirectedFrom: redirectedFrom,
   };
 }
 
@@ -205,16 +242,38 @@ export async function findPersons(
 }
 
 /**
- * Load person_names for a given person ID (used by field resolver on persons list).
+ * Load person_names for a canonical person, including names from all persons
+ * merged into it (soft merge — person_names.person_id stays on the original
+ * person, we resolve via persons.merged_into_id).
  */
 export async function findPersonNamesByPersonId(
   db: DrizzleClient,
   personId: string,
 ): Promise<GqlPersonName[]> {
+  return findPersonNamesWithMerged(db, personId);
+}
+
+/**
+ * Internal: load names from canonical person + all persons merged into it.
+ */
+async function findPersonNamesWithMerged(
+  db: DrizzleClient,
+  canonicalId: string,
+): Promise<GqlPersonName[]> {
+  // Find all person IDs that belong to this canonical group:
+  // the canonical itself + any person whose merged_into_id points to it
+  const mergedRows = await db
+    .select({ id: persons.id })
+    .from(persons)
+    .where(eq(persons.mergedIntoId, canonicalId));
+
+  const allIds = [canonicalId, ...mergedRows.map(r => r.id)];
+
   const rows = await db
     .select()
     .from(personNames)
-    .where(eq(personNames.personId, personId));
+    .where(inArray(personNames.personId, allIds));
+
   return rows.map(toGraphQLPersonName);
 }
 
@@ -297,32 +356,34 @@ async function trigramSearch(
 ): Promise<Omit<PersonSearchResult, "__typename">> {
   const likePattern = `%${term}%`;
 
-  // Run count + paginated IDs in parallel
+  // Search through ALL persons' names (including merged ones).
+  // Use COALESCE(p.merged_into_id, p.id) to resolve merged persons to their
+  // canonical, so searching "垂" returns 倕 (canonical) instead of 垂 (merged).
   const [countResult, idsResult] = await Promise.all([
     db.execute(sql`
-      SELECT count(DISTINCT p.id)::int AS total
+      SELECT count(DISTINCT COALESCE(p.merged_into_id, p.id))::int AS total
       FROM persons p
       LEFT JOIN person_names pn ON pn.person_id = p.id
-      WHERE p.deleted_at IS NULL
+      WHERE (p.deleted_at IS NULL OR p.merged_into_id IS NOT NULL)
         AND (
           similarity(pn.name, ${term}) > 0.3
           OR p.name->>'zh-Hans' ILIKE ${likePattern}
         )
     `),
     db.execute(sql`
-      SELECT p.id
+      SELECT COALESCE(p.merged_into_id, p.id) AS id
       FROM persons p
       LEFT JOIN person_names pn ON pn.person_id = p.id
-      WHERE p.deleted_at IS NULL
+      WHERE (p.deleted_at IS NULL OR p.merged_into_id IS NOT NULL)
         AND (
           similarity(pn.name, ${term}) > 0.3
           OR p.name->>'zh-Hans' ILIKE ${likePattern}
         )
-      GROUP BY p.id
+      GROUP BY COALESCE(p.merged_into_id, p.id)
       ORDER BY MAX(GREATEST(
         COALESCE(similarity(pn.name, ${term}), 0),
         CASE WHEN p.name->>'zh-Hans' ILIKE ${likePattern} THEN 0.5 ELSE 0 END
-      )) DESC, p.created_at DESC
+      )) DESC
       LIMIT ${limit} OFFSET ${offset}
     `),
   ]);
@@ -341,28 +402,29 @@ async function ilikeSearch(
 ): Promise<Omit<PersonSearchResult, "__typename">> {
   const likePattern = `%${term}%`;
 
+  // Same canonical resolution as trigramSearch
   const [countResult, idsResult] = await Promise.all([
     db.execute(sql`
-      SELECT count(DISTINCT p.id)::int AS total
+      SELECT count(DISTINCT COALESCE(p.merged_into_id, p.id))::int AS total
       FROM persons p
       LEFT JOIN person_names pn ON pn.person_id = p.id
-      WHERE p.deleted_at IS NULL
+      WHERE (p.deleted_at IS NULL OR p.merged_into_id IS NOT NULL)
         AND (
           pn.name ILIKE ${likePattern}
           OR p.name->>'zh-Hans' ILIKE ${likePattern}
         )
     `),
     db.execute(sql`
-      SELECT p.id
+      SELECT COALESCE(p.merged_into_id, p.id) AS id
       FROM persons p
       LEFT JOIN person_names pn ON pn.person_id = p.id
-      WHERE p.deleted_at IS NULL
+      WHERE (p.deleted_at IS NULL OR p.merged_into_id IS NOT NULL)
         AND (
           pn.name ILIKE ${likePattern}
           OR p.name->>'zh-Hans' ILIKE ${likePattern}
         )
-      GROUP BY p.id
-      ORDER BY p.created_at DESC
+      GROUP BY COALESCE(p.merged_into_id, p.id)
+      ORDER BY MAX(p.created_at) DESC
       LIMIT ${limit} OFFSET ${offset}
     `),
   ]);
