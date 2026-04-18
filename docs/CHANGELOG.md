@@ -7,6 +7,30 @@
 
 ## 2026-04-18
 
+### [feat] T-P0-012 完成 — Web 首页 + 全局导航（7 commits, 17 unit tests, 3 E2E）
+- **角色**：前端工程师（主导）+ 后端工程师（stats API 扩展）
+- **性质**：Phase 0 Web 入口页
+- **布局**：
+  - `Header`：站名"华典智谱" + 导航（人物/关于）+ `useSelectedLayoutSegment` 路由高亮
+  - `Footer`：项目简介 + GitHub 链接 + 版权
+  - `layout.tsx` 统一包裹 Header + `<main>` + Footer；子页面 `<main>` → `<div>` 修正
+- **首页区块**：
+  - Hero：站名 + 定位语 + `HeroSearch` 搜索框（form submit → `/persons?search=`）
+  - 知名人物：6 slug 硬编码（huang-di/yao/shun/yu/tang/xi-bo-chang）+ `FeaturedPersonCard` + Server Component 并发 fetch
+  - 数据概览：`StatsBlock`（3 数字卡片）+ `Stats` SDL 扩展 + API resolver（live COUNT）
+  - 探索全部 CTA → `/persons`
+- **新页面**：`/about`（项目简介 + 技术栈 + 状态 + 联系方式）
+- **SEO**：首页 + /about `metadata` 导出（title/description/OG）
+- **API 变更**：
+  - **SDL**：新增 `stats: Stats!` 查询 + `Stats` 类型（personsCount/namesCount/booksCount）
+  - **Resolver**：3× COUNT 查询（排除 merged + soft-deleted）
+- **测试**：17 vitest cases（Header 4 + Footer 3 + FeaturedPersonCard 5 + StatsBlock 2 + HeroSearch 3）+ 3 Playwright E2E
+- **ID 重编号**：原 T-P0-012（冗余实体 soft-delete）→ T-P0-014
+- **无新依赖**
+- **7 commits**
+
+---
+
 ### [feat] T-P0-011 完成 — 跨 Chunk 身份消歧（11 组合并，169→157 persons）
 - **角色**：首席架构师（ADR）+ 管线工程师（实现）+ 古籍/历史专家（抽样复核）
 - **性质**：Phase 0 数据质量治理

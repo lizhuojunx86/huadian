@@ -18,13 +18,15 @@
 | T-P0-003-F1 | License 字段规范化（GraphQL enum 连字符 + package.json license） | **backlog** | 后端 + 架构师 | Phase 0 |
 | T-P0-010 | Pipeline 基础设施 + 真书 Pilot（史记·本纪前 3 篇） | **done** | 管线 + 历史专家 | Phase 0 |
 | T-P0-011 | 跨 chunk 身份消歧（identity_resolver） | **done** | 管线 + 架构师 + historian | Phase 0 |
-| T-P0-012 | 冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥） | **planned** | 管线 + historian | Phase 0 |
+| T-P0-012 | Web 首页 + 全局导航（/ + /about + Header/Footer） | **done** | 前端 + 后端 | Phase 0 |
 | T-P0-013 | Canonical 选择算法优化（帝X 前缀偏差） | **planned** | 管线 | Phase 0 |
+| T-P0-014 | 冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥） | **planned** | 管线 + historian | Phase 0 |
 | T-P0-005a | SigNoz 版本对齐与接入 | **planned** | DevOps + 管线 | Phase 0 |
 
 ## 已完成
 | 任务 ID | 标题 | 完成日期 | 主导角色 |
 |---------|------|---------|---------|
+| T-P0-012 | Web 首页 + 全局导航（Header/Footer + Hero + FeaturedPersonCard + Stats API + /about + SEO；17 tests + 3 E2E；7 commits） | 2026-04-18 | 前端 + 后端 |
 | T-P0-011 | 跨 chunk 身份消歧（ADR-010 + identity_resolver + API resolveCanonical；11 组合并 169→157；6 commits） | 2026-04-18 | 架构师 + 管线 + historian |
 | T-P0-010 | Pipeline 基础设施 + 真书 Pilot（8 模块 + 3 books / 169 persons / $1.77 / 14 commits） | 2026-04-18 | 管线 + 历史专家 | Phase 0 |
 | T-P0-009 | Web 人物搜索/列表页（SDL PersonSearchResult + pg_trgm + /persons + 28 tests + 2 E2E） | 2026-04-18 | 前端 + 后端 | Phase 0 |
