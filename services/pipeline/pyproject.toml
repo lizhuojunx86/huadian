@@ -42,5 +42,7 @@ dev = [
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
-# pytest 9 default import mode is "prepend" — no override needed.
-# (Previously set explicitly but the key is CLI-only, not an ini option.)
+# Workaround: Python 3.12.11 (Homebrew) frozen site module skips _-prefixed
+# .pth files, breaking uv's editable install (_editable_impl_*.pth).
+# This ensures src/ is on sys.path for pytest and CLI invocations.
+pythonpath = ["src"]
