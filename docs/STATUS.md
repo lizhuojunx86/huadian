@@ -219,6 +219,7 @@
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
 | 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | T-P0-011 ✅ | planned |
 | 🟢 低 | T-P1-001 | API 集成测试 isolation 修复（hasMore + ordering 2 case） | 后端 | — | registered（[debt doc](../docs/debts/T-P1-001-test-isolation.md)） |
+| ⚪ 微 | T-P2-001 | codegen 输出 trailing newline 不一致 — `pnpm codegen` 生成无尾换行，git 版本有尾换行。修复候选：codegen.ts 配置 prettier plugin 或 post-hook `sed -i -e '$a\'`。影响 cosmetic，CI 不受影响 | DevOps | — | registered（2026-04-18 T-P0-013 S-5 清理发现） |
 
 ---
 
