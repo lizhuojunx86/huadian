@@ -4,7 +4,7 @@
 
 - **最近更新**：2026-04-18
 - **更新人**：首席架构师 + 管线工程师 + 古籍/历史专家（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅**
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅**
 
 ---
 
@@ -29,6 +29,20 @@
 ---
 
 ## 已完成
+
+### T-P0-012 Web 首页 + 全局导航（2026-04-18）
+- [x] S-1：布局骨架（Header + Footer → layout.tsx，子页面 `<main>` → `<div>` 修正）
+- [x] S-2：首页 Hero（站名 + 定位语 + HeroSearch 搜索框）
+- [x] S-3：知名人物区（6 slug 硬编码 + FeaturedPersonCard + Promise.all 并发 fetch）
+- [x] S-4：数据概览（SDL `stats: Stats!` + API resolver 3× COUNT + StatsBlock 组件）
+- [x] S-5：探索全部 CTA（→ /persons）
+- [x] S-6：/about 页（项目简介 + 技术栈 + 状态 + 联系方式）
+- [x] S-7：SEO metadata（首页 + /about OG 标签）
+- [x] S-8：vitest 17 cases（Header 4 + Footer 3 + FeaturedPersonCard 5 + StatsBlock 2 + HeroSearch 3）
+- [x] S-9：Playwright E2E 3 cases（推荐卡片 + 搜索跳转 + 导航关于）
+- [x] S-10：STATUS / CHANGELOG / index 更新
+- 累计：7 commits / 17 new unit tests / 3 E2E tests / 1 SDL 扩展（Stats type）
+- 原 T-P0-012（冗余实体 soft-delete）重编号为 T-P0-014
 
 ### T-P0-011 跨 Chunk 身份消歧（2026-04-18）
 - [x] Phase 1：ADR-010 起草 + v2 修订（评分函数/字典/soft merge/可逆性）
@@ -173,7 +187,7 @@
 
 ## 进行中
 
-无。等待用户选择下一任务。（T-P0-011 刚完成）
+无。等待用户选择下一任务。（T-P0-012 刚完成）
 
 ---
 
@@ -181,8 +195,8 @@
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
-| 🔴 高 | T-P0-012 (新) | 冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥） | 管线 + historian | T-P0-011 ✅ | planned |
-| 🔴 高 | T-P0-013 (新) | Canonical 选择算法优化（帝X 前缀偏差） | 管线 | T-P0-011 ✅ | planned |
+| 🔴 高 | T-P0-014 | 冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥） | 管线 + historian | T-P0-011 ✅ | planned |
+| 🔴 高 | T-P0-013 | Canonical 选择算法优化（帝X 前缀偏差） | 管线 | T-P0-011 ✅ | planned |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
 | 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | T-P0-011 ✅ | planned |
@@ -216,12 +230,12 @@
 
 - 📘 文档覆盖度：核心 7/7 ✅
 - 🧭 ADR 数量：10 accepted / 9 planned
-- 📋 任务卡数量：T-P0-001~T-P0-011 done（11）；T-P0-005a / T-P0-012 / T-P0-013 planned
+- 📋 任务卡数量：T-P0-001~T-P0-012 done（12）；T-P0-005a / T-P0-013 / T-P0-014 planned
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：231 passed（ai/ 46 + qc/ 82 + resolve/ 34 + api/ 43(2 pre-existing fail) + web/ 38）
+- 🧪 测试覆盖：248 passed（ai/ 46 + qc/ 82 + resolve/ 34 + api/ 43(2 pre-existing fail) + web/ 55）；E2E 7 specs
 - 🔗 合并状态：157 canonical persons（12 soft-merged via T-P0-011, run_id=39b495d0）
 - 🚦 阻塞项数量：0 ✅
 
@@ -244,3 +258,4 @@
 - 2026-04-17：T-P0-005 done — LLM Gateway + TraceGuard 基础集成（ai/ 子包 6 文件 + anthropic SDK + 46 tests；4 commits）
 - 2026-04-18：T-P0-009 done — Web 人物搜索/列表页（SDL PersonSearchResult + pg_trgm search + /persons 路由 + SearchBar + Pagination + 28 新增 tests + 2 E2E；7 commits）
 - 2026-04-18：T-P0-011 done — 跨 chunk 身份消歧（ADR-010 + identity_resolver 5 规则 + 2 YAML 字典 + schema migration + API resolveCanonical；11 组合并 169→157 persons；34 pipeline tests + 5 web 验证；6 commits）
+- 2026-04-18：T-P0-012 done — Web 首页 + 全局导航（Header/Footer layout + Hero + FeaturedPersonCard×6 + Stats SDL 扩展 + StatsBlock + /about + SEO；17 unit tests + 3 E2E；7 commits）；原 T-P0-012 冗余实体 soft-delete 重编号为 T-P0-014
