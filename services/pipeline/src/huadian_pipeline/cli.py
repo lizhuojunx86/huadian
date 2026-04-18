@@ -12,6 +12,10 @@ import asyncio
 import logging
 import os
 import sys
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .ai.anthropic_provider import AnthropicGateway
 
 logger = logging.getLogger("huadian_pipeline")
 
@@ -221,7 +225,7 @@ async def _cmd_seed_dump(args: argparse.Namespace, dsn: str) -> None:
         await pool.close()
 
 
-def _create_gateway(dsn: str) -> object:
+def _create_gateway(dsn: str) -> AnthropicGateway:
     """Create an AnthropicGateway with TraceGuard adapter."""
     from .ai.anthropic_provider import AnthropicGateway
     from .ai.audit import LLMCallAuditWriter
