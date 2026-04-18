@@ -13,6 +13,7 @@
 |---------|------|------|---------|-----------|
 | T-TG-002-F6 | Drizzle schema 同步（traceguard_raw + UNIQUE INDEX + 列注释） | **backlog** | 后端 + DevOps | Phase 0 |
 | T-P0-007 | API MVP：person query（首个真实 resolver） | **done** | 后端工程师 | Phase 0 |
+| T-P0-009 | Web 人物搜索/列表页（/persons search + list） | **done** | 前端 + 后端 | Phase 0 |
 | T-P0-008 | Web MVP：人物卡片页（/persons/[slug]） | **done** | 前端工程师 | Phase 0 |
 | T-P0-003-F1 | License 字段规范化（GraphQL enum 连字符 + package.json license） | **backlog** | 后端 + 架构师 | Phase 0 |
 | T-P0-005a | SigNoz 版本对齐与接入 | **planned** | DevOps + 管线 | Phase 0 |
@@ -20,6 +21,7 @@
 ## 已完成
 | 任务 ID | 标题 | 完成日期 | 主导角色 |
 |---------|------|---------|---------|
+| T-P0-009 | Web 人物搜索/列表页（SDL PersonSearchResult + pg_trgm + /persons + 28 tests + 2 E2E） | 2026-04-18 | 前端 + 后端 | Phase 0 |
 | T-P0-008 | Web MVP：人物卡片页（Tailwind + shadcn + codegen + 4 组件 + 23 tests + 2 E2E） | 2026-04-18 | 前端工程师 | Phase 0 |
 | T-P0-007 | API MVP：person query（person/persons resolver + service + 31 tests） | 2026-04-18 | 后端工程师 | Phase 0 |
 | T-P0-005 | LLM Gateway + TraceGuard 基础集成（ai/ 子包 + anthropic SDK + 46 tests） | 2026-04-17 | 管线工程师 | Phase 0 |

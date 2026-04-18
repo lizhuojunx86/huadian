@@ -7,6 +7,30 @@
 
 ## 2026-04-18
 
+### [feat] T-P0-009 完成 — Web 人物搜索/列表页（28 new tests + 2 E2E）
+- **角色**：前端工程师（主导）+ 后端工程师（API 扩展）
+- **任务**：T-P0-009（S-0 任务卡 → S-1 SDL → S-2 service → S-3 集成测试 → S-4 codegen → S-5 路由 → S-6 SearchBar → S-7 列表 → S-8 分页 → S-9 三态 → S-10 测试 → S-11 收尾）
+- **API 变更**：
+  - **BREAKING**: `persons` 查询返回 `PersonSearchResult` 替代 `[Person!]!`
+  - 新增 `search: String` 参数 + `PersonSearchResult { items, total, hasMore }` 类型
+  - `searchPersons` service：pg_trgm `similarity() > 0.3` on `person_names.name` + ILIKE on `persons.name->>'zh-Hans'`，按相似度排序
+  - ILIKE fallback（pg_trgm 不可用时）
+  - 13 条集成测试（精确匹配/模糊匹配/空结果/分页/soft-delete）
+- **Web 变更**：
+  - `/persons` 路由：Server Component + searchParams-driven SSR
+  - `SearchBar`：客户端组件，300ms 防抖，`router.replace` 更新 URL
+  - `PersonListItem` + `PersonList`：紧凑卡片（name / dynasty / link to detail）
+  - `Pagination`：上一页/下一页 + total 显示
+  - `loading.tsx` 骨架屏 / `error.tsx` 重试 / 空结果提示
+  - `useDebounce` 自写 hook（无新依赖）
+  - `PersonsSearchQuery` typed document（codegen）
+  - 15 条 vitest 单元测试 + 2 条 Playwright E2E
+- **预裁决策**：Q-1(pg_trgm) / Q-2(offset/limit) / Q-3(useSearchParams) / Q-4(300ms debounce) / Q-5(no react-query) / Q-6(→detail) / Q-7(三态) 全部落地
+- **无新依赖**
+- **DoD 满足**：lint / typecheck / build / codegen 全绿；45 API tests + 38 web tests 全绿
+
+---
+
 ### [feat] T-P0-008 完成 — Web MVP: 人物卡片页（23 unit tests + 2 E2E）
 - **角色**：前端工程师（执行）
 - **任务**：T-P0-008（S-0 依赖 → S-1 codegen → S-2 路由 → S-3 PersonCard → S-4 Names/Hypotheses → S-5 三态 → S-6 vitest → S-7 E2E → S-8 收尾）

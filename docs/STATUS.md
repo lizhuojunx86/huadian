@@ -3,8 +3,8 @@
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
 - **最近更新**：2026-04-18
-- **更新人**：前端工程师（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅**
+- **更新人**：前端工程师 + 后端工程师（Claude Opus）
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅**
 
 ---
 
@@ -29,6 +29,21 @@
 ---
 
 ## 已完成
+
+### T-P0-009 Web 人物搜索/列表页（2026-04-18）
+- [x] S-0：任务卡起草
+- [x] S-1：SDL 扩展 — persons(search, limit, offset): PersonSearchResult
+- [x] S-2：service + resolver — pg_trgm similarity + ILIKE fallback
+- [x] S-3：集成测试 13 cases（精确/模糊/空结果/分页/soft-delete）
+- [x] S-4：Web codegen + PersonsSearchQuery typed document
+- [x] S-5：/persons 路由 + Server Component（searchParams → SSR fetch）
+- [x] S-6：SearchBar 客户端组件（300ms debounce + router.replace）
+- [x] S-7：PersonListItem + PersonList 组件
+- [x] S-8：Pagination 组件（上一页/下一页 + total 显示）
+- [x] S-9：loading 骨架屏 / error 重试 / 空结果提示
+- [x] S-10：vitest 15 cases + Playwright E2E 2 cases
+- [x] Q-1~Q-7 预裁决策全部落地
+- [x] lint / typecheck / build / codegen 全绿
 
 ### T-P0-008 Web MVP — 人物卡片页（2026-04-18）
 - [x] S-0：Tailwind CSS v3 + shadcn/ui 初始化 + 全依赖安装
@@ -130,7 +145,7 @@
 
 ## 进行中
 
-无。等待用户选择下一任务。（T-P0-008 刚完成）
+无。等待用户选择下一任务。（T-P0-009 刚完成）
 
 ---
 
@@ -173,12 +188,12 @@
 
 - 📘 文档覆盖度：核心 7/7 ✅
 - 🧭 ADR 数量：9 accepted / 9 planned
-- 📋 任务卡数量：T-P0-001 done；T-P0-002 done；T-P0-003 done；T-P0-004 批次 1 done；T-TG-002 done；T-P0-005 done；T-P0-007 done；T-P0-008 done；T-P0-005a planned
+- 📋 任务卡数量：T-P0-001 done；T-P0-002 done；T-P0-003 done；T-P0-004 批次 1 done；T-TG-002 done；T-P0-005 done；T-P0-007 done；T-P0-008 done；T-P0-009 done；T-P0-005a planned
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：182 passed（ai/ 46 + qc/ 82 + api/ 31 + web/ 23）
+- 🧪 测试覆盖：210 passed（ai/ 46 + qc/ 82 + api/ 45 + web/ 38）
 - 🚦 阻塞项数量：0 ✅
 
 ---
@@ -198,3 +213,4 @@
 - 2026-04-18：T-P0-007 done — API Person Query（SDL nullable ADR-009 + slug 验证 + service layer + resolver + 31 tests；5 commits）
 - 2026-04-18：T-P0-008 done — Web MVP 人物卡片页（Tailwind + shadcn + codegen + /persons/[slug] + 4 组件 + 23 tests + 2 E2E；8 commits）
 - 2026-04-17：T-P0-005 done — LLM Gateway + TraceGuard 基础集成（ai/ 子包 6 文件 + anthropic SDK + 46 tests；4 commits）
+- 2026-04-18：T-P0-009 done — Web 人物搜索/列表页（SDL PersonSearchResult + pg_trgm search + /persons 路由 + SearchBar + Pagination + 28 新增 tests + 2 E2E；7 commits）
