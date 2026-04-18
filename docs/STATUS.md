@@ -305,3 +305,11 @@
 - **修复方向**：threshold 调高至 0.5；或 "帝/王/皇/太" 前缀做 stopword 剥离再匹配；或 exact+trigram 两级查询
 - **优先级**：P1（UX 调优）
 - **登记**：2026-04-18 by T-P0-013 sanity check
+
+### T-P2-002: persons.slug 命名不一致（pre-u-prefix 遗留: long 等）
+
+- **现象**：大部分人物 slug 是 unicode fallback（`u4e2d-u4e01`），少数为 pinyin（`long`/`tang`/`yao`）；pinyin slug 在 NER 时由 LLM 直接产出，规则不一致
+- **影响**：cosmetic + slug 可预测性差，未来 URL 稳定性风险
+- **修复方向**：统一 slug 生成策略（全 pinyin 或全 unicode），做一次性批量 rename + redirect 映射
+- **优先级**：P2（不阻塞功能，留作后续批次清理）
+- **登记**：2026-04-18 by T-P0-014 historian KEEP 决策（龙 slug=long）

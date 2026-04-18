@@ -1,6 +1,6 @@
 -- T-P0-014: Non-person entity soft-delete
--- Generated: 2026-04-18
--- Targets: 3 confirmed non-person entities (荤粥, 昆吾氏, 姒氏)
+-- Generated: 2026-04-18 (updated: historian override for 羲氏/和氏)
+-- Targets: 5 confirmed non-person entities (荤粥, 昆吾氏, 姒氏, 羲氏, 和氏)
 -- Action: soft-delete (deleted_at + merged_into_id=NULL) + audit log
 --
 -- ⚠️ DO NOT EXECUTE without user confirmation.
@@ -74,7 +74,47 @@ BEGIN
      '{"category": "clan_surname", "reason": "夏朝国姓/氏族名, not an individual person", "name": "姒氏", "slug": "u59d2-u6c0f", "rule": "shi_suffix_pattern"}'::jsonb,
      v_merged_by, v_now);
 
-  RAISE NOTICE 'T-P0-014: 3 persons soft-deleted, 3 merge_log rows inserted (run_id=%)', v_run_id;
+  -- -----------------------------------------------------------------------
+  -- 4. Soft-delete: 羲氏 (official_clan — 天文世家族称)
+  --    Historian override: bare name '羲' is clan abbreviation, not person.
+  --    Individual members 羲仲/羲叔 exist as separate person entries.
+  -- -----------------------------------------------------------------------
+  UPDATE persons
+  SET deleted_at = v_now, merged_into_id = NULL
+  WHERE id = '411ee7c8-a7fe-4f0b-8018-d1e63b0440bf'
+    AND deleted_at IS NULL;
+
+  INSERT INTO person_merge_log
+    (id, run_id, canonical_id, merged_id, merge_rule, confidence, evidence, merged_by, merged_at)
+  VALUES
+    (gen_random_uuid(), v_run_id,
+     '411ee7c8-a7fe-4f0b-8018-d1e63b0440bf',
+     '411ee7c8-a7fe-4f0b-8018-d1e63b0440bf',
+     'R3-non-person', 1.0,
+     '{"category": "official_clan", "reason": "天文世家族称, bare name 羲 is clan abbreviation; individual members 羲仲/羲叔 exist separately", "name": "羲氏", "slug": "u7fb2-u6c0f", "rule": "shi_suffix_pattern + historian_override"}'::jsonb,
+     v_merged_by, v_now);
+
+  -- -----------------------------------------------------------------------
+  -- 5. Soft-delete: 和氏 (official_clan — 天文世家族称)
+  --    Historian override: bare name '和' is clan abbreviation, not person.
+  --    Individual members 和仲/和叔 exist as separate person entries.
+  -- -----------------------------------------------------------------------
+  UPDATE persons
+  SET deleted_at = v_now, merged_into_id = NULL
+  WHERE id = 'c67494ce-eac5-4524-a8d2-0a8c03d24373'
+    AND deleted_at IS NULL;
+
+  INSERT INTO person_merge_log
+    (id, run_id, canonical_id, merged_id, merge_rule, confidence, evidence, merged_by, merged_at)
+  VALUES
+    (gen_random_uuid(), v_run_id,
+     'c67494ce-eac5-4524-a8d2-0a8c03d24373',
+     'c67494ce-eac5-4524-a8d2-0a8c03d24373',
+     'R3-non-person', 1.0,
+     '{"category": "official_clan", "reason": "天文世家族称, bare name 和 is clan abbreviation; individual members 和仲/和叔 exist separately", "name": "和氏", "slug": "u548c-u6c0f", "rule": "shi_suffix_pattern + historian_override"}'::jsonb,
+     v_merged_by, v_now);
+
+  RAISE NOTICE 'T-P0-014: 5 persons soft-deleted, 5 merge_log rows inserted (run_id=%)', v_run_id;
 END $$;
 
 -- ⚠️ COMMIT is commented out — user must uncomment after review
@@ -82,9 +122,9 @@ END $$;
 
 -- Verification queries (run after COMMIT):
 -- SELECT count(*) FROM persons WHERE deleted_at IS NULL;
---   → should be 154 (was 157)
+--   → should be 152 (was 157)
 -- SELECT * FROM person_merge_log WHERE merge_rule = 'R3-non-person';
---   → should show 3 rows
+--   → should show 5 rows
 -- SELECT slug, name->>'zh-Hans', deleted_at FROM persons
---   WHERE slug IN ('u8364-u7ca5', 'u6606-u543e-u6c0f', 'u59d2-u6c0f');
+--   WHERE slug IN ('u8364-u7ca5', 'u6606-u543e-u6c0f', 'u59d2-u6c0f', 'u7fb2-u6c0f', 'u548c-u6c0f');
 --   → all should have deleted_at set
