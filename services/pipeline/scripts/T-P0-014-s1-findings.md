@@ -1,6 +1,7 @@
 # T-P0-014 S-1 Findings — Non-Person Entity Candidates
 
 > Generated: 2026-04-18
+> Updated: 2026-04-18 (historian override for 羲氏/和氏; historian KEEP for 熊罴/龙)
 > Role: pipeline-engineer (with historian review protocol)
 > Data snapshot: 157 active persons, 12 merged, 3 books (五帝本纪/夏本纪/殷本纪)
 
@@ -10,14 +11,14 @@
 
 | Category | Count | Action |
 |----------|-------|--------|
-| Confirmed delete | 3 | Proceed to S-4 soft-delete |
-| Bumped to NEEDS_REVIEW | 4 | Deferred to user decision |
+| Confirmed delete | 5 | Proceed to S-4 soft-delete |
+| Historian decided KEEP | 2 | No action (熊罴/龙) |
 | B-class (historian ruled keep) | 9 | No action this task |
 | Confirmed keep | 141 | No action |
 
 ---
 
-## Confirmed Delete (3 entities)
+## Confirmed Delete (5 entities)
 
 ### 1. 荤粥 (`u8364-u7ca5`)
 - **dynasty**: 上古
@@ -40,49 +41,43 @@
 - **核查**: surface_forms 仅含"姒氏"，无裸名"姒"
 - **verdict**: DELETE — `merge_rule='R3-non-person'`, reason='clan_surname'
 
----
-
-## Bumped to NEEDS_REVIEW (4 entities)
-
-### 4. 羲氏 (`u7fb2-u6c0f`)
+### 4. 羲氏 (`u7fb2-u6c0f`) — historian override
 - **dynasty**: 上古
 - **surface_forms**: `羲 | 羲氏`
-- **原判**: A-class delete (官职世家)
-- **核查结果**: surface_forms 含裸名"羲"（去氏人形）
-- **核查规程触发**: "去掉氏后缀的人形" → 同一条可能同时指代族与人
-- **verdict**: NEEDS_REVIEW — 个体成员（羲仲/羲叔）已有独立条目，但裸名"羲"可能指代特定人
-- **用户决策点**: 是 delete 还是保留？如果"羲"在原文中仅作"羲氏"族称缩写（非指特定个人），可 delete
+- **原判**: NEEDS_REVIEW (surface_forms 含裸名"羲"，触发 bare-name guard)
+- **historian override**: 裸名"羲"为羲氏族称缩写（非独立人名），个体成员（羲仲/羲叔）已有独立条目
+- **verdict**: DELETE — `merge_rule='R3-non-person'`, reason='official_clan', rule='shi_suffix_pattern + historian_override'
 
-### 5. 和氏 (`u548c-u6c0f`)
+### 5. 和氏 (`u548c-u6c0f`) — historian override
 - **dynasty**: 上古
 - **surface_forms**: `和 | 和氏`
-- **原判**: A-class delete (官职世家)
-- **核查结果**: surface_forms 含裸名"和"（去氏人形）
-- **核查规程触发**: "去掉氏后缀的人形" → 同一条可能同时指代族与人
-- **verdict**: NEEDS_REVIEW — 个体成员（和仲/和叔）已有独立条目，但裸名"和"可能指代特定人
-- **用户决策点**: 同上
+- **原判**: NEEDS_REVIEW (surface_forms 含裸名"和"，触发 bare-name guard)
+- **historian override**: 裸名"和"为和氏族称缩写（非独立人名），个体成员（和仲/和叔）已有独立条目
+- **verdict**: DELETE — `merge_rule='R3-non-person'`, reason='official_clan', rule='shi_suffix_pattern + historian_override'
+
+---
+
+## Historian Decided KEEP (2 entities)
 
 ### 6. 熊罴 (`u718a-u7f74`)
 - **dynasty**: 上古
 - **surface_forms**: `熊罴` (single form)
-- **原判**: A-class delete (动物/图腾)
-- **核查结果**: 出现在两段上下文中 —
-  - **P2 (五帝本纪)**: "教熊罴貔貅貙虎，以与炎帝战于阪泉之野" → 兽兵/图腾
-  - **P25 (五帝本纪)**: "益拜稽首，让于诸臣朱虎、熊罴…遂以朱虎、熊罴为佐" → **舜的臣子**
-- **verdict**: NEEDS_REVIEW — 在 P25 语境中 熊罴 明确是舜朝官员（与朱虎并列），不能简单判为动物
-- **用户决策点**: P2 和 P25 是否同一实体？P25 的"熊罴"是人名还是图腾名代人？
+- **原判**: NEEDS_REVIEW (dual context in 五帝本纪)
+- **historian verdict**: **KEEP** — P25"遂以朱虎、熊罴为佐"证据明确，熊罴是舜朝臣子（与朱虎并列），保留为人
+- **原文上下文**:
+  - **P2**: "教熊罴貔貅貙虎，以与炎帝战" → 兽兵/图腾（不同语境，不影响 P25 的人物身份）
+  - **P25**: "益拜稽首，让于诸臣朱虎、熊罴…遂以朱虎、熊罴为佐" → 舜臣
 
 ### 7. 龙 (`long`)
 - **dynasty**: 上古
 - **surface_forms**: `龙` (single form)
-- **原判**: A-class delete (动物/神话)
-- **核查结果**: 覆盖两书 —
-  - **五帝本纪 P25**: "龙，朕畏忌谗说殄伪，振惊朕众，命汝为纳言" → **舜的纳言官**
-  - **五帝本纪 P26**: "龙主宾客，远人至" → **舜朝官员**
-  - **夏本纪 P14/P16**: "龙门" → 地名（非此人）
-  - **夏本纪 P33**: "天降龙二…学扰龙于豢龙氏" → 动物（非此人）
-- **verdict**: NEEDS_REVIEW — 按 historian 规程"两者都覆盖 → 报告给用户，暂不动"
-- **用户决策点**: 该 person 实体明确代表舜臣（五帝本纪），夏本纪的"龙"是动物/地名非同一实体。建议保留，但需用户确认。
+- **原判**: NEEDS_REVIEW (两书覆盖)
+- **historian verdict**: **KEEP** — 五帝本纪 P25/P26 中"龙"是舜的纳言官，保留为人
+- **原文上下文**:
+  - **五帝本纪 P25**: "龙，朕畏忌谗说殄伪…命汝为纳言" → 舜臣
+  - **五帝本纪 P26**: "龙主宾客，远人至" → 舜朝官员
+  - **夏本纪 P33**: "天降龙二…学扰龙于豢龙氏" → 动物（不同实体）
+- **后续**: slug 一致性问题另登 T-P2-002
 
 ---
 
@@ -105,15 +100,9 @@
 ## DB IDs for Confirmed Delete
 
 ```
-荤粥: b40287a2-64ed-4bc3-83bf-3f51a8e1a48f
+荤粥:   b40287a2-64ed-4bc3-83bf-3f51a8e1a48f
 昆吾氏: be1927a1-1aef-4ae6-9a56-4640fd7c9ab0
-姒氏: 16e09751-1795-4a4b-a0cf-4b5cb8409004
+姒氏:   16e09751-1795-4a4b-a0cf-4b5cb8409004
+羲氏:   411ee7c8-a7fe-4f0b-8018-d1e63b0440bf
+和氏:   c67494ce-eac5-4524-a8d2-0a8c03d24373
 ```
-
----
-
-## 需用户回来决策
-
-1. 羲氏/和氏：裸名"羲"/"和"在原文中是否指代特定个人？
-2. 熊罴：P25 的"熊罴为佐"是人名还是图腾代人？
-3. 龙：五帝本纪中明确是舜臣，建议保留，但需确认
