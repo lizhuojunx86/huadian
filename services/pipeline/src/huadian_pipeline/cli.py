@@ -168,7 +168,16 @@ async def _cmd_pilot(args: argparse.Namespace, dsn: str) -> None:
         # Step 4: Seed dump (optional)
         seed_path = args.seed_output
         if not seed_path:
-            seed_path = f"seeds/pilot-shiji-benji/{args.chapter.replace('-', '_')}.sql"
+            # Resolve relative to the pipeline package root
+            import pathlib
+
+            pipeline_root = pathlib.Path(__file__).resolve().parents[2]
+            seed_path = str(
+                pipeline_root
+                / "seeds"
+                / "pilot-shiji-benji"
+                / f"{args.chapter.replace('-', '_')}.sql"
+            )
 
         print(f"\n=== SEED DUMP: {seed_path} ===")
         count = await dump_seed_sql(
