@@ -29,8 +29,8 @@ allow-direct-references = true
 [tool.hatch.build.targets.wheel]
 packages = ["src/huadian_pipeline"]
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
   "basedpyright>=1.22.0",
   "datamodel-code-generator>=0.26.3",
   "pytest>=8.3.4",
