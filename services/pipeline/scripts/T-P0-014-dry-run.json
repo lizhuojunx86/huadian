@@ -1,0 +1,122 @@
+{
+  "task": "T-P0-014",
+  "description": "Non-person entity soft-delete",
+  "generated_at": "2026-04-18",
+  "run_id": "a7e7d014-0014-4014-8014-a7e7d0140014",
+  "status": "awaiting_approval",
+
+  "candidate_persons": [
+    {
+      "id": "b40287a2-64ed-4bc3-83bf-3f51a8e1a48f",
+      "slug": "u8364-u7ca5",
+      "name": "荤粥",
+      "dynasty": "上古",
+      "surface_forms": ["荤粥"],
+      "category": "tribal_group",
+      "reason": "匈奴古称, not an individual person",
+      "rule_matched": "hardcoded_non_person_dict",
+      "action": "soft_delete"
+    },
+    {
+      "id": "be1927a1-1aef-4ae6-9a56-4640fd7c9ab0",
+      "slug": "u6606-u543e-u6c0f",
+      "name": "昆吾氏",
+      "dynasty": "夏",
+      "surface_forms": ["昆吾氏"],
+      "category": "tribal_group",
+      "reason": "夏代附庸诸侯/部族名, not an individual person",
+      "rule_matched": "shi_suffix_pattern",
+      "action": "soft_delete"
+    },
+    {
+      "id": "16e09751-1795-4a4b-a0cf-4b5cb8409004",
+      "slug": "u59d2-u6c0f",
+      "name": "姒氏",
+      "dynasty": "夏",
+      "surface_forms": ["姒氏"],
+      "category": "clan_surname",
+      "reason": "夏朝国姓/氏族名, not an individual person",
+      "rule_matched": "shi_suffix_pattern",
+      "action": "soft_delete"
+    }
+  ],
+
+  "merge_log_inserts": [
+    {
+      "canonical_id": "b40287a2-64ed-4bc3-83bf-3f51a8e1a48f",
+      "merged_id": "b40287a2-64ed-4bc3-83bf-3f51a8e1a48f",
+      "merge_rule": "R3-non-person",
+      "confidence": 1.0,
+      "evidence": {
+        "category": "tribal_group",
+        "reason": "匈奴古称, not an individual person",
+        "name": "荤粥",
+        "slug": "u8364-u7ca5",
+        "rule": "hardcoded_non_person_dict"
+      }
+    },
+    {
+      "canonical_id": "be1927a1-1aef-4ae6-9a56-4640fd7c9ab0",
+      "merged_id": "be1927a1-1aef-4ae6-9a56-4640fd7c9ab0",
+      "merge_rule": "R3-non-person",
+      "confidence": 1.0,
+      "evidence": {
+        "category": "tribal_group",
+        "reason": "夏代附庸诸侯/部族名, not an individual person",
+        "name": "昆吾氏",
+        "slug": "u6606-u543e-u6c0f",
+        "rule": "shi_suffix_pattern"
+      }
+    },
+    {
+      "canonical_id": "16e09751-1795-4a4b-a0cf-4b5cb8409004",
+      "merged_id": "16e09751-1795-4a4b-a0cf-4b5cb8409004",
+      "merge_rule": "R3-non-person",
+      "confidence": 1.0,
+      "evidence": {
+        "category": "clan_surname",
+        "reason": "夏朝国姓/氏族名, not an individual person",
+        "name": "姒氏",
+        "slug": "u59d2-u6c0f",
+        "rule": "shi_suffix_pattern"
+      }
+    }
+  ],
+
+  "preview_affected_rows": {
+    "persons_soft_deleted": 3,
+    "merge_log_inserted": 3,
+    "expected_active_after": 154
+  },
+
+  "deferred_needs_review": [
+    {
+      "id": "411ee7c8-a7fe-4f0b-8018-d1e63b0440bf",
+      "slug": "u7fb2-u6c0f",
+      "name": "羲氏",
+      "reason": "surface_forms contains bare name '羲' — may refer to specific person",
+      "status": "NEEDS_REVIEW"
+    },
+    {
+      "id": "c67494ce-eac5-4524-a8d2-0a8c03d24373",
+      "slug": "u548c-u6c0f",
+      "name": "和氏",
+      "reason": "surface_forms contains bare name '和' — may refer to specific person",
+      "status": "NEEDS_REVIEW"
+    },
+    {
+      "id": "e15a3a4b-5cae-4015-9a11-01d6f39e98f8",
+      "slug": "u718a-u7f74",
+      "name": "熊罴",
+      "reason": "Dual context: animal in P2 but 舜's official in P25 (五帝本纪)",
+      "status": "NEEDS_REVIEW"
+    },
+    {
+      "id": "91dca574-3049-437a-b777-bfed43d78ae8",
+      "slug": "long",
+      "name": "龙",
+      "reason": "舜's 纳言 officer in 五帝本纪; dragon/place in 夏本纪 — two-book overlap",
+      "status": "NEEDS_REVIEW"
+    }
+  ]
+}
