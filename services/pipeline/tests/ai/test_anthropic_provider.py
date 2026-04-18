@@ -32,7 +32,7 @@ def _make_anthropic_response(
     model: str = "claude-sonnet-4-6",
 ) -> MagicMock:
     """Build a mock anthropic.types.Message."""
-    content_block = MagicMock()
+    content_block = MagicMock(spec=anthropic.types.TextBlock)
     content_block.type = "text"
     content_block.text = text
 
