@@ -74,3 +74,15 @@ type IdentityHypothesis {
   notes: String
   createdAt: DateTime!
 }
+
+"""
+Paginated search result for persons. Returned by Query.persons.
+"""
+type PersonSearchResult {
+  """Matching Person rows for the current page."""
+  items: [Person!]!
+  """Total number of matching rows (across all pages)."""
+  total: Int!
+  """True when there are more rows beyond the current page."""
+  hasMore: Boolean!
+}

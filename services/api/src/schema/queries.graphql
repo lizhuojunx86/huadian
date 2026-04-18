@@ -20,13 +20,17 @@ extend type Query {
   person(slug: String!): Person
 
   """
-  List Persons with offset-based pagination.
+  Search and list Persons with offset-based pagination.
 
   Arguments:
+    search optional text query; triggers pg_trgm similarity search
+           on person_names.name (threshold 0.3) and ILIKE on
+           persons.name->>'zh-Hans'. When omitted or empty, returns
+           all persons ordered by created_at DESC.
     limit  maximum rows to return; clamped to [1, 100] server-side.
     offset number of rows to skip; MUST be non-negative.
   """
-  persons(limit: Int = 20, offset: Int = 0): [Person!]!
+  persons(search: String, limit: Int = 20, offset: Int = 0): PersonSearchResult!
 
   """Fetch one Event by stable slug. Returns null when absent."""
   event(slug: String!): Event

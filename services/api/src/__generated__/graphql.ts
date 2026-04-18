@@ -398,6 +398,17 @@ export type PersonName = {
   startYear: Maybe<Scalars['Int']['output']>;
 };
 
+/** Paginated search result for persons. Returned by Query.persons. */
+export type PersonSearchResult = {
+  __typename?: 'PersonSearchResult';
+  /** True when there are more rows beyond the current page. */
+  hasMore: Scalars['Boolean']['output'];
+  /** Matching Person rows for the current page. */
+  items: Array<Person>;
+  /** Total number of matching rows (across all pages). */
+  total: Scalars['Int']['output'];
+};
+
 /**
  * Place — geographic entity. The PostGIS GEOMETRY column is exposed here
  * as the opaque JSON scalar for Phase 0 (task card explicit non-goal);
@@ -489,13 +500,17 @@ export type Query = {
    */
   person: Maybe<Person>;
   /**
-   * List Persons with offset-based pagination.
+   * Search and list Persons with offset-based pagination.
    *
    * Arguments:
+   *   search optional text query; triggers pg_trgm similarity search
+   *          on person_names.name (threshold 0.3) and ILIKE on
+   *          persons.name->>'zh-Hans'. When omitted or empty, returns
+   *          all persons ordered by created_at DESC.
    *   limit  maximum rows to return; clamped to [1, 100] server-side.
    *   offset number of rows to skip; MUST be non-negative.
    */
-  persons: Array<Person>;
+  persons: PersonSearchResult;
   /** Fetch one Place by stable slug. Returns null when absent. */
   place: Maybe<Place>;
   /**
@@ -520,6 +535,7 @@ export type QueryPersonArgs = {
 export type QueryPersonsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+  search: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -713,6 +729,7 @@ export type ResolversTypes = {
   NameType: NameType;
   Person: ResolverTypeWrapper<Person>;
   PersonName: ResolverTypeWrapper<PersonName>;
+  PersonSearchResult: ResolverTypeWrapper<PersonSearchResult>;
   Place: ResolverTypeWrapper<Place>;
   PlaceName: ResolverTypeWrapper<PlaceName>;
   Polity: ResolverTypeWrapper<Polity>;
@@ -747,6 +764,7 @@ export type ResolversParentTypes = {
   MultiLangText: MultiLangText;
   Person: Person;
   PersonName: PersonName;
+  PersonSearchResult: PersonSearchResult;
   Place: Place;
   PlaceName: PlaceName;
   Polity: Polity;
@@ -913,6 +931,12 @@ export type PersonNameResolvers<ContextType = GraphQLContext, ParentType extends
   startYear?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
 };
 
+export type PersonSearchResultResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['PersonSearchResult'] = ResolversParentTypes['PersonSearchResult']> = {
+  hasMore?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  items?: Resolver<Array<ResolversTypes['Person']>, ParentType, ContextType>;
+  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+};
+
 export type PlaceResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Place'] = ResolversParentTypes['Place']> = {
   ancientName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   fuzziness?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
@@ -962,7 +986,7 @@ export type QueryResolvers<ContextType = GraphQLContext, ParentType extends Reso
   _schemaVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   event?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType, RequireFields<QueryEventArgs, 'slug'>>;
   person?: Resolver<Maybe<ResolversTypes['Person']>, ParentType, ContextType, RequireFields<QueryPersonArgs, 'slug'>>;
-  persons?: Resolver<Array<ResolversTypes['Person']>, ParentType, ContextType, RequireFields<QueryPersonsArgs, 'limit' | 'offset'>>;
+  persons?: Resolver<ResolversTypes['PersonSearchResult'], ParentType, ContextType, RequireFields<QueryPersonsArgs, 'limit' | 'offset'>>;
   place?: Resolver<Maybe<ResolversTypes['Place']>, ParentType, ContextType, RequireFields<QueryPlaceArgs, 'slug'>>;
   sourceEvidence?: Resolver<Maybe<ResolversTypes['SourceEvidence']>, ParentType, ContextType, RequireFields<QuerySourceEvidenceArgs, 'id'>>;
 };
@@ -1017,6 +1041,7 @@ export type Resolvers<ContextType = GraphQLContext> = {
   MultiLangText?: MultiLangTextResolvers<ContextType>;
   Person?: PersonResolvers<ContextType>;
   PersonName?: PersonNameResolvers<ContextType>;
+  PersonSearchResult?: PersonSearchResultResolvers<ContextType>;
   Place?: PlaceResolvers<ContextType>;
   PlaceName?: PlaceNameResolvers<ContextType>;
   Polity?: PolityResolvers<ContextType>;
