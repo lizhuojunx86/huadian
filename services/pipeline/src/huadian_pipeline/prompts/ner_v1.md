@@ -4,7 +4,7 @@ version: v1
 description: >
   Extract person entities from classical Chinese text (史记 etc.).
   Outputs structured JSON with person name, typed surface forms, dynasty, and context.
-  P0 revision: structured surface_forms, variant char rules, identity_notes.
+  v1-r2: +帝X校验 +姓氏提取 +部族排除强化 +合称规则.
 created: 2026-04-18
 revised: 2026-04-18
 ---
@@ -82,9 +82,33 @@ revised: 2026-04-18
 - **禁止**：不要输出 JSON 以外的任何内容（无解释、无注释）
 - 对于称号式的泛指（如单独的"帝"、"天子"）——仅当能明确判断指代谁时才提取；无法判断时**不提取**（例如："帝曰"如果上下文不明确指哪位帝，不提取）
 - 群体性称谓（如"诸侯"、"百姓"、"四岳"作为群体）不提取
-- 氏族/部落名（如"有扈氏"、"三苗"）如果是作为政治实体而非个人提及，不提取
 - 关系性称呼（如"少典之子"、"黄帝之曾孙"）不作为 surface_form，但对应的人物（少典、黄帝）应该单独提取
-- 复合称呼（如"帝喾高辛氏"）：整体作为一个 surface_form，name_type 标注为最能概括的类型；同时拆分出各部分作为独立 surface_form
+
+## 帝号/尊号归属校验（严格）
+
+- **"帝X"只能归属于 X 本人**：例如"帝舜"只能是舜的 surface_form，"帝尧"只能是尧的 surface_form。绝不可将"帝舜"挂在尧名下，即使"帝舜"出现在描述尧的段落中。
+- **若段落中出现多位帝王，每个"帝X"必须严格归到正确的人物**。
+- **泛称"帝"**：当且仅当上下文中只有一位帝王且指代明确时，才作为该人物的 surface_form。
+
+## 姓氏提取规则
+
+- 当原文出现"姓 X"模式（如"姓公孙""姓姒氏""姓子氏""姓姬氏"），X 应作为该人物的 surface_form，name_type 标为 `alias`。
+- 示例："姓公孙，名曰轩辕"→ 黄帝的 surface_forms 应包含 `{"text": "公孙", "name_type": "alias"}`。
+- 姓氏单称虽然不是"名"，但作为该人物的标识性信息，应当记录以便下游搜索。
+
+## 部族/国族 vs 个人 区分（强化）
+
+以下**不提取**为 person：
+- 游牧民族/部族名：如"荤粥"（匈奴前身）、"三苗"、"有扈氏"（作为政治实体时）、"鸟夷"
+- 判断标准：如果原文用"X 为乱""伐 X""逐 X"等，X 是被征伐/驱逐的对象且无个人特征 → 不提取
+
+以下**提取**为 person：
+- 原文明确将其作为个人叙述的对象（有名、有事迹、有对话）
+
+## 合称/省称规则
+
+- 如果段落中"X、Y"并称（如"羲、和"），且同段或上下文已有明确的分称人物（如羲仲、羲叔、和仲、和叔），则**合称不单独建立 person**。
+- 复合称呼（如"帝喾高辛者"）：不作为独立 surface_form。拆分为各部分，分别归入该人物的 surface_forms（如"帝喾"→nickname，"高辛"→primary）。
 
 ## reality_status 判定规则
 
@@ -106,7 +130,8 @@ revised: 2026-04-18
     "name_zh": "黄帝",
     "surface_forms": [
       {"text": "黄帝", "name_type": "nickname"},
-      {"text": "轩辕", "name_type": "primary"}
+      {"text": "轩辕", "name_type": "primary"},
+      {"text": "公孙", "name_type": "alias"}
     ],
     "dynasty": "上古",
     "reality_status": "legendary",
@@ -123,7 +148,7 @@ revised: 2026-04-18
     "reality_status": "legendary",
     "brief": "黄帝之父",
     "confidence": 0.85,
-    "identity_notes": null
+    "identity_notes": "少典或为部族名而非个人，史籍说法不一"
   }
 ]
 ```
