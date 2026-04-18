@@ -42,7 +42,5 @@ dev-dependencies = [
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
-# "prepend" import mode required for editable packages (.pth) in uv
-# workspace layouts. Without this, pytest 9+ importlib mode misses
-# the .pth-based editable install of huadian-pipeline.
-import_mode = "prepend"
+# pytest 9 default import mode is "prepend" — no override needed.
+# (Previously set explicitly but the key is CLI-only, not an ini option.)
