@@ -44,4 +44,22 @@ extend type Query {
   human-readable identifiers.
   """
   sourceEvidence(id: UUID!): SourceEvidence
+
+  """
+  Aggregate counts for the knowledge graph. Live COUNT queries
+  (no materialized view). Phase 0 scale (~200 persons) is fine.
+  """
+  stats: Stats!
+}
+
+"""
+Platform-level aggregate statistics.
+"""
+type Stats {
+  """Number of canonical (non-merged, non-deleted) persons."""
+  personsCount: Int!
+  """Total number of person name records."""
+  namesCount: Int!
+  """Number of ingested books."""
+  booksCount: Int!
 }
