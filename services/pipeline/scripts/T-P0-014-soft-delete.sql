@@ -1,12 +1,11 @@
 -- T-P0-014: Non-person entity soft-delete
 -- Generated: 2026-04-18 (updated: historian override for 羲氏/和氏)
+-- EXECUTED: 2026-04-19 — 5 persons soft-deleted, verified (152 active)
 -- Targets: 5 confirmed non-person entities (荤粥, 昆吾氏, 姒氏, 羲氏, 和氏)
 -- Action: soft-delete (deleted_at + merged_into_id=NULL) + audit log
 --
--- ⚠️ DO NOT EXECUTE without user confirmation.
--- This file is a dry-run artifact. User must review and approve.
---
--- Run with: psql $DATABASE_URL -f T-P0-014-soft-delete.sql
+-- ⚠️ ALREADY EXECUTED. Do not re-run — idempotent guards (deleted_at IS NULL)
+-- prevent double-delete, but merge_log rows would be duplicated.
 
 BEGIN;
 
@@ -117,8 +116,8 @@ BEGIN
   RAISE NOTICE 'T-P0-014: 5 persons soft-deleted, 5 merge_log rows inserted (run_id=%)', v_run_id;
 END $$;
 
--- ⚠️ COMMIT is commented out — user must uncomment after review
--- COMMIT;
+-- ⚠️ User approved execution on 2026-04-19
+COMMIT;
 
 -- Verification queries (run after COMMIT):
 -- SELECT count(*) FROM persons WHERE deleted_at IS NULL;
