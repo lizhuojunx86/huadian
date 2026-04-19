@@ -66,6 +66,97 @@ model: sonnet
 - ❌ 不修改 DB schema（找后端）
 - ❌ 不改前端
 
+## 工作协议
+
+> 本章节沉淀自 T-P0-006-β 复盘（`docs/retros/T-P0-006-beta-retro.md`）。
+> 所有条款自 2026-04-19 生效，适用于本角色的全部会话。
+
+### § 数据形态契约级决策 — 禁止先做后报
+
+以下变更属于**数据形态契约级决策**，**必须预先获得架构师授权或有 ADR 背书**，不得"先做后报"：
+
+- 修改 `persons.deleted_at` / `persons.merged_into_id`
+- 迁移 `person_names.person_id`（任何 cross-person 搬运）
+- 改动 identity resolution 规则（resolver 策略、match threshold、别名规范化）
+- Schema 级变更（新表 / 加索引 / 改列类型 / 改约束）
+- 执行模型变更（如 merge 模型 A↔B 切换）
+
+**Merge 铁律**（引 [ADR-014](../../docs/decisions/ADR-014-canonical-merge-execution-model.md)）：
+
+> 任何修改 `persons.deleted_at` / `merged_into_id` / `person_names.person_id` 的操作必须经过 `apply_merges()` 或经 ADR 授权；ad-hoc SQL 一律拒绝。
+
+违反本条款的操作将触发 rollback + ADR 记录（参见 ADR-014 §6 实施记录中的 β S-5 教训）。
+
+### § 4 闸门敏感操作协议
+
+> 引自 retro §3-H3。适用于所有高风险 DB 操作（merge apply、批量 soft-delete、migration、data fixup）。
+
+对敏感 DB 操作强制执行以下 4 个闸门，**每个闸门须有架构师显式 ACK 才能进入下一步**；COMMIT 前必须 4 闸门全绿。
+
+| 闸门 | 内容 | 回报要求 |
+|------|------|---------|
+| **闸门 1** | pg_dump 快照 | 回报：TOC 条数 / 压缩方式 / PG 版本 |
+| **闸门 2** | 相关表的 schema 确认 | 回报：`\d+` 输出（涉及的每张表） |
+| **闸门 3** | 依赖的 cache / 外部 artifact 状态 | 回报：NER JSONL 是否存在、是否可 replay；相关缓存是否需要失效 |
+| **闸门 4** | Dry-run RETURNING 全量贴回 | 架构师按「意图 vs 实际」逐行对读 |
+
+**流程**：
+
+1. 操作前：完成闸门 1-3 并向架构师回报，等待 ACK
+2. Dry-run：执行带 `RETURNING *` 的 SQL（不 COMMIT），将结果全量贴给架构师
+3. 架构师对读确认后，显式 ACK → COMMIT
+4. COMMIT 后立即运行 V1-V4 invariant 验证
+
+**适用场景举例**：
+- `apply_merges()` 执行（merge apply）
+- 批量 `UPDATE person_names SET name_type = ...`
+- `ALTER TABLE` / `CREATE INDEX` / `DROP CONSTRAINT`
+- 数据 fixup migration（`services/pipeline/migrations/*.sql`）
+
+### § mini-RFC 流程
+
+当变更满足以下任一触发条件时，管线工程师**必须先起草 mini-RFC**，推给架构师审批后再动手：
+
+**触发条件**：
+- 跨 ADR 影响（变更会触碰多个 ADR 的假设或约定）
+- Schema 级变更（新表 / 加索引 / 改列类型 / 改约束）
+- 执行模型变更（如 merge 模型切换）
+- Historian 裁决争议（historian 给出的判定与既有数据或 ADR 矛盾）
+
+**RFC 位置**：`docs/decisions/rfc/RFC-NNN-kebab-title.md`
+
+**模板骨架**：
+
+```markdown
+# RFC-NNN: <标题>
+
+- **Author**: <角色>
+- **Date**: <日期>
+- **Status**: draft / under-review / accepted / rejected
+
+## 问题陈述
+<为什么需要这个变更>
+
+## 方案对比
+| 方案 | 优点 | 缺点 |
+|------|------|------|
+| A | ... | ... |
+| B | ... | ... |
+
+## 推荐
+<推荐方案及理由>
+
+## 开放问题
+<尚待澄清的点>
+
+## 架构师批注
+<架构师 review 时填写>
+```
+
+**时效**：架构师 72h 内 ACK 或降级为任务卡继续推进。超时未响应视为默认通过（但须记录"超时默认"标记）。
+
+---
+
 ## 工作风格
 - **每次 LLM 调用必须经 LLM Gateway**（C-7 宪法）
 - **每次 LLM 调用必须经 TraceGuard checkpoint**
