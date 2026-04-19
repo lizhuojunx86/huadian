@@ -259,3 +259,66 @@ describe("searchPersons — pagination with search", () => {
     expect(page2.items[0].slug).not.toBe(page1.items[0].slug);
   });
 });
+
+// ----------------------------------------------------------------
+// T-P1-003: Search precision regression tests
+// Tests against REAL production data (152 persons from Shiji).
+// These verify that known FP cases are eliminated and true recalls preserved.
+// ----------------------------------------------------------------
+
+describe("searchPersons — T-P1-003 precision regression (real data)", () => {
+  it("G04: '帝中' returns 中丁 but NOT 中壬 or 中康", async () => {
+    const result = await searchPersons(db, "帝中", 100, 0);
+    const slugs = result.items.map(p => p.slug);
+
+    expect(slugs).toContain("u4e2d-u4e01"); // 中丁 (canonical for 帝中丁)
+    expect(slugs).not.toContain("u4e2d-u58ec"); // 中壬 must NOT appear
+    expect(slugs).not.toContain("zhong-kang"); // 中康 must NOT appear
+  });
+
+  it("G05: '帝中丁' returns 中丁 but NOT 中壬 or 中康", async () => {
+    const result = await searchPersons(db, "帝中丁", 100, 0);
+    const slugs = result.items.map(p => p.slug);
+
+    expect(slugs).toContain("u4e2d-u4e01"); // 中丁
+    expect(slugs).not.toContain("u4e2d-u58ec"); // 中壬
+    expect(slugs).not.toContain("zhong-kang"); // 中康
+  });
+
+  it("G12: '帝武乙' returns 武乙 but NOT 武丁", async () => {
+    const result = await searchPersons(db, "帝武乙", 100, 0);
+    const slugs = result.items.map(p => p.slug);
+
+    expect(slugs).toContain("u6b66-u4e59"); // 武乙
+    expect(slugs).not.toContain("wu-ding"); // 武丁 must NOT appear
+  });
+
+  it("exact recall preserved: '黄帝' finds huang-di", async () => {
+    const result = await searchPersons(db, "黄帝", 100, 0);
+    const slugs = result.items.map(p => p.slug);
+
+    expect(slugs).toContain("huang-di");
+  });
+
+  it("alias recall preserved: '虞舜' finds shun via person_name alias", async () => {
+    const result = await searchPersons(db, "虞舜", 100, 0);
+    const slugs = result.items.map(p => p.slug);
+
+    expect(slugs).toContain("shun");
+  });
+
+  it("single-char recall preserved: '禹' finds yu", async () => {
+    const result = await searchPersons(db, "禹", 100, 0);
+    const slugs = result.items.map(p => p.slug);
+
+    expect(slugs).toContain("yu");
+    expect(slugs).toHaveLength(1); // only 禹, no noise
+  });
+
+  it("not-found: '项羽' returns empty", async () => {
+    const result = await searchPersons(db, "项羽", 100, 0);
+
+    expect(result.items).toHaveLength(0);
+    expect(result.total).toBe(0);
+  });
+});
