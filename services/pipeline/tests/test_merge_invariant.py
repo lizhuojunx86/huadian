@@ -1,9 +1,13 @@
-"""Merge model invariant tests — enforces ADR-014 across the entire DB.
+"""Merge model invariant tests — enforces ADR-014 / ADR-015 across the entire DB.
 
 V4 INVARIANT (ADR-014): Every soft-deleted person that has merged_into_id
 must retain at least one person_name row. This ensures model-A compliance:
 names stay on the source person for read-side aggregation via
 findPersonNamesWithMerged().
+
+V7 INVARIANT (ADR-015): Active person_names should reference a
+source_evidences row. Warning-level (does not fail CI); will be promoted
+to error-level when Stage 2 backfill completes.
 
 Requires DATABASE_URL env var pointing to the huadian DB.
 """
@@ -11,6 +15,7 @@ Requires DATABASE_URL env var pointing to the huadian DB.
 from __future__ import annotations
 
 import os
+import warnings
 
 import pytest
 
@@ -94,3 +99,47 @@ async def test_no_active_but_merged(db_conn) -> None:
         f"Partial-merge bug: {len(violations)} person(s) have merged_into_id "
         f"set but deleted_at IS NULL:\n" + "\n".join(violations)
     )
+
+
+async def test_v7_evidence_chain_coverage_warning(db_conn) -> None:
+    """V7 (ADR-015 Stage 1) warning-level invariant.
+
+    Active person_names should reference a source_evidences row via
+    source_evidence_id. This invariant emits a UserWarning — not a
+    hard failure — because:
+
+    - Legacy rows pre-dating ADR-015 Stage 1e are uncovered by design;
+      Stage 2 (text-search back-fill, separate sprint) will remediate.
+    - Stage 1e production path writes evidence for every new ingest,
+      so coverage only grows going forward.
+
+    Threshold 0.3 is deliberately low to tolerate the legacy backlog
+    during Stage 1 rollout. Will be raised to 1.0 and promoted to
+    error-level (assert) when Stage 2 back-fill completes.
+
+    To treat as error in CI: pytest -W error::UserWarning.
+    """
+    threshold = 0.3
+    row = await db_conn.fetchrow(
+        """
+        SELECT
+            COUNT(*) AS total,
+            COUNT(pn.source_evidence_id) AS covered
+        FROM person_names pn
+        JOIN persons p ON pn.person_id = p.id
+        WHERE p.deleted_at IS NULL
+        """
+    )
+    total = row["total"]
+    covered = row["covered"]
+    coverage = (covered / total) if total else 1.0
+
+    if coverage < threshold:
+        warnings.warn(
+            f"V7: evidence chain coverage {coverage:.1%} "
+            f"({covered}/{total} active person_names) below threshold "
+            f"{threshold:.0%}. Legacy rows pending ADR-015 Stage 2 "
+            f"backfill — verify new ingests produce source_evidences.",
+            UserWarning,
+            stacklevel=2,
+        )
