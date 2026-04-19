@@ -300,8 +300,13 @@ type PersonItem = GqlPerson & { __typename: "Person" };
 /**
  * Search and paginate persons. When `search` is empty/null, returns all
  * persons ordered by created_at DESC. When non-empty, uses pg_trgm
- * similarity on person_names.name (threshold 0.3) + ILIKE on
+ * similarity on person_names.name with length-weighted threshold
+ * (≤2 chars: 0.5, 3 chars: 0.4, 4+ chars: 0.3) + ILIKE on
  * persons.name->>'zh-Hans', ordered by relevance score DESC.
+ *
+ * If the primary search returns no results, falls back to ILIKE substring
+ * matching on person_names.name to catch partial alias matches
+ * (e.g. "青莲" → "青莲居士").
  *
  * Falls back to pure ILIKE if pg_trgm extension is unavailable.
  */
@@ -320,7 +325,13 @@ export async function searchPersons(
   }
 
   try {
-    return await trigramSearch(db, term, clampedLimit, clampedOffset);
+    const result = await trigramSearch(db, term, clampedLimit, clampedOffset);
+    // T-P1-003: if primary search found nothing, try ILIKE substring on
+    // person_names.name as a fallback for partial alias matches.
+    if (result.total === 0) {
+      return aliasSubstringSearch(db, term, clampedLimit, clampedOffset);
+    }
+    return result;
   } catch (err) {
     // Fallback: pg_trgm not available → pure ILIKE
     if (err instanceof Error && err.message.includes("similarity")) {
@@ -348,6 +359,21 @@ async function listAllPersons(
   };
 }
 
+/**
+ * Compute similarity threshold based on query length (in characters).
+ * Short queries (1-2 chars) use a higher threshold to avoid false positives
+ * from partial trigram overlaps (e.g. "帝中" matching "帝中壬"/"帝中康").
+ * Longer queries can afford a lower threshold for fuzzy recall.
+ *
+ * T-P1-003: length-weighted threshold (Strategy C)
+ */
+function similarityThreshold(term: string): number {
+  const charLen = [...term].length;
+  if (charLen <= 2) return 0.5;
+  if (charLen <= 3) return 0.4;
+  return 0.3;
+}
+
 async function trigramSearch(
   db: DrizzleClient,
   term: string,
@@ -355,6 +381,7 @@ async function trigramSearch(
   offset: number,
 ): Promise<Omit<PersonSearchResult, "__typename">> {
   const likePattern = `%${term}%`;
+  const threshold = similarityThreshold(term);
 
   // Search through ALL persons' names (including merged ones).
   // Use COALESCE(p.merged_into_id, p.id) to resolve merged persons to their
@@ -366,7 +393,7 @@ async function trigramSearch(
       LEFT JOIN person_names pn ON pn.person_id = p.id
       WHERE (p.deleted_at IS NULL OR p.merged_into_id IS NOT NULL)
         AND (
-          similarity(pn.name, ${term}) > 0.3
+          similarity(pn.name, ${term}) > ${threshold}
           OR p.name->>'zh-Hans' ILIKE ${likePattern}
         )
     `),
@@ -376,7 +403,7 @@ async function trigramSearch(
       LEFT JOIN person_names pn ON pn.person_id = p.id
       WHERE (p.deleted_at IS NULL OR p.merged_into_id IS NOT NULL)
         AND (
-          similarity(pn.name, ${term}) > 0.3
+          similarity(pn.name, ${term}) > ${threshold}
           OR p.name->>'zh-Hans' ILIKE ${likePattern}
         )
       GROUP BY COALESCE(p.merged_into_id, p.id)
@@ -425,6 +452,51 @@ async function ilikeSearch(
         )
       GROUP BY COALESCE(p.merged_into_id, p.id)
       ORDER BY MAX(p.created_at) DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `),
+  ]);
+
+  const total = (countResult as unknown as Array<{ total: number }>)[0]?.total ?? 0;
+  const matchedIds = (idsResult as unknown as Array<{ id: string }>).map(r => r.id);
+
+  return fetchAndOrder(db, matchedIds, total, offset, limit);
+}
+
+/**
+ * Fallback search: ILIKE substring match on person_names.name only.
+ * Used when the primary trigramSearch returns zero results, to catch
+ * partial alias matches (e.g. "青莲" finding "青莲居士").
+ * Scored by query coverage ratio: length(query) / length(matched_name).
+ *
+ * T-P1-003: this runs ONLY when trigramSearch returns total=0,
+ * so it cannot introduce FP on queries that already have matches.
+ */
+async function aliasSubstringSearch(
+  db: DrizzleClient,
+  term: string,
+  limit: number,
+  offset: number,
+): Promise<Omit<PersonSearchResult, "__typename">> {
+  const likePattern = `%${term}%`;
+
+  const [countResult, idsResult] = await Promise.all([
+    db.execute(sql`
+      SELECT count(DISTINCT COALESCE(p.merged_into_id, p.id))::int AS total
+      FROM persons p
+      JOIN person_names pn ON pn.person_id = p.id
+      WHERE (p.deleted_at IS NULL OR p.merged_into_id IS NOT NULL)
+        AND pn.name ILIKE ${likePattern}
+    `),
+    db.execute(sql`
+      SELECT COALESCE(p.merged_into_id, p.id) AS id
+      FROM persons p
+      JOIN person_names pn ON pn.person_id = p.id
+      WHERE (p.deleted_at IS NULL OR p.merged_into_id IS NOT NULL)
+        AND pn.name ILIKE ${likePattern}
+      GROUP BY COALESCE(p.merged_into_id, p.id)
+      ORDER BY MAX(
+        CAST(char_length(${term}) AS float) / GREATEST(char_length(pn.name), 1)
+      ) DESC
       LIMIT ${limit} OFFSET ${offset}
     `),
   ]);
