@@ -159,7 +159,12 @@ async def _cmd_pilot(args: argparse.Namespace, dsn: str) -> None:
         merged = merge_persons(extract_result.persons)
         print(f"Merged {len(extract_result.persons)} extractions → {len(merged)} unique persons")
 
-        load_result = await load_persons(pool, merged, book_id=ingest_result.book_id)
+        load_result = await load_persons(
+            pool,
+            merged,
+            book_id=ingest_result.book_id,
+            prompt_version=extract_result.prompt_version,
+        )
         print(
             f"Loaded: {load_result.persons_inserted} new, {load_result.persons_updated} updated, {load_result.names_inserted} names"
         )
