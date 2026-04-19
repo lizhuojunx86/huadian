@@ -35,14 +35,14 @@
 - **修复**：F3 CHECK 约束的逆否命题 `deleted_at IS NULL → merged_into_id IS NULL` 保证 `{deleted_at IS NULL}` 与 `{deleted_at IS NULL AND merged_into_id IS NULL}` 严格等价
 - "active = deleted_at IS NULL" 现在是唯一定义，有 DB 约束背书
 
-## F5 / F11: is_primary 不跟 name_type 同步 demote — **P0-followup**
+## F5 / F11: is_primary 不跟 name_type 同步 demote — ~~P0-followup~~ **resolved 2026-04-19** (commits 10575d3 / a44b2e8 / ebc7b03)
 
-- **现状**：`apply_merges()` 只改 `name_type = 'alias'`，不改 `is_primary = false`
-- **影响**：GraphQL 返回 `nameType=alias + isPrimary=true` 语义矛盾（用户可见 UX 问题）
-- **裁决预案**：
-  - 方案 Y（倾向）：`apply_merges()` 同时设 `is_primary=false`
-  - 方案 X：read 层 `findPersonNamesWithMerged` 对 non-canonical 强制 `isPrimary=false`
-- **待开**：T-P0-016
+- **修复**：T-P0-016 双路径修复 + backfill
+  - Stage 1a：apply_merges() `SET name_type='alias', is_primary=false`（resolve.py）
+  - Stage 1b：load.py W1 `is_primary_value = primary_name_type == "primary"`
+  - Stage 2：Migration 0007 backfill 18 行历史违规 → 0
+- V6 invariant `test_no_alias_with_is_primary_true` 上线，首次 V1-V6 全绿
+- 附带发现 W2 对称违规 → F12 debt
 
 ## F8: person_names.source_evidence_id 全表 NULL — **P0-followup**
 
@@ -62,3 +62,23 @@
 - **修复**：Migration 0005 批量 `UPDATE person_names SET name_type='alias'` 8 行（调研 memo §C4 预估 ≥2 行，实际 8 行覆盖全部 α merge source 残留）
 - 8 行分布：7 行 primary/is_primary=true + 1 行 primary/is_primary=false（cheng-tang）
 - is_primary 联动未处理，遗留给 T-P0-016（当前 alias+is_primary=true 计 18 行）
+- **T-P0-016 已修复此 is_primary 遗留**（2026-04-19，commits 10575d3 / a44b2e8 / ebc7b03）
+
+## F12: W2 路径产生 primary + is_primary=false 违规 — **P2**
+
+- **发现来源**：T-P0-016 Stage 0 写路径审计
+- **机制**：
+  1. NER 返回 person 时将 name_zh 分类为 `name_type='alias'`（非典型但会发生）
+  2. `_enforce_single_primary` 必须 promote 某个 surface_form 为 primary（否则 person 无 primary name）
+  3. 被 promote 的 surface_form 走 load.py:390-399 W2 路径 INSERT
+  4. W2 硬编码 `is_primary=false`，而此时 `sf.name_type` 已是 'primary'
+  5. 结果：`(primary, is_primary=false)` 违规组合
+- **基线（2026-04-19，T-P0-016 Stage 2 post-backfill）**：11 行，全部 active
+- **样本**：
+  - di-ku/高辛, fu-yue/说, hou-ji/弃, huang-di/轩辕, jie/帝履癸
+  - wei-zi-qi/启, 外壬, 庚丁, 挚, 相（各自 person）
+- **交叉模式**：fu-yue 和 wei-zi-qi 同时存在 V6（name_zh）+ F12（promoted surface）违规——验证了"NER name_zh-as-alias 触发双路径违规"的假设
+- **修复方向（未来 sprint）**：W2 的 is_primary 改为 `sf.name_type == "primary"`（与 W1 修复对称）+ backfill 11 行
+- **优先级**：P2（不阻 α 扩量——违规数据虽语义不纯但不会误导读端到错误实体）
+- **分配**：未分配
+- **关联**：T-P0-016 Stage 0 发现，F5/F11 同族

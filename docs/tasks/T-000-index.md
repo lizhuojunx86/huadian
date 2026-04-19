@@ -22,7 +22,6 @@
 | T-P0-013 | Canonical 选择算法优化（帝X 前缀偏差） | **done** | 管线 | Phase 0 |
 | T-P0-014 | 冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥） | **done** | 管线 + historian | Phase 0 |
 | T-P0-005a | SigNoz 版本对齐与接入 | **planned** | DevOps + 管线 | Phase 0 |
-| T-P0-016 | [apply_merges() 同步 demote is_primary](T-P0-016-is-primary-demotion.md)（F5/F11 根治） | **planned** | 管线 | Phase 0 |
 | T-P0-019 | [β 尾巴清理](T-P0-019-beta-tail-cleanup.md)（F1/F2/F4 合并） | **planned** | 管线 | Phase 0 |
 | T-P0-021 | [NER 输出持久化](T-P0-021-ner-output-persistence.md)（F9 JSONL 落盘 + replay） | **planned** | 管线 | Phase 0 |
 | T-P0-023 | [Evidence 链 Stage 1（新行必填 + 段落粒度）](T-P0-023-evidence-chain-stage-1.md) | **planned** | 管线 + 后端 | Phase 0 |
@@ -32,6 +31,7 @@
 ## 已完成
 | 任务 ID | 标题 | 完成日期 | 主导角色 |
 |---------|------|---------|---------|
+| T-P0-016 | apply_merges + load.py W1 双路径 is_primary 同步（F5/F11 根治；backfill 18 行；V6 上线；首次 V1-V6 全绿） | 2026-04-19 | 管线 |
 | T-P0-022 | α 源 primary 未 demote（F10 扫描 + 补丁；8 行 name_type primary→alias；V1-V5 PASS） | 2026-04-19 | 管线 |
 | T-P0-020 | persons CHECK 约束（F3/F4 根治；单向蕴涵 `persons_merge_requires_delete`；Drizzle 同步；V1-V5 PASS） | 2026-04-19 | 后端 + 管线 |
 | T-P0-006-β | [《尚书·尧典+舜典》摄入](T-P0-006-beta-shangshu.md)（β 跨书归并压力测试；R3 tongjia 端到端 ✅；ADR-013/014；153 active persons；$0.28；11 followup debts） | 2026-04-19 | 管线 + historian + 架构师 |

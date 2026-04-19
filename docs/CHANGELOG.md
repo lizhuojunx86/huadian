@@ -7,6 +7,33 @@
 
 ## 2026-04-19
 
+### [fix] T-P0-016 完成 — apply_merges + load.py W1 双路径 is_primary 同步 + F12 登记
+
+- **角色**：管线工程师（执行）+ 架构师（4 闸门协议 ACK + scope 扩展裁决）
+- **性质**：代码修复 + 数据 backfill，ADR-014 F5/F11 根治
+
+#### Stage 1a: apply_merges 修复
+- resolve.py:446-455 `SET name_type='alias'` → `SET name_type='alias', is_primary=false`（commit 10575d3）
+- 4 条 DB 集成测试（tests/test_apply_merges.py）：demotion 联动 + canonical 保护 + cheng-tang 类 + 幂等性
+
+#### Stage 1b: load.py W1 修复（scope 扩展）
+- Stage 0 审计发现第二活跃路径：load.py:367-376 W1 INSERT 硬编码 is_primary=true
+- 真实触发：NER 直接输出 name_zh 为 alias（非 _enforce_single_primary demotion）
+- 修复：`is_primary_value = primary_name_type == "primary"`（commit a44b2e8）
+- 2 条 DB 集成测试（tests/test_load_insert.py）
+
+#### Stage 2: Backfill
+- Migration 0007：`UPDATE person_names SET is_primary=false WHERE name_type='alias' AND is_primary=true`
+- 18 行修复（5 active + 11 merge_softdelete + 2 pure_softdelete）（commit ebc7b03）
+- V6 invariant `test_no_alias_with_is_primary_true` TDD red→green
+
+#### 成果
+- **首次达到 V1-V6 全套 invariant 绿**
+- 269 pipeline tests 全绿无回归
+- F12 debt 登记：W2 路径 `primary + is_primary=false` 对称违规，11 行 active 基线
+
+---
+
 ### [fix+feat] T-P0-022 + T-P0-020 合并 Sprint — F10 残留清理 + persons CHECK 约束上线
 
 - **角色**：管线工程师（执行）+ 架构师（4 闸门协议 ACK）
