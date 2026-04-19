@@ -8,13 +8,15 @@ The registry overrides `rule_id` / `severity` with its registration-time
 values on every returned violation — the fn only really owns
 `message` / `location` / `suggested_fix`.
 
-Catalogue (5 rules, ADR-004 §九 minimum):
+Catalogue (6 rules, ADR-004 §九 minimum):
 
   common.json_schema              — outputs match a declared JSON Schema
   common.confidence_threshold     — output-level `confidence` >= threshold
   ner.surface_in_source           — entities[].surface_form appears in
                                      inputs.paragraph_text
   ner.no_duplicate_entities       — (surface_form, entity_type) unique
+  ner.single_primary_per_person   — each person has exactly 1 primary
+                                     name_type (T-P1-004 / ADR-012)
   relation.participants_exist     — relations[].subject_id / object_id
                                      point at an entity in this paragraph
 """
