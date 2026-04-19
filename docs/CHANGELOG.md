@@ -24,6 +24,7 @@
   - § 4 闸门敏感操作协议（pg_dump / schema / cache / dry-run）
   - § mini-RFC 流程（触发条件 / 模板骨架 / 72h 时效）
 - 1 commit（66b2217），+91 行
+- hotfix：mini-RFC 超时条款修正——"超时默认通过"与"禁止先做后报"铁律矛盾，改为分级处理（契约级决策须等 ACK，非契约级可降级任务卡）
 
 #### A7: ADR-017 迁移回滚策略
 - 新建 `docs/decisions/ADR-017-migration-rollback-strategy.md`（accepted）
