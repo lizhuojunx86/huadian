@@ -27,6 +27,7 @@
 | [ADR-012](ADR-012-ner-single-primary-constraint.md) | NER Single-Primary Constraint — 三层防御（prompt + ingest auto-demotion + QC rule） | 2026-04-19 | 用户 + 管线 |
 | [ADR-013](ADR-013-persons-slug-partial-unique.md) | persons.slug UNIQUE 约束改为 partial（排除 soft-deleted） | 2026-04-19 | 架构师 |
 | [ADR-014](ADR-014-canonical-merge-execution-model.md) | Canonical Merge Execution Model（names-stay + read-side aggregation） | 2026-04-19 | 架构师 |
+| [ADR-017](ADR-017-migration-rollback-strategy.md) | Migration Rollback Strategy（forward-only + pg_dump anchor + 4 闸门） | 2026-04-19 | 架构师 |
 
 ### 已规划（尚未起草）
 
@@ -34,7 +35,7 @@
 |---|------|------|--------|--------|
 | ADR-015 | Evidence 链填充方案（source_evidence_id 补齐） | 起草中 | 🔴 | 架构师 + 管线 |
 | ADR-016 | 搜索召回策略回溯 | planned | 🟡 | 后端 + 架构师 |
-| ADR-017 | 迁移回滚策略（forward-only + pg_dump anchor） | planned | 🟡 | 架构师 + DevOps |
+| ~~ADR-017~~ | ~~迁移回滚策略（forward-only + pg_dump anchor）~~ | **accepted** | — | **见 accepted 区** |
 | ~~ADR-018~~ | ~~Slug 规则与 URL 稳定性~~ | ~~planned~~ | — | **covered by ADR-011** |
 | ADR-019 | 多语言字段 JSONB 结构 | planned | 🟡 | 架构师 + 前端 |
 | ADR-020 | Prompt 版本化与缓存键 | planned | 🟡 | 管线 |
