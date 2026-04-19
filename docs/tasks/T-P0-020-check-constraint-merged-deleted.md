@@ -1,6 +1,6 @@
 # T-P0-020: persons CHECK 约束 — merged_into_id ↔ deleted_at 成对
 
-- **状态**：planned
+- **状态**：done（2026-04-19，commit c43aaf9）
 - **主导角色**：后端工程师
 - **协作角色**：管线工程师（存量数据验证）、架构师（schema 变更审批）
 - **所属 Phase**：Phase 0
@@ -21,6 +21,16 @@ ALTER TABLE persons ADD CONSTRAINT persons_soft_merge_paired
 此约束确保两列始终成对：要么都 NULL（active person），要么都非 NULL（soft-merged person）。
 
 参见 `docs/debts/T-P0-006-beta-followups.md` F3 条目。
+
+## 实施发现
+
+Stage 0 前置扫描发现 5 行 `deleted_without_merge` 违反原拟议的双向等价 CHECK（T-P0-014 R3-non-person 产生的纯 soft-delete）。架构师裁决改为单向蕴涵 `merged_into_id IS NULL OR deleted_at IS NOT NULL`，保留 pure soft-delete 合法性。约束名从 `persons_soft_merge_paired` 改为 `persons_merge_requires_delete`。详见 ADR-010 Supplement 2026-04-19。
+
+CHECK SQL 最终版本：
+```sql
+ALTER TABLE persons ADD CONSTRAINT persons_merge_requires_delete
+  CHECK (merged_into_id IS NULL OR deleted_at IS NOT NULL);
+```
 
 ## 验收标准
 

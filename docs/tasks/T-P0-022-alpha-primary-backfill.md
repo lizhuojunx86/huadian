@@ -1,6 +1,6 @@
 # T-P0-022: α 源 merge source primary 未 demote — 扫描 + 补丁
 
-- **状态**：planned
+- **状态**：done（2026-04-19，commit 7bfb287）
 - **主导角色**：管线工程师
 - **协作角色**：后端工程师（读端验证）
 - **所属 Phase**：Phase 0
@@ -24,6 +24,13 @@ T-P0-006-β followup F10：α 路线 T-P0-011 的 12 条 merge 中，source pers
 - 补丁后全表扫描：`SELECT COUNT(*) FROM person_names pn JOIN persons p ON p.id = pn.person_id WHERE p.merged_into_id IS NOT NULL AND pn.name_type = 'primary'` 返回 0
 - V1-V4 invariant 全 PASS
 - 补丁记入 `person_merge_log`（rule = `backfill-primary-demotion`）或等价审计记录
+
+## 实施实际数据
+
+- Stage 0 扫描实际 8 行（调研 memo §C4 预估 ≥2 行，完全覆盖 + 扩展）
+- 8 行分布：7 行 primary/is_primary=true + 1 行 primary/is_primary=false（cheng-tang，疑似历史部分修复）
+- 本 sprint 未处理 is_primary 联动，遗留给 T-P0-016
+- 当前 alias + is_primary=true 计数 18（含本 sprint 新增 7 行 + 历史 11 行），T-P0-016 回归基线
 
 ## 关联
 

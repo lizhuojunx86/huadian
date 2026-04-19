@@ -24,9 +24,7 @@
 | T-P0-005a | SigNoz 版本对齐与接入 | **planned** | DevOps + 管线 | Phase 0 |
 | T-P0-016 | [apply_merges() 同步 demote is_primary](T-P0-016-is-primary-demotion.md)（F5/F11 根治） | **planned** | 管线 | Phase 0 |
 | T-P0-019 | [β 尾巴清理](T-P0-019-beta-tail-cleanup.md)（F1/F2/F4 合并） | **planned** | 管线 | Phase 0 |
-| T-P0-020 | [persons CHECK 约束](T-P0-020-check-constraint-merged-deleted.md)（F3 merged_into_id ↔ deleted_at） | **planned** | 后端 | Phase 0 |
 | T-P0-021 | [NER 输出持久化](T-P0-021-ner-output-persistence.md)（F9 JSONL 落盘 + replay） | **planned** | 管线 | Phase 0 |
-| T-P0-022 | [α 源 primary 未 demote](T-P0-022-alpha-primary-backfill.md)（F10 扫描 + 补丁） | **planned** | 管线 | Phase 0 |
 | T-P0-023 | [Evidence 链 Stage 1（新行必填 + 段落粒度）](T-P0-023-evidence-chain-stage-1.md) | **planned** | 管线 + 后端 | Phase 0 |
 | T-P0-024 | [Evidence 链 Stage 2（存量 text-search 回填）](T-P0-024-evidence-chain-stage-2-backfill.md) | **planned** | 管线 + historian | Phase 0 |
 | T-P1-005 | 统一 migration 入口（Drizzle + pipeline SQL 双轨合一） | **planned** | DevOps + 后端 | Phase 1 |
@@ -34,6 +32,8 @@
 ## 已完成
 | 任务 ID | 标题 | 完成日期 | 主导角色 |
 |---------|------|---------|---------|
+| T-P0-022 | α 源 primary 未 demote（F10 扫描 + 补丁；8 行 name_type primary→alias；V1-V5 PASS） | 2026-04-19 | 管线 |
+| T-P0-020 | persons CHECK 约束（F3/F4 根治；单向蕴涵 `persons_merge_requires_delete`；Drizzle 同步；V1-V5 PASS） | 2026-04-19 | 后端 + 管线 |
 | T-P0-006-β | [《尚书·尧典+舜典》摄入](T-P0-006-beta-shangshu.md)（β 跨书归并压力测试；R3 tongjia 端到端 ✅；ADR-013/014；153 active persons；$0.28；11 followup debts） | 2026-04-19 | 管线 + historian + 架构师 |
 | T-P1-004 | NER 单人多 primary 约束（ADR-012 三层防御：prompt + ingest + QC；32 tests；4 commits；tip a50c2f9） | 2026-04-19 | 管线 + QA |
 | T-P2-002 | persons.slug 命名一致性（方向 3 分层白名单：tier-s-slugs.yaml 74 条 + slug.py + ADR-011；26 tests + 3 invariant） | 2026-04-19 | 管线 + 后端 |

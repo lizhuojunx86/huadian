@@ -7,6 +7,32 @@
 
 ## 2026-04-19
 
+### [fix+feat] T-P0-022 + T-P0-020 合并 Sprint — F10 残留清理 + persons CHECK 约束上线
+
+- **角色**：管线工程师（执行）+ 架构师（4 闸门协议 ACK）
+- **性质**：数据修复 + schema 约束增强，ADR-014 4 闸门协议首次非 β 场景完整跑通
+
+#### T-P0-022（F10 α merge primary 残留 demote）
+- Stage 0 扫描发现 8 行 merge source primary 未 demote（调研 memo §C4 预估 ≥2）
+- Migration 0005：`UPDATE person_names SET name_type='alias'` 8 行（commit 7bfb287）
+- is_primary 联动未处理，遗留给 T-P0-016（当前 alias+is_primary=true 计 18 行）
+
+#### T-P0-020（persons merge/delete CHECK 约束）
+- Stage 0 发现原拟议双向等价 CHECK 会误伤 T-P0-014 R3-non-person 的 5 行 pure soft-delete
+- 架构师裁决改为单向蕴涵：`CHECK (merged_into_id IS NULL OR deleted_at IS NOT NULL)`
+- 约束名 `persons_merge_requires_delete`（commit c43aaf9）
+- Drizzle schema 同步 `packages/db-schema/src/schema/persons.ts`
+
+#### 验证
+- V1-V5 invariant 全 PASS — β 以来首次完整 invariant 矩阵绿
+- persons 三态分布：153 active + 5 pure_softdelete + 16 merge_softdelete = 174 total
+
+#### 文档
+- ADR-010 supplement：persons 表三态 soft-delete 语义 + CHECK 选型理由
+- debts F3/F4/F10 标记 resolved
+
+---
+
 ### [docs] ADR-015 起草与落盘 — Evidence 链填充方案
 
 - **角色**：架构师（起草）+ 管线工程师（调研 + 落盘执行）
