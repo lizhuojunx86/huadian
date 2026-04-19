@@ -50,9 +50,10 @@
 
 ## F8: person_names.source_evidence_id 全表 NULL — **P0-followup**
 
-- **现状**：Phase 0 `load.py` 不填 evidence FK，279/279 行全 NULL
+- **现状**：Phase 0 `load.py` 不填 evidence FK，282/282 行全 NULL
 - **影响**：name 无法溯源到抽取原文，挑战"一次结构化 N 次衍生"宪法
 - **待开**：ADR-015 或 T-P0-020 专项
+- **状态（2026-04-19）**：ADR-015 已 accepted（渐进式三阶段）。Stage 1 → T-P0-023；Stage 2 → T-P0-024；Stage 3 延后至 α 后。
 
 ## F9: extract_persons() NER 输出不落盘 — **P1-followup**
 

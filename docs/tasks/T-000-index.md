@@ -27,6 +27,8 @@
 | T-P0-020 | [persons CHECK 约束](T-P0-020-check-constraint-merged-deleted.md)（F3 merged_into_id ↔ deleted_at） | **planned** | 后端 | Phase 0 |
 | T-P0-021 | [NER 输出持久化](T-P0-021-ner-output-persistence.md)（F9 JSONL 落盘 + replay） | **planned** | 管线 | Phase 0 |
 | T-P0-022 | [α 源 primary 未 demote](T-P0-022-alpha-primary-backfill.md)（F10 扫描 + 补丁） | **planned** | 管线 | Phase 0 |
+| T-P0-023 | [Evidence 链 Stage 1（新行必填 + 段落粒度）](T-P0-023-evidence-chain-stage-1.md) | **planned** | 管线 + 后端 | Phase 0 |
+| T-P0-024 | [Evidence 链 Stage 2（存量 text-search 回填）](T-P0-024-evidence-chain-stage-2-backfill.md) | **planned** | 管线 + historian | Phase 0 |
 | T-P1-005 | 统一 migration 入口（Drizzle + pipeline SQL 双轨合一） | **planned** | DevOps + 后端 | Phase 1 |
 
 ## 已完成
