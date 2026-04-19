@@ -7,6 +7,25 @@
 
 ## 2026-04-19
 
+### [feat] T-P0-015 完成 — 帝鸿氏/缙云氏 Canonical 归并裁决：帝鸿氏 MERGE，缙云氏 KEEP（1 commit, 1 DB merge）
+- **角色**：古籍/历史专家（主导）+ 管线工程师（DB 查询）
+- **性质**：Phase 0 数据质量 — 实体归并裁决
+- **背景**：T-P0-014 S-1 中帝鸿氏/缙云氏被划为 B-class（historian ruled keep），归并决定推迟到本任务
+- **Historian 裁决**：(c) 混合
+  - **帝鸿氏 → MERGE into 黄帝**（merge_rule=`R4-honorific-alias`, confidence=0.95）
+    - 贾逵/杜预/服虔/张守节四家一致："帝鸿，黄帝也"
+    - "帝鸿"为黄帝帝号/尊称（鸿=宏大），非独立实体
+  - **缙云氏 → KEEP-independent**
+    - 杜预/贾逵训为"黄帝时官名"（从属关系非等同关系）
+    - 五帝本纪 P24 并列结构：帝鸿氏/少暤氏/颛顼氏/缙云氏 四族系各有不才子（四凶），帝鸿氏已等同黄帝则缙云氏必为独立实体
+- **数据修复**：SQL 事务 merge 1 条（帝鸿氏 merged_into_id→黄帝），person_merge_log 1 行，黄帝 person_names +帝鸿氏(alias)
+- **验证**：V-1~V-5 全通过（active persons 152→151）
+- **无新依赖，无 schema 变更，无业务代码变更**
+- **衍生**：T-P1-002 追加 person_names (person_id, name) UNIQUE 索引需求
+- **1 commit**
+
+---
+
 ### [chore] T-P2-003 closed — 清理 datamodel-codegen dash-case 死文件 + 根治 codegen 后处理（1 commit）
 - **角色**：DevOps 工程师（主导）
 - **性质**：技术债清理（codegen 历史残留）

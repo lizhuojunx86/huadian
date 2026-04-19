@@ -1,0 +1,63 @@
+{
+  "task_id": "T-P0-015",
+  "description": "帝鸿氏 merge into 黄帝 canonical (缙云氏 KEEP-independent)",
+  "generated_at": "2026-04-19",
+  "run_id": "a7e70015-0015-4015-8015-a7e700150015",
+  "actions": [
+    {
+      "action": "merge",
+      "merged_entity": {
+        "id": "19ef3926-eaf1-42e1-ba4b-f0fc4b9de9dd",
+        "slug": "u5e1d-u9e3f-u6c0f",
+        "name": "帝鸿氏",
+        "dynasty": "上古",
+        "names": [{"name": "帝鸿氏", "name_type": "alias"}]
+      },
+      "canonical_entity": {
+        "id": "3197e202-55e0-4eca-aa91-098d9de33bc9",
+        "slug": "huang-di",
+        "name": "黄帝",
+        "dynasty": "上古",
+        "names": [
+          {"name": "轩辕", "name_type": "primary"},
+          {"name": "黄帝", "name_type": "nickname"}
+        ]
+      },
+      "merge_rule": "R4-honorific-alias",
+      "confidence": 0.95,
+      "evidence": {
+        "category": "honorific_alias",
+        "reason": "帝鸿=黄帝 per 贾逵/杜预/服虔/张守节 unanimous gloss; 帝鸿 is an honorific title (鸿=grand) for 黄帝",
+        "sources": [
+          "裴骃《史记集解》引贾逵: '帝鸿，黄帝也'",
+          "杜预《春秋左传集解》: '帝鸿，黄帝'",
+          "张守节《史记正义》: '帝鸿，黄帝号也'",
+          "服虔《左传》注: '帝鸿，黄帝也'"
+        ],
+        "text_location": "五帝本纪 P24"
+      },
+      "db_changes": {
+        "persons_update": "SET merged_into_id = '3197e202...' WHERE id = '19ef3926...'",
+        "person_merge_log_insert": 1,
+        "person_names_insert": "帝鸿氏 as alias on canonical"
+      }
+    },
+    {
+      "action": "keep-independent",
+      "entity": {
+        "id": "ae47eddd-804b-4715-974a-d1eb99a19509",
+        "slug": "u7f19-u4e91-u6c0f",
+        "name": "缙云氏",
+        "dynasty": "上古"
+      },
+      "reason": "缙云氏 is '黄帝时官名' (杜预/贾逵 gloss), a subordinate clan, not 黄帝 himself. Parallel listing in P24 precludes dual identification.",
+      "db_changes": "none"
+    }
+  ],
+  "expected_result": {
+    "active_persons_before": 152,
+    "active_persons_after": 151,
+    "merge_log_rows_added": 1,
+    "person_names_added": 1
+  }
+}
