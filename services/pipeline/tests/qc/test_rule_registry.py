@@ -109,12 +109,13 @@ def test_empty_step_patterns_matches_every_step() -> None:
 def test_register_from_module_loads_rules_list() -> None:
     reg = RuleRegistry()
     reg.register_from_module(ner_rules)
-    # ner_rules exposes RULES with 2 entries — this is also a regression
+    # ner_rules exposes RULES with 3 entries — this is also a regression
     # guard against someone silently dropping a rule from that module.
-    assert len(reg) == 2
+    assert len(reg) == 3
     assert set(reg.rule_ids) == {
         "ner.surface_in_source",
         "ner.no_duplicate_entities",
+        "ner.single_primary_per_person",
     }
 
     # When aimed at a ner step, both rules fire and the surface rule
