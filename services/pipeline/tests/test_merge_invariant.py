@@ -57,6 +57,23 @@ async def test_v4_no_model_b_leakage(db_conn) -> None:
     )
 
 
+async def test_no_alias_with_is_primary_true(db_conn) -> None:
+    """V6: no person_name row should have name_type='alias' AND is_primary=true.
+
+    This combination is a semantic contradiction that leaks into GraphQL
+    as nameType=alias + isPrimary=true. All demotion paths (apply_merges,
+    load.py _enforce_single_primary) must sync is_primary with name_type.
+    See T-P0-016 / ADR-014 F5/F11.
+    """
+    count = await db_conn.fetchval(
+        "SELECT COUNT(*) FROM person_names WHERE name_type = 'alias' AND is_primary = true"
+    )
+    assert count == 0, (
+        f"V6 violated: {count} person_name row(s) have name_type='alias' AND "
+        f"is_primary=true (semantic contradiction)"
+    )
+
+
 async def test_no_active_but_merged(db_conn) -> None:
     """Every person with merged_into_id must also have deleted_at set.
 
