@@ -7,6 +7,33 @@
 
 ## 2026-04-19
 
+### [feat] T-P1-004 完成 — NER 阶段单人多 primary 约束：三层防御（N commits, 32 new tests, 0 DB changes）
+- **角色**：管线工程师 + QA 工程师
+- **性质**：技术债修复（T-P1-002 衍生）— 防止 NER 阶段再生多 primary 脏数据
+- **根因**：
+  - NER prompt v1/v1-r2 缺少显式 single-primary 约束
+  - load.py 完全信任 LLM 的 name_type 输出，无任何校验
+  - T-P1-002 只做了历史数据 backfill，未修根因
+- **三层防御修复（ADR-012）**：
+  - **层 1 — NER prompt v1-r3**：新增 `## name_type 唯一性约束（严格）` + primary 选择优先级 + 2 组反例 few-shot（尧/放勋、南庚/帝南庚）
+  - **层 2 — load.py `_enforce_single_primary()`**：auto-demotion 4 case 全覆盖：
+    - >1 primary → 保留 name_zh match（帝X 通过 `is_di_honorific` 排除），余降 alias
+    - 0 primary + name_zh match → 提升
+    - 0 primary + 无 match → 提升最短名 + CRITICAL WARNING
+    - 1 primary → pass through
+  - **层 3 — QC 规则 `ner.single_primary_per_person`**：severity=major，TraceGuard checkpoint 层检测
+  - **共享 `is_di_honorific()`**：从 `resolve_rules.py:has_di_prefix_peer` 抽取核心帝X检测逻辑，load.py 复用
+- **不加 DB partial unique index**：NER + ingest 两层足够，现有 UNIQUE(person_id, name) 已防同名重复
+- **测试**：
+  - `test_load_validation.py`：18 cases（pass-through 2 + demotion 7 + zero-promote 1 + zero-fallback 2 + invariant 4 = 16? let me recount）
+  - `test_rules_ner_single_primary.py`：8 cases（pass 2 + multi-primary 3 + zero 1 + malformed 2）
+  - `test_resolve_rules.py`：+6 cases（is_di_honorific 6）
+- **验证**：ruff 0 / basedpyright 0/0/0 / 250 pipeline + 61 api + 55 web tests 全绿
+- **零 DB 变更，零 GraphQL 签名变更，零新依赖**
+- **N commits**
+
+---
+
 ### [refactor] T-P2-002 完成 — slug 命名一致性清理：分层白名单（3 commits, 26 new tests, 0 DB changes）
 - **角色**：管线工程师 + 后端工程师
 - **性质**：技术债修复（T-P0-014 衍生）

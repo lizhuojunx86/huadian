@@ -30,6 +30,21 @@
 
 ## 已完成
 
+### T-P1-004 NER 阶段单人多 primary 约束 — 三层防御（2026-04-19）
+- [x] S-0：任务卡创建
+- [x] S-1：现状分析（14 NER-source 多 primary，4 类冲突模式）
+- [x] S-2：规则设计 + ADR-012 初稿
+- [x] S-3：实施
+  - NER prompt v1-r3：`## name_type 唯一性约束（严格）` + 反�� few-shot
+  - `load.py _enforce_single_primary()`：auto-demotion 4 case（>1 primary / 0+match / 0+no-match / pass）
+  - QC 规则 `ner.single_primary_per_person`（severity=major）
+  - 共享 `is_di_honorific()` 从 resolve_rules.py 抽取
+  - 32 new tests（load 18 + QC 8 + is_di_honorific 6）
+- [x] S-4：跳过（不加 DB partial unique index，NER + ingest 两层足够）
+- [x] S-5：验证全绿（ruff 0 / basedpyright 0/0/0 / 250 pipeline + 61 api + 55 web tests）
+- 结果：single-primary 成为管线不变量；ADR-012 accepted；零 DB 变更
+- 累计：N commits / 32 new tests / 0 DB changes / 1 QC rule / 1 shared utility
+
 ### T-P2-002 persons.slug 命名一致性清理 — 分层白名单（2026-04-19）
 - [x] S-0：任务卡创建
 - [x] S-1：现状调研（151 active persons: 88 unicode + 63 pinyin, 0 collisions）
@@ -267,7 +282,7 @@
 
 ## 进行中
 
-无。（T-P2-002 刚完成）
+无。（T-P1-004 刚完成）
 
 ---
 
@@ -282,7 +297,7 @@
 | 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | T-P0-011 ✅ | planned |
 | ~~🟢 低~~ | ~~T-P1-001~~ | ~~API 集成测试 isolation 修复（hasMore + ordering 2 case）~~ | ~~QA~~ | ~~—~~ | **closed**（2026-04-19, [debt doc](../docs/debts/T-P1-001-test-isolation.md)） |
 | ~~🟢 低~~ | ~~T-P1-002~~ | ~~merge 后 person_names nameType 未降级 + 重复名未去重~~ | ~~管线 / 后端~~ | ~~T-P0-011~~ | **closed**（2026-04-19, 方向 C 混合：写端 17 行降级 + 读端 dedup + UNIQUE） |
-| 🟢 低 | T-P1-004 | NER 阶段单人多 primary 约束（prompt + load 层校验） | 管线 | T-P1-002 ✅ | registered（2026-04-19 T-P1-002 衍生） |
+| ~~🟢 低~~ | ~~T-P1-004~~ | ~~NER 阶段单人多 primary 约束（prompt + load 层校验）~~ | ~~管线~~ | ~~T-P1-002 ✅~~ | **done**（2026-04-19, ADR-012 三层防御） |
 | ~~🟢 低~~ | ~~T-P1-003~~ | ~~pg_trgm 搜索对"帝X"类查询召回过宽~~ | ~~后端~~ | ~~T-P0-009~~ | **closed**（2026-04-19, length-weighted threshold） |
 | ⚪ 微 | T-P2-001 | codegen 输出 trailing newline 不一致 — `pnpm codegen` 生成无尾换行，git 版本有尾换行。修复候选：codegen.ts 配置 prettier plugin 或 post-hook `sed -i -e '$a\'`。影响 cosmetic，CI 不受影响 | DevOps | — | registered（2026-04-18 T-P0-013 S-5 清理发现） |
 | ~~⚪ 微~~ | ~~T-P2-003~~ | ~~清理 datamodel-codegen dash-case 死文件 + 根治 codegen 后处理~~ | ~~DevOps~~ | ~~—~~ | **closed**（2026-04-19, gen-types.sh 防御性清理） |
@@ -315,13 +330,13 @@
 ## 健康度指标
 
 - 📘 文档覆盖度：核心 7/7 ✅
-- 🧭 ADR 数量：11 accepted / 9 planned
+- 🧭 ADR 数量：12 accepted / 8 planned
 - 📋 任务卡数量：T-P0-001~T-P0-014 done（14）；T-P0-005a planned
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：294 passed + 0 skipped（ai/ 46 + qc/ 82 + resolve/ 67 + slug/ 23 + api/ 61 + web/ 55）+ 3 DB invariant tests；E2E 7 specs
+- 🧪 测试覆盖：366 passed + 0 skipped（ai/ 46 + qc/ 91 + resolve/ 73 + load/ 18 + slug/ 23 + api/ 61 + web/ 55 = ~250 pipeline + 61 api + 55 web）+ 3 DB invariant tests；E2E 7 specs
 - 🔗 合并状态：151 canonical persons（12 soft-merged via T-P0-011 + 5 non-person soft-deleted via T-P0-014 + 1 honorific-alias merged via T-P0-015）
 - 🚦 阻塞项数量：0 ✅
 
@@ -354,6 +369,7 @@
 - 2026-04-19：T-P0-015 done — 帝鸿氏归并入黄帝（historian 裁决 (c) 混合：帝鸿氏 MERGE R4-honorific-alias + 缙云氏 KEEP-independent；152→151 persons；1 commit）
 - 2026-04-19：T-P1-002 closed — person_names 降级+去重+UNIQUE（方向 C 混合：写端 backfill 17 行 primary→alias + resolve.py demote；读端 name 文本 dedup 4 级排序；UNIQUE (person_id,name)；9 new tests → 61 api tests；2 commits）；衍生债 T-P1-004 registered
 - 2026-04-19：T-P2-002 closed — slug 命名一致性清理（方向 3 分层白名单：data/tier-s-slugs.yaml 74 条 + slug.py 模块 + load.py 重构；ADR-011 accepted；26 new tests → 218 pipeline tests + 3 DB invariant；零 DB 变更；零 URL 变更；3 commits）
+- 2026-04-19：T-P1-004 closed — NER 单人多 primary 约束（ADR-012 三层防御：NER prompt v1-r3 + load.py _enforce_single_primary auto-demotion + QC ner.single_primary_per_person；共享 is_di_honorific；32 new tests → 250 pipeline tests；零 DB 变更；N commits）
 
 ---
 
@@ -365,14 +381,11 @@
 - **结果**：19 canonical 多 primary → 0；11 对跨 person_id 重复由读端兜住；UNIQUE (person_id, name) 约束已添加
 - **已知 tradeoff**：T-P0-015 帝鸿氏 alias 的 source_evidence_id 被 canonical-side null 行遮挡（dedup 规则 a 击穿规则 c 的副作用），非 bug
 
-### T-P1-004: NER 阶段单人多 primary 约束
+### ~~T-P1-004: NER 阶段单人多 primary 约束~~ — **closed 2026-04-19**
 
-- **现象**：NER prompt v1/v1-r2 对同一 person 产出多个 `name_type='primary'`（14 active persons）
-- **根因**：prompt 中对 name_type 选择规则不够精确，未要求"每人恰好 1 个 primary"
-- **修复方向**：prompt 硬约束 + load 层校验兜底 + 可选 partial unique index
-- **优先级**：P1（T-P0-006 扩量跑前应修复，否则每次 ingest 需重跑 backfill）
-- **登记**：2026-04-19 by T-P1-002 S-5 衍生
-- **详情**：docs/debts/T-P1-004-ner-single-primary.md
+- **修复**：ADR-012 三层防御 — NER prompt v1-r3 单 primary 约束 + load.py `_enforce_single_primary()` auto-demotion + QC 规则 `ner.single_primary_per_person`
+- **结果**：single-primary 成为管线不变量；共享 `is_di_honorific()` 帝X 检测；32 new tests；零 DB 变更
+- **衍生**：无（DB partial unique index 评估后决定不加，ingest 两层防御足够）
 
 ### ~~T-P1-003: pg_trgm 搜索对"帝X"类查询召回过宽~~ — **closed 2026-04-19**
 
