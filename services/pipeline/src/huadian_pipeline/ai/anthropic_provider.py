@@ -15,9 +15,11 @@ Retry strategy (Q-4):
 from __future__ import annotations
 
 import asyncio
+import dataclasses
 import logging
 import os
 import time
+import uuid
 from typing import Any
 
 import anthropic
@@ -170,12 +172,16 @@ class AnthropicGateway:
             )
 
             # --- Audit (best-effort) ---
-            await self._write_audit(
+            audit_row_id = await self._write_audit(
                 prompt=prompt,
                 response=llm_response,
                 checkpoint_result=checkpoint_result,
                 metadata=meta,
             )
+
+            # Backfill call_id from audit row (frozen dataclass → replace)
+            if audit_row_id is not None:
+                llm_response = dataclasses.replace(llm_response, call_id=str(audit_row_id))
 
             # --- Route checkpoint action ---
             action = checkpoint_result.action
@@ -366,12 +372,15 @@ class AnthropicGateway:
         response: LLMResponse,
         checkpoint_result: CheckpointResult,
         metadata: dict[str, object],
-    ) -> None:
-        """Write to llm_calls table. Failure does not block the response."""
+    ) -> uuid.UUID | None:
+        """Write to llm_calls table. Returns row ID on success, None on failure.
+
+        Failure does not block the response — audit is best-effort.
+        """
         if self._audit is None:
-            return
+            return None
         try:
-            await self._audit.write(
+            return await self._audit.write(
                 prompt=prompt,
                 response=response,
                 checkpoint_result=checkpoint_result,
@@ -383,3 +392,4 @@ class AnthropicGateway:
                 prompt.prompt_id,
                 prompt.version,
             )
+            return None
