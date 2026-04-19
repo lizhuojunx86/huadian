@@ -7,6 +7,30 @@
 
 ## 2026-04-19
 
+### [fix] T-P1-002 完成 — person_names 降级 + 去重 + UNIQUE 约束（2 commits, 9 new tests, 17 DB UPDATE, 1 migration）
+- **角色**：管线工程师 + 后端工程师
+- **性质**：技术债修复（T-P0-013 衍生 + T-P0-015 UNIQUE 衍生）
+- **根因**：
+  - merge 操作（resolve apply）只更新 `persons.merged_into_id`，不触碰 `person_names.name_type`，导致被合并方的 primary 未降级
+  - NER 抽取阶段 LLM 为同一 person 产出多个 primary（14 active persons）
+  - 同一 canonical group 内 canonical 与 merged person 持有相同 name 文本（11 对）
+- **方向 C（混合）修复**：
+  - **写端 — backfill**：按确定性规则级联择主（slug-rooted → 最短名 → created_at），17 行 `primary → alias`
+  - **写端 — resolve.py**：`apply_merges()` 新增 `UPDATE person_names SET name_type='alias' WHERE person_id=merged_id AND name_type='primary'`
+  - **写端 — schema**：Drizzle migration 0003 添加 `UNIQUE INDEX uq_person_names_person_name (person_id, name)`
+  - **读端 — person.service.ts**：`findPersonNamesWithMerged()` 按 name 文本去重，4 级排序：(a) canonical-side row → (b) merge_log.merged_at DESC → (c) source_evidence_id IS NOT NULL → (d) created_at ASC
+- **验证**：
+  - V1：0 persons with >1 primary ✅
+  - V2：尧(primary)/放勋(alias)、颛顼(primary)/高阳(alias)、汤(primary) 抽查正确 ✅
+  - V3：`uq_person_names_person_name` UNIQUE btree 已创建 ✅
+- **测试**：9 new integration tests（尧 dedup 3 + 黄帝 dedup 3 + priority 2 + findPersonNamesByPersonId 1），61 api tests 全绿
+- **已知 tradeoff**：T-P0-015 帝鸿氏 alias 的 source_evidence_id 被 canonical-side null 行遮挡（dedup 规则 a 击穿规则 c），非 bug
+- **衍生债**：T-P1-004（NER 单人多 primary 约束，docs/debts/T-P1-004-ner-single-primary.md）
+- **无新依赖，无 GraphQL 签名变更**
+- **2 commits**
+
+---
+
 ### [feat] T-P0-015 完成 — 帝鸿氏/缙云氏 Canonical 归并裁决：帝鸿氏 MERGE，缙云氏 KEEP（1 commit, 1 DB merge）
 - **角色**：古籍/历史专家（主导）+ 管线工程师（DB 查询）
 - **性质**：Phase 0 数据质量 — 实体归并裁决
