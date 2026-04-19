@@ -11,6 +11,7 @@ import {
   timestamp,
   boolean,
   index,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import {
@@ -76,6 +77,8 @@ export const personNames = pgTable("person_names", {
   // Drizzle doesn't support operator classes natively, so we use raw SQL
   index("idx_person_names_search").using("gin", sql`${table.name} gin_trgm_ops`),
   index("idx_person_names_person").on(table.personId),
+  // T-P1-002: prevent duplicate (person_id, name) pairs
+  uniqueIndex("uq_person_names_person_name").on(table.personId, table.name),
 ]);
 
 // ============================================================
