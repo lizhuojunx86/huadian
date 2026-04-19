@@ -41,6 +41,7 @@ class LLMResponse:
     prompt_hash: str
     input_hash: str
     extra: dict[str, Any] = field(default_factory=dict)
+    call_id: str | None = None  # llm_calls.id from audit writer; filled by AnthropicGateway
 
 
 class LLMGatewayError(Exception):
