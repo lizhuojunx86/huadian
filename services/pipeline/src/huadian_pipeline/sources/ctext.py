@@ -1,10 +1,14 @@
 """CText source adapter — loads classical Chinese texts from local fixtures.
 
-Phase 0 implementation: reads pre-downloaded texts from
-  services/pipeline/fixtures/sources/shiji/
-to avoid runtime network dependency on ctext.org.
+Phase 0 implementation: reads pre-downloaded texts from local fixture
+directories to avoid runtime network dependency on ctext.org.
+
+Fixture search order:
+  1. services/pipeline/fixtures/sources/         (runtime fixtures)
+  2. services/pipeline/tests/fixtures/sources/    (test / β-route fixtures)
 
 Follow-up: T-P1-XXX will implement a real ctext.org API adapter.
+Debt: T-P0-006-beta-ctext-filter.md (WebFetch content filter workaround).
 """
 
 from __future__ import annotations
@@ -12,14 +16,24 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 
-# Fixtures root relative to this file
-_FIXTURES_ROOT = Path(__file__).resolve().parents[3] / "fixtures" / "sources"
+# Pipeline package root: services/pipeline/
+_PIPELINE_ROOT = Path(__file__).resolve().parents[3]
 
-# Chapter registry: maps (book_slug, chapter_slug) → fixture filename
+# Fixture directories — checked in order; first hit wins.
+_FIXTURES_ROOTS: list[Path] = [
+    _PIPELINE_ROOT / "fixtures" / "sources",
+    _PIPELINE_ROOT / "tests" / "fixtures" / "sources",
+]
+
+# Chapter registry: maps (book_slug, chapter_slug) → fixture relative path
 _CHAPTER_REGISTRY: dict[tuple[str, str], str] = {
+    # ── 史记 ──
     ("shiji", "wu-di-ben-ji"): "shiji/wu_di_ben_ji.txt",
     ("shiji", "xia-ben-ji"): "shiji/xia_ben_ji.txt",
     ("shiji", "yin-ben-ji"): "shiji/yin_ben_ji.txt",
+    # ── 尚书（伪古文尚书分篇本，T-P0-006-β） ──
+    ("shangshu", "yao-dian"): "shangshu/yao_dian.txt",
+    ("shangshu", "shun-dian"): "shangshu/shun_dian.txt",
 }
 
 # Book metadata
@@ -30,10 +44,17 @@ _BOOK_META: dict[str, dict[str, str]] = {
         "author": "司马迁",
         "dynasty": "西汉",
     },
+    "shangshu": {
+        "title_zh": "尚书",
+        "title_en": "Book of Documents",
+        "author": "（传）孔安国传、孔颖达疏",
+        "dynasty": "先秦（伪古文尚书分篇本，十三经注疏本）",
+    },
 }
 
 # Chapter metadata: maps chapter_slug → display info
 _CHAPTER_META: dict[str, dict[str, str]] = {
+    # ── 史记 ──
     "wu-di-ben-ji": {
         "title_zh": "五帝本纪",
         "title_en": "Basic Annals of the Five Emperors",
@@ -48,6 +69,17 @@ _CHAPTER_META: dict[str, dict[str, str]] = {
         "title_zh": "殷本纪",
         "title_en": "Basic Annals of the Yin Dynasty",
         "volume": "卷三",
+    },
+    # ── 尚书 ──
+    "yao-dian": {
+        "title_zh": "尧典",
+        "title_en": "Canon of Yao",
+        "volume": "虞书",
+    },
+    "shun-dian": {
+        "title_zh": "舜典",
+        "title_en": "Canon of Shun",
+        "volume": "虞书",
     },
 }
 
@@ -119,7 +151,7 @@ def load_chapter(book_slug: str, chapter_slug: str) -> ChapterData:
             f"Available: {available}"
         )
 
-    fixture_path = _FIXTURES_ROOT / _CHAPTER_REGISTRY[key]
+    fixture_path = _resolve_fixture(_CHAPTER_REGISTRY[key])
     if not fixture_path.exists():
         raise FileNotFoundError(f"Fixture not found: {fixture_path}")
 
@@ -154,6 +186,16 @@ def load_chapter(book_slug: str, chapter_slug: str) -> ChapterData:
         dynasty=book_meta.get("dynasty", ""),
         paragraphs=rows,
     )
+
+
+def _resolve_fixture(relative_path: str) -> Path:
+    """Resolve a fixture file, searching _FIXTURES_ROOTS in order."""
+    for root in _FIXTURES_ROOTS:
+        candidate = root / relative_path
+        if candidate.exists():
+            return candidate
+    # Fall back to first root for clear error message
+    return _FIXTURES_ROOTS[0] / relative_path
 
 
 def _parse_paragraphs(raw: str) -> list[str]:
