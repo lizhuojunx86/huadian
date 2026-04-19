@@ -19,3 +19,4 @@ class ProvenanceTier(StrEnum):
     AI_INFERRED = "ai_inferred"
     CROWDSOURCED = "crowdsourced"
     UNVERIFIED = "unverified"
+    SEED_DICTIONARY = "seed_dictionary"
