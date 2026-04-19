@@ -357,6 +357,11 @@ async def _insert_person_names(
             break
 
     # Insert primary name (name_zh)
+    # T-P0-016 step 1b: is_primary must mirror name_type semantics.
+    # When _enforce_single_primary demotes name_zh to alias, the INSERT must
+    # reflect is_primary=false. Previously hardcoded `true` produced V6 violations
+    # (5 active samples observed: fu-yue / shen-nong-shi / 少暤氏 / 缙云氏 / 微子启).
+    is_primary_value = primary_name_type == "primary"
     if person.name_zh not in seen_names:
         existing = await conn.fetchval(
             "SELECT id FROM person_names WHERE person_id = $1 AND name = $2",
@@ -367,12 +372,13 @@ async def _insert_person_names(
             await conn.execute(
                 """
                 INSERT INTO person_names (id, person_id, name, name_type, is_primary)
-                VALUES ($1, $2, $3, $4::name_type, true)
+                VALUES ($1, $2, $3, $4::name_type, $5)
                 """,
                 str(uuid.uuid4()),
                 person_id,
                 person.name_zh,
                 primary_name_type,
+                is_primary_value,
             )
             inserted += 1
         seen_names.add(person.name_zh)
