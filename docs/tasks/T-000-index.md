@@ -27,6 +27,7 @@
 ## 已完成
 | 任务 ID | 标题 | 完成日期 | 主导角色 |
 |---------|------|---------|---------|
+| T-P0-006-β | [《尚书·尧典+舜典》摄入](T-P0-006-beta-shangshu.md)（β 跨书归并压力测试；R3 tongjia 端到端 ✅；ADR-013/014；153 active persons；$0.28；11 followup debts） | 2026-04-19 | 管线 + historian + 架构师 |
 | T-P1-004 | NER 单人多 primary 约束（ADR-012 三层防御：prompt + ingest + QC；32 tests；4 commits；tip a50c2f9） | 2026-04-19 | 管线 + QA |
 | T-P2-002 | persons.slug 命名一致性（方向 3 分层白名单：tier-s-slugs.yaml 74 条 + slug.py + ADR-011；26 tests + 3 invariant） | 2026-04-19 | 管线 + 后端 |
 | T-P1-002 | person_names 降级+去重+UNIQUE（方向 C 混合：backfill 17 行 + resolve.py demote + 读端 dedup；9 tests） | 2026-04-19 | 管线 + 后端 |

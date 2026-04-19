@@ -7,6 +7,41 @@
 
 ## 2026-04-19
 
+### [feat] T-P0-006-β 完成 — 《尚书·尧典 + 舜典》ingest（跨书 identity 压力测试）
+
+- **角色**：管线工程师 + 古籍/历史专家 + 架构师
+- **性质**：β 路线首次跨书、跨体裁摄入（典谟体 vs 纪传体）
+
+#### Added
+- T-P0-006-β: 《尚书·尧典 + 舜典》ingest（27 段 / 1700 字 / $0.28 NER 成本）
+- ADR-013: persons.slug partial unique index (WHERE deleted_at IS NULL)
+- ADR-014: canonical merge execution model (names-stay + read-side aggregation)
+- NER prompt v1-r4: 帝/代称 surface 排除 + X作Y 官名排除 + 羲和合称排除
+- load.py: `_PRONOUN_BLACKLIST` + `_filter_pronoun_surfaces`（L2 pronoun defense）
+- extract.py: `_extract_last_json_array`（LLM 自我纠正输出解析）
+- AnthropicGateway: prompt caching（`cache_control: ephemeral`，per-segment 成本 -79%）
+- QC V4 invariant: no model-B leakage（`test_merge_invariant.py`）
+- v1-r3 regression fixture（`v1-r3-yao-dian-polluted.json`）
+
+#### Fixed
+- T-P0-015: 帝鸿氏 partial-merge leak（merged_into_id set without deleted_at）
+- 帝 pronoun surface pollution（v1-r4 prompt + load.py blacklist 双保险）
+- persons.slug 全表 UNIQUE → partial（排除 soft-deleted，修 ADR-013）
+
+#### Debt Registered
+- F5/F11: is_primary not demoted on merge（P0-followup）
+- F10: α merge source primary not demoted（P1-followup）
+- F8: source_evidence_id 全表 NULL（P0-followup，blocks α 扩量）
+- F9: NER output 不落盘（P1-followup）
+- 全部 11 条 followups 见 `docs/debts/T-P0-006-beta-followups.md`
+
+#### 关键里程碑
+- **R3 tongjia 跨书触发端到端验证通过**（垂→倕，尚书→史记）
+- **S-5 model-B 误用 → rollback + model-A rerun**（ADR-014 诞生的直接原因）
+- **153 active persons**（151α + 5β new - 3 merged）；2 new（殳斨 / 伯与）
+
+---
+
 ### [fix] CI 基建修复 — pipeline SQL 迁移在 CI 未应用（2 commits, T-P1-005 衍生债登记）
 - **角色**：DevOps + 管线工程师
 - **性质**：CI 红灯修复（T-P1-002 / T-P2-002 落地后 origin/main 红灯）
