@@ -30,6 +30,21 @@
 
 ## 已完成
 
+### T-P2-002 persons.slug 命名一致性清理 — 分层白名单（2026-04-19）
+- [x] S-0：任务卡创建
+- [x] S-1：现状调研（151 active persons: 88 unicode + 63 pinyin, 0 collisions）
+- [x] S-2：方向裁决 → 方向 3（分层白名单：Tier-S pinyin + unicode fallback）
+- [x] S-3：实施
+  - `data/tier-s-slugs.yaml`（74 条 Tier-S 白名单，含治理规则注释）
+  - `services/pipeline/src/huadian_pipeline/slug.py`（generate_slug / unicode_slug / classify_slug）
+  - `load.py` 重构（删除 `_PINYIN_MAP` + `_generate_slug`，改用 slug 模块）
+  - ADR-011 accepted（分层白名单决策 + 扩列治理 + 不变量保证）
+  - 23 unit tests（test_slug.py）+ 3 invariant tests（test_slug_invariant.py）
+- [x] S-4：跳过（方向 3 无 DB 变更）
+- [x] S-5：验证全绿（ruff 0 / basedpyright 0/0/0 / 218 pipeline + 61 api + 55 web tests）
+- 结果：slug 规则明文化为 YAML 白名单；不变量测试 CI 保证；零 DB 变更；零 URL 变更
+- 累计：3 commits / 26 new tests / 0 DB changes / 1 new dependency (pyyaml) / ADR-011
+
 ### T-P1-002 person_names 降级 + 去重 + UNIQUE 约束（2026-04-19）
 - [x] S-0：任务卡创建
 - [x] S-1：现状调研（17 person_id 多 primary + 11 对跨 person_id 重复 + 0 per-person_id 重复）
@@ -252,7 +267,7 @@
 
 ## 进行中
 
-无。等待用户选择下一任务。（T-P1-002 刚完成）
+无。（T-P2-002 刚完成）
 
 ---
 
@@ -293,19 +308,20 @@
 - `ADR-007` — Monorepo 布局与包管理（pnpm + uv + Turborepo）
 - `ADR-008` — License 策略（GraphQL Book.license `CC_BY` 规范化 + workspace 包 `UNLICENSED`）
 - `ADR-009` — Person sourceEvidenceId Traceability（Traceable 接口 `sourceEvidenceId` nullable 放宽；R-1 修订）
+- `ADR-011` — Person Slug Naming Scheme — Tiered Whitelist（方向 3：Tier-S pinyin + unicode fallback；扩列治理；不变量测试）
 
 ---
 
 ## 健康度指标
 
 - 📘 文档覆盖度：核心 7/7 ✅
-- 🧭 ADR 数量：10 accepted / 9 planned
+- 🧭 ADR 数量：11 accepted / 9 planned
 - 📋 任务卡数量：T-P0-001~T-P0-014 done（14）；T-P0-005a planned
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：268 passed + 0 skipped（ai/ 46 + qc/ 82 + resolve/ 67 + api/ 61 + web/ 55）；E2E 7 specs
+- 🧪 测试覆盖：294 passed + 0 skipped（ai/ 46 + qc/ 82 + resolve/ 67 + slug/ 23 + api/ 61 + web/ 55）+ 3 DB invariant tests；E2E 7 specs
 - 🔗 合并状态：151 canonical persons（12 soft-merged via T-P0-011 + 5 non-person soft-deleted via T-P0-014 + 1 honorific-alias merged via T-P0-015）
 - 🚦 阻塞项数量：0 ✅
 
@@ -337,6 +353,7 @@
 - 2026-04-19：T-P2-003 closed — 清理 datamodel-codegen dash-case 死文件（5 untracked files 删除 + gen-types.sh 防御性 find-delete 兜底；1 commit）
 - 2026-04-19：T-P0-015 done — 帝鸿氏归并入黄帝（historian 裁决 (c) 混合：帝鸿氏 MERGE R4-honorific-alias + 缙云氏 KEEP-independent；152→151 persons；1 commit）
 - 2026-04-19：T-P1-002 closed — person_names 降级+去重+UNIQUE（方向 C 混合：写端 backfill 17 行 primary→alias + resolve.py demote；读端 name 文本 dedup 4 级排序；UNIQUE (person_id,name)；9 new tests → 61 api tests；2 commits）；衍生债 T-P1-004 registered
+- 2026-04-19：T-P2-002 closed — slug 命名一致性清理（方向 3 分层白名单：data/tier-s-slugs.yaml 74 条 + slug.py 模块 + load.py 重构；ADR-011 accepted；26 new tests → 218 pipeline tests + 3 DB invariant；零 DB 变更；零 URL 变更；3 commits）
 
 ---
 
@@ -362,10 +379,8 @@
 - **修复**：length-weighted similarity threshold（≤2 chars: 0.5, 3 chars: 0.4, 4+ chars: 0.3）+ aliasSubstringSearch fallback
 - **结果**：F1 95.6%→100%，3 disallowed violations→0，30 条黄金集全部通过
 
-### T-P2-002: persons.slug 命名不一致（pre-u-prefix 遗留: long 等）
+### ~~T-P2-002: persons.slug 命名不一致~~ — **closed 2026-04-19**
 
-- **现象**：大部分人物 slug 是 unicode fallback（`u4e2d-u4e01`），少数为 pinyin（`long`/`tang`/`yao`）；pinyin slug 在 NER 时由 LLM 直接产出，规则不一致
-- **影响**：cosmetic + slug 可预测性差，未来 URL 稳定性风险
-- **修复方向**：统一 slug 生成策略（全 pinyin 或全 unicode），做一次性批量 rename + redirect 映射
-- **优先级**：P2（不阻塞功能，留作后续批次清理）
-- **登记**：2026-04-18 by T-P0-014 historian KEEP 决策（龙 slug=long）
+- **修复**：方向 3（分层白名单）— Tier-S 人物用 pinyin slug（74 条白名单 `data/tier-s-slugs.yaml`），其余用 unicode hex fallback
+- **结果**：slug 规则明文化；`slug.py` 模块化生成；不变量测试 CI 保证；零 DB 变更；零 URL 变更
+- **治理**：新增白名单条目必须附带 ADR/CHANGELOG 记录（ADR-011）

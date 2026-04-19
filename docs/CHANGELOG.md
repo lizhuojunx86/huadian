@@ -7,6 +7,29 @@
 
 ## 2026-04-19
 
+### [refactor] T-P2-002 完成 — slug 命名一致性清理：分层白名单（3 commits, 26 new tests, 0 DB changes）
+- **角色**：管线工程师 + 后端工程师
+- **性质**：技术债修复（T-P0-014 衍生）
+- **背景**：
+  - persons.slug 存在两种格式并存：63 个 pinyin（来自 `_PINYIN_MAP` 硬编码）+ 88 个 unicode hex（fallback）
+  - 原先怀疑 LLM 偶发产 pinyin 的假设不成立 — 全部来自 load.py 的 `_PINYIN_MAP`
+  - 真正问题是"两套规则并存但未明文化"
+- **方向 3（分层白名单）修复**：
+  - **`data/tier-s-slugs.yaml`**：74 条 Tier-S 白名单（含治理规则头部注释）
+  - **`services/pipeline/src/huadian_pipeline/slug.py`**：slug 生成模块（generate_slug / unicode_slug / classify_slug / get_tier_s_whitelist）
+  - **`load.py` 重构**：删除 `_PINYIN_MAP`（58 条）+ `_generate_slug()` 函数，改用 `from .slug import generate_slug`
+  - **ADR-011 accepted**：分层白名单决策 + 扩列治理规则 + 不变量保证
+  - **`pyproject.toml`**：新增 pyyaml>=6.0 依赖
+- **扩列治理**：新增白名单条目必须附带 ADR 或 CHANGELOG 记录
+- **测试**：
+  - `test_slug.py`：23 cases（whitelist 5 + unicode 6 + generate 6 + classify 6）
+  - `test_slug_invariant.py`：3 cases（DB-level ADR-011 不变量断言，需 DATABASE_URL）
+- **验证**：ruff 0 errors / basedpyright 0/0/0 / 218 pipeline tests / 61 api tests / 55 web tests 全绿
+- **零 DB 变更，零 URL 变更**
+- **3 commits**
+
+---
+
 ### [fix] T-P1-002 完成 — person_names 降级 + 去重 + UNIQUE 约束（2 commits, 9 new tests, 17 DB UPDATE, 1 migration）
 - **角色**：管线工程师 + 后端工程师
 - **性质**：技术债修复（T-P0-013 衍生 + T-P0-015 UNIQUE 衍生）
