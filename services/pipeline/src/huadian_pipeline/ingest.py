@@ -81,10 +81,17 @@ async def _upsert_book(conn: Any, chapter: ChapterData) -> str:
     if chapter.book_title_en:
         title_json["en"] = f"{chapter.book_title_en} - {chapter.title_en}"
 
+    metadata = {
+        "author": chapter.author,
+        "volume": chapter.volume,
+        "source_url": chapter.source_url,
+        **chapter.extra_metadata,
+    }
+
     row = await conn.fetchrow(
         """
         INSERT INTO books (id, title, dynasty, genre, credibility_tier, license, slug, metadata)
-        VALUES ($1, $2::jsonb, $3, 'official_history', 'primary_official', 'public_domain', $4, $5::jsonb)
+        VALUES ($1, $2::jsonb, $3, $4::book_genre, 'primary_official', 'public_domain', $5, $6::jsonb)
         ON CONFLICT (slug) DO UPDATE SET
             title = EXCLUDED.title,
             updated_at = NOW()
@@ -93,14 +100,9 @@ async def _upsert_book(conn: Any, chapter: ChapterData) -> str:
         str(uuid.uuid4()),
         _to_json(title_json),
         chapter.dynasty,
+        chapter.genre,
         book_slug,
-        _to_json(
-            {
-                "author": chapter.author,
-                "volume": chapter.volume,
-                "source_url": chapter.source_url,
-            }
-        ),
+        _to_json(metadata),
     )
     assert row is not None, "INSERT ... RETURNING should always return a row"
     return str(row["id"])

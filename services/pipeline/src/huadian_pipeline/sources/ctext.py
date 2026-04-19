@@ -49,6 +49,8 @@ _BOOK_META: dict[str, dict[str, str]] = {
         "title_en": "Book of Documents",
         "author": "（传）孔安国传、孔颖达疏",
         "dynasty": "先秦（伪古文尚书分篇本，十三经注疏本）",
+        "genre": "classic",
+        "version_note": "伪古文尚书（十三经注疏本）",
     },
 }
 
@@ -111,6 +113,8 @@ class ChapterData:
     author: str
     dynasty: str
     paragraphs: list[RawTextRow] = field(default_factory=list)
+    genre: str = "official_history"
+    extra_metadata: dict[str, str] = field(default_factory=dict)
 
     @property
     def source_url(self) -> str:
@@ -174,6 +178,10 @@ def load_chapter(book_slug: str, chapter_slug: str) -> ChapterData:
         for i, para in enumerate(paragraphs)
     ]
 
+    # Collect extra metadata keys (anything not consumed as a named field)
+    _standard_keys = {"title_zh", "title_en", "author", "dynasty", "genre"}
+    extra = {k: v for k, v in book_meta.items() if k not in _standard_keys}
+
     return ChapterData(
         book_slug=book_slug,
         chapter_slug=chapter_slug,
@@ -185,6 +193,8 @@ def load_chapter(book_slug: str, chapter_slug: str) -> ChapterData:
         author=book_meta.get("author", ""),
         dynasty=book_meta.get("dynasty", ""),
         paragraphs=rows,
+        genre=book_meta.get("genre", "official_history"),
+        extra_metadata=extra,
     )
 
 
