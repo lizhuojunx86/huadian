@@ -7,7 +7,23 @@
 
 ## 2026-04-19
 
-### [feat] T-P1-004 完成 — NER 阶段单人多 primary 约束：三层防御（N commits, 32 new tests, 0 DB changes）
+### [fix] CI 基建修复 — pipeline SQL 迁移在 CI 未应用（2 commits, T-P1-005 衍生债登记）
+- **角色**：DevOps + 管线工程师
+- **性质**：CI 红灯修复（T-P1-002 / T-P2-002 落地后 origin/main 红灯）
+- **根因**：
+  - `pnpm --filter @huadian/api db:migrate` 只跑 Drizzle 迁移；`services/pipeline/migrations/*.sql` 下的 pipeline 独占表（`person_merge_log`、`idx_persons_merged_into`）从未在 CI 应用
+  - 本地开发习惯手工 `psql -f` 掩盖了漏洞；CI #76/#77 跑 `person-names-dedup.integration.test.ts` 的 `INSERT INTO person_merge_log` 直接爆 "relation does not exist"
+  - `test_slug_count_sanity` 硬断言 ≥100 active persons，CI DB 为 schema-only（0 persons）必挂（#78 红）
+- **修复**：
+  - **ci.yml Step 4c**（b55beb8）：在 Step 4b 之后 for-loop 按文件名顺序 `psql -v ON_ERROR_STOP=1 -f` 应用 `services/pipeline/migrations/*.sql`；所有 pipeline 迁移幂等（IF NOT EXISTS / 定点 WHERE / UUID 级 DELETE）安全
+  - **test_slug_count_sanity**（0a4aa78）：空 DB 时 `pytest.skip()` 兜底，保留 populated 环境的意外批删防护
+- **验证**：CI #79 全绿（ci + docker-smoke + secret-scan 三路）；CI #80 在 T-P1-004 rebase tip 上全绿
+- **衍生债**：**T-P1-005** — 统一 migration 入口（Drizzle + pipeline SQL 双轨合一），P1，详见 `docs/tasks/T-P1-005-unify-migration-entrypoint.md`
+- **2 commits**（b55beb8 fix(ci) + 0a4aa78 test(T-P2-002)）
+
+---
+
+### [feat] T-P1-004 完成 — NER 阶段单人多 primary 约束：三层防御（4 commits, 32 new tests, 0 DB changes）
 - **角色**：管线工程师 + QA 工程师
 - **性质**：技术债修复（T-P1-002 衍生）— 防止 NER 阶段再生多 primary 脏数据
 - **根因**：
@@ -30,7 +46,7 @@
   - `test_resolve_rules.py`：+6 cases（is_di_honorific 6）
 - **验证**：ruff 0 / basedpyright 0/0/0 / 250 pipeline + 61 api + 55 web tests 全绿
 - **零 DB 变更，零 GraphQL 签名变更，零新依赖**
-- **N commits**
+- **4 commits**（074667d prompt → 48f3c59 ingest + QC → eea36dc tests → a50c2f9 docs；rebase 后 tip = a50c2f9）
 
 ---
 

@@ -43,7 +43,7 @@
 - [x] S-4：跳过（不加 DB partial unique index，NER + ingest 两层足够）
 - [x] S-5：验证全绿（ruff 0 / basedpyright 0/0/0 / 250 pipeline + 61 api + 55 web tests）
 - 结果：single-primary 成为管线不变量；ADR-012 accepted；零 DB 变更
-- 累计：N commits / 32 new tests / 0 DB changes / 1 QC rule / 1 shared utility
+- 累计：4 commits / 32 new tests / 0 DB changes / 1 QC rule / 1 shared utility
 
 ### T-P2-002 persons.slug 命名一致性清理 — 分层白名单（2026-04-19）
 - [x] S-0：任务卡创建
@@ -299,6 +299,7 @@
 | ~~🟢 低~~ | ~~T-P1-002~~ | ~~merge 后 person_names nameType 未降级 + 重复名未去重~~ | ~~管线 / 后端~~ | ~~T-P0-011~~ | **closed**（2026-04-19, 方向 C 混合：写端 17 行降级 + 读端 dedup + UNIQUE） |
 | ~~🟢 低~~ | ~~T-P1-004~~ | ~~NER 阶段单人多 primary 约束（prompt + load 层校验）~~ | ~~管线~~ | ~~T-P1-002 ✅~~ | **done**（2026-04-19, ADR-012 三层防御） |
 | ~~🟢 低~~ | ~~T-P1-003~~ | ~~pg_trgm 搜索对"帝X"类查询召回过宽~~ | ~~后端~~ | ~~T-P0-009~~ | **closed**（2026-04-19, length-weighted threshold） |
+| 🟡 中 | T-P1-005 | 统一 migration 入口 — `pnpm db:migrate` / `db:reset` 自动串联 pipeline SQL 迁移（services/pipeline/migrations/*.sql），消除 CI Step 4c 临时 workaround；Drizzle 迁移 + pipeline raw SQL 单入口治理 | DevOps + 后端 | — | registered（2026-04-19 CI 红灯修复衍生） |
 | ⚪ 微 | T-P2-001 | codegen 输出 trailing newline 不一致 — `pnpm codegen` 生成无尾换行，git 版本有尾换行。修复候选：codegen.ts 配置 prettier plugin 或 post-hook `sed -i -e '$a\'`。影响 cosmetic，CI 不受影响 | DevOps | — | registered（2026-04-18 T-P0-013 S-5 清理发现） |
 | ~~⚪ 微~~ | ~~T-P2-003~~ | ~~清理 datamodel-codegen dash-case 死文件 + 根治 codegen 后处理~~ | ~~DevOps~~ | ~~—~~ | **closed**（2026-04-19, gen-types.sh 防御性清理） |
 
@@ -323,7 +324,9 @@
 - `ADR-007` — Monorepo 布局与包管理（pnpm + uv + Turborepo）
 - `ADR-008` — License 策略（GraphQL Book.license `CC_BY` 规范化 + workspace 包 `UNLICENSED`）
 - `ADR-009` — Person sourceEvidenceId Traceability（Traceable 接口 `sourceEvidenceId` nullable 放宽；R-1 修订）
+- `ADR-010` — 跨 chunk 身份消歧（5 规则评分函数 + 字典 + soft merge + 可逆性）
 - `ADR-011` — Person Slug Naming Scheme — Tiered Whitelist（方向 3：Tier-S pinyin + unicode fallback；扩列治理；不变量测试）
+- `ADR-012` — NER 单人多 primary 约束三层防御（prompt + ingest auto-demotion + QC rule）
 
 ---
 
@@ -369,7 +372,8 @@
 - 2026-04-19：T-P0-015 done — 帝鸿氏归并入黄帝（historian 裁决 (c) 混合：帝鸿氏 MERGE R4-honorific-alias + 缙云氏 KEEP-independent；152→151 persons；1 commit）
 - 2026-04-19：T-P1-002 closed — person_names 降级+去重+UNIQUE（方向 C 混合：写端 backfill 17 行 primary→alias + resolve.py demote；读端 name 文本 dedup 4 级排序；UNIQUE (person_id,name)；9 new tests → 61 api tests；2 commits）；衍生债 T-P1-004 registered
 - 2026-04-19：T-P2-002 closed — slug 命名一致性清理（方向 3 分层白名单：data/tier-s-slugs.yaml 74 条 + slug.py 模块 + load.py 重构；ADR-011 accepted；26 new tests → 218 pipeline tests + 3 DB invariant；零 DB 变更；零 URL 变更；3 commits）
-- 2026-04-19：T-P1-004 closed — NER 单人多 primary 约束（ADR-012 三层防御：NER prompt v1-r3 + load.py _enforce_single_primary auto-demotion + QC ner.single_primary_per_person；共享 is_di_honorific；32 new tests → 250 pipeline tests；零 DB 变更；N commits）
+- 2026-04-19：T-P1-004 closed — NER 单人多 primary 约束（ADR-012 三层防御：NER prompt v1-r3 + load.py _enforce_single_primary auto-demotion + QC ner.single_primary_per_person；共享 is_di_honorific；32 new tests → 250 pipeline tests；零 DB 变更；4 commits；tip a50c2f9）
+- 2026-04-19：CI 基建修复 — 堵上 pipeline SQL 迁移在 CI 未应用的漏洞（person_merge_log 不存在触发 #76/#77 红灯），ci.yml 新增 Step 4c 按文件名顺序 psql -f 跑 `services/pipeline/migrations/*.sql`；`test_slug_count_sanity` 加 `pytest.skip()` 兜底空 DB 环境（#78 红灯修复）；2 commits（b55beb8 + 0a4aa78）；#79 全绿；T-P1-004 rebase 上推 #80 全绿；衍生债 T-P1-005 registered
 
 ---
 
@@ -397,3 +401,16 @@
 - **修复**：方向 3（分层白名单）— Tier-S 人物用 pinyin slug（74 条白名单 `data/tier-s-slugs.yaml`），其余用 unicode hex fallback
 - **结果**：slug 规则明文化；`slug.py` 模块化生成；不变量测试 CI 保证；零 DB 变更；零 URL 变更
 - **治理**：新增白名单条目必须附带 ADR/CHANGELOG 记录（ADR-011）
+
+### T-P1-005: 统一 migration 入口（Drizzle + pipeline SQL 双轨合一）— **registered 2026-04-19**
+
+- **现状**：`pnpm db:migrate` 只跑 Drizzle 迁移（`services/api/src/db-migrate.ts`）；pipeline 独占表（`person_merge_log`、`idx_persons_merged_into` 等）存活在 `services/pipeline/migrations/*.sql`，需手工 `psql -f` 应用
+- **触发事件**：CI #76/#77 因 `person_merge_log does not exist` 红灯 — pipeline SQL 迁移在 CI 从未被应用，本地依赖手工执行掩盖了漏洞；临时通过 ci.yml Step 4c for-loop 应用修复（b55beb8）
+- **问题**：两个入口 + 两种执行习惯 → 环境漂移（local dev / CI / prod 可能各异）；db:reset 无法保证全量 schema
+- **修复候选**：
+  1. `pnpm db:migrate` 脚本末尾追加 pipeline SQL 应用步骤（简单、显式）
+  2. 迁移 pipeline SQL → Drizzle 管理（需把 `person_merge_log` 等搬入 Drizzle schema，但破坏"pipeline 独占"边界）
+  3. 引入统一 migration runner（如 sqitch/flyway）同时管理两侧（重）
+- **建议**：方向 1（追加步骤）+ 保留 pipeline SQL 作为幂等补丁源
+- **影响**：本地 `pnpm db:reset` / `db:migrate` 全量正确；CI Step 4c 可退化为 `pnpm db:migrate` 一句；新人 onboarding 不再踩手工 psql 坑
+- **优先级**：P1 — 不阻塞 β 路线，但 T-P0-006（扩量跑）开始前建议闭环
