@@ -437,6 +437,7 @@ dependencies = [
     { name = "anthropic" },
     { name = "asyncpg" },
     { name = "pipeline-guardian" },
+    { name = "pyyaml" },
 ]
 
 [package.dev-dependencies]
@@ -454,6 +455,7 @@ requires-dist = [
     { name = "anthropic", specifier = ">=0.40.0" },
     { name = "asyncpg", specifier = ">=0.29" },
     { name = "pipeline-guardian", git = "https://github.com/lizhuojunx86/traceguard.git?rev=v0.1.0-huadian-baseline" },
+    { name = "pyyaml", specifier = ">=6.0" },
 ]
 
 [package.metadata.requires-dev]
