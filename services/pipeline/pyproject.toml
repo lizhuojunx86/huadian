@@ -11,6 +11,8 @@ dependencies = [
     "asyncpg>=0.29",
     # Anthropic SDK — LLM Gateway provider (T-P0-005, architect-approved)
     "anthropic>=0.40.0",
+    # YAML parser for Tier-S slug whitelist (T-P2-002, ADR-011)
+    "pyyaml>=6.0",
 ]
 
 [project.scripts]

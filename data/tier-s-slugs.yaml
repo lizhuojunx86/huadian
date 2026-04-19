@@ -1,0 +1,104 @@
+# ============================================================
+# Tier-S Pinyin Slug Whitelist — 华典智谱
+# ============================================================
+#
+# This file is the SINGLE SOURCE OF TRUTH for pinyin slug mappings.
+# Names listed here get pinyin slugs; all others get unicode fallback.
+#
+# GOVERNANCE RULES (ADR-011):
+#   1. Adding a new entry MUST be recorded in docs/CHANGELOG.md
+#      or an ADR, with justification for why this person is Tier-S.
+#   2. Do NOT commit changes to this file without documentation.
+#   3. Entries should only be added for well-known historical figures
+#      whose pinyin is unambiguous and collision-free.
+#   4. Before adding: verify no slug collision with existing entries.
+#
+# FORMAT:
+#   Chinese name (zh-Hans) → pinyin slug (lowercase, hyphen-separated)
+#
+# INVARIANT (enforced by CI):
+#   Every persons.slug in the DB is either:
+#     (a) a value in this whitelist, OR
+#     (b) matches ^u[0-9a-f]{4}(-u[0-9a-f]{4})*$
+#   Anything else is a bug.
+# ============================================================
+
+# --- 五帝本纪 ---
+黄帝: huang-di
+炎帝: yan-di
+蚩尤: chi-you
+神农氏: shen-nong-shi
+少典: shao-dian
+嫘祖: lei-zu
+玄嚣: xuan-xiao
+昌意: chang-yi
+颛顼: zhuan-xu
+帝喾: di-ku
+帝尧: di-yao
+尧: yao
+帝舜: di-shun
+舜: shun
+禹: yu
+鲧: gun
+皋陶: gao-yao
+契: xie
+后稷: hou-ji
+伯夷: bo-yi
+夔: kui
+龙: long
+倕: chui
+益: yi
+彭祖: peng-zu
+丹朱: dan-zhu
+商均: shang-jun
+瞽叟: gu-sou
+象: xiang
+放勋: fang-xun
+重华: chong-hua
+高阳: gao-yang
+高辛: gao-xin
+穷蝉: qiong-chan
+敬康: jing-kang
+句望: gou-wang
+桥牛: qiao-niu
+蟜极: jiao-ji
+风后: feng-hou
+力牧: li-mu
+常先: chang-xian
+大鸿: da-hong
+羲仲: xi-zhong
+羲叔: xi-shu
+和仲: he-zhong
+和叔: he-shu
+放齐: fang-qi
+欢兜: huan-dou
+共工: gong-gong
+昌仆: chang-pu
+挚: zhi
+
+# --- 夏本纪 ---
+启: qi
+太康: tai-kang
+中康: zhong-kang
+少康: shao-kang
+孔甲: kong-jia
+桀: jie
+刘累: liu-lei
+
+# --- 殷本纪 ---
+成汤: cheng-tang
+汤: tang
+伊尹: yi-yin
+太甲: tai-jia
+盘庚: pan-geng
+武丁: wu-ding
+傅说: fu-yue
+纣: zhou-xin
+帝辛: di-xin
+妲己: da-ji
+比干: bi-gan
+微子启: wei-zi-qi
+箕子: ji-zi
+西伯昌: xi-bo-chang
+武王: wu-wang
+简狄: jian-di

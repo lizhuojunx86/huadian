@@ -2,14 +2,13 @@
 
 Handles:
   1. Deduplicate persons across chunks (merge by name_zh)
-  2. Generate slugs from name
+  2. Generate slugs from name (via slug module, ADR-011)
   3. Upsert into persons / person_names tables
 """
 
 from __future__ import annotations
 
 import logging
-import re
 import uuid
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
@@ -18,6 +17,7 @@ if TYPE_CHECKING:
     import asyncpg
 
 from .extract import ExtractedPerson, SurfaceForm
+from .slug import generate_slug
 
 logger = logging.getLogger(__name__)
 
@@ -87,7 +87,7 @@ def merge_persons(persons: list[ExtractedPerson]) -> list[MergedPerson]:
         else:
             by_name[key] = MergedPerson(
                 name_zh=key,
-                slug=_generate_slug(key),
+                slug=generate_slug(key),
                 surface_forms=list(p.surface_forms),
                 dynasty=p.dynasty,
                 reality_status=p.reality_status,
@@ -254,105 +254,3 @@ async def _insert_person_names(
         seen_names.add(sf.text)
 
     return inserted
-
-
-# Simple pinyin mapping for common historical names (Phase 0).
-# Production should use pypinyin or similar.
-_PINYIN_MAP: dict[str, str] = {
-    "黄帝": "huang-di",
-    "炎帝": "yan-di",
-    "蚩尤": "chi-you",
-    "神农氏": "shen-nong-shi",
-    "少典": "shao-dian",
-    "嫘祖": "lei-zu",
-    "玄嚣": "xuan-xiao",
-    "昌意": "chang-yi",
-    "颛顼": "zhuan-xu",
-    "帝喾": "di-ku",
-    "帝尧": "di-yao",
-    "尧": "yao",
-    "帝舜": "di-shun",
-    "舜": "shun",
-    "禹": "yu",
-    "鲧": "gun",
-    "皋陶": "gao-yao",
-    "契": "xie",
-    "后稷": "hou-ji",
-    "伯夷": "bo-yi",
-    "夔": "kui",
-    "龙": "long",
-    "倕": "chui",
-    "益": "yi",
-    "彭祖": "peng-zu",
-    "丹朱": "dan-zhu",
-    "商均": "shang-jun",
-    "瞽叟": "gu-sou",
-    "象": "xiang",
-    "放勋": "fang-xun",
-    "重华": "chong-hua",
-    "高阳": "gao-yang",
-    "高辛": "gao-xin",
-    "穷蝉": "qiong-chan",
-    "敬康": "jing-kang",
-    "句望": "gou-wang",
-    "桥牛": "qiao-niu",
-    "蟜极": "jiao-ji",
-    "风后": "feng-hou",
-    "力牧": "li-mu",
-    "常先": "chang-xian",
-    "大鸿": "da-hong",
-    "羲仲": "xi-zhong",
-    "羲叔": "xi-shu",
-    "和仲": "he-zhong",
-    "和叔": "he-shu",
-    "放齐": "fang-qi",
-    "欢兜": "huan-dou",
-    "共工": "gong-gong",
-    "昌仆": "chang-pu",
-    "挚": "zhi",
-    # 夏本纪
-    "启": "qi",
-    "太康": "tai-kang",
-    "中康": "zhong-kang",
-    "少康": "shao-kang",
-    "孔甲": "kong-jia",
-    "桀": "jie",
-    "刘累": "liu-lei",
-    # 殷本纪
-    "成汤": "cheng-tang",
-    "汤": "tang",
-    "伊尹": "yi-yin",
-    "太甲": "tai-jia",
-    "盘庚": "pan-geng",
-    "武丁": "wu-ding",
-    "傅说": "fu-yue",
-    "纣": "zhou-xin",
-    "帝辛": "di-xin",
-    "妲己": "da-ji",
-    "比干": "bi-gan",
-    "微子启": "wei-zi-qi",
-    "箕子": "ji-zi",
-    "西伯昌": "xi-bo-chang",
-    "武王": "wu-wang",
-    "简狄": "jian-di",
-}
-
-
-def _generate_slug(name_zh: str) -> str:
-    """Generate a URL-safe slug from a Chinese name.
-
-    Uses a simple transliteration approach. For production,
-    this should use pypinyin or similar.
-    """
-    if name_zh in _PINYIN_MAP:
-        return _PINYIN_MAP[name_zh]
-
-    # Fallback: use character codes for unknown names
-    slug_parts = []
-    for char in name_zh:
-        slug_parts.append(f"u{ord(char):04x}")
-    slug = "-".join(slug_parts)
-
-    # Ensure slug is URL-safe
-    slug = re.sub(r"[^a-z0-9-]", "", slug)
-    return slug or f"unknown-{uuid.uuid4().hex[:8]}"
