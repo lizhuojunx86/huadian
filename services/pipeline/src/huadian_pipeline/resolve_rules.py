@@ -559,6 +559,21 @@ _RULE_ORDER = [_rule_r1, _rule_r2, _rule_r3, _rule_r5, _rule_r4]
 MERGE_CONFIDENCE_THRESHOLD = 0.90
 
 
+def is_di_honorific(name: str) -> bool:
+    """Return True if *name* is a 帝X honorific (e.g. 帝尧, 帝南庚).
+
+    Conditions (all must hold):
+      1. Starts with "帝"
+      2. The bare portion (name[1:]) is 1–2 characters
+
+    Shared by resolve_rules (canonical selection) and load (primary
+    demotion for 帝X surface_forms).  See ADR-012 / T-P1-004.
+    """
+    if not name.startswith("帝"):
+        return False
+    return 1 <= len(name[1:]) <= 2
+
+
 def has_di_prefix_peer(p: PersonSnapshot, group: list[PersonSnapshot]) -> bool:
     """Return True if p.name is a 帝X honorific and the bare name X exists in group.
 
@@ -570,11 +585,9 @@ def has_di_prefix_peer(p: PersonSnapshot, group: list[PersonSnapshot]) -> bool:
     When True, p should be deprioritised in canonical selection so the
     bare-name peer becomes canonical instead.
     """
-    if not p.name.startswith("帝"):
+    if not is_di_honorific(p.name):
         return False
     stripped = p.name[1:]
-    if len(stripped) not in (1, 2):
-        return False
     return any(other.id != p.id and other.name == stripped for other in group)
 
 
