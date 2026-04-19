@@ -114,7 +114,7 @@
 
 ```python
 def _generate_slug(name_zh: str) -> str:
-    if name_zh in _PINYIN_MAP:       # 58 条硬编码映射
+    if name_zh in _PINYIN_MAP:       # 74 条硬编码映射
         return _PINYIN_MAP[name_zh]
     # Fallback: unicode hex
     slug_parts = []
@@ -128,7 +128,7 @@ def _generate_slug(name_zh: str) -> str:
 **关键发现**：
 - **NER prompt 不产 slug** — NER 只抽取人名/surface forms，slug 完全由 load 阶段确定性生成
 - 之前怀疑 LLM 偶发产 pinyin 的假设**不成立** — 所有 pinyin slug 来自 `_PINYIN_MAP`
-- `_PINYIN_MAP` 有 58 条（覆盖五帝本纪 + 夏本纪 + 殷本纪的主要人物）
+- `_PINYIN_MAP` 有 74 条（覆盖五帝本纪 + 夏本纪 + 殷本纪的主要人物）
 - DB 中 63 个 pinyin slug 说明有 5 个映射命中了合并/别名人物
 
 ### 2.2 Seed 文件
@@ -158,7 +158,7 @@ Seed 文件由 `dump_seed.py` 从 DB 导出，slug 与 DB 一致。
 | D3 | `services/api/tests/person-search.integration.test.ts` | 多处 | 搜索测试引用 pinyin + unicode slug | 集成测试 |
 | D4 | `services/api/tests/person-names-dedup.integration.test.ts` | 多处 | dedup 测试引用 slug | 集成测试 |
 | D5 | `services/api/tests/fixtures/search-golden.json` | 多处 | 黄金测试集含 slug | 基准测试 |
-| D6 | `services/pipeline/src/huadian_pipeline/load.py` | 261-338 | `_PINYIN_MAP`（58 条） | slug 生成源头 |
+| D6 | `services/pipeline/src/huadian_pipeline/load.py` | 261-338 | `_PINYIN_MAP`（74 条） | slug 生成源头 |
 | D7 | `services/pipeline/seeds/pilot-shiji-benji/*.sql` | 全文件 | INSERT INTO persons ... slug ... | 种子数据 |
 | D8 | `services/pipeline/tests/resolve/test_resolve_rules.py` | 389+ | unicode slug 测试 fixture | 管线测试 |
 
@@ -203,7 +203,7 @@ GROUP BY 1 HAVING count(*)>1;
 ## 5. 关键发现总结
 
 1. **Pinyin slug 不是 LLM 偶发产出** — 全部来自 `_PINYIN_MAP` 硬编码，规则确定性
-2. **占比 42% 不算"少数"** — 58 条映射覆盖了三卷本纪的主要人物
+2. **占比 42% 不算"少数"** — 74 条映射覆盖了三卷本纪的主要人物
 3. **Web 首页 6 个推荐人物全部是 pinyin slug** — 改动需同步
 4. **当前无任何碰撞** — 不论选哪个方向都不需要处理现有冲突
 5. **真正的问题是"两套规则并存"** — `_PINYIN_MAP` 是人工维护的白名单，没映射到的就 fallback unicode
