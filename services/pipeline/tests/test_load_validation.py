@@ -7,7 +7,7 @@ that runs before any DB writes.
 from __future__ import annotations
 
 from huadian_pipeline.extract import SurfaceForm
-from huadian_pipeline.load import MergedPerson, _enforce_single_primary
+from huadian_pipeline.load import MergedPerson, _enforce_single_primary, _filter_pronoun_surfaces
 
 
 def _person(
@@ -196,3 +196,67 @@ class TestInvariantExactlyOnePrimary:
     def test_invariant_zero_no_match(self) -> None:
         p = _person("某", [("甲", "alias"), ("乙", "nickname")])
         self._assert_one_primary(_enforce_single_primary(p))
+
+
+# ---------------------------------------------------------------------------
+# _filter_pronoun_surfaces (T-P0-006-β S-3a-bis)
+# ---------------------------------------------------------------------------
+
+
+class TestFilterPronounSurfaces:
+    """Tests for pronoun/honorific surface filtering."""
+
+    def test_di_removed(self) -> None:
+        """尧 with surfaces [帝尧, 放勋, 帝] → 帝 removed."""
+        p = _person("尧", [("帝尧", "nickname"), ("放勋", "alias"), ("帝", "nickname")])
+        result = _filter_pronoun_surfaces(p)
+        texts = {sf.text for sf in result}
+        assert "帝" not in texts
+        assert "帝尧" in texts
+        assert "放勋" in texts
+
+    def test_wang_removed(self) -> None:
+        """王 single-char is removed."""
+        p = _person("汤", [("汤", "primary"), ("王", "nickname")])
+        result = _filter_pronoun_surfaces(p)
+        texts = {sf.text for sf in result}
+        assert "王" not in texts
+        assert "汤" in texts
+
+    def test_tian_zi_removed(self) -> None:
+        """天子 multi-char but in blacklist is removed."""
+        p = _person("尧", [("帝尧", "nickname"), ("天子", "nickname")])
+        result = _filter_pronoun_surfaces(p)
+        texts = {sf.text for sf in result}
+        assert "天子" not in texts
+        assert "帝尧" in texts
+
+    def test_all_surfaces_filtered_returns_empty(self) -> None:
+        """Person with only pronoun surfaces → empty list."""
+        p = _person("某帝", [("帝", "nickname")])
+        result = _filter_pronoun_surfaces(p)
+        assert result == []
+
+    def test_di_prefix_compound_kept(self) -> None:
+        """帝X compounds are NOT filtered (only bare 帝 is)."""
+        p = _person("帝喾", [("帝喾", "nickname"), ("高辛", "primary")])
+        result = _filter_pronoun_surfaces(p)
+        texts = {sf.text for sf in result}
+        assert "帝喾" in texts
+        assert "高辛" in texts
+
+    def test_no_pronoun_no_change(self) -> None:
+        """Person with no pronoun surfaces → unchanged."""
+        p = _person("共工", [("共工", "primary")])
+        result = _filter_pronoun_surfaces(p)
+        assert len(result) == 1
+        assert result[0].text == "共工"
+
+    def test_hou_gong_jun_removed(self) -> None:
+        """后/公/君 single-char pronouns are removed."""
+        p = _person(
+            "舜", [("舜", "primary"), ("后", "nickname"), ("公", "nickname"), ("君", "nickname")]
+        )
+        result = _filter_pronoun_surfaces(p)
+        texts = {sf.text for sf in result}
+        assert texts == {"舜"}

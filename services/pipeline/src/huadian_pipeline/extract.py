@@ -97,8 +97,8 @@ async def extract_persons(
         Maximum total cost for this extraction run.
     """
     # Load prompt
-    prompt = load_prompt("ner", "v1")
-    file_hash = prompt_file_hash("ner", "v1")
+    prompt = load_prompt("ner", "v1-r4")
+    file_hash = prompt_file_hash("ner", "v1-r4")
 
     result = ExtractionResult(
         book_id=book_id,
@@ -240,6 +240,37 @@ async def _extract_chunk(
     return persons, response
 
 
+def _extract_last_json_array(text: str) -> list[object] | None:
+    """Extract the last top-level JSON array from text with multiple blocks.
+
+    Handles LLM "self-correction" outputs where the model produces an initial
+    JSON array, adds explanatory text, then outputs a corrected array.
+    Returns the parsed last array, or None if no valid array found.
+    """
+    last_end = text.rfind("]")
+    while last_end >= 0:
+        # Walk backwards to find the matching '['
+        depth = 1
+        pos = last_end - 1
+        while pos >= 0 and depth > 0:
+            if text[pos] == "]":
+                depth += 1
+            elif text[pos] == "[":
+                depth -= 1
+            pos -= 1
+        if depth == 0:
+            candidate = text[pos + 1 : last_end + 1]
+            try:
+                data = json.loads(candidate)
+                if isinstance(data, list):
+                    return data
+            except json.JSONDecodeError:
+                pass
+        # Try the next ']' leftward
+        last_end = text.rfind("]", 0, last_end)
+    return None
+
+
 def _parse_response(
     content: str,
     paragraph_no: int,
@@ -256,10 +287,19 @@ def _parse_response(
 
     try:
         data = json.loads(text)
-    except json.JSONDecodeError as e:
-        logger.warning("§%d: Failed to parse JSON: %s", paragraph_no, e)
-        logger.debug("Raw content: %s", content[:500])
-        return []
+    except json.JSONDecodeError:
+        # Fallback: LLM sometimes self-corrects, producing multiple JSON
+        # blocks separated by explanation text. Extract the last complete
+        # JSON array (the corrected version).
+        data = _extract_last_json_array(text)
+        if data is None:
+            logger.warning("§%d: Failed to parse any JSON array from response", paragraph_no)
+            logger.debug("Raw content: %s", content[:500])
+            return []
+        logger.info(
+            "§%d: Recovered JSON from multi-block LLM self-correction output",
+            paragraph_no,
+        )
 
     if not isinstance(data, list):
         logger.warning("§%d: Expected JSON array, got %s", paragraph_no, type(data).__name__)

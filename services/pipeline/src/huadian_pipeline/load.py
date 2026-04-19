@@ -22,6 +22,22 @@ from .slug import generate_slug
 
 logger = logging.getLogger(__name__)
 
+# Deictic pronouns / generic honorifics that should never appear as
+# person surface_forms. If NER leaks them, they poison identity_resolver
+# R1 matching (e.g. '帝' would match both 尧 and 舜 → false merge).
+_PRONOUN_BLACKLIST: frozenset[str] = frozenset(
+    {
+        "帝",
+        "王",
+        "后",
+        "公",
+        "君",
+        "主",
+        "上",
+        "天子",
+    }
+)
+
 
 @dataclass(slots=True)
 class MergedPerson:
@@ -193,6 +209,33 @@ async def _upsert_person(
     return person_id, True
 
 
+def _filter_pronoun_surfaces(
+    person: MergedPerson,
+) -> list[SurfaceForm]:
+    """Remove deictic pronoun / generic honorific surface_forms.
+
+    Returns a filtered list of surface_forms. If ALL surfaces are
+    filtered out, returns an empty list — caller should skip this person.
+
+    Rules:
+      1. Single-char surface in _PRONOUN_BLACKLIST → remove
+      2. Multi-char surface == "天子" → remove
+      3. Other multi-char surfaces are kept even if they contain a
+         blacklisted char (e.g. "帝尧" is fine, "帝" alone is not)
+    """
+    filtered = [sf for sf in person.surface_forms if sf.text not in _PRONOUN_BLACKLIST]
+    removed = len(person.surface_forms) - len(filtered)
+    if removed > 0:
+        removed_texts = [sf.text for sf in person.surface_forms if sf.text in _PRONOUN_BLACKLIST]
+        logger.warning(
+            "Pronoun filter: person %r — removed %d pronoun surface(s) %s",
+            person.name_zh,
+            removed,
+            removed_texts,
+        )
+    return filtered
+
+
 def _enforce_single_primary(
     person: MergedPerson,
 ) -> list[SurfaceForm]:
@@ -286,8 +329,24 @@ async def _insert_person_names(
     inserted = 0
     seen_names: set[str] = set()
 
+    # L0: Strip pronoun/honorific surfaces before primary enforcement
+    filtered_forms = _filter_pronoun_surfaces(person)
+    if not filtered_forms:
+        logger.warning(
+            "Pronoun filter: person %r has NO valid surfaces after filtering — skipping",
+            person.name_zh,
+        )
+        return 0
+
+    # Temporarily replace person's surface_forms for _enforce_single_primary
+    original_forms = person.surface_forms
+    person.surface_forms = filtered_forms
+
     # Enforce single-primary invariant before any DB writes
     validated_forms = _enforce_single_primary(person)
+
+    # Restore original forms
+    person.surface_forms = original_forms
 
     # Determine which surface form is the "primary" name
     # Use the first validated form whose text matches name_zh, or fallback

@@ -245,7 +245,13 @@ class AnthropicGateway:
                     model=model,
                     max_tokens=max_tokens,
                     temperature=temperature,
-                    system=prompt.system_prompt,
+                    system=[
+                        {
+                            "type": "text",
+                            "text": prompt.system_prompt,
+                            "cache_control": {"type": "ephemeral"},
+                        }
+                    ],
                     messages=[{"role": "user", "content": user_input}],
                 )
                 latency_ms = int((time.perf_counter() - t0) * 1000)
