@@ -22,6 +22,11 @@
 | T-P0-013 | Canonical 选择算法优化（帝X 前缀偏差） | **done** | 管线 | Phase 0 |
 | T-P0-014 | 冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥） | **done** | 管线 + historian | Phase 0 |
 | T-P0-005a | SigNoz 版本对齐与接入 | **planned** | DevOps + 管线 | Phase 0 |
+| T-P0-016 | [apply_merges() 同步 demote is_primary](T-P0-016-is-primary-demotion.md)（F5/F11 根治） | **planned** | 管线 | Phase 0 |
+| T-P0-019 | [β 尾巴清理](T-P0-019-beta-tail-cleanup.md)（F1/F2/F4 合并） | **planned** | 管线 | Phase 0 |
+| T-P0-020 | [persons CHECK 约束](T-P0-020-check-constraint-merged-deleted.md)（F3 merged_into_id ↔ deleted_at） | **planned** | 后端 | Phase 0 |
+| T-P0-021 | [NER 输出持久化](T-P0-021-ner-output-persistence.md)（F9 JSONL 落盘 + replay） | **planned** | 管线 | Phase 0 |
+| T-P0-022 | [α 源 primary 未 demote](T-P0-022-alpha-primary-backfill.md)（F10 扫描 + 补丁） | **planned** | 管线 | Phase 0 |
 | T-P1-005 | 统一 migration 入口（Drizzle + pipeline SQL 双轨合一） | **planned** | DevOps + 后端 | Phase 1 |
 
 ## 已完成
