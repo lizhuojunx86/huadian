@@ -4,26 +4,35 @@
 
 - **最近更新**：2026-04-19
 - **更新人**：管线工程师（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅**
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅**
 
 ---
 
 ## 当前在哪
 
-**Phase 0 α-blocking 推进期。距 α 第一本书 ingest 还差 2 张卡。**
+**Phase 0 α-blocking 推进期。距 α 第一本书 ingest 还差 1 张卡（T-P0-006）。**
 
-今日交付 3 个 sprint（7 commits）：
-- **T-P0-022**：F10 α merge source primary 残留 demote（8 行）
-- **T-P0-020**：persons_merge_requires_delete CHECK 约束上线（单向蕴涵）
-- **T-P0-016**：apply_merges + load.py W1 双路径 is_primary 同步 + backfill 18 行
+T-P0-023 完成（证据链 Stage 1 激活 + V7 warning 级不变量）。6 commits 覆盖 LLMResponse.call_id 契约字段 → ExtractedPerson 传递 → ProvenanceTier Enum → seed_dictionary 枚举扩展 → source_evidences 写路径激活 → V7 不变量。
 
-**里程碑：V1-V6 全套 invariant 首次集体绿——数据层一致性达项目最佳。**
+**里程碑：source_evidences 子系统从 0 行空壳首次激活——新 ingest 将自动产出证据链行。V1-V7 不变量矩阵就位。**
 
-**下一步**：T-P0-023（ADR-015 Evidence 链 Stage 1 实装，α 阻塞必做，涉及 Drizzle migration + extract→load 链改造）
+**下一步**：T-P0-006（α 路扩量跑，依赖 T-P0-023 ✅ 已满足）
 
 ---
 
 ## 已完成
+
+### T-P0-023 — 证据链 Stage 1 激活（ADR-015）（2026-04-19）
+- [x] Stage 1a：LLMResponse.call_id 契约字段（audit → gateway 4-hop 传递链）（af1e858）
+- [x] Stage 1b：ExtractedPerson.llm_call_id 传递（61a23e4）
+- [x] Stage 1c：ProvenanceTier StrEnum 类 + load.py 字面量替换 + 守卫测试（ed2d04f）
+- [x] Stage 1d：migration 0008 seed_dictionary 枚举扩展 + Python/Drizzle 三路同步（14c1d68）
+- [x] Stage 1e：source_evidences 两步 INSERT + MergedPerson.llm_call_ids + per-person 事务化 + 7 测试（2271bb0）
+- [x] Stage 2：V7 warning 级 evidence 覆盖率不变量（ecf1068）
+- [x] Stage 3：book-keeping（本 commit）
+- 结果：source_evidences 子系统首次激活；新 ingest 自动产出 evidence 行（per-person 粒度，AI_INFERRED tier）；V7 覆盖率 0.0%（存量 249 行 NULL 待 T-P0-024 回填）
+- 附带修复：load_persons per-person 事务化（pre-existing gap）
+- 累计：7 commits / 10 new tests / 1 migration / 1 新 Python enum 模块
 
 ### T-P0-016 apply_merges + load.py W1 双路径 is_primary 同步（2026-04-19）
 - [x] Stage 0：4 闸门 + 写路径审计发现第二活跃路径（W1）
@@ -314,9 +323,7 @@
 
 ## 进行中
 
-无。（T-P0-016 刚完成）
-
-**已锁定下一张**：T-P0-023（ADR-015 Evidence 链 Stage 1 实装），等 STATUS.md push 后开工。
+无。（T-P0-023 刚完成，等用户指定下一张卡）
 
 ---
 
@@ -324,12 +331,11 @@
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
-| 🔴 高 | T-P0-023 | Evidence 链 Stage 1（新行必填段落级 + seed_dictionary 枚举） | 管线 + 后端 | ADR-015 ✅ | planned |
 | 🟡 中 | T-P0-019 | β 尾巴清理（F1 pronoun + F2 prefix-containment；F4 已由 ADR-010 supplement 统一） | 管线 | — | planned |
-| 🟡 中 | T-P0-024 | Evidence 链 Stage 2 回填（存量 text-search 反查） | 管线 + historian | T-P0-023 | planned |
+| 🟡 中 | T-P0-024 | Evidence 链 Stage 2 回填（存量 text-search 反查） | 管线 + historian | ✅ T-P0-023 done | planned |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
-| 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | T-P0-023 | planned |
+| 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | ✅ T-P0-023 done | planned |
 | 🟡 中 | T-P1-005 | 统一 migration 入口（Drizzle + pipeline SQL 双轨合一） | DevOps + 后端 | — | registered |
 | ⚪ 微 | T-P2-001 | codegen trailing newline 不一致 | DevOps | — | registered |
 
@@ -374,9 +380,9 @@
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：385 passed（pipeline 269 + api 61 + web 55）+ 0 skipped；E2E 7 specs
+- 🧪 测试覆盖：395 passed（pipeline 279 + api 61 + web 55）+ 0 skipped；E2E 7 specs
 - 🔗 合并状态：153 active persons / 16 merge-soft-deleted / 5 pure-soft-deleted = 174 total
-- 🗄️ Pipeline migrations：0001–0007（latest: 0007_t-p0-016-is-primary-backfill.sql）
+- 🗄️ Pipeline migrations：0001–0008（latest: 0008_t-p0-023-seed-dictionary-enum.sql）
 - 🚦 阻塞项数量：0 ✅
 
 ### 数据层不变量矩阵
@@ -389,14 +395,19 @@
 | V4 | model-B leakage | merged source 无 primary name | ✅ | 2026-04-19（T-P0-022） |
 | V5 | active definition | 无 merged 但未 deleted（CHECK 约束保护） | ✅ | 2026-04-19（T-P0-020） |
 | V6 | alias ≠ is_primary | 全表无 alias+is_primary=true | ✅ | 2026-04-19（T-P0-016） |
+| V7 | evidence coverage | active person_names 的 source_evidence_id 覆盖率 | ⚠️ 0.0%（warning 级） | 2026-04-19（T-P0-023，Stage 2 回填前预期低覆盖） |
 
-**V1-V6 全绿（首次达成 2026-04-19）**。
+**V1-V6 全绿；V7 warning 级（0/249 覆盖率，存量待 T-P0-024 回填）**。
 
 ### 已知未处理违规（debt baseline）
 
 | Debt | 描述 | 行数 | 优先级 |
 |------|------|------|--------|
 | F12 | primary + is_primary=false（W2 路径） | 11 行 active | P2 |
+
+### 已知验证盲点
+
+- **源证据链生产路径未经 smoke-ingest 验证**（T-P0-023 Stage 1e）。DB 集成测试已覆盖 load_persons 端到端生产路径，cli.py pass-through 靠 basedpyright 类型检查保证。首次实际 ingest 产出的 source_evidences 新行将是自然验收。追踪任务：T-P1-006（replay smoke framework, backlog）。
 
 ---
 
@@ -432,6 +443,7 @@
 - 2026-04-19：T-P0-022 + T-P0-020 合并 sprint（F10 demote 8 行 + persons CHECK 约束 + ADR-010 supplement；tip 9a19140）
 - 2026-04-19：T-P0-016 sprint（双路径 is_primary 同步 + backfill 18→0 + V6 invariant + F12 debt；tip 7566916）
 - 2026-04-19：V1-V6 全套 invariant 首次集体绿；CI run #24629863280 全绿
+- 2026-04-19：T-P0-023 sprint 完成（证据链 Stage 1 激活；6 commits；+10 tests；migration 0008；V7 warning 级不变量；smoke 验证盲点登记 T-P1-006）
 
 ---
 

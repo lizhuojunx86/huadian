@@ -229,8 +229,8 @@ C-11 应另立 ADR（预计 ADR-018）+ 独立任务卡。
 
 本 ADR 生效后：
 
-1. **Stage 1 实装为 T-P0-023** —— α 第一本书启动前必须完成
-2. **V5 invariant 加入 CI 测试**（初始警告级）
+1. **Stage 1 实装为 T-P0-023** —— ✅ 完成 2026-04-19（commits af1e858..ecf1068）
+2. **V7 invariant 加入 CI 测试**（初始警告级）—— ✅ 已实装（commit ecf1068）。注：ADR-015 草稿时以"V5"预留编号，实际落地时 V5 已被 active-definition 不变量占用（T-P0-020），本任务升至 V7。
 3. **`load.py` / `extract.py` 改动走 4 闸门协议**（pipeline-engineer.md）
 4. **Stage 2 回填为 T-P0-024** —— α 第一本书期间完成
 5. **Stage 3 需另立 ADR**（预计 ADR-020+）
@@ -241,6 +241,19 @@ C-11 应另立 ADR（预计 ADR-018）+ 独立任务卡。
 
 | 任务 | 说明 | 阶段 | 触发 |
 |------|------|------|------|
-| T-P0-023 | Stage 1：load.py evidence 写入 + extract→load llm_call_id 透传 + `seed_dictionary` 枚举 + V5 invariant | Stage 1 | 本 ADR 生效后立即 |
+| T-P0-023 | Stage 1：load.py evidence 写入 + extract→load llm_call_id 透传 + `seed_dictionary` 枚举 + V7 invariant | Stage 1 | ✅ done 2026-04-19 |
 | T-P0-024 | Stage 2：存量 text-search 回填 + V5 升级为强制 | Stage 2 | α 第一本书期间 |
 | ADR-018（建议） | `extractions_history` 违规处置 —— C-11 专项 | 独立 | 本 ADR 之后起草 |
+
+---
+
+## 9. Implementation Notes（T-P0-023 落地后补记）
+
+实施中出现的关键决策，未来 Stage 2/3 / T-P0-025 需参考：
+
+- **Evidence 行粒度 = per-person**：一个 MergedPerson 的 primary + aliases 共享同一个 source_evidences 行。Stage 3 span 级才引入 per-name-claim 粒度。
+- **provenance_tier 选 AI_INFERRED 非 PRIMARY_TEXT**：NER 产出是 AI 推理，PRIMARY_TEXT 留给 Stage 2 text-search 对齐 quoted_text 后的升级路径。
+- **llm_call_id 首发语义 = llm_call_ids[0]**：MergedPerson 累积多段 call_id（与 chunk_ids / paragraph_nos 对称），evidence 行仅记录 first-seen。多对多关联延后到 evidence_links 表。
+- **事务粒度 = per-person**：load_persons for 循环内部 `async with conn.transaction()`；失败隔离不中断批次。解决了 pre-existing person/names 非原子写入 gap。
+- **Legacy path 保留**：`_insert_person_names` 的 evidence kwargs 全为可选（默认 None/""），允许 pre-ADR-015 测试 fixture 不改动；新生产调用者 MUST 传完整参数。
+- **LLMResponse 扩字段范式**：call_id 走正式字段而非 `.extra` dict；未来 audit_row_id / trace_id / span_id 等同类契约字段按此一等公民范式处理，不走 escape hatch。

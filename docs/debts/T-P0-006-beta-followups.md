@@ -44,12 +44,14 @@
 - V6 invariant `test_no_alias_with_is_primary_true` 上线，首次 V1-V6 全绿
 - 附带发现 W2 对称违规 → F12 debt
 
-## F8: person_names.source_evidence_id 全表 NULL — **P0-followup**
+## F8: person_names.source_evidence_id 全表 NULL — ~~P0-followup~~ **partially resolved 2026-04-19**
 
 - **现状**：Phase 0 `load.py` 不填 evidence FK，282/282 行全 NULL
 - **影响**：name 无法溯源到抽取原文，挑战"一次结构化 N 次衍生"宪法
 - **待开**：ADR-015 或 T-P0-020 专项
-- **状态（2026-04-19）**：ADR-015 已 accepted（渐进式三阶段）。Stage 1 → T-P0-023；Stage 2 → T-P0-024；Stage 3 延后至 α 后。
+- **状态（2026-04-19）**：T-P0-023 Stage 1 完成 — 新 ingest 的 person_names 必带 source_evidence_id（per-person 粒度），V7 warning 级不变量保护回归
+- 存量 249 行仍为 NULL（F8 的历史残留），回填留给 T-P0-024（text-search backfill）
+- 完全关闭 F8：当 T-P0-024 执行后 V7 阈值升到 1.0 + 转 error 级
 
 ## F9: extract_persons() NER 输出不落盘 — **P1-followup**
 

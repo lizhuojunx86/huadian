@@ -7,6 +7,46 @@
 
 ## 2026-04-19
 
+### [feat+refactor+test] T-P0-023 — 证据链 Stage 1 激活（ADR-015）
+
+- **角色**：首席架构师（mini-RFC + 裁决）+ 管线工程师（实施，4 闸门协议）
+- **性质**：schema + dataclass 契约扩展 + 写路径激活 + warning 级不变量
+- **关联**：ADR-015 Stage 1 / F8 partially resolved / T-P0-024 Stage 2 / T-P0-025 字典加载器（新建）
+
+#### Stage 1a — LLMResponse.call_id 契约字段
+- af1e858 feat(pipeline): add LLMResponse.call_id for evidence chain traceability
+- LLMResponse 加 `call_id: str | None = None`；`_write_audit` 返回 `uuid.UUID | None`；`AnthropicGateway.call()` 用 `dataclasses.replace` 回填
+
+#### Stage 1b — ExtractedPerson.llm_call_id 传递
+- 61a23e4 feat(pipeline): propagate llm_call_id to ExtractedPerson
+- `_extract_chunk` 把 `response.call_id` 注入每个 ExtractedPerson；per-person 粒度
+
+#### Stage 1c — ProvenanceTier Enum 类
+- ed2d04f refactor(pipeline): introduce ProvenanceTier enum to replace literal strings
+- 新 `enums.py`（StrEnum）+ `load.py` 字面量 `'ai_inferred'` → `ProvenanceTier.AI_INFERRED.value` + 2 守卫测试
+
+#### Stage 1d — seed_dictionary 枚举扩展
+- 14c1d68 feat(schema): extend provenance_tier enum with seed_dictionary
+- Migration 0008 `ALTER TYPE provenance_tier ADD VALUE IF NOT EXISTS 'seed_dictionary'` + Python/Drizzle/测试三路同步
+
+#### Stage 1e — source_evidences 写路径激活
+- 2271bb0 feat(pipeline): activate source_evidences write path (ADR-015 Stage 1)
+- MergedPerson 加 `llm_call_ids`（与 chunk_ids 对称）；两步 INSERT（先 source_evidences RETURNING id → person_names 带 source_evidence_id）；per-person 事务化（`async with conn.transaction()`）；+4 merge 单测 / +3 DB 集成测试
+
+#### Stage 2 — V7 warning 级不变量
+- ecf1068 test(pipeline): add V7 warning-level invariant for evidence chain coverage
+- 覆盖率 < 30% 发 UserWarning；`pytest -W error::UserWarning` 可升级为 error
+
+#### 成果
+- source_evidences 子系统从 0 行空壳首次激活
+- 新 ingest 自动产出 evidence 行（per-person 粒度，provenance_tier = ai_inferred，raw_text_id = chunk_ids[0]）
+- V7 覆盖率 0.0%（0/249）⚠️ 预期：存量待 T-P0-024 回填
+- 附带修复：load_persons per-person 事务化（pre-existing non-atomic gap）
+- pipeline 279 tests（+10）/ basedpyright 0/0/0 / ruff 全绿
+- 衍生：T-P0-025（字典加载器 backlog）/ T-P1-006（replay smoke framework backlog）
+
+---
+
 ### [fix] T-P0-016 完成 — apply_merges + load.py W1 双路径 is_primary 同步 + F12 登记
 
 - **角色**：管线工程师（执行）+ 架构师（4 闸门协议 ACK + scope 扩展裁决）
