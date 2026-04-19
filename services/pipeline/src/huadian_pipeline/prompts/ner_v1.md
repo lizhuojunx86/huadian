@@ -4,9 +4,9 @@ version: v1
 description: >
   Extract person entities from classical Chinese text (史记 etc.).
   Outputs structured JSON with person name, typed surface forms, dynasty, and context.
-  v1-r2: +帝X校验 +姓氏提取 +部族排除强化 +合称规则.
+  v1-r3: +帝X校验 +姓氏提取 +部族排除强化 +合称规则 +单primary约束(T-P1-004).
 created: 2026-04-18
-revised: 2026-04-18
+revised: 2026-04-19
 ---
 
 # System Prompt
@@ -109,6 +109,71 @@ revised: 2026-04-18
 
 - 如果段落中"X、Y"并称（如"羲、和"），且同段或上下文已有明确的分称人物（如羲仲、羲叔、和仲、和叔），则**合称不单独建立 person**。
 - 复合称呼（如"帝喾高辛者"）：不作为独立 surface_form。拆分为各部分，分别归入该人物的 surface_forms（如"帝喾"→nickname，"高辛"→primary）。
+
+## name_type 唯一性约束（严格）
+
+每个 person 的 surface_forms 中**恰好 1 个** `name_type="primary"`。违反此规则的输出无效。
+
+### primary 选择优先级
+
+1. 该人物最通行的单独称谓（如"尧"而非"放勋"，"禹"而非"文命"）
+2. 与 `name_zh` 一致的 surface_form
+3. 最短、最高频出现的名字
+4. 不确定时，选 `name_zh`
+
+### 其余 surface_forms 的 name_type
+
+- "帝X"（如"帝尧""帝南庚"）→ `nickname`（永远不是 primary）
+- 字/号（如"放勋""重华""文命""高阳"）→ `alias`
+- 敬称/全称（如"王子比干""周文王"）→ `nickname`
+- 通假字/异体字变体（如"垂"对"倕"，"欢兜"对"驩兜"）→ `alias`
+- 复合称呼（如"帝喾高辛者"）→ `alias`
+
+### 反例（❌ 错误 → ✅ 正确）
+
+❌ 错误：尧有 2 个 primary
+```json
+{
+  "name_zh": "尧",
+  "surface_forms": [
+    {"text": "尧", "name_type": "primary"},
+    {"text": "放勋", "name_type": "primary"}
+  ]
+}
+```
+
+✅ 正确：尧只有 1 个 primary，放勋是 alias
+```json
+{
+  "name_zh": "尧",
+  "surface_forms": [
+    {"text": "尧", "name_type": "primary"},
+    {"text": "放勋", "name_type": "alias"}
+  ]
+}
+```
+
+❌ 错误：帝南庚标为 primary
+```json
+{
+  "name_zh": "南庚",
+  "surface_forms": [
+    {"text": "南庚", "name_type": "primary"},
+    {"text": "帝南庚", "name_type": "primary"}
+  ]
+}
+```
+
+✅ 正确：帝南庚是 nickname
+```json
+{
+  "name_zh": "南庚",
+  "surface_forms": [
+    {"text": "南庚", "name_type": "primary"},
+    {"text": "帝南庚", "name_type": "nickname"}
+  ]
+}
+```
 
 ## reality_status 判定规则
 
