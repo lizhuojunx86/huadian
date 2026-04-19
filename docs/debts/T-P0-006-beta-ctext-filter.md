@@ -1,3 +1,5 @@
+> 已合并至 T-P0-006-beta-followups.md，仅保留历史
+
 # T-P0-006-β — ctext WebFetch 撞 content filter（已绕行）
 
 - **优先级**：P3（低，已有 workaround）
