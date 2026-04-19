@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "uq_person_names_person_name" ON "person_names" USING btree ("person_id","name");

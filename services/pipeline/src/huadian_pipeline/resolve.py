@@ -441,6 +441,24 @@ async def apply_merges(
                         group.canonical_id,
                     )
 
+                    # T-P1-002: Demote merged person's primary names to alias
+                    # so the canonical group has at most one primary.
+                    demoted = await conn.execute(
+                        """
+                            UPDATE person_names
+                            SET name_type = 'alias'
+                            WHERE person_id = $1 AND name_type = 'primary'
+                            """,
+                        merged_id,
+                    )
+                    demoted_count = int(demoted.split()[-1]) if demoted else 0
+                    if demoted_count > 0:
+                        logger.info(
+                            "Demoted %d primary name(s) to alias for merged person %s",
+                            demoted_count,
+                            merged_id,
+                        )
+
                     # Insert merge log row
                     import json as _json
 
