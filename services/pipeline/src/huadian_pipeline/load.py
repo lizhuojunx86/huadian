@@ -17,6 +17,7 @@ if TYPE_CHECKING:
     import asyncpg
 
 from .extract import ExtractedPerson, SurfaceForm
+from .resolve_rules import is_di_honorific
 from .slug import generate_slug
 
 logger = logging.getLogger(__name__)
@@ -192,19 +193,106 @@ async def _upsert_person(
     return person_id, True
 
 
+def _enforce_single_primary(
+    person: MergedPerson,
+) -> list[SurfaceForm]:
+    """Validate and enforce single-primary invariant on surface_forms.
+
+    Returns a new list with at most one name_type='primary'.
+    Logs warnings when corrections are applied.
+
+    Cases:
+      1. Exactly 1 primary → pass through (no change)
+      2. >1 primary → keep the one matching name_zh (or shortest), demote rest
+      3. 0 primary + name_zh match exists → promote it
+      4. 0 primary + no name_zh match → promote shortest + WARNING
+    """
+    primaries = [sf for sf in person.surface_forms if sf.name_type == "primary"]
+
+    if len(primaries) == 1:
+        return list(person.surface_forms)
+
+    name_zh = person.name_zh
+    forms = list(person.surface_forms)
+
+    if len(primaries) > 1:
+        # Pick winner: prefer name_zh match, then non-帝X, then shortest
+        winner: SurfaceForm | None = None
+        for sf in primaries:
+            if sf.text == name_zh:
+                winner = sf
+                break
+        if winner is None:
+            non_di = [sf for sf in primaries if not is_di_honorific(sf.text)]
+            candidates = non_di if non_di else primaries
+            winner = min(candidates, key=lambda sf: (len(sf.text), sf.text))
+
+        demoted_names = [sf.text for sf in primaries if sf is not winner]
+        logger.warning(
+            "T-P1-004 auto-demotion: person %r had %d primaries %s; "
+            "keeping %r, demoting %s to alias",
+            name_zh,
+            len(primaries),
+            [sf.text for sf in primaries],
+            winner.text,
+            demoted_names,
+        )
+        forms = [
+            SurfaceForm(text=sf.text, name_type="alias")
+            if sf.name_type == "primary" and sf is not winner
+            else sf
+            for sf in forms
+        ]
+        return forms
+
+    # 0 primaries — need to promote one
+    name_zh_match = next((sf for sf in forms if sf.text == name_zh), None)
+    if name_zh_match is not None:
+        logger.warning(
+            "T-P1-004 auto-promotion: person %r had 0 primaries; "
+            "promoting name_zh match %r to primary",
+            name_zh,
+            name_zh_match.text,
+        )
+        return [
+            SurfaceForm(text=sf.text, name_type="primary") if sf is name_zh_match else sf
+            for sf in forms
+        ]
+
+    # 0 primaries + no name_zh match → promote shortest (WARNING-level)
+    shortest = min(forms, key=lambda sf: (len(sf.text), sf.text))
+    logger.warning(
+        "T-P1-004 CRITICAL auto-promotion: person %r had 0 primaries "
+        "and no name_zh match; promoting shortest %r to primary. "
+        "This indicates NER quality degradation — investigate prompt.",
+        name_zh,
+        shortest.text,
+    )
+    return [
+        SurfaceForm(text=sf.text, name_type="primary") if sf is shortest else sf for sf in forms
+    ]
+
+
 async def _insert_person_names(
     conn: Any,
     person_id: str,
     person: MergedPerson,
 ) -> int:
-    """Insert person_names for each surface form. Returns count inserted."""
+    """Insert person_names for each surface form. Returns count inserted.
+
+    Enforces single-primary invariant (T-P1-004 / ADR-012):
+    at most one name_type='primary' per person.
+    """
     inserted = 0
     seen_names: set[str] = set()
 
+    # Enforce single-primary invariant before any DB writes
+    validated_forms = _enforce_single_primary(person)
+
     # Determine which surface form is the "primary" name
-    # Use the first surface_form whose text matches name_zh, or fallback to first
+    # Use the first validated form whose text matches name_zh, or fallback
     primary_name_type = "primary"
-    for sf in person.surface_forms:
+    for sf in validated_forms:
         if sf.text == person.name_zh:
             primary_name_type = sf.name_type
             break
@@ -230,8 +318,8 @@ async def _insert_person_names(
             inserted += 1
         seen_names.add(person.name_zh)
 
-    # Insert all surface forms with their individual name_types
-    for sf in person.surface_forms:
+    # Insert all surface forms with their validated name_types
+    for sf in validated_forms:
         if sf.text in seen_names:
             continue
         existing = await conn.fetchval(
