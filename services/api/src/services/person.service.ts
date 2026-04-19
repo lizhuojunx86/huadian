@@ -255,6 +255,14 @@ export async function findPersonNamesByPersonId(
 
 /**
  * Internal: load names from canonical person + all persons merged into it.
+ *
+ * T-P1-002: Dedup by name text across person_ids within the canonical group.
+ * When multiple rows share the same name text (e.g. canonical and merged
+ * person both have "中丁"), keep the best row per priority:
+ *   (a) canonical-side row (person_id == canonicalId)
+ *   (b) latest merge source (person_merge_log.merged_at DESC)
+ *   (c) source_evidence_id IS NOT NULL preferred
+ *   (d) created_at ASC tiebreaker
  */
 async function findPersonNamesWithMerged(
   db: DrizzleClient,
@@ -267,14 +275,66 @@ async function findPersonNamesWithMerged(
     .from(persons)
     .where(eq(persons.mergedIntoId, canonicalId));
 
-  const allIds = [canonicalId, ...mergedRows.map(r => r.id)];
+  const mergedIds = mergedRows.map(r => r.id);
+  const allIds = [canonicalId, ...mergedIds];
 
-  const rows = await db
-    .select()
-    .from(personNames)
-    .where(inArray(personNames.personId, allIds));
+  // Fetch names and merge timestamps in parallel
+  const [nameRows, mergeLogRows] = await Promise.all([
+    db.select().from(personNames).where(inArray(personNames.personId, allIds)),
+    mergedIds.length > 0
+      ? db.execute(sql`
+          SELECT merged_id::text AS merged_id, merged_at
+          FROM person_merge_log
+          WHERE canonical_id = ${canonicalId}
+            AND reverted_at IS NULL
+          ORDER BY merged_at DESC
+        `) as Promise<Array<{ merged_id: string; merged_at: Date }>>
+      : Promise.resolve([] as Array<{ merged_id: string; merged_at: Date }>),
+  ]);
 
-  return rows.map(toGraphQLPersonName);
+  // Build merge timestamp map: merged_person_id → merged_at
+  const mergeTimestamps = new Map<string, number>();
+  for (const row of mergeLogRows) {
+    const ts = row.merged_at instanceof Date
+      ? row.merged_at.getTime()
+      : new Date(row.merged_at as unknown as string).getTime();
+    if (!mergeTimestamps.has(row.merged_id)) {
+      mergeTimestamps.set(row.merged_id, ts);
+    }
+  }
+
+  // Sort rows so preferred ones come first, then dedup by name text
+  const sorted = [...nameRows].sort((a, b) => {
+    // (a) canonical-side row first
+    const aCanonical = a.personId === canonicalId ? 0 : 1;
+    const bCanonical = b.personId === canonicalId ? 0 : 1;
+    if (aCanonical !== bCanonical) return aCanonical - bCanonical;
+
+    // (b) latest merge source (more recent = preferred)
+    const aMerge = mergeTimestamps.get(a.personId) ?? 0;
+    const bMerge = mergeTimestamps.get(b.personId) ?? 0;
+    if (aMerge !== bMerge) return bMerge - aMerge; // DESC
+
+    // (c) source_evidence_id IS NOT NULL preferred
+    const aEvidence = a.sourceEvidenceId != null ? 0 : 1;
+    const bEvidence = b.sourceEvidenceId != null ? 0 : 1;
+    if (aEvidence !== bEvidence) return aEvidence - bEvidence;
+
+    // (d) created_at ASC
+    return a.createdAt.getTime() - b.createdAt.getTime();
+  });
+
+  // Dedup by name text — keep the first (highest priority) row per name
+  const seen = new Set<string>();
+  const deduped: typeof nameRows = [];
+  for (const row of sorted) {
+    if (!seen.has(row.name)) {
+      seen.add(row.name);
+      deduped.push(row);
+    }
+  }
+
+  return deduped.map(toGraphQLPersonName);
 }
 
 /**
