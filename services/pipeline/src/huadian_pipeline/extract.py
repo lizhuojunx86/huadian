@@ -51,6 +51,7 @@ class ExtractedPerson:
     identity_notes: str | None
     chunk_paragraph_no: int  # which paragraph this was extracted from
     chunk_id: str  # raw_texts.id
+    llm_call_id: str | None = None  # llm_calls.id; carried from LLMResponse.call_id
 
 
 @dataclass(slots=True)
@@ -236,7 +237,9 @@ async def _extract_chunk(
         },
     )
 
-    persons = _parse_response(response.content, paragraph_no, chunk_id)
+    persons = _parse_response(
+        response.content, paragraph_no, chunk_id, llm_call_id=response.call_id
+    )
     return persons, response
 
 
@@ -275,6 +278,7 @@ def _parse_response(
     content: str,
     paragraph_no: int,
     chunk_id: str,
+    llm_call_id: str | None = None,
 ) -> list[ExtractedPerson]:
     """Parse LLM JSON response into ExtractedPerson list."""
     # Strip markdown code fences if present
@@ -324,6 +328,7 @@ def _parse_response(
                 identity_notes=item.get("identity_notes"),
                 chunk_paragraph_no=paragraph_no,
                 chunk_id=chunk_id,
+                llm_call_id=llm_call_id,
             )
             if person.name_zh:
                 persons.append(person)
