@@ -19,13 +19,21 @@
 | T-P0-010 | Pipeline 基础设施 + 真书 Pilot（史记·本纪前 3 篇） | **done** | 管线 + 历史专家 | Phase 0 |
 | T-P0-011 | 跨 chunk 身份消歧（identity_resolver） | **done** | 管线 + 架构师 + historian | Phase 0 |
 | T-P0-012 | Web 首页 + 全局导航（/ + /about + Header/Footer） | **done** | 前端 + 后端 | Phase 0 |
-| T-P0-013 | Canonical 选择算法优化（帝X 前缀偏差） | **planned** | 管线 | Phase 0 |
-| T-P0-014 | 冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥） | **planned** | 管线 + historian | Phase 0 |
+| T-P0-013 | Canonical 选择算法优化（帝X 前缀偏差） | **done** | 管线 | Phase 0 |
+| T-P0-014 | 冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥） | **done** | 管线 + historian | Phase 0 |
 | T-P0-005a | SigNoz 版本对齐与接入 | **planned** | DevOps + 管线 | Phase 0 |
+| T-P1-005 | 统一 migration 入口（Drizzle + pipeline SQL 双轨合一） | **planned** | DevOps + 后端 | Phase 1 |
 
 ## 已完成
 | 任务 ID | 标题 | 完成日期 | 主导角色 |
 |---------|------|---------|---------|
+| T-P1-004 | NER 单人多 primary 约束（ADR-012 三层防御：prompt + ingest + QC；32 tests；4 commits；tip a50c2f9） | 2026-04-19 | 管线 + QA |
+| T-P2-002 | persons.slug 命名一致性（方向 3 分层白名单：tier-s-slugs.yaml 74 条 + slug.py + ADR-011；26 tests + 3 invariant） | 2026-04-19 | 管线 + 后端 |
+| T-P1-002 | person_names 降级+去重+UNIQUE（方向 C 混合：backfill 17 行 + resolve.py demote + 读端 dedup；9 tests） | 2026-04-19 | 管线 + 后端 |
+| T-P0-015 | 帝鸿氏/缙云氏 Canonical 归并裁决（(c) 混合：帝鸿氏 MERGE R4 + 缙云氏 KEEP；152→151 persons） | 2026-04-19 | historian + 管线 |
+| T-P1-003 | 搜索召回精度调优（length-weighted threshold + alias fallback；F1 95.6%→100%；7 tests） | 2026-04-19 | 后端 + QA |
+| T-P0-014 | 非人实体清理（is_likely_non_person 规则 + HONORIFIC_SHI_WHITELIST；5 soft-deleted 157→152；22 tests） | 2026-04-19 | 管线 + historian |
+| T-P0-013 | Canonical 选择算法优化（has_di_prefix_peer 惩罚项；1 组反转帝中丁→中丁；11 tests） | 2026-04-18 | 管线 |
 | T-P0-012 | Web 首页 + 全局导航（Header/Footer + Hero + FeaturedPersonCard + Stats API + /about + SEO；17 tests + 3 E2E；7 commits） | 2026-04-18 | 前端 + 后端 |
 | T-P0-011 | 跨 chunk 身份消歧（ADR-010 + identity_resolver + API resolveCanonical；11 组合并 169→157；6 commits） | 2026-04-18 | 架构师 + 管线 + historian |
 | T-P0-010 | Pipeline 基础设施 + 真书 Pilot（8 模块 + 3 books / 169 persons / $1.77 / 14 commits） | 2026-04-18 | 管线 + 历史专家 | Phase 0 |
