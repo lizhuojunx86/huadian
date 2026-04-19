@@ -4,7 +4,7 @@
 
 - **最近更新**：2026-04-19
 - **更新人**：管线工程师 + 古籍/历史专家（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅**
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅**
 
 ---
 
@@ -29,6 +29,24 @@
 ---
 
 ## 已完成
+
+### T-P0-006-β《尚书·尧典 + 舜典》摄入 — β 路线跨书归并压力测试（2026-04-19）
+- [x] S-0：任务卡 + 6 问架构师预裁
+- [x] S-1：fixtures 准备 + ctext adapter 扩展 + DB 现状对照表
+- [x] S-2：Ingest（2 books / 27 raw_texts / 1700 字）
+- [x] S-3a：smoke v1-r3 → 发现"帝" surface 污染 → 停机
+- [x] S-3a-bis：v1-r4 prompt + _filter_pronoun_surfaces + prompt caching（双保险方案 C）
+- [x] S-3b：全量 NER v1-r4（$0.12 含 cache）+ load 入库（5 new persons）
+- [x] S-3b-fix：ADR-013 partial unique index（修 slug 冲突）+ 弃/垂 retry
+- [x] S-4：Dry-run identity resolver（2 auto + 1 manual + 1 α-fix）
+- [x] S-5：Merge apply → model-B 误用 → rollback + apply_merges() rerun per ADR-014
+- [x] S-6：CI 全绿 + V1-V4 invariant 全 PASS
+- 结果：153 active persons（151α + 5β - 3 merged）；2 new（殳斨/伯与）
+- 核心验证：R3 tongjia 跨书触发（垂→倕）端到端通过 ✅
+- 过程产出：ADR-013（partial unique）+ ADR-014（model-A merge）+ NER v1-r4 + 7 pronoun filter tests + V4 invariant
+- 衍生债：11 条 followups（见 docs/debts/T-P0-006-beta-followups.md）
+- 累计成本：~$0.28（NER API）
+- 累计：8 commits / 7 new tests / 4 DB merges / 2 ADRs / 1 migration
 
 ### T-P1-004 NER 阶段单人多 primary 约束 — 三层防御（2026-04-19）
 - [x] S-0：任务卡创建
@@ -282,7 +300,7 @@
 
 ## 进行中
 
-无。（T-P1-004 刚完成）
+无。（T-P0-006-β 刚完成）
 
 ---
 
