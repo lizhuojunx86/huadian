@@ -121,6 +121,20 @@ jobs:
         env:
           DATABASE_URL: postgresql://huadian:huadian_ci@localhost:5432/huadian_test
 
+      # ── Step 4c: Apply pipeline SQL migrations ───────────────
+      # Pipeline-only tables/indexes (e.g. person_merge_log) live in
+      # services/pipeline/migrations/*.sql and are NOT managed by Drizzle.
+      # All pipeline migrations are idempotent (IF NOT EXISTS / targeted
+      # WHERE). Run them in filename order after Drizzle schema is applied.
+      # Tracked as debt T-P1-005 (unify migration entry point).
+      - name: "Step 4c: apply pipeline SQL migrations"
+        run: |
+          for f in services/pipeline/migrations/*.sql; do
+            echo "[pipeline-migrate] applying $(basename "$f")"
+            PGPASSWORD=huadian_ci psql -h localhost -U huadian -d huadian_test \
+              -v ON_ERROR_STOP=1 -f "$f"
+          done
+
       # ── Step 5: Test ─────────────────────────────────────────
       - name: "Step 5: test (vitest)"
         run: pnpm test
