@@ -3,32 +3,46 @@
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
 - **最近更新**：2026-04-19
-- **更新人**：管线工程师 + 古籍/历史专家（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅**
+- **更新人**：管线工程师（Claude Opus）
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅**
 
 ---
 
 ## 当前在哪
 
-**T-P0-002（DB Schema 落地）已完成（2026-04-16）。**
+**Phase 0 α-blocking 推进期。距 α 第一本书 ingest 还差 2 张卡。**
 
-数据库已具备：
-- 33 张业务表（9 层：文本源 / 身份 / 事件 / 地理时间 / 关系引用 / 物品 / 嵌入审计 / 管线 / 反馈）
-- Drizzle ORM schema 按业务域拆分为 10 个文件
-- pgEnum 定义 22 个枚举类型
-- PostGIS GEOMETRY + pgvector vector(1024) customType
-- shared-types：HistoricalDate / MultiLangText / EventRefs / 全量枚举（zod → JSON Schema → Pydantic 全链路）
-- 初始迁移 `0000_lame_roughhouse.sql`（551 行），在干净 PG 上 migrate 成功
-- ADR-005 errata：entity_id 从 BIGINT 修正为 UUID
+今日交付 3 个 sprint（7 commits）：
+- **T-P0-022**：F10 α merge source primary 残留 demote（8 行）
+- **T-P0-020**：persons_merge_requires_delete CHECK 约束上线（单向蕴涵）
+- **T-P0-016**：apply_merges + load.py W1 双路径 is_primary 同步 + backfill 18 行
 
-**下一步推进建议**（可并行）：
-- **T-P0-003（GraphQL schema 骨架）** — 后端工程师
-- **T-P0-004（历史专家字典初稿）** — 历史专家
-- **T-P0-005（LLM Gateway + TraceGuard）** — 管线工程师
+**里程碑：V1-V6 全套 invariant 首次集体绿——数据层一致性达项目最佳。**
+
+**下一步**：T-P0-023（ADR-015 Evidence 链 Stage 1 实装，α 阻塞必做，涉及 Drizzle migration + extract→load 链改造）
 
 ---
 
 ## 已完成
+
+### T-P0-016 apply_merges + load.py W1 双路径 is_primary 同步（2026-04-19）
+- [x] Stage 0：4 闸门 + 写路径审计发现第二活跃路径（W1）
+- [x] Stage 1a：resolve.py apply_merges SET 子句加 is_primary=false（4 测试）
+- [x] Stage 1b：load.py W1 is_primary_value = primary_name_type == "primary"（2 测试）
+- [x] Stage 2：Migration 0007 backfill 18 行 → 0（V6 TDD red→green）
+- [x] Stage 3：book-keeping + F12 debt 登记
+- 结果：18 行违规清零；V1-V6 首次全绿；269 pipeline + 61 api + 55 web = 385 tests
+- 附带发现：W2 路径对称违规（F12），11 行 active 基线
+- 累计：4 commits / 7 new tests / 1 migration / 1 new debt (F12)
+
+### T-P0-022 + T-P0-020 合并 Sprint — F10 残留清理 + persons CHECK 约束（2026-04-19）
+- [x] Stage 0：共用 4 闸门 + 双预扫描（T-P0-020 发现 5 行 partial-delete 违反原 CHECK）
+- [x] Stage 1（T-P0-022）：Migration 0005 demote 8 行 merge source primary→alias
+- [x] Stage 2（T-P0-020）：Migration 0006 ALTER TABLE persons_merge_requires_delete CHECK（架构师裁决双向→单向）
+- [x] Stage 3：ADR-010 supplement + book-keeping + F3/F4/F10 resolved
+- 结果：F10 清零；persons 三态语义确立（active/merge/pure）；V1-V5 全 PASS
+- Drizzle schema 同步 persons.ts
+- 累计：3 commits / 2 migrations / 0 new tests / ADR-010 supplement
 
 ### T-P0-006-β《尚书·尧典 + 舜典》摄入 — β 路线跨书归并压力测试（2026-04-19）
 - [x] S-0：任务卡 + 6 问架构师预裁
@@ -300,7 +314,9 @@
 
 ## 进行中
 
-无。（T-P0-006-β 刚完成）
+无。（T-P0-016 刚完成）
+
+**已锁定下一张**：T-P0-023（ADR-015 Evidence 链 Stage 1 实装），等 STATUS.md push 后开工。
 
 ---
 
@@ -308,18 +324,14 @@
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
-| ~~🔴 高~~ | ~~T-P0-014~~ | ~~冗余实体 soft-delete（姒氏/昆吾氏/羲氏/和氏/荤粥）~~ | ~~管线 + historian~~ | ~~T-P0-011 ✅~~ | **done** |
-| ~~🔴 高~~ | ~~T-P0-013~~ | ~~Canonical 选择算法优化（帝X 前缀偏差）~~ | ~~管线~~ | ~~T-P0-011 ✅~~ | **done** |
+| 🔴 高 | T-P0-023 | Evidence 链 Stage 1（新行必填段落级 + seed_dictionary 枚举） | 管线 + 后端 | ADR-015 ✅ | planned |
+| 🟡 中 | T-P0-019 | β 尾巴清理（F1 pronoun + F2 prefix-containment；F4 已由 ADR-010 supplement 统一） | 管线 | — | planned |
+| 🟡 中 | T-P0-024 | Evidence 链 Stage 2 回填（存量 text-search 反查） | 管线 + historian | T-P0-023 | planned |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
-| 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 更多封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
-| 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | T-P0-011 ✅ | planned |
-| ~~🟢 低~~ | ~~T-P1-001~~ | ~~API 集成测试 isolation 修复（hasMore + ordering 2 case）~~ | ~~QA~~ | ~~—~~ | **closed**（2026-04-19, [debt doc](../docs/debts/T-P1-001-test-isolation.md)） |
-| ~~🟢 低~~ | ~~T-P1-002~~ | ~~merge 后 person_names nameType 未降级 + 重复名未去重~~ | ~~管线 / 后端~~ | ~~T-P0-011~~ | **closed**（2026-04-19, 方向 C 混合：写端 17 行降级 + 读端 dedup + UNIQUE） |
-| ~~🟢 低~~ | ~~T-P1-004~~ | ~~NER 阶段单人多 primary 约束（prompt + load 层校验）~~ | ~~管线~~ | ~~T-P1-002 ✅~~ | **done**（2026-04-19, ADR-012 三层防御） |
-| ~~🟢 低~~ | ~~T-P1-003~~ | ~~pg_trgm 搜索对"帝X"类查询召回过宽~~ | ~~后端~~ | ~~T-P0-009~~ | **closed**（2026-04-19, length-weighted threshold） |
-| 🟡 中 | T-P1-005 | 统一 migration 入口 — `pnpm db:migrate` / `db:reset` 自动串联 pipeline SQL 迁移（services/pipeline/migrations/*.sql），消除 CI Step 4c 临时 workaround；Drizzle 迁移 + pipeline raw SQL 单入口治理 | DevOps + 后端 | — | registered（2026-04-19 CI 红灯修复衍生） |
-| ⚪ 微 | T-P2-001 | codegen 输出 trailing newline 不一致 — `pnpm codegen` 生成无尾换行，git 版本有尾换行。修复候选：codegen.ts 配置 prettier plugin 或 post-hook `sed -i -e '$a\'`。影响 cosmetic，CI 不受影响 | DevOps | — | registered（2026-04-18 T-P0-013 S-5 清理发现） |
-| ~~⚪ 微~~ | ~~T-P2-003~~ | ~~清理 datamodel-codegen dash-case 死文件 + 根治 codegen 后处理~~ | ~~DevOps~~ | ~~—~~ | **closed**（2026-04-19, gen-types.sh 防御性清理） |
+| 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
+| 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | T-P0-023 | planned |
+| 🟡 中 | T-P1-005 | 统一 migration 入口（Drizzle + pipeline SQL 双轨合一） | DevOps + 后端 | — | registered |
+| ⚪ 微 | T-P2-001 | codegen trailing newline 不一致 | DevOps | — | registered |
 
 ---
 
@@ -327,7 +339,7 @@
 
 | # | 描述 | 等待 | 建议处理 |
 |---|------|------|---------|
-| （无当前阻塞） | — | — | T-P0-003 / T-P0-004 / T-P0-005 可并行启动 |
+| （无当前阻塞） | — | — | T-P0-023 可立即开工 |
 
 ---
 
@@ -345,21 +357,46 @@
 - `ADR-010` — 跨 chunk 身份消歧（5 规则评分函数 + 字典 + soft merge + 可逆性）
 - `ADR-011` — Person Slug Naming Scheme — Tiered Whitelist（方向 3：Tier-S pinyin + unicode fallback；扩列治理；不变量测试）
 - `ADR-012` — NER 单人多 primary 约束三层防御（prompt + ingest auto-demotion + QC rule）
+- `ADR-013` — persons.slug partial unique index（排除 soft-deleted persons）
+- `ADR-014` — Canonical Merge Execution Model（names-stay + read-side aggregation + apply_merges() 唯一入口）
+- `ADR-015` — Evidence 链填充方案（staged activation + paragraph-level Stage 1）
+- `ADR-017` — Migration Rollback Strategy（forward-only + pg_dump anchor + 4 闸门协议）
+- `ADR-010 Supplement` — persons 表三态 soft-delete 语义 + 单向 CHECK 选型
 
 ---
 
 ## 健康度指标
 
 - 📘 文档覆盖度：核心 7/7 ✅
-- 🧭 ADR 数量：12 accepted / 8 planned
-- 📋 任务卡数量：T-P0-001~T-P0-014 done（14）；T-P0-005a planned
+- 🧭 ADR 数量：16 accepted（含 ADR-010 supplement）
+- 📋 任务卡数量：T-P0-001~T-P0-016 + T-P0-019~T-P0-024 done/planned（20+）
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：366 passed + 0 skipped（ai/ 46 + qc/ 91 + resolve/ 73 + load/ 18 + slug/ 23 + api/ 61 + web/ 55 = ~250 pipeline + 61 api + 55 web）+ 3 DB invariant tests；E2E 7 specs
-- 🔗 合并状态：151 canonical persons（12 soft-merged via T-P0-011 + 5 non-person soft-deleted via T-P0-014 + 1 honorific-alias merged via T-P0-015）
+- 🧪 测试覆盖：385 passed（pipeline 269 + api 61 + web 55）+ 0 skipped；E2E 7 specs
+- 🔗 合并状态：153 active persons / 16 merge-soft-deleted / 5 pure-soft-deleted = 174 total
+- 🗄️ Pipeline migrations：0001–0007（latest: 0007_t-p0-016-is-primary-backfill.sql）
 - 🚦 阻塞项数量：0 ✅
+
+### 数据层不变量矩阵
+
+| # | Invariant | 描述 | 当前状态 | 转绿日期 |
+|---|-----------|------|---------|---------|
+| V1 | single-primary | 每 active person 恰 1 个 name_type='primary' | ✅ | 历史绿 |
+| V2 | name completeness | 每 active person 至少 1 个 name | ✅ | 历史绿 |
+| V3 | FK completeness | merged_into_id 指向存在的 person | ✅ | 历史绿 |
+| V4 | model-B leakage | merged source 无 primary name | ✅ | 2026-04-19（T-P0-022） |
+| V5 | active definition | 无 merged 但未 deleted（CHECK 约束保护） | ✅ | 2026-04-19（T-P0-020） |
+| V6 | alias ≠ is_primary | 全表无 alias+is_primary=true | ✅ | 2026-04-19（T-P0-016） |
+
+**V1-V6 全绿（首次达成 2026-04-19）**。
+
+### 已知未处理违规（debt baseline）
+
+| Debt | 描述 | 行数 | 优先级 |
+|------|------|------|--------|
+| F12 | primary + is_primary=false（W2 路径） | 11 行 active | P2 |
 
 ---
 
@@ -392,6 +429,9 @@
 - 2026-04-19：T-P2-002 closed — slug 命名一致性清理（方向 3 分层白名单：data/tier-s-slugs.yaml 74 条 + slug.py 模块 + load.py 重构；ADR-011 accepted；26 new tests → 218 pipeline tests + 3 DB invariant；零 DB 变更；零 URL 变更；3 commits）
 - 2026-04-19：T-P1-004 closed — NER 单人多 primary 约束（ADR-012 三层防御：NER prompt v1-r3 + load.py _enforce_single_primary auto-demotion + QC ner.single_primary_per_person；共享 is_di_honorific；32 new tests → 250 pipeline tests；零 DB 变更；4 commits；tip a50c2f9）
 - 2026-04-19：CI 基建修复 — 堵上 pipeline SQL 迁移在 CI 未应用的漏洞（person_merge_log 不存在触发 #76/#77 红灯），ci.yml 新增 Step 4c 按文件名顺序 psql -f 跑 `services/pipeline/migrations/*.sql`；`test_slug_count_sanity` 加 `pytest.skip()` 兜底空 DB 环境（#78 红灯修复）；2 commits（b55beb8 + 0a4aa78）；#79 全绿；T-P1-004 rebase 上推 #80 全绿；衍生债 T-P1-005 registered
+- 2026-04-19：T-P0-022 + T-P0-020 合并 sprint（F10 demote 8 行 + persons CHECK 约束 + ADR-010 supplement；tip 9a19140）
+- 2026-04-19：T-P0-016 sprint（双路径 is_primary 同步 + backfill 18→0 + V6 invariant + F12 debt；tip 7566916）
+- 2026-04-19：V1-V6 全套 invariant 首次集体绿；CI run #24629863280 全绿
 
 ---
 
