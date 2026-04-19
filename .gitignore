@@ -1,101 +1,87 @@
-# ========================================
-# 华典智谱 .gitignore
-# ========================================
 
-# Dependencies - JavaScript/TypeScript
-node_modules/
-.pnpm-store/
-.pnp.*
-*.tsbuildinfo
-
-# Dependencies - Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-.venv/
-venv/
-env/
-.uv/
-.ruff_cache/
-.mypy_cache/
-.pytest_cache/
-*.egg-info/
-
-# Build outputs
-.next/
-out/
-dist/
-build/
-.turbo/
-
-# Environment / secrets
-.env
-.env.*
 !.env.example
-*.pem
-*.key
-*.p12
-secrets/
-
+!.vscode/settings.json.example
+!data/seeds/.gitkeep
+# ========================================
+# Build outputs
 # Claude Code - 本地会话与凭据（不提交）
+# Coverage
+# Data directories - 原始和处理中数据不进库
+# Database volumes (docker-compose 本地卷)
+# Dependencies - JavaScript/TypeScript
+# Dependencies - Python
+# Environment / secrets
+# IDE / OS
+# Logs
+# Monorepo tooling
+# PyInstaller
+# Python notebooks checkpoints
+# Temporary
+# TraceGuard 本地实例数据（如集成）
+# macOS duplicate files (Finder "Copy" or iCloud sync artifacts)
+# 华典智谱 .gitignore
+* 2
+* 2.*
+*$py.class
+*.egg-info/
+*.key
+*.lcov
+*.log
+*.manifest
+*.p12
+*.pem
+*.py[cod]
+*.so
+*.spec
+*.swo
+*.swp
+*.tsbuildinfo
+.DS_Store
+.Python
+.cache/
 .claude/local/
 .claude/sessions/
 .claude/settings.local.json
-
-# Data directories - 原始和处理中数据不进库
-data/raw/
-data/processed/
-data/cache/
-data/seeds/*.sqlite
-!data/seeds/.gitkeep
-
-# Database volumes (docker-compose 本地卷)
-db/pgdata/
-pgdata/
-redisdata/
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-pnpm-debug.log*
-
-# IDE / OS
-.DS_Store
-Thumbs.db
-# macOS duplicate files (Finder "Copy" or iCloud sync artifacts)
-* 2.*
-* 2
+.env
+.env.*
 .idea/
-.vscode/
-!.vscode/settings.json.example
-*.swp
-*.swo
-
-# Coverage
-coverage/
-*.lcov
+.ipynb_checkpoints/
+.mypy_cache/
+.next/
+.nx/
 .nyc_output/
-
-# Temporary
-tmp/
+.pnp.*
+.pnpm-store/
+.pytest_cache/
+.ruff_cache/
+.rush/
+.turbo/
+.uv/
+.venv/
+.vscode/
+Thumbs.db
+__pycache__/
+build/
+coverage/
+data/cache/
+data/processed/
+data/raw/
+data/seeds/*.sqlite
+db/pgdata/
+dist/
+env/
+logs/
+node_modules/
+npm-debug.log*
+ops/snapshots/*.dump
+out/
+pgdata/
+pnpm-debug.log*
+redisdata/
+secrets/
 temp/
-.cache/
-
-# TraceGuard 本地实例数据（如集成）
+tmp/
 traceguard-data/
 traceguard-local/
-
-# Monorepo tooling
-.nx/
-.rush/
-
-# Python notebooks checkpoints
-.ipynb_checkpoints/
-
-# PyInstaller
-*.manifest
-*.spec
+venv/
+yarn-debug.log*
