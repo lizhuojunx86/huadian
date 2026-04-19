@@ -441,12 +441,14 @@ async def apply_merges(
                         group.canonical_id,
                     )
 
-                    # T-P1-002: Demote merged person's primary names to alias
-                    # so the canonical group has at most one primary.
+                    # T-P1-002 + T-P0-016: Demote merged person's primary names to alias,
+                    # and sync is_primary=false to prevent nameType=alias + isPrimary=true
+                    # UX contradiction (GraphQL read-side would otherwise expose
+                    # semantically inconsistent state).
                     demoted = await conn.execute(
                         """
                             UPDATE person_names
-                            SET name_type = 'alias'
+                            SET name_type = 'alias', is_primary = false
                             WHERE person_id = $1 AND name_type = 'primary'
                             """,
                         merged_id,
