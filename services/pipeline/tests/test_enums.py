@@ -16,6 +16,7 @@ def test_provenance_tier_values_match_db_schema():
         "ai_inferred",
         "crowdsourced",
         "unverified",
+        "seed_dictionary",
     }
     assert {t.value for t in ProvenanceTier} == expected
 

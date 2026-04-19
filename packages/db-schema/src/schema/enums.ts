@@ -24,6 +24,7 @@ export const provenanceTierEnum = pgEnum("provenance_tier", [
   "ai_inferred",
   "crowdsourced",
   "unverified",
+  "seed_dictionary",
 ]);
 
 // -- Person name types --
