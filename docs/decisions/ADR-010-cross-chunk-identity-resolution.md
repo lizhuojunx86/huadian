@@ -558,3 +558,37 @@ WHERE run_id = $1 ORDER BY merged_at;
 - 质量报告：`docs/reports/T-P0-010-findings.md` / `T-P0-010-phase-a-quality.md` / `T-P0-010-phase-b-quality.md`
 - 相关 ADR：ADR-009（Person sourceEvidenceId traceability）
 - 已规划 ADR：ADR-015（Identity Hypotheses 表达机制）— 本 ADR 的合并结果会产生 identity_hypothesis 记录，两者互补
+
+---
+
+## Supplement 2026-04-19（来源：T-P0-020 Stage 0 发现）
+
+### persons 表 soft-delete 的两种合法语义
+
+T-P0-020 实施 F3 CHECK 约束过程中，Stage 0 扫描发现 persons 表存在两种合法的 soft-delete 形态：
+
+| 语义 | deleted_at | merged_into_id | 来源 |
+|------|-----------|----------------|------|
+| active | NULL | NULL | 正常活跃 |
+| merge soft-delete | NOT NULL | NOT NULL | `apply_merges()` 正常路径 |
+| pure soft-delete | NOT NULL | NULL | T-P0-014 R3-non-person 规则 |
+
+三态并存，不违反 merge 铁律。违规态仅有一种：
+- `deleted_at IS NULL AND merged_into_id IS NOT NULL`（merged 但未 deleted）
+
+### CHECK 约束选型：单向蕴涵
+
+T-P0-020 原拟议双向等价 `(merged_into_id IS NULL) = (deleted_at IS NULL)` 会误伤 pure soft-delete 的 5 行。架构师裁决改为单向蕴涵：
+
+```sql
+ALTER TABLE persons ADD CONSTRAINT persons_merge_requires_delete
+  CHECK (merged_into_id IS NULL OR deleted_at IS NOT NULL);
+```
+
+即 `merged_into_id IS NOT NULL → deleted_at IS NOT NULL`，逆否命题 `deleted_at IS NULL → merged_into_id IS NULL`，保证 `active = deleted_at IS NULL` 与 `active = deleted_at IS NULL AND merged_into_id IS NULL` 严格等价（F4 修复）。
+
+### 影响
+
+- 所有查询中的 "active person" 定义统一为 `deleted_at IS NULL`
+- 未来若需要更细粒度的 deletion 语义（例如区分 non-person / duplicate / obsolete），应独立开 ADR 引入 `deletion_reason` 枚举列，当前的单向 CHECK 与此演进路径兼容
+- 本 supplement 不改变 ADR-010 §5 apply_merges 的合约

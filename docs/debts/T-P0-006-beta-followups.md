@@ -24,20 +24,16 @@
 - **影响**：当前无误合并风险（其他 person 无单独"伯" surface），但周本纪/秦本纪扩量时可能撞 伯禽/伯邑考/伯益
 - **建议**：不加入 `_PRONOUN_BLACKLIST`（会杀掉合法省称），改用 load 层 prefix-containment 检测
 
-## F3: `persons` 缺 merged_into_id ↔ deleted_at CHECK 约束 — **P2**
+## F3: `persons` 缺 merged_into_id ↔ deleted_at CHECK 约束 — ~~P2~~ **resolved 2026-04-19** (commit c43aaf9)
 
-- **现状**：T-P0-015 帝鸿氏 partial-merge bug 暴露 schema 无强制约束
-- **修复 SQL**：
-  ```sql
-  ALTER TABLE persons ADD CONSTRAINT persons_soft_merge_paired
-    CHECK ((merged_into_id IS NULL) = (deleted_at IS NULL));
-  ```
-- **注意**：需先清理 F10（α merge source primary 未 demote），否则 CHECK 可能与其他治理冲突
+- **修复**：`ALTER TABLE persons ADD CONSTRAINT persons_merge_requires_delete CHECK (merged_into_id IS NULL OR deleted_at IS NOT NULL)`
+- CHECK 约束采用单向蕴涵版本（原双向等价会误伤 T-P0-014 R3-non-person 的 5 行 pure soft-delete）。详见 ADR-010 Supplement 2026-04-19
+- V1-V5 invariant 全 PASS；Drizzle schema 同步
 
-## F4: "active" 定义统一 — **P2**
+## F4: "active" 定义统一 — ~~P2~~ **resolved 2026-04-19** (via F3 CHECK, commit c43aaf9)
 
-- **现状**：resolver 用 `deleted_at IS NULL`，部分统计用 `merged_into_id IS NULL AND deleted_at IS NULL`
-- **修复**：ADR-010 补充 "active = deleted_at IS NULL" 为唯一定义（配合 F3 CHECK 约束，两定义等价）
+- **修复**：F3 CHECK 约束的逆否命题 `deleted_at IS NULL → merged_into_id IS NULL` 保证 `{deleted_at IS NULL}` 与 `{deleted_at IS NULL AND merged_into_id IS NULL}` 严格等价
+- "active = deleted_at IS NULL" 现在是唯一定义，有 DB 约束背书
 
 ## F5 / F11: is_primary 不跟 name_type 同步 demote — **P0-followup**
 
@@ -61,8 +57,8 @@
 - **影响**：无法 replay load.py（β 弃重建踩坑）、无法离线 A/B prompt 迭代、无法提供 historian 黄金集对比样本
 - **建议**：extract 完成后 dump JSONL 到 `services/pipeline/outputs/ner/{run_id}.jsonl`
 
-## F10: α merge source primary 未 demote — **P1-followup**
+## F10: α merge source primary 未 demote — ~~P1-followup~~ **resolved 2026-04-19** (commit 7bfb287)
 
-- **现状**：hou-ji 聚合里 α 旧行 u5f03 的 `name_type='primary'` 未被 demote
-- **待验证**：扫 α 12 条 merge 的 source person_names，统计 `name_type='primary'` 残留数
-- **修复**：补丁 SQL 批量 `UPDATE name_type='alias' WHERE person_id IN (merged sources) AND name_type='primary'`
+- **修复**：Migration 0005 批量 `UPDATE person_names SET name_type='alias'` 8 行（调研 memo §C4 预估 ≥2 行，实际 8 行覆盖全部 α merge source 残留）
+- 8 行分布：7 行 primary/is_primary=true + 1 行 primary/is_primary=false（cheng-tang）
+- is_primary 联动未处理，遗留给 T-P0-016（当前 alias+is_primary=true 计 18 行）
