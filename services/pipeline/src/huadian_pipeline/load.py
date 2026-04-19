@@ -54,6 +54,7 @@ class MergedPerson:
     confidence: float
     chunk_ids: list[str]
     paragraph_nos: list[int]
+    llm_call_ids: list[str] = field(default_factory=list)
 
 
 @dataclass(slots=True)
@@ -92,11 +93,13 @@ def merge_persons(persons: list[ExtractedPerson]) -> list[MergedPerson]:
                 existing.identity_notes.append(p.identity_notes)
             # Update confidence (take max)
             existing.confidence = max(existing.confidence, p.confidence)
-            # Track chunks
+            # Track chunks + call_ids
             if p.chunk_id not in existing.chunk_ids:
                 existing.chunk_ids.append(p.chunk_id)
             if p.chunk_paragraph_no not in existing.paragraph_nos:
                 existing.paragraph_nos.append(p.chunk_paragraph_no)
+            if p.llm_call_id and p.llm_call_id not in existing.llm_call_ids:
+                existing.llm_call_ids.append(p.llm_call_id)
             # Prefer more specific dynasty/reality_status
             if p.dynasty and (not existing.dynasty or existing.dynasty == "上古"):
                 existing.dynasty = p.dynasty
@@ -114,6 +117,7 @@ def merge_persons(persons: list[ExtractedPerson]) -> list[MergedPerson]:
                 confidence=p.confidence,
                 chunk_ids=[p.chunk_id],
                 paragraph_nos=[p.chunk_paragraph_no],
+                llm_call_ids=[p.llm_call_id] if p.llm_call_id else [],
             )
 
     return list(by_name.values())
@@ -124,37 +128,46 @@ async def load_persons(
     persons: list[MergedPerson],
     *,
     book_id: str,
+    prompt_version: str = "",
 ) -> LoadResult:
     """Load merged persons into the database.
 
     Upserts into persons table by slug, inserts person_names.
+    Each person is wrapped in its own transaction for failure isolation.
     """
     result = LoadResult(total_merged=len(persons))
 
     async with pool.acquire() as conn:
         for person in persons:
             try:
-                person_id, is_new = await _upsert_person(conn, person)
+                async with conn.transaction():
+                    person_id, is_new = await _upsert_person(conn, person)
+                    names_added = await _insert_person_names(
+                        conn,
+                        person_id,
+                        person,
+                        book_id=book_id,
+                        prompt_version=prompt_version,
+                        llm_call_ids=person.llm_call_ids,
+                    )
+                # Transaction committed — safe to count
                 if is_new:
                     result.persons_inserted += 1
                 else:
                     result.persons_updated += 1
-
-                # Insert person_names for each surface form
-                names_added = await _insert_person_names(conn, person_id, person)
                 result.names_inserted += names_added
-
             except Exception as e:
                 msg = f"Failed to load person {person.name_zh}: {e}"
-                logger.error(msg)
+                logger.error(msg, exc_info=True)
                 result.errors.append(msg)
 
     logger.info(
-        "Loaded %d persons (%d new, %d updated), %d names",
+        "Loaded %d persons (%d new, %d updated), %d names, %d errors",
         result.total_merged,
         result.persons_inserted,
         result.persons_updated,
         result.names_inserted,
+        len(result.errors),
     )
     return result
 
@@ -322,8 +335,24 @@ async def _insert_person_names(
     conn: Any,
     person_id: str,
     person: MergedPerson,
+    *,
+    book_id: str | None = None,
+    prompt_version: str = "",
+    llm_call_ids: list[str] | None = None,
 ) -> int:
-    """Insert person_names for each surface form. Returns count inserted.
+    """Insert primary + alias names for one person. Returns count inserted.
+
+    When all three evidence kwargs are provided (production path via
+    load_persons -> cli.py), first writes a source_evidences row and
+    threads its id into every person_names row via source_evidence_id.
+
+    When evidence kwargs are omitted (legacy / mock test path), writes
+    person_names rows with source_evidence_id = NULL. This path is
+    retained for backward compatibility with pre-ADR-015 fixtures; new
+    production callers MUST supply all three evidence kwargs.
+
+    V7 invariant (Stage 2) will warn on active person_names with
+    source_evidence_id IS NULL.
 
     Enforces single-primary invariant (T-P1-004 / ADR-012):
     at most one name_type='primary' per person.
@@ -339,6 +368,26 @@ async def _insert_person_names(
             person.name_zh,
         )
         return 0
+
+    # Create source_evidences row (ADR-015 Stage 1, per-person granularity)
+    source_evidence_id: str | None = None
+    if book_id is not None:
+        _call_ids = llm_call_ids or []
+        source_evidence_id = str(
+            await conn.fetchval(
+                """
+                INSERT INTO source_evidences
+                  (raw_text_id, book_id, provenance_tier, prompt_version, llm_call_id)
+                VALUES ($1::uuid, $2::uuid, $3::provenance_tier, $4, $5::uuid)
+                RETURNING id
+                """,
+                person.chunk_ids[0] if person.chunk_ids else None,
+                book_id,
+                ProvenanceTier.AI_INFERRED.value,
+                prompt_version,
+                _call_ids[0] if _call_ids else None,
+            )
+        )
 
     # Temporarily replace person's surface_forms for _enforce_single_primary
     original_forms = person.surface_forms
@@ -373,14 +422,15 @@ async def _insert_person_names(
         if not existing:
             await conn.execute(
                 """
-                INSERT INTO person_names (id, person_id, name, name_type, is_primary)
-                VALUES ($1, $2, $3, $4::name_type, $5)
+                INSERT INTO person_names (id, person_id, name, name_type, is_primary, source_evidence_id)
+                VALUES ($1, $2, $3, $4::name_type, $5, $6::uuid)
                 """,
                 str(uuid.uuid4()),
                 person_id,
                 person.name_zh,
                 primary_name_type,
                 is_primary_value,
+                source_evidence_id,
             )
             inserted += 1
         seen_names.add(person.name_zh)
@@ -397,13 +447,14 @@ async def _insert_person_names(
         if not existing:
             await conn.execute(
                 """
-                INSERT INTO person_names (id, person_id, name, name_type, is_primary)
-                VALUES ($1, $2, $3, $4::name_type, false)
+                INSERT INTO person_names (id, person_id, name, name_type, is_primary, source_evidence_id)
+                VALUES ($1, $2, $3, $4::name_type, false, $5::uuid)
                 """,
                 str(uuid.uuid4()),
                 person_id,
                 sf.text,
                 sf.name_type,
+                source_evidence_id,
             )
             inserted += 1
         seen_names.add(sf.text)
