@@ -16,7 +16,7 @@
 
 - **活跃人物**：151 个（merged_into_id IS NULL AND deleted_at IS NULL）
 - **Bucket A (unicode)**：88 个（58.3%）— `u{4hex}(-u{4hex})*` 格式
-- **Bucket B (pinyin)**：63 个（41.7%）— 来自 `_PINYIN_MAP`（58 条硬编码映射）
+- **Bucket B (pinyin)**：63 个（41.7%）— 来自 `_PINYIN_MAP`（74 条硬编码映射）
 - **Bucket C (other)**：0 个
 - **当前无 slug 碰撞**（所有 slug 唯一）
 - **当前无同名碰撞**（所有活跃人物 name->'zh-Hans' 唯一）
