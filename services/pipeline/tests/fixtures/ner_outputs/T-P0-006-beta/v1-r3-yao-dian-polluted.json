@@ -1,0 +1,39 @@
+{
+  "_meta": {
+    "task": "T-P0-006-β S-3a-bis-4",
+    "note": "v1-r3 output preserved as negative fixture — contains '帝' pollution (4 instances) and 羲和 compound that v1-r4 must eliminate",
+    "prompt_version": "ner/v1 (r3)",
+    "prompt_hash": "d79109b597b00022",
+    "model": "claude-sonnet-4-6",
+    "cost_usd": 0.1328,
+    "date": "2026-04-19",
+    "source": "reconstructed from terminal output (API result not persisted before extract.py changed to v1-r4)"
+  },
+  "persons": [
+    {"name_zh": "尧", "paragraph_no": 1, "surface_forms": [{"text": "帝尧", "name_type": "nickname"}, {"text": "放勋", "name_type": "alias"}]},
+    {"name_zh": "羲和", "paragraph_no": 2, "surface_forms": [{"text": "羲和", "name_type": "primary"}, {"text": "汝羲暨和", "name_type": "alias"}]},
+    {"name_zh": "羲仲", "paragraph_no": 2, "surface_forms": [{"text": "羲仲", "name_type": "primary"}]},
+    {"name_zh": "羲叔", "paragraph_no": 2, "surface_forms": [{"text": "羲叔", "name_type": "primary"}]},
+    {"name_zh": "和仲", "paragraph_no": 2, "surface_forms": [{"text": "和仲", "name_type": "primary"}]},
+    {"name_zh": "和叔", "paragraph_no": 2, "surface_forms": [{"text": "和叔", "name_type": "primary"}]},
+    {"name_zh": "尧", "paragraph_no": 3, "surface_forms": [{"text": "帝", "name_type": "nickname"}]},
+    {"name_zh": "放齐", "paragraph_no": 3, "surface_forms": [{"text": "放齐", "name_type": "primary"}]},
+    {"name_zh": "丹朱", "paragraph_no": 3, "surface_forms": [{"text": "胤子朱", "name_type": "nickname"}]},
+    {"name_zh": "尧", "paragraph_no": 4, "surface_forms": [{"text": "帝", "name_type": "nickname"}]},
+    {"name_zh": "驩兜", "paragraph_no": 4, "surface_forms": [{"text": "驩兜", "name_type": "primary"}]},
+    {"name_zh": "共工", "paragraph_no": 4, "surface_forms": [{"text": "共工", "name_type": "primary"}]},
+    {"name_zh": "尧", "paragraph_no": 5, "surface_forms": [{"text": "帝", "name_type": "nickname"}]},
+    {"name_zh": "鲧", "paragraph_no": 5, "surface_forms": [{"text": "鲧", "name_type": "primary"}]},
+    {"name_zh": "鲧", "paragraph_no": 6, "surface_forms": [{"text": "鲧", "name_type": "primary"}]},
+    {"name_zh": "尧", "paragraph_no": 7, "surface_forms": [{"text": "帝", "name_type": "nickname"}]},
+    {"name_zh": "舜", "paragraph_no": 7, "surface_forms": [{"text": "虞舜", "name_type": "alias"}, {"text": "舜", "name_type": "primary"}]},
+    {"name_zh": "瞽叟", "paragraph_no": 7, "surface_forms": [{"text": "瞽子", "name_type": "nickname"}]},
+    {"name_zh": "象", "paragraph_no": 7, "surface_forms": [{"text": "象", "name_type": "primary"}]}
+  ],
+  "pollution_markers": {
+    "di_surface_count": 4,
+    "di_surface_paragraphs": [3, 4, 5, 7],
+    "xi_he_compound": true,
+    "zero_primary_persons": ["尧", "丹朱", "瞽叟"]
+  }
+}
