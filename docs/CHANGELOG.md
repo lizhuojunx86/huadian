@@ -7,6 +7,28 @@
 
 ## 2026-04-19
 
+### [feat] T-P1-003 完成 — 搜索召回精度调优：F1 95.6%→100%（5 commits, 7 new tests, 30 golden cases）
+- **角色**：后端工程师（主导）+ QA 工程师（黄金集 + benchmark 框架）
+- **性质**：技术债清理（T-P0-013 衍生）
+- **根因**：`searchPersons` 的 pg_trgm `similarity()` 阈值固定 0.3，短查询（"帝中"/"帝武乙"等）trigram 碎片重叠导致误召回
+- **修复**：
+  - `similarityThreshold(term)`：按查询字符长度动态调阈值（≤2字: 0.5, 3字: 0.4, 4+字: 0.3）
+  - `aliasSubstringSearch()`：主查询零结果时 fallback ILIKE on `person_names.name`（保留部分别名召回如"青莲"→"青莲居士"）
+- **评估**：
+  - 黄金集 30 条（6 维度：精确/短词FP/异写/前缀/不存在/归并别名）
+  - 4 策略实验：A 阈值提高(F1=98.3%) / B 前缀优先(93.0%) / C 长度加权(**100.0%**) / D 三段式(95.8%)
+  - Strategy C 以 F1=100%、0 disallowed violations 胜出
+- **FP 消除**：
+  - "帝中" → 不再返回中壬/中康（trigram sim=0.4 < 新阈值 0.5）
+  - "帝中丁" → 不再返回中壬/中康（trigram sim=0.33 < 新阈值 0.4）
+  - "帝武乙" → 不再返回武丁（trigram sim=0.33 < 新阈值 0.4）
+- **验证**：vitest 52/52 pass × 3 runs；lint 0 errors；typecheck pass
+- **无新依赖，无 schema 变更，无 GraphQL 签名变更**
+- **产出**：`docs/benchmarks/T-P1-003-*.md`（6 份报告），`services/api/benchmarks/` JSON
+- **5 commits**
+
+---
+
 ### [fix] T-P1-001 resolved — API 集成测试隔离修复：2 skip → 0 skip（1 commit）
 - **角色**：QA 工程师（主导）
 - **性质**：技术债清理（W-8 衍生债）

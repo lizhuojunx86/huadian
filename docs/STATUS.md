@@ -30,6 +30,17 @@
 
 ## 已完成
 
+### T-P1-003 搜索召回精度调优 — F1 95.6%→100%（2026-04-19）
+- [x] S-1：searchPersons 实现调研（pg_trgm threshold=0.3 + ILIKE，GIN 索引确认）
+- [x] S-2：黄金测试集 30 条（精确/短词FP/异写/前缀/不存在 6 维度）
+- [x] S-3：基线 benchmark（P=93.9% R=100% F1=95.6%，3 disallowed violations）
+- [x] S-4：4 策略实验（A 阈值提高 / B 前缀优先 / C 长度加权 / D 三段式）→ C 以 F1=100% 胜出
+- [x] S-5：实施 Strategy C — `similarityThreshold()` 长度加权 + `aliasSubstringSearch()` fallback
+- [x] S-6：最终 benchmark（P=100% R=100% F1=100%，0 violations）+ 7 条回归单测
+- [x] S-7：5 commits / push / CI
+- 修复 FP：帝中→中壬/中康、帝中丁→中壬/中康、帝武乙→武丁 全部消除
+- 累计：5 commits / 7 new tests / 30 条黄金集 / 0 schema 变更
+
 ### T-P0-014 非人实体清理 — soft-delete 5 条（2026-04-19）
 - [x] S-1：候选审计（157 persons 扫描 → 7 候选 A 类 + 9 B 类）
 - [x] S-1 核查规程：surface_forms 裸名检查 + 原文上下文验证
@@ -218,7 +229,7 @@
 
 ## 进行中
 
-无。等待用户选择下一任务。（T-P0-014 刚完成）
+无。等待用户选择下一任务。（T-P1-003 刚完成）
 
 ---
 
@@ -233,7 +244,7 @@
 | 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | T-P0-011 ✅ | planned |
 | ~~🟢 低~~ | ~~T-P1-001~~ | ~~API 集成测试 isolation 修复（hasMore + ordering 2 case）~~ | ~~QA~~ | ~~—~~ | **closed**（2026-04-19, [debt doc](../docs/debts/T-P1-001-test-isolation.md)） |
 | 🟢 低 | T-P1-002 | merge 后 person_names nameType 未降级 + 重复名未去重 | 管线 / 后端 | T-P0-011 | registered（2026-04-18 T-P0-013 sanity check） |
-| 🟢 低 | T-P1-003 | pg_trgm 搜索对"帝X"类查询召回过宽 | 后端 | T-P0-009 | registered（2026-04-18 T-P0-013 sanity check） |
+| ~~🟢 低~~ | ~~T-P1-003~~ | ~~pg_trgm 搜索对"帝X"类查询召回过宽~~ | ~~后端~~ | ~~T-P0-009~~ | **closed**（2026-04-19, length-weighted threshold） |
 | ⚪ 微 | T-P2-001 | codegen 输出 trailing newline 不一致 — `pnpm codegen` 生成无尾换行，git 版本有尾换行。修复候选：codegen.ts 配置 prettier plugin 或 post-hook `sed -i -e '$a\'`。影响 cosmetic，CI 不受影响 | DevOps | — | registered（2026-04-18 T-P0-013 S-5 清理发现） |
 
 ---
@@ -269,7 +280,7 @@
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：252 passed + 0 skipped（ai/ 46 + qc/ 82 + resolve/ 67 + api/ 45 + web/ 55）；E2E 7 specs
+- 🧪 测试覆盖：259 passed + 0 skipped（ai/ 46 + qc/ 82 + resolve/ 67 + api/ 52 + web/ 55）；E2E 7 specs
 - 🔗 合并状态：152 canonical persons（12 soft-merged via T-P0-011 + 5 non-person soft-deleted via T-P0-014）
 - 🚦 阻塞项数量：0 ✅
 
@@ -297,6 +308,7 @@
 - 2026-04-18：T-P0-013 done — Canonical 帝X 前缀去偏差（has_di_prefix_peer + select_canonical 优先级链；1 组 canonical 反转 帝中丁→中丁；11 new tests → 45 resolve tests；4 commits）；ADR-010 Follow-up #1 闭环
 - 2026-04-19：T-P0-014 done — 非人实体清理（is_likely_non_person 规则 + HONORIFIC_SHI_WHITELIST 13 条 + X氏 pattern；5 entities soft-deleted 157→152 persons；22 new tests → 67 resolve tests；5 commits）；衍生债 T-P2-002 registered
 - 2026-04-19：T-P1-001 closed — API 集成测试隔离修复（2 skip → 0 skip；hasMore 断言改用 probe+offset、ordering 断言 scope 到 test-* fixtures；1 commit）
+- 2026-04-19：T-P1-003 closed — 搜索召回精度调优（length-weighted threshold + alias fallback；F1 95.6%→100%；3 FP 消除；30 条黄金集 + 7 new tests → 52 api tests；5 commits）
 
 ---
 
@@ -312,14 +324,10 @@
 - **优先级**：P1（不阻塞 MVP，影响 UI 别名列表正确性）
 - **登记**：2026-04-18 by T-P0-013 sanity check
 
-### T-P1-003: pg_trgm 搜索对"帝X"类查询召回过宽
+### ~~T-P1-003: pg_trgm 搜索对"帝X"类查询召回过宽~~ — **closed 2026-04-19**
 
-- **现象**：搜"帝中丁"命中中壬 / 中康 / 帝中壬 / 帝中康（trigram "帝中" 通配）
-- **根因**：searchPersons 用 ILIKE + pg_trgm，threshold 太低且未处理尊称前缀 stopword
-- **影响**：精确查询噪音大；探索式浏览下可能是 feature
-- **修复方向**：threshold 调高至 0.5；或 "帝/王/皇/太" 前缀做 stopword 剥离再匹配；或 exact+trigram 两级查询
-- **优先级**：P1（UX 调优）
-- **登记**：2026-04-18 by T-P0-013 sanity check
+- **修复**：length-weighted similarity threshold（≤2 chars: 0.5, 3 chars: 0.4, 4+ chars: 0.3）+ aliasSubstringSearch fallback
+- **结果**：F1 95.6%→100%，3 disallowed violations→0，30 条黄金集全部通过
 
 ### T-P2-002: persons.slug 命名不一致（pre-u-prefix 遗留: long 等）
 
