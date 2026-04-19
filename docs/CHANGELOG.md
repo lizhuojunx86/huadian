@@ -7,6 +7,19 @@
 
 ## 2026-04-19
 
+### [chore] T-P2-003 closed — 清理 datamodel-codegen dash-case 死文件 + 根治 codegen 后处理（1 commit）
+- **角色**：DevOps 工程师（主导）
+- **性质**：技术债清理（codegen 历史残留）
+- **根因**：`datamodel-codegen` 不支持 `--snake-case-filename`，早期 codegen 直接输出 dash-case 文件名（`event-participant-ref.py` 等）；后续 `gen-types.sh` 已加入 `${base//-/_}` 转换，但历史遗留的 5 个 dash-case 文件未清理
+- **修复**：
+  - 删除 5 个 untracked dash-case 死文件（Python 语法禁止 import 含 `-` 的模块名）
+  - `scripts/gen-types.sh`：在 `__init__.py` 生成前添加 `find ... -name '*-*.py' -delete` 防御性清理，防止残留 dash-case 文件污染 `__init__.py` 的 `from .xxx import *`
+- **验证**：重跑 `bash scripts/gen-types.sh` → generated/ 下无 dash-case 文件；pytest 195 pass / ruff 0 errors / basedpyright 0/0/0 / pnpm test 52 pass / lint 0 errors / typecheck pass
+- **无新依赖，无 schema 变更，无业务代码变更**
+- **1 commit**
+
+---
+
 ### [feat] T-P1-003 完成 — 搜索召回精度调优：F1 95.6%→100%（5 commits, 7 new tests, 30 golden cases）
 - **角色**：后端工程师（主导）+ QA 工程师（黄金集 + benchmark 框架）
 - **性质**：技术债清理（T-P0-013 衍生）

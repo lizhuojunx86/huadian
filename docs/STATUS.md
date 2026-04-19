@@ -229,7 +229,7 @@
 
 ## 进行中
 
-无。等待用户选择下一任务。（T-P1-003 刚完成）
+无。等待用户选择下一任务。（T-P2-003 刚完成）
 
 ---
 
@@ -246,6 +246,7 @@
 | 🟢 低 | T-P1-002 | merge 后 person_names nameType 未降级 + 重复名未去重 | 管线 / 后端 | T-P0-011 | registered（2026-04-18 T-P0-013 sanity check） |
 | ~~🟢 低~~ | ~~T-P1-003~~ | ~~pg_trgm 搜索对"帝X"类查询召回过宽~~ | ~~后端~~ | ~~T-P0-009~~ | **closed**（2026-04-19, length-weighted threshold） |
 | ⚪ 微 | T-P2-001 | codegen 输出 trailing newline 不一致 — `pnpm codegen` 生成无尾换行，git 版本有尾换行。修复候选：codegen.ts 配置 prettier plugin 或 post-hook `sed -i -e '$a\'`。影响 cosmetic，CI 不受影响 | DevOps | — | registered（2026-04-18 T-P0-013 S-5 清理发现） |
+| ~~⚪ 微~~ | ~~T-P2-003~~ | ~~清理 datamodel-codegen dash-case 死文件 + 根治 codegen 后处理~~ | ~~DevOps~~ | ~~—~~ | **closed**（2026-04-19, gen-types.sh 防御性清理） |
 
 ---
 
@@ -309,6 +310,7 @@
 - 2026-04-19：T-P0-014 done — 非人实体清理（is_likely_non_person 规则 + HONORIFIC_SHI_WHITELIST 13 条 + X氏 pattern；5 entities soft-deleted 157→152 persons；22 new tests → 67 resolve tests；5 commits）；衍生债 T-P2-002 registered
 - 2026-04-19：T-P1-001 closed — API 集成测试隔离修复（2 skip → 0 skip；hasMore 断言改用 probe+offset、ordering 断言 scope 到 test-* fixtures；1 commit）
 - 2026-04-19：T-P1-003 closed — 搜索召回精度调优（length-weighted threshold + alias fallback；F1 95.6%→100%；3 FP 消除；30 条黄金集 + 7 new tests → 52 api tests；5 commits）
+- 2026-04-19：T-P2-003 closed — 清理 datamodel-codegen dash-case 死文件（5 untracked files 删除 + gen-types.sh 防御性 find-delete 兜底；1 commit）
 
 ---
 
