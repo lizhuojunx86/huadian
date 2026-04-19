@@ -7,6 +7,39 @@
 
 ## 2026-04-19
 
+### [docs] T-P0-006-β 复盘清仓 Sprint — 4 项 docs 级清理（4 commits）
+
+- **角色**：架构师（授权）+ 代理执行
+- **性质**：β 复盘沉淀的文档级清理，不涉及代码与数据
+
+#### A1: ADR-000-index 修正
+- ADR-012/013/014 从 planned 移入 accepted（实际标题）
+- Planned 区重填 ADR-015（evidence 链）/ ADR-016（搜索回溯）/ ADR-017（迁移回滚）
+- 6 条旧主题归入新增「已重新分配编号的旧主题」小节
+- 1 commit（182a938）
+
+#### A5: pipeline-engineer.md 工作协议
+- 新增 `## 工作协议` 章节（3 个 `§` 小节）：
+  - § 数据形态契约级决策 — 禁止先做后报（merge 铁律引 ADR-014）
+  - § 4 闸门敏感操作协议（pg_dump / schema / cache / dry-run）
+  - § mini-RFC 流程（触发条件 / 模板骨架 / 72h 时效）
+- 1 commit（66b2217），+91 行
+
+#### A7: ADR-017 迁移回滚策略
+- 新建 `docs/decisions/ADR-017-migration-rollback-strategy.md`（accepted）
+- 确立 forward-only + pg_dump + 4 闸门为官方回滚锚
+- 明确拒绝 `.down.sql`；破坏性操作须明示 rollback 路径
+- arch-audit FAIL #2 → PASS
+- ADR-000-index 同步更新
+- 1 commit（5663499），+136 行
+
+#### A6: F1-F11 β followups 转任务卡骨架
+- 5 张新任务卡：T-P0-016（is_primary demote）/ T-P0-019（β 尾巴清理）/ T-P0-020（CHECK 约束）/ T-P0-021（NER 持久化）/ T-P0-022（α primary backfill）
+- T-000-index 已规划区新增 5 行
+- 1 commit（a1bfe1a），+171 行
+
+---
+
 ### [feat] T-P0-006-β 完成 — 《尚书·尧典 + 舜典》ingest（跨书 identity 压力测试）
 
 - **角色**：管线工程师 + 古籍/历史专家 + 架构师
