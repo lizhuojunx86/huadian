@@ -23,14 +23,15 @@
 | [ADR-008](ADR-008-license-policy.md) | License 策略（GraphQL Book.license 规范化 + Workspace 包 license） | 2026-04-17 | 后端提议 / 架构师裁决 |
 | [ADR-009](ADR-009-person-source-evidence-traceability.md) | Person sourceEvidenceId Traceability — Traceable 接口 nullable 放宽 | 2026-04-17 | 架构师（T-P0-007 Q-5 裁决） |
 | [ADR-010](ADR-010-cross-chunk-identity-resolution.md) | Cross-Chunk Identity Resolution — 规则引擎 + soft merge | 2026-04-18 | 架构师 + 管线 + 历史专家 |
+| [ADR-011](ADR-011-slug-naming-scheme.md) | Person Slug Naming Scheme — Tiered Whitelist（方向 3：Tier-S pinyin + unicode fallback） | 2026-04-19 | 用户 + 管线 + 后端 |
 
 ### 已规划（尚未起草）
 
 | # | 标题 | 状态 | 优先级 | 负责人 |
 |---|------|------|--------|--------|
-| ADR-018 | Slug 规则与 URL 稳定性 | planned | 🟡 | 架构师 + 历史专家 |
+| ~~ADR-018~~ | ~~Slug 规则与 URL 稳定性~~ | ~~planned~~ | — | **covered by ADR-011** |
 | ADR-019 | 多语言字段 JSONB 结构 | planned | 🟡 | 架构师 + 前端 |
-| ADR-011 | Prompt 版本化与缓存键 | planned | 🟡 | 管线 |
+| ADR-020 | Prompt 版本化与缓存键 | planned | 🟡 | 管线 |
 | ADR-012 | 地理模糊性建模（Point/Line/Polygon + fuzziness） | planned | 🟢 | 架构师 + 历史专家 |
 | ADR-013 | 历法与年号多政权建模 | planned | 🟢 | 历史专家 + 架构师 |
 | ADR-014 | Mentions 表 vs Evidence_links 的职责切分 | planned | 🟢 | 架构师 |
