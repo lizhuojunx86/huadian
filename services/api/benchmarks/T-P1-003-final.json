@@ -1,0 +1,505 @@
+{
+  "label": "final",
+  "date": "2026-04-19",
+  "timestamp": "2026-04-19T00:44:38.466Z",
+  "total_queries": 30,
+  "macro_precision": 1,
+  "macro_recall": 1,
+  "macro_f1": 1,
+  "disallowed_violation_count": 0,
+  "perfect_count": 30,
+  "queries": [
+    {
+      "id": "G01",
+      "query": "黄帝",
+      "expected_slugs": [
+        "huang-di"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "huang-di"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Exact match on canonical name"
+    },
+    {
+      "id": "G02",
+      "query": "禹",
+      "expected_slugs": [
+        "yu"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "yu"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Single-char exact match; person has many aliases (伯禹/夏禹/大禹/文命/姒/夏后)"
+    },
+    {
+      "id": "G03",
+      "query": "启",
+      "expected_slugs": [
+        "qi",
+        "wei-zi-qi"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "qi",
+        "wei-zi-qi"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "AMBIGUOUS: both 启(qi) and 微子启(wei-zi-qi) have person_name '启'. Both are valid matches."
+    },
+    {
+      "id": "G04",
+      "query": "帝中",
+      "expected_slugs": [
+        "u4e2d-u4e01"
+      ],
+      "disallowed_slugs": [
+        "u4e2d-u58ec",
+        "zhong-kang"
+      ],
+      "returned_slugs": [
+        "u4e2d-u4e01"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "KEY FP CASE: '帝中' should find 中丁 (via alias 帝中丁) but NOT 中壬 or 中康. Trigram '帝中' falsely matches '帝中壬'/'帝中康' at sim=0.4."
+    },
+    {
+      "id": "G05",
+      "query": "帝中丁",
+      "expected_slugs": [
+        "u4e2d-u4e01"
+      ],
+      "disallowed_slugs": [
+        "u4e2d-u58ec",
+        "zhong-kang"
+      ],
+      "returned_slugs": [
+        "u4e2d-u4e01"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Exact alias match for 中丁. Should NOT bring 中壬/中康 as FP."
+    },
+    {
+      "id": "G06",
+      "query": "少暤",
+      "expected_slugs": [
+        "u5c11-u66a4-u6c0f"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "u5c11-u66a4-u6c0f"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Prefix match on 少暤氏 (sim=0.4 on person_name '少暤氏')"
+    },
+    {
+      "id": "G07",
+      "query": "少昊",
+      "expected_slugs": [],
+      "disallowed_slugs": [],
+      "returned_slugs": [],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Alternative writing (昊 vs 暤) not stored in DB. No match expected."
+    },
+    {
+      "id": "G08",
+      "query": "高辛",
+      "expected_slugs": [
+        "di-ku"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "di-ku"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Prefix/alias match: 高辛 and 高辛氏 are person_names for 帝喾"
+    },
+    {
+      "id": "G09",
+      "query": "羲仲",
+      "expected_slugs": [
+        "xi-zhong"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "xi-zhong"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Exact match on official title person_name"
+    },
+    {
+      "id": "G10",
+      "query": "和仲",
+      "expected_slugs": [
+        "he-zhong"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "he-zhong"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Exact match on official title person_name"
+    },
+    {
+      "id": "G11",
+      "query": "项羽",
+      "expected_slugs": [],
+      "disallowed_slugs": [],
+      "returned_slugs": [],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Person does not exist in DB. Expect empty result."
+    },
+    {
+      "id": "G12",
+      "query": "帝武乙",
+      "expected_slugs": [
+        "u6b66-u4e59"
+      ],
+      "disallowed_slugs": [
+        "wu-ding"
+      ],
+      "returned_slugs": [
+        "u6b66-u4e59"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Exact alias match for 武乙. 帝武丁 (sim=0.33) is FP noise — should not appear."
+    },
+    {
+      "id": "G13",
+      "query": "伯夷",
+      "expected_slugs": [
+        "bo-yi"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "bo-yi"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Exact match on canonical name"
+    },
+    {
+      "id": "G14",
+      "query": "益",
+      "expected_slugs": [
+        "yi"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "yi"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Single-char exact match"
+    },
+    {
+      "id": "G15",
+      "query": "汤",
+      "expected_slugs": [
+        "tang"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "tang"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Single-char exact match; many aliases (成汤/予一人/武王/朕/王)"
+    },
+    {
+      "id": "G16",
+      "query": "舜",
+      "expected_slugs": [
+        "shun"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "shun"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Single-char exact match; many aliases (虞舜/帝舜/帝/重华/虞帝/有虞)"
+    },
+    {
+      "id": "G17",
+      "query": "尧",
+      "expected_slugs": [
+        "yao"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "yao"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Single-char exact match"
+    },
+    {
+      "id": "G18",
+      "query": "帝乙",
+      "expected_slugs": [
+        "u5e1d-u4e59"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "u5e1d-u4e59"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "2-char exact match, no known FP"
+    },
+    {
+      "id": "G19",
+      "query": "神农",
+      "expected_slugs": [
+        "shen-nong-shi"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "shen-nong-shi"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Prefix match on 神农氏 (sim=0.4)"
+    },
+    {
+      "id": "G20",
+      "query": "微",
+      "expected_slugs": [
+        "u5fae",
+        "wei-zi-qi"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "u5fae",
+        "wei-zi-qi"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Single-char match: 微 exact + 微子启 via ILIKE '%微%' on persons.name. Both valid."
+    },
+    {
+      "id": "G21",
+      "query": "伯益",
+      "expected_slugs": [
+        "yi"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "yi"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Alias match via merged person: 伯益 (u4f2f-u76ca, merged) → 益 (yi, canonical). person_name '伯益' exists on the merged person."
+    },
+    {
+      "id": "G22",
+      "query": "帝喾",
+      "expected_slugs": [
+        "di-ku"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "di-ku"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Exact match on canonical name"
+    },
+    {
+      "id": "G23",
+      "query": "颛顼",
+      "expected_slugs": [
+        "zhuan-xu"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "zhuan-xu"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Exact match on canonical name"
+    },
+    {
+      "id": "G24",
+      "query": "武丁",
+      "expected_slugs": [
+        "wu-ding"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "wu-ding"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Exact match on canonical name"
+    },
+    {
+      "id": "G25",
+      "query": "中丁",
+      "expected_slugs": [
+        "u4e2d-u4e01"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "u4e2d-u4e01"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Exact match on canonical name (post T-P0-013 canonical reversal from 帝中丁)"
+    },
+    {
+      "id": "G26",
+      "query": "虞舜",
+      "expected_slugs": [
+        "shun"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "shun"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Alias match: 虞舜 is stored person_name for 舜"
+    },
+    {
+      "id": "G27",
+      "query": "陶唐",
+      "expected_slugs": [
+        "yao"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "yao"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Alias match: 陶唐 is stored person_name for 尧"
+    },
+    {
+      "id": "G28",
+      "query": "司马迁",
+      "expected_slugs": [
+        "u53f8-u9a6c-u8fc1"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "u53f8-u9a6c-u8fc1"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "3-char exact match on canonical name"
+    },
+    {
+      "id": "G29",
+      "query": "蚩尤",
+      "expected_slugs": [
+        "chi-you"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "chi-you"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "Exact match on canonical name"
+    },
+    {
+      "id": "G30",
+      "query": "太",
+      "expected_slugs": [
+        "tai-kang",
+        "u592a-u4e01",
+        "tai-jia",
+        "u592a-u5e9a",
+        "u592a-u620a"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "tai-kang",
+        "u592a-u4e01",
+        "u592a-u5e9a",
+        "tai-jia",
+        "u592a-u620a"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": [],
+      "rationale": "AMBIGUOUS: single-char prefix, matches 太康/太丁/太甲/太庚/太戊 via ILIKE on persons.name. All are valid."
+    }
+  ]
+}

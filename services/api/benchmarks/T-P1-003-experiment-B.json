@@ -1,0 +1,490 @@
+{
+  "label": "experiment-B",
+  "date": "2026-04-19",
+  "macro_precision": 0.9,
+  "macro_recall": 1,
+  "macro_f1": 0.9303,
+  "disallowed_violation_count": 3,
+  "perfect_count": 24,
+  "total_queries": 30,
+  "queries": [
+    {
+      "id": "G01",
+      "query": "黄帝",
+      "expected_slugs": [
+        "huang-di"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "huang-di"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G02",
+      "query": "禹",
+      "expected_slugs": [
+        "yu"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "yu",
+        "qi"
+      ],
+      "precision": 0.5,
+      "recall": 1,
+      "f1": 0.6667,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G03",
+      "query": "启",
+      "expected_slugs": [
+        "qi",
+        "wei-zi-qi"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "qi",
+        "wei-zi-qi"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G04",
+      "query": "帝中",
+      "expected_slugs": [
+        "u4e2d-u4e01"
+      ],
+      "disallowed_slugs": [
+        "u4e2d-u58ec",
+        "zhong-kang"
+      ],
+      "returned_slugs": [
+        "u4e2d-u4e01",
+        "u4e2d-u58ec",
+        "zhong-kang"
+      ],
+      "precision": 0.3333,
+      "recall": 1,
+      "f1": 0.5,
+      "disallowed_hits": [
+        "u4e2d-u58ec",
+        "zhong-kang"
+      ]
+    },
+    {
+      "id": "G05",
+      "query": "帝中丁",
+      "expected_slugs": [
+        "u4e2d-u4e01"
+      ],
+      "disallowed_slugs": [
+        "u4e2d-u58ec",
+        "zhong-kang"
+      ],
+      "returned_slugs": [
+        "u4e2d-u4e01",
+        "u4e2d-u58ec",
+        "zhong-kang"
+      ],
+      "precision": 0.3333,
+      "recall": 1,
+      "f1": 0.5,
+      "disallowed_hits": [
+        "u4e2d-u58ec",
+        "zhong-kang"
+      ]
+    },
+    {
+      "id": "G06",
+      "query": "少暤",
+      "expected_slugs": [
+        "u5c11-u66a4-u6c0f"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "u5c11-u66a4-u6c0f"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G07",
+      "query": "少昊",
+      "expected_slugs": [],
+      "disallowed_slugs": [],
+      "returned_slugs": [],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G08",
+      "query": "高辛",
+      "expected_slugs": [
+        "di-ku"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "di-ku"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G09",
+      "query": "羲仲",
+      "expected_slugs": [
+        "xi-zhong"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "xi-zhong"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G10",
+      "query": "和仲",
+      "expected_slugs": [
+        "he-zhong"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "he-zhong"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G11",
+      "query": "项羽",
+      "expected_slugs": [],
+      "disallowed_slugs": [],
+      "returned_slugs": [],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G12",
+      "query": "帝武乙",
+      "expected_slugs": [
+        "u6b66-u4e59"
+      ],
+      "disallowed_slugs": [
+        "wu-ding"
+      ],
+      "returned_slugs": [
+        "u6b66-u4e59",
+        "wu-ding"
+      ],
+      "precision": 0.5,
+      "recall": 1,
+      "f1": 0.6667,
+      "disallowed_hits": [
+        "wu-ding"
+      ]
+    },
+    {
+      "id": "G13",
+      "query": "伯夷",
+      "expected_slugs": [
+        "bo-yi"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "bo-yi"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G14",
+      "query": "益",
+      "expected_slugs": [
+        "yi"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "yi"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G15",
+      "query": "汤",
+      "expected_slugs": [
+        "tang"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "tang"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G16",
+      "query": "舜",
+      "expected_slugs": [
+        "shun"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "shun",
+        "shang-jun"
+      ],
+      "precision": 0.5,
+      "recall": 1,
+      "f1": 0.6667,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G17",
+      "query": "尧",
+      "expected_slugs": [
+        "yao"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "yao"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G18",
+      "query": "帝乙",
+      "expected_slugs": [
+        "u5e1d-u4e59"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "u5e1d-u4e59"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G19",
+      "query": "神农",
+      "expected_slugs": [
+        "shen-nong-shi"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "shen-nong-shi"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G20",
+      "query": "微",
+      "expected_slugs": [
+        "u5fae",
+        "wei-zi-qi"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "u5fae",
+        "wei-zi-qi"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G21",
+      "query": "伯益",
+      "expected_slugs": [
+        "yi"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "yi"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G22",
+      "query": "帝喾",
+      "expected_slugs": [
+        "di-ku"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "di-ku"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G23",
+      "query": "颛顼",
+      "expected_slugs": [
+        "zhuan-xu"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "zhuan-xu"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G24",
+      "query": "武丁",
+      "expected_slugs": [
+        "wu-ding"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "wu-ding"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G25",
+      "query": "中丁",
+      "expected_slugs": [
+        "u4e2d-u4e01"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "u4e2d-u4e01"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G26",
+      "query": "虞舜",
+      "expected_slugs": [
+        "shun"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "shun"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G27",
+      "query": "陶唐",
+      "expected_slugs": [
+        "yao"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "yao"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G28",
+      "query": "司马迁",
+      "expected_slugs": [
+        "u53f8-u9a6c-u8fc1"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "u53f8-u9a6c-u8fc1"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G29",
+      "query": "蚩尤",
+      "expected_slugs": [
+        "chi-you"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "chi-you"
+      ],
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "disallowed_hits": []
+    },
+    {
+      "id": "G30",
+      "query": "太",
+      "expected_slugs": [
+        "tai-kang",
+        "u592a-u4e01",
+        "tai-jia",
+        "u592a-u5e9a",
+        "u592a-u620a"
+      ],
+      "disallowed_slugs": [],
+      "returned_slugs": [
+        "u53f8-u9a6c-u8fc1",
+        "tai-kang",
+        "u592a-u4e01",
+        "u592a-u5e9a",
+        "tai-jia",
+        "u592a-u620a"
+      ],
+      "precision": 0.8333,
+      "recall": 1,
+      "f1": 0.9091,
+      "disallowed_hits": []
+    }
+  ]
+}
