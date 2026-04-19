@@ -19,6 +19,7 @@ from huadian_pipeline.resolve_rules import (
     _extract_noted_names,
     ensure_dicts_loaded,
     has_di_prefix_peer,
+    is_di_honorific,
     is_likely_non_person,
     score_pair,
 )
@@ -493,6 +494,28 @@ class TestSelectCanonical:
 # ---------------------------------------------------------------------------
 # has_di_prefix_peer helper
 # ---------------------------------------------------------------------------
+
+
+class TestIsDiHonorific:
+    """Direct tests for is_di_honorific() shared utility (T-P1-004)."""
+
+    def test_true_single_char(self) -> None:
+        assert is_di_honorific("帝尧") is True
+
+    def test_true_double_char(self) -> None:
+        assert is_di_honorific("帝南庚") is True
+
+    def test_false_triple_char(self) -> None:
+        assert is_di_honorific("帝太甲乙") is False
+
+    def test_false_bare_di(self) -> None:
+        assert is_di_honorific("帝") is False
+
+    def test_false_no_di_prefix(self) -> None:
+        assert is_di_honorific("黄帝") is False
+
+    def test_false_empty(self) -> None:
+        assert is_di_honorific("") is False
 
 
 class TestHasDiPrefixPeer:
