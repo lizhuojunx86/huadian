@@ -7,6 +7,26 @@
 
 ## 2026-04-19
 
+### [docs] ADR-015 起草与落盘 — Evidence 链填充方案
+
+- **角色**：架构师（起草）+ 管线工程师（调研 + 落盘执行）
+- **性质**：关键架构决策，回应 F8 + 调研揭示的 source_evidences 0 行空壳状态
+
+#### 调研 (precursor)
+- evidence-chain-investigation-2026-04-19.md（5e92b37）
+- 最惊人事实：source_evidences 子系统从未激活；位置信息在内存但丢弃；llm_calls.response 是回填救命稻草
+
+#### ADR-015 落盘
+- 渐进式三阶段：Stage 1（新行段落级必填）/ Stage 2（存量 text-search 回填）/ Stage 3（span + replay 提纯）
+- Stage 1 → T-P0-023（α 前 must-have）
+- Stage 2 → T-P0-024（α 第一本书期间）
+- Stage 3 → ADR-020+（α 后视需求）
+- 新增 V5 invariant（初始警告级，Stage 2 完成后强制化）
+- `provenance_tier` 枚举扩展 `seed_dictionary` 值
+- 4 commits（ADR-015 / T-P0-023 / T-P0-024 / book-keeping）
+
+---
+
 ### [docs] T-P0-006-β 复盘清仓 Sprint — 4 项 docs 级清理（4 commits）
 
 - **角色**：架构师（授权）+ 代理执行
