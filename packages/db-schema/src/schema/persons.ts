@@ -12,6 +12,7 @@ import {
   boolean,
   index,
   uniqueIndex,
+  check,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import {
@@ -56,7 +57,11 @@ export const persons = pgTable("persons", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   deletedAt: timestamp("deleted_at", { withTimezone: true }),
-});
+}, (table) => [
+  // T-P0-020: merged_into_id IS NOT NULL → deleted_at IS NOT NULL
+  // Allows pure soft-delete (T-P0-014 R3-non-person) where deleted_at≠NULL but merged_into_id=NULL
+  check("persons_merge_requires_delete", sql`${table.mergedIntoId} IS NULL OR ${table.deletedAt} IS NOT NULL`),
+]);
 
 // ============================================================
 // B2: person_names — Multiple names/titles per person (Q-3: name stays TEXT)
