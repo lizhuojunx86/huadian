@@ -4,7 +4,7 @@
 
 - **最近更新**：2026-04-19
 - **更新人**：管线工程师 + 古籍/历史专家（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅**
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅**
 
 ---
 
@@ -29,6 +29,18 @@
 ---
 
 ## 已完成
+
+### T-P0-015 帝鸿氏/缙云氏 Canonical 归并裁决（2026-04-19）
+- [x] S-0：任务卡创建
+- [x] S-1：证据调研（DB 快照 + 五帝本纪 P24 原文 + 古注四家训释）
+- [x] S-2：Historian 裁决 → (c) 混合：帝鸿氏 MERGE，缙云氏 KEEP-independent
+  - 帝鸿氏=黄帝：贾逵/杜预/服虔/张守节四家一致（"帝鸿，黄帝也"）
+  - 缙云氏≠黄帝：杜预/贾逵训为"黄帝时官名"（从属关系非等同）+ P24 并列结构约束
+- [x] S-3：dry-run JSON + merge SQL（R4-honorific-alias 新规则）
+- [x] S-4：DB 执行（1 person merged, 1 merge_log, 1 person_name added）
+- [x] S-5：V-1~V-5 验证全通过 + STATUS/CHANGELOG 更新
+- 结果：152 → 151 active persons；黄帝 names 新增"帝鸿氏(alias)"
+- 累计：1 commit / 0 new tests / 1 DB merge / 1 新 merge_rule (R4-honorific-alias)
 
 ### T-P1-003 搜索召回精度调优 — F1 95.6%→100%（2026-04-19）
 - [x] S-1：searchPersons 实现调研（pg_trgm threshold=0.3 + ILIKE，GIN 索引确认）
@@ -282,7 +294,7 @@
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
 - 🧪 测试覆盖：259 passed + 0 skipped（ai/ 46 + qc/ 82 + resolve/ 67 + api/ 52 + web/ 55）；E2E 7 specs
-- 🔗 合并状态：152 canonical persons（12 soft-merged via T-P0-011 + 5 non-person soft-deleted via T-P0-014）
+- 🔗 合并状态：151 canonical persons（12 soft-merged via T-P0-011 + 5 non-person soft-deleted via T-P0-014 + 1 honorific-alias merged via T-P0-015）
 - 🚦 阻塞项数量：0 ✅
 
 ---
@@ -311,6 +323,7 @@
 - 2026-04-19：T-P1-001 closed — API 集成测试隔离修复（2 skip → 0 skip；hasMore 断言改用 probe+offset、ordering 断言 scope 到 test-* fixtures；1 commit）
 - 2026-04-19：T-P1-003 closed — 搜索召回精度调优（length-weighted threshold + alias fallback；F1 95.6%→100%；3 FP 消除；30 条黄金集 + 7 new tests → 52 api tests；5 commits）
 - 2026-04-19：T-P2-003 closed — 清理 datamodel-codegen dash-case 死文件（5 untracked files 删除 + gen-types.sh 防御性 find-delete 兜底；1 commit）
+- 2026-04-19：T-P0-015 done — 帝鸿氏归并入黄帝（historian 裁决 (c) 混合：帝鸿氏 MERGE R4-honorific-alias + 缙云氏 KEEP-independent；152→151 persons；1 commit）
 
 ---
 
@@ -325,6 +338,7 @@
   - B. 读端：API resolveCanonical 聚合 aliases 时 rewrite nameType + dedup，不动底层数据
 - **优先级**：P1（不阻塞 MVP，影响 UI 别名列表正确性）
 - **登记**：2026-04-18 by T-P0-013 sanity check
+- **衍生**：person_names (person_id, name) 需加 UNIQUE 以支撑 ON CONFLICT dedup（源自 T-P0-015 sanity）
 
 ### ~~T-P1-003: pg_trgm 搜索对"帝X"类查询召回过宽~~ — **closed 2026-04-19**
 
