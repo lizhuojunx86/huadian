@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
     import asyncpg
 
+from .enums import ProvenanceTier
 from .extract import ExtractedPerson, SurfaceForm
 from .resolve_rules import is_di_honorific
 from .slug import generate_slug
@@ -197,13 +198,14 @@ async def _upsert_person(
     await conn.execute(
         """
         INSERT INTO persons (id, slug, name, dynasty, reality_status, provenance_tier, biography)
-        VALUES ($1, $2, $3::jsonb, $4, $5::reality_status, 'ai_inferred', $6::jsonb)
+        VALUES ($1, $2, $3::jsonb, $4, $5::reality_status, $6, $7::jsonb)
         """,
         person_id,
         person.slug,
         name_json,
         person.dynasty or None,
         person.reality_status,
+        ProvenanceTier.AI_INFERRED.value,
         biography_json,
     )
     return person_id, True
