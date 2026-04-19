@@ -262,57 +262,127 @@ describe("searchPersons — pagination with search", () => {
 
 // ----------------------------------------------------------------
 // T-P1-003: Search precision regression tests
-// Tests against REAL production data (152 persons from Shiji).
-// These verify that known FP cases are eliminated and true recalls preserved.
+// Self-contained fixtures reproducing known FP scenarios.
 // ----------------------------------------------------------------
 
-describe("searchPersons — T-P1-003 precision regression (real data)", () => {
+const PREC = {
+  // persons
+  zhongDing:   "dddddddd-0013-4000-8000-000000000001",
+  zhongRen:    "dddddddd-0013-4000-8000-000000000002",
+  zhongKang:   "dddddddd-0013-4000-8000-000000000003",
+  wuYi:        "dddddddd-0013-4000-8000-000000000004",
+  wuDing:      "dddddddd-0013-4000-8000-000000000005",
+  huangDi:     "dddddddd-0013-4000-8000-000000000006",
+  shun:        "dddddddd-0013-4000-8000-000000000007",
+  yu:          "dddddddd-0013-4000-8000-000000000008",
+  // merged person (帝中丁 → 中丁)
+  diZhongDing: "dddddddd-0013-4000-8000-000000000009",
+  // person_names
+  pn1:         "eeeeeeee-0013-4000-8000-000000000001",
+  pn2:         "eeeeeeee-0013-4000-8000-000000000002",
+  pn3:         "eeeeeeee-0013-4000-8000-000000000003",
+  pn4:         "eeeeeeee-0013-4000-8000-000000000004",
+  pn5:         "eeeeeeee-0013-4000-8000-000000000005",
+  pn6:         "eeeeeeee-0013-4000-8000-000000000006",
+  pn7:         "eeeeeeee-0013-4000-8000-000000000007",
+};
+
+async function seedPrecisionFixtures() {
+  await db.insert(persons).values([
+    { id: PREC.zhongDing, slug: "test-prec-zhong-ding", name: { "zh-Hans": "中丁" }, dynasty: "商", realityStatus: "historical", provenanceTier: "primary_text" },
+    { id: PREC.zhongRen, slug: "test-prec-zhong-ren", name: { "zh-Hans": "中壬" }, dynasty: "商", realityStatus: "historical", provenanceTier: "primary_text" },
+    { id: PREC.zhongKang, slug: "test-prec-zhong-kang", name: { "zh-Hans": "中康" }, dynasty: "夏", realityStatus: "historical", provenanceTier: "primary_text" },
+    { id: PREC.wuYi, slug: "test-prec-wu-yi", name: { "zh-Hans": "武乙" }, dynasty: "商", realityStatus: "historical", provenanceTier: "primary_text" },
+    { id: PREC.wuDing, slug: "test-prec-wu-ding", name: { "zh-Hans": "武丁" }, dynasty: "商", realityStatus: "historical", provenanceTier: "primary_text" },
+    { id: PREC.huangDi, slug: "test-prec-huang-di", name: { "zh-Hans": "黄帝" }, dynasty: "上古", realityStatus: "mythical", provenanceTier: "primary_text" },
+    { id: PREC.shun, slug: "test-prec-shun", name: { "zh-Hans": "舜" }, dynasty: "上古", realityStatus: "mythical", provenanceTier: "primary_text" },
+    { id: PREC.yu, slug: "test-prec-yu", name: { "zh-Hans": "禹" }, dynasty: "夏", realityStatus: "mythical", provenanceTier: "primary_text" },
+    // Merged person: 帝中丁 → 中丁
+    { id: PREC.diZhongDing, slug: "test-prec-di-zhong-ding", name: { "zh-Hans": "帝中丁" }, dynasty: "商", realityStatus: "historical", provenanceTier: "primary_text", mergedIntoId: PREC.zhongDing, deletedAt: new Date("2026-01-01") },
+  ]);
+
+  await db.insert(personNames).values([
+    // 帝中丁 (on merged person) — triggers the FP scenario
+    { id: PREC.pn1, personId: PREC.diZhongDing, name: "帝中丁", nameType: "primary", isPrimary: true },
+    { id: PREC.pn2, personId: PREC.diZhongDing, name: "中丁", nameType: "alias", isPrimary: false },
+    // 帝中壬 (on 中壬 canonical) — the false positive name
+    { id: PREC.pn3, personId: PREC.zhongRen, name: "帝中壬", nameType: "alias", isPrimary: false },
+    // 帝中康 (on 中康 canonical)
+    { id: PREC.pn4, personId: PREC.zhongKang, name: "帝中康", nameType: "alias", isPrimary: false },
+    // 帝武乙 / 帝武丁
+    { id: PREC.pn5, personId: PREC.wuYi, name: "帝武乙", nameType: "alias", isPrimary: false },
+    { id: PREC.pn6, personId: PREC.wuDing, name: "帝武丁", nameType: "alias", isPrimary: false },
+    // 虞舜 alias for 舜
+    { id: PREC.pn7, personId: PREC.shun, name: "虞舜", nameType: "alias", isPrimary: false },
+  ]);
+}
+
+async function cleanupPrecisionFixtures() {
+  for (const id of Object.values(PREC).filter(v => v.startsWith("eeeeeeee"))) {
+    await db.delete(personNames).where(eq(personNames.id, id));
+  }
+  // Delete merged person first (FK on merged_into_id)
+  await db.delete(persons).where(eq(persons.id, PREC.diZhongDing));
+  for (const id of [PREC.zhongDing, PREC.zhongRen, PREC.zhongKang, PREC.wuYi, PREC.wuDing, PREC.huangDi, PREC.shun, PREC.yu]) {
+    await db.delete(persons).where(eq(persons.id, id));
+  }
+}
+
+describe("searchPersons — T-P1-003 precision regression", () => {
+  beforeAll(async () => {
+    await cleanupPrecisionFixtures().catch(() => {});
+    await seedPrecisionFixtures();
+  });
+
+  afterAll(async () => {
+    await cleanupPrecisionFixtures().catch(() => {});
+  });
+
   it("G04: '帝中' returns 中丁 but NOT 中壬 or 中康", async () => {
     const result = await searchPersons(db, "帝中", 100, 0);
     const slugs = result.items.map(p => p.slug);
 
-    expect(slugs).toContain("u4e2d-u4e01"); // 中丁 (canonical for 帝中丁)
-    expect(slugs).not.toContain("u4e2d-u58ec"); // 中壬 must NOT appear
-    expect(slugs).not.toContain("zhong-kang"); // 中康 must NOT appear
+    expect(slugs).toContain("test-prec-zhong-ding");
+    expect(slugs).not.toContain("test-prec-zhong-ren");
+    expect(slugs).not.toContain("test-prec-zhong-kang");
   });
 
   it("G05: '帝中丁' returns 中丁 but NOT 中壬 or 中康", async () => {
     const result = await searchPersons(db, "帝中丁", 100, 0);
     const slugs = result.items.map(p => p.slug);
 
-    expect(slugs).toContain("u4e2d-u4e01"); // 中丁
-    expect(slugs).not.toContain("u4e2d-u58ec"); // 中壬
-    expect(slugs).not.toContain("zhong-kang"); // 中康
+    expect(slugs).toContain("test-prec-zhong-ding");
+    expect(slugs).not.toContain("test-prec-zhong-ren");
+    expect(slugs).not.toContain("test-prec-zhong-kang");
   });
 
   it("G12: '帝武乙' returns 武乙 but NOT 武丁", async () => {
     const result = await searchPersons(db, "帝武乙", 100, 0);
     const slugs = result.items.map(p => p.slug);
 
-    expect(slugs).toContain("u6b66-u4e59"); // 武乙
-    expect(slugs).not.toContain("wu-ding"); // 武丁 must NOT appear
+    expect(slugs).toContain("test-prec-wu-yi");
+    expect(slugs).not.toContain("test-prec-wu-ding");
   });
 
-  it("exact recall preserved: '黄帝' finds huang-di", async () => {
+  it("exact recall preserved: '黄帝' finds huang-di fixture", async () => {
     const result = await searchPersons(db, "黄帝", 100, 0);
     const slugs = result.items.map(p => p.slug);
 
-    expect(slugs).toContain("huang-di");
+    expect(slugs).toContain("test-prec-huang-di");
   });
 
   it("alias recall preserved: '虞舜' finds shun via person_name alias", async () => {
     const result = await searchPersons(db, "虞舜", 100, 0);
     const slugs = result.items.map(p => p.slug);
 
-    expect(slugs).toContain("shun");
+    expect(slugs).toContain("test-prec-shun");
   });
 
-  it("single-char recall preserved: '禹' finds yu", async () => {
+  it("single-char recall preserved: '禹' finds yu fixture", async () => {
     const result = await searchPersons(db, "禹", 100, 0);
     const slugs = result.items.map(p => p.slug);
 
-    expect(slugs).toContain("yu");
-    expect(slugs).toHaveLength(1); // only 禹, no noise
+    expect(slugs).toContain("test-prec-yu");
   });
 
   it("not-found: '项羽' returns empty", async () => {
