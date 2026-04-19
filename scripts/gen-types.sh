@@ -42,6 +42,10 @@ for schema_file in "$SCHEMA_DIR"/*.json; do
   echo "  → $output_file"
 done
 
+# Clean up any dash-case files that datamodel-codegen may have left behind;
+# Python cannot import modules with hyphens in their names.
+find "$PYDANTIC_OUT" -maxdepth 1 -name '*-*.py' -delete 2>/dev/null || true
+
 # Generate __init__.py that re-exports all generated models
 init_file="$PYDANTIC_OUT/__init__.py"
 echo '"""Auto-generated Pydantic models from shared-types JSON Schema. DO NOT EDIT."""' > "$init_file"
