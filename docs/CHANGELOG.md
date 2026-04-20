@@ -5,6 +5,50 @@
 
 ---
 
+## 2026-04-21
+
+### [feat+docs] T-P0-024 α — 历史章节证据链主回填（Path C 混合方案）
+
+- **角色**：管线工程师（实施）+ 首席架构师（裁决 / Gate ACK / 歧义仲裁）
+- **性质**：evidence backfill + tooling + data quality
+- **关联**：ADR-015 Stage 2 / T-P0-023（前置）/ T-P0-006 α（数据基础）
+
+#### Added
+- `services/pipeline/scripts/backfill_evidence.py`（920 行，双模式 CLI）
+  - `--mode backfill`: Path A hash 复用（β + fast lane）
+  - `--mode reextract`: Path B LLM 重抽取（Phase A/B）
+  - 三态名回退：slug-first → person_names.name fallback → fail-loud (≥2)
+  - AMBIGUOUS_SLUGS 审计网（5 slug 白名单 + 结构化 WARNING 日志）
+  - R1-R4 全套防御 + per-paragraph 事务隔离
+- Sprint logs: `docs/sprint-logs/T-P0-024-alpha/` (4 files)
+- Debt task cards: T-P1-011 ~ T-P1-020 (10 cards)
+
+#### Changed
+- source_evidences: 242 → 412 (+170)
+- person_names linked: +230 (C1: +30, C2: +200)
+- V7 evidence coverage: 52.48% → **96.37%** (+43.89pp)
+  - 超 80% 硬指标 +16.37pp，超 90% 拉伸 +6.37pp
+- V1-V5 全绿无回归，V6 保持 pre-existing 28
+
+#### Sprint 成本
+- LLM 调用：$0.78（探针 $0.03 + dry-run $0.75 + execute $0 fast lane）
+- 预算 $2.00，余量 61%
+- Commits：5 + 2 merges（feat branches → main）
+
+#### Debt
+- T-P1-011: merged-alias evidence（垂→倕）
+- T-P1-012: dry-run first-write-wins 模型
+- T-P1-013: V6 28 条 alias+is_primary 清理
+- T-P1-014: wu-wang persons 归并审核
+- T-P1-015: 短名夏王 disambiguation（7 names）
+- T-P1-016: 微子 slug mismatch（2 names）
+- T-P1-017: SE 多源扩展（ADR-015 N:M）
+- T-P1-018: backfill 自动触发器
+- T-P1-019: AMBIGUOUS_SLUGS DB 迁移
+- T-P1-020: name resolution 共享模块
+
+---
+
 ## 2026-04-20
 
 ### [feat+fix+docs] T-P0-006 α — 周本纪 α 扩量跑 + evidence 写路径真实验证
