@@ -2,25 +2,37 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-19
+- **最近更新**：2026-04-20
 - **更新人**：管线工程师（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅**
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅**
 
 ---
 
 ## 当前在哪
 
-**Phase 0 α-blocking 推进期。距 α 第一本书 ingest 还差 1 张卡（T-P0-006）。**
+**Phase 0 α 里程碑达成。最后一个 α-blocker T-P0-006 已完成。**
 
-T-P0-023 完成（证据链 Stage 1 激活 + V7 warning 级不变量）。6 commits 覆盖 LLMResponse.call_id 契约字段 → ExtractedPerson 传递 → ProvenanceTier Enum → seed_dictionary 枚举扩展 → source_evidences 写路径激活 → V7 不变量。
+T-P0-006 α 完成（周本纪 82 段全量 ingest + source_evidences 写路径首次生产级验证 + identity resolver 端到端闭环）。8 commits 覆盖 ctext.py 注册 → tier-S slug 14 条扩列 → evidence narrow smoke → 全章 ingest → resolver 24 组候选 → historian 审核 → 29 persons apply_merges → 文武 surface cleanup。
 
-**里程碑：source_evidences 子系统从 0 行空壳首次激活——新 ingest 将自动产出证据链行。V1-V7 不变量矩阵就位。**
+**里程碑：persons 153→320 / source_evidences 0→242 / V7 0%→52.48%（首破 30% 阈值）/ ADR-014 apply_merges 生产闭环首次走通 / LLM 成本 $0.77。**
 
-**下一步**：T-P0-006（α 路扩量跑，依赖 T-P0-023 ✅ 已满足）
+**下一步**：T-P0-019（β 尾巴清理）或 T-P0-024（evidence Stage 2 backfill）
 
 ---
 
 ## 已完成
+
+### T-P0-006-α — 周本纪 α 扩量跑 + evidence 写路径验证（2026-04-20）
+- [x] Stage 0: 任务卡 + tier-S slug 14 条扩列 + ctext.py zhou-ben-ji 注册 + 4 闸门基线
+- [x] Stage 1: Narrow smoke（5 段）— source_evidences 写路径首弹验证（V7: 0→8.79%）
+- [x] Stage 2: 全章 ingest 82 段（V7: 57.0%，成本 $0.77）
+- [x] Stage 3: Identity resolver 全扫（24 组/31 persons）+ historian 审核（22 approved / 1 rejected / 1 split）
+- [x] Stage 4: apply_merges 29 persons + 文武 surface 2 条硬清理（V7: 52.48%）
+- [x] Stage 5: 收官 + STATUS/CHANGELOG + 衍生债务 T-P1-007~010
+- 结果：persons 153→320（+167 净增）/ source_evidences 0→242 / V7 0%→52.48% / merge_log 23→52
+- 核心验证：ADR-015 Stage 1 生产写路径 + ADR-014 apply_merges historian 闭环首次端到端通过
+- 发现：Union-Find 跨族桥接（Group 3 文武污染）/ NER 同名异人合体（Group 14 桓公）
+- 累计：8 commits / $0.77 LLM 成本 / 4 新 debt tasks (T-P1-007~010)
 
 ### T-P0-023 — 证据链 Stage 1 激活（ADR-015）（2026-04-19）
 - [x] Stage 1a：LLMResponse.call_id 契约字段（audit → gateway 4-hop 传递链）（af1e858）
@@ -323,7 +335,7 @@ T-P0-023 完成（证据链 Stage 1 激活 + V7 warning 级不变量）。6 comm
 
 ## 进行中
 
-无。（T-P0-023 刚完成，等用户指定下一张卡）
+无。（T-P0-006 α 刚完成，等用户指定下一张卡）
 
 ---
 
@@ -335,8 +347,11 @@ T-P0-023 完成（证据链 Stage 1 激活 + V7 warning 级不变量）。6 comm
 | 🟡 中 | T-P0-024 | Evidence 链 Stage 2 回填（存量 text-search 反查） | 管线 + historian | ✅ T-P0-023 done | planned |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
-| 🟡 中 | T-P0-006 | Pipeline：扩量跑（周本纪及以后） | 管线工程师 | ✅ T-P0-023 done | planned |
 | 🟡 中 | T-P1-005 | 统一 migration 入口（Drizzle + pipeline SQL 双轨合一） | DevOps + 后端 | — | registered |
+| 🟡 中 | T-P1-007 | u6853-u516c 桓公 person 拆分（§43 鲁桓公 vs §64 西周桓公） | 管线 + historian | — | registered |
+| 🟡 中 | T-P1-008 | Union-Find 簇验证（跨朝代污染防护） | 管线 + 架构师 | — | registered |
+| 🟡 中 | T-P1-009 | NER 合成词护栏（文武/尧舜 类识别） | 管线 + historian | — | registered |
+| 🟢 低 | T-P1-010 | Resolver R2 dynasty + reality_status 预过滤 | 管线 + 架构师 | — | registered |
 | ⚪ 微 | T-P2-001 | codegen trailing newline 不一致 | DevOps | — | registered |
 
 ---
@@ -345,7 +360,7 @@ T-P0-023 完成（证据链 Stage 1 激活 + V7 warning 级不变量）。6 comm
 
 | # | 描述 | 等待 | 建议处理 |
 |---|------|------|---------|
-| （无当前阻塞） | — | — | T-P0-023 可立即开工 |
+| （无当前阻塞） | — | — | — |
 
 ---
 
@@ -375,13 +390,14 @@ T-P0-023 完成（证据链 Stage 1 激活 + V7 warning 级不变量）。6 comm
 
 - 📘 文档覆盖度：核心 7/7 ✅
 - 🧭 ADR 数量：16 accepted（含 ADR-010 supplement）
-- 📋 任务卡数量：T-P0-001~T-P0-016 + T-P0-019~T-P0-024 done/planned（20+）
+- 📋 任务卡数量：T-P0-001~T-P0-016 + T-P0-019~T-P0-024 + T-P1-007~T-P1-010 done/planned/registered（28+）
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
 - 🧪 测试覆盖：395 passed（pipeline 279 + api 61 + web 55）+ 0 skipped；E2E 7 specs
-- 🔗 合并状态：153 active persons / 16 merge-soft-deleted / 5 pure-soft-deleted = 174 total
+- 🔗 合并状态：320 active persons / 45 merge-soft-deleted / 5 pure-soft-deleted = 370 total
+- 📊 Evidence 覆盖：source_evidences 242 行 / V7 覆盖率 52.48%（target: ≥90% after T-P0-024 backfill）
 - 🗄️ Pipeline migrations：0001–0008（latest: 0008_t-p0-023-seed-dictionary-enum.sql）
 - 🚦 阻塞项数量：0 ✅
 
@@ -395,9 +411,9 @@ T-P0-023 完成（证据链 Stage 1 激活 + V7 warning 级不变量）。6 comm
 | V4 | model-B leakage | merged source 无 primary name | ✅ | 2026-04-19（T-P0-022） |
 | V5 | active definition | 无 merged 但未 deleted（CHECK 约束保护） | ✅ | 2026-04-19（T-P0-020） |
 | V6 | alias ≠ is_primary | 全表无 alias+is_primary=true | ✅ | 2026-04-19（T-P0-016） |
-| V7 | evidence coverage | active person_names 的 source_evidence_id 覆盖率 | ⚠️ 0.0%（warning 级） | 2026-04-19（T-P0-023，Stage 2 回填前预期低覆盖） |
+| V7 | evidence coverage | active person_names 的 source_evidence_id 覆盖率 | ✅ 52.48% (PASS) | 2026-04-20（T-P0-006 α，首破 30% 阈值） |
 
-**V1-V6 全绿；V7 warning 级（0/249 覆盖率，存量待 T-P0-024 回填）**。
+**V1-V6 全绿；V7 52.48% PASS（首破 30% 阈值，存量 249 行待 T-P0-024 回填→目标 ≥90%）**。
 
 ### 已知未处理违规（debt baseline）
 
@@ -407,7 +423,7 @@ T-P0-023 完成（证据链 Stage 1 激活 + V7 warning 级不变量）。6 comm
 
 ### 已知验证盲点
 
-- **源证据链生产路径未经 smoke-ingest 验证**（T-P0-023 Stage 1e）。DB 集成测试已覆盖 load_persons 端到端生产路径，cli.py pass-through 靠 basedpyright 类型检查保证。首次实际 ingest 产出的 source_evidences 新行将是自然验收。追踪任务：T-P1-006（replay smoke framework, backlog）。
+- ~~**源证据链生产路径未经 smoke-ingest 验证**~~ — **已验证 2026-04-20**（T-P0-006 α Stage 1b narrow smoke + Stage 2 全章 ingest）。242 条 source_evidences 真实写入，5 列全部正确，FK 完整。追踪任务：T-P1-006（replay smoke framework, backlog，优先级降低）。
 
 ---
 
@@ -444,6 +460,7 @@ T-P0-023 完成（证据链 Stage 1 激活 + V7 warning 级不变量）。6 comm
 - 2026-04-19：T-P0-016 sprint（双路径 is_primary 同步 + backfill 18→0 + V6 invariant + F12 debt；tip 7566916）
 - 2026-04-19：V1-V6 全套 invariant 首次集体绿；CI run #24629863280 全绿
 - 2026-04-19：T-P0-023 sprint 完成（证据链 Stage 1 激活；6 commits；+10 tests；migration 0008；V7 warning 级不变量；smoke 验证盲点登记 T-P1-006）
+- 2026-04-20：T-P0-006 α sprint 完成（周本纪 82 段 ingest + evidence 写路径验证 + 29 persons merge；8 commits；persons 153→320；source_evidences 0→242；V7 0%→52.48%；LLM $0.77；衍生 T-P1-007~010）
 
 ---
 
