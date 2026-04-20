@@ -5,6 +5,41 @@
 
 ---
 
+## 2026-04-20
+
+### [feat+fix+docs] T-P0-006 α — 周本纪 α 扩量跑 + evidence 写路径真实验证
+
+- **角色**：管线工程师（执行）+ 首席架构师（指令/仲裁/mini-RFC）+ 历史学家（Stage 3c 裁决）
+- **性质**：data ingest + evidence chain production validation + identity resolution + merge execution
+- **关联**：ADR-014 / ADR-015 Stage 1 / T-P0-023（前置）
+
+#### Added
+- 周本纪 82 段入库（`services/pipeline/sources/ctext.py` shiji/zhou-ben-ji 注册 + fixture）
+- tier-S slug yaml 扩展 14 条（古公亶父 / 太公望 / 褒姒 / 齐桓公 / 白起 等）
+- Sprint log 目录 `docs/sprint-logs/T-P0-006-alpha/`（7 份 stage 报告 + historian verdict 归档）
+- 衍生债务 task 卡 T-P1-007 ~ T-P1-010（桓公拆分 / Union-Find 簇验证 / NER 合称护栏 / R2 预过滤）
+
+#### Changed
+- persons: 153 → 320（+167 净增，含 29 合并软删）
+- source_evidences: 0 → 242（ADR-015 Stage 1 生产路径首跑）
+- V7 coverage: 0.00% → 52.48%（首破 30% 阈值，V7 测试从 warning 升为 PASS）
+- merge_log: 23 → 52（+29 historian-approved merges）
+
+#### Fixed
+- "文武" surface 两条污染记录硬清理（Gate 4c DELETE，NER 合称误挂 posthumous name）
+
+#### Debt
+- Union-Find 跨朝代污染（Group 3 文王/武王桥接实证）→ T-P1-008
+- u6853-u516c 桓公两人合体（§43 鲁桓公 + §64 西周桓公 NER 混合）→ T-P1-007
+- NER 合成词识别（"文武"作 posthumous name 挂两人）→ T-P1-009
+- Resolver R2 dynasty 预过滤未实施 → T-P1-010
+
+#### Sprint 成本
+- LLM 调用：$0.77（82 段 v1-r4 extract，预算 $2.00 余量 61%）
+- Commits：8（47550f5..本 commit）
+
+---
+
 ## 2026-04-19
 
 ### [feat+refactor+test] T-P0-023 — 证据链 Stage 1 激活（ADR-015）

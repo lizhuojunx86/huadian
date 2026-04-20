@@ -1,0 +1,241 @@
+{
+  "reviewer": "historian",
+  "sprint": "T-P0-006 alpha",
+  "stage": "3c",
+  "reviewed_at": "2026-04-20T12:00:00+08:00",
+  "package_source": "docs/sprint-logs/T-P0-006-alpha/stage-3b-historian-package.md",
+  "reviewer_notes": "24 组全部裁决完成：22 approved / 1 rejected / 0 deferred / 1 split（Group 3 拆为武王族+文王族两子组，均 approved）。Group 14 确认 reject——NER 将§43鲁桓公与§64西周桓公（考王弟）污染为同一实体。Group 24 周君确认指赧王（《周本纪》末段'周君、王赧卒'明文并称），approved。",
+  "groups": [
+    {
+      "group_id": 1,
+      "group_name": "后稷 ← 弃",
+      "category": "A",
+      "decision": "approved",
+      "canonical_slug": "hou-ji",
+      "merged_slugs": ["u5f03"],
+      "rationale": "《史记·周本纪》§1 开篇明载'周后稷，名弃'，后稷即弃，无争议。"
+    },
+    {
+      "group_id": 2,
+      "group_name": "纣 ← 帝辛",
+      "category": "A",
+      "decision": "approved",
+      "canonical_slug": "zhou-xin",
+      "merged_slugs": ["di-xin"],
+      "rationale": "《殷本纪》明文纣=帝辛（商末代王），又名受/受辛，周本纪§26亦称'帝辛'。canonical=zhou-xin（surfaces最丰富）。"
+    },
+    {
+      "group_id": 3,
+      "group_name": "文王/武王混合 — SPLIT REQUIRED",
+      "category": "A",
+      "decision": "split",
+      "subgroups": [
+        {
+          "subgroup_name": "武王族",
+          "decision": "approved",
+          "canonical_slug": "wu-wang",
+          "merged_slugs": ["u59ec-u53d1"],
+          "rationale": "《周本纪》§12'太子发立，是为武王'。武王=姬发=太子发，同一人物确凿无疑。"
+        },
+        {
+          "subgroup_name": "文王族",
+          "decision": "approved",
+          "canonical_slug": "xi-bo-chang",
+          "merged_slugs": ["u5468-u6587-u738b", "u59ec-u660c", "u6587-u738b"],
+          "rationale": "《周本纪》§5'子昌立，是为西伯。西伯曰文王'。文王=西伯昌=姬昌=周文王，四称一人。"
+        }
+      ],
+      "notes": "Union-Find pollution via '文武' surface. Must split, never approve as whole group. '文武'是文王与武王的合称（如'文武之道'），非任何单一人物名号，两个person上的'文武' surface均应在Stage 4 soft-delete。"
+    },
+    {
+      "group_id": 4,
+      "group_name": "武庚 ← 禄父",
+      "category": "A",
+      "decision": "approved",
+      "canonical_slug": "u6b66-u5e9a",
+      "merged_slugs": ["u7984-u7236"],
+      "rationale": "《周本纪》§18'封商纣子禄父殷之馀民'，《殷本纪》武庚=禄父=纣之子，史源一致。"
+    },
+    {
+      "group_id": 5,
+      "group_name": "周成王 ← 成王",
+      "category": "A",
+      "decision": "approved",
+      "canonical_slug": "u5468-u6210-u738b",
+      "merged_slugs": ["u6210-u738b"],
+      "rationale": "《周本纪》§21'太子诵代立，是为成王'。成王=周成王，全称简称之别。"
+    },
+    {
+      "group_id": 6,
+      "group_name": "季历 ← 公季",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "ji-li",
+      "merged_slugs": ["u516c-u5b63"],
+      "rationale": "《周本纪》§6'古公卒，季历立，是为公季'。季历=公季，名与号之别。"
+    },
+    {
+      "group_id": 7,
+      "group_name": "姜尚 ← 师尚父",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u59dc-u5c1a",
+      "merged_slugs": ["u5e08-u5c1a-u7236"],
+      "rationale": "《周本纪》§12'太公望为师'，§13'师尚父号曰'。师尚父=太公望=姜尚=吕尚（姜子牙），史载明确。"
+    },
+    {
+      "group_id": 8,
+      "group_name": "穆王 ← 周穆王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u7a46-u738b",
+      "merged_slugs": ["u5468-u7a46-u738b"],
+      "rationale": "穆王=周穆王，全称简称之别，《周本纪》明文。"
+    },
+    {
+      "group_id": 9,
+      "group_name": "厉王 ← 周厉王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u5389-u738b",
+      "merged_slugs": ["u5468-u5389-u738b"],
+      "rationale": "厉王=周厉王，全称简称之别。与组17'晋厉公'无歧义（王/公之分）。"
+    },
+    {
+      "group_id": 10,
+      "group_name": "周宣王 ← 宣王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u5468-u5ba3-u738b",
+      "merged_slugs": ["u5ba3-u738b"],
+      "rationale": "宣王=周宣王，全称简称之别，《周本纪》明文'是为宣王'。"
+    },
+    {
+      "group_id": 11,
+      "group_name": "幽王 ← 周幽王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "you-wang",
+      "merged_slugs": ["u5468-u5e7d-u738b"],
+      "rationale": "幽王=周幽王，全称简称之别，《周本纪》明文。"
+    },
+    {
+      "group_id": 12,
+      "group_name": "周平王 ← 宜臼 + 平王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u5468-u5e73-u738b",
+      "merged_slugs": ["u5b9c-u81fc", "u5e73-u738b"],
+      "rationale": "《周本纪》'太子宜臼立，是为平王'。宜臼（名）=平王（谥）=周平王（全称），三称一人。"
+    },
+    {
+      "group_id": 13,
+      "group_name": "周桓王 ← 桓王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u5468-u6853-u738b",
+      "merged_slugs": ["u6853-u738b"],
+      "rationale": "桓王=周桓王，全称简称之别。注意此组为'桓王'（周天子），与组14'桓公'（诸侯）无混淆。"
+    },
+    {
+      "group_id": 14,
+      "group_name": "鲁桓公 ← 桓公 ⚠️",
+      "category": "B",
+      "decision": "rejected",
+      "canonical_slug": "u9c81-u6853-u516c",
+      "merged_slugs": ["u6853-u516c"],
+      "rationale": "REJECTED。独立复核确认：§43'鲁杀隐公，立桓公'=鲁桓公（鲁国第十五代君，前711-前694在位）；§64'考王封其弟于河南，是为桓公，以续周公之官职'=西周桓公（考王弟，河南封君，前440-？在位）。二者相隔约三百年，绝非同一人。u6853-u516c实体本身是NER两人合体的产物，merge candidate当然应reject。NER污染修复见T-P0-027。",
+      "notes": "NER contamination: u6853-u516c conflates §43 鲁桓公 with §64 西周桓公 (考王之弟). See package for excerpts."
+    },
+    {
+      "group_id": 15,
+      "group_name": "襄王 ← 周襄王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u8944-u738b",
+      "merged_slugs": ["u5468-u8944-u738b"],
+      "rationale": "襄王=周襄王，全称简称之别，《周本纪》明文'立太子郑，是为襄王'。"
+    },
+    {
+      "group_id": 16,
+      "group_name": "王子带 ← 叔带",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u738b-u5b50-u5e26",
+      "merged_slugs": ["u53d4-u5e26"],
+      "rationale": "《周本纪》惠王段记'惠后欲立王子带'，襄王段'王子带召翟'。叔带=王子带（惠王子、襄王弟），名与排行称谓之别。"
+    },
+    {
+      "group_id": 17,
+      "group_name": "晋厉公 ← 厉公",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u664b-u5389-u516c",
+      "merged_slugs": ["u5389-u516c"],
+      "rationale": "《周本纪》定王段提及'晋厉公'/'厉公'，此为晋国君主（非周厉王）。与组9'厉王'无歧义——王/公之分，且相隔数百年。"
+    },
+    {
+      "group_id": 18,
+      "group_name": "周定王 ← 定王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u5468-u5b9a-u738b",
+      "merged_slugs": ["u5b9a-u738b"],
+      "rationale": "定王=周定王，全称简称之别，《周本纪》明文。"
+    },
+    {
+      "group_id": 19,
+      "group_name": "周简王 ← 简王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u5468-u7b80-u738b",
+      "merged_slugs": ["u7b80-u738b"],
+      "rationale": "简王=周简王，全称简称之别，《周本纪》明文'定王崩，长子去疾立，是为简王'。"
+    },
+    {
+      "group_id": 20,
+      "group_name": "灵王 ← 周灵王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u7075-u738b",
+      "merged_slugs": ["u5468-u7075-u738b"],
+      "rationale": "灵王=周灵王，全称简称之别，《周本纪》明文。"
+    },
+    {
+      "group_id": 21,
+      "group_name": "王子朝 ← 子朝",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u738b-u5b50-u671d",
+      "merged_slugs": ["u5b50-u671d"],
+      "rationale": "《周本纪》景王段记'景王爱子朝'，又称'王子朝'。子朝=王子朝（景王庶子），名与排行称谓之别。"
+    },
+    {
+      "group_id": 22,
+      "group_name": "周敬王 ← 敬王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u5468-u656c-u738b",
+      "merged_slugs": ["u656c-u738b"],
+      "rationale": "敬王=周敬王，全称简称之别，《周本纪》明文'子匄立，是为敬王'。"
+    },
+    {
+      "group_id": 23,
+      "group_name": "嵬 ← 考王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u5d6c",
+      "merged_slugs": ["u8003-u738b"],
+      "rationale": "《周本纪》'少弟嵬攻杀思王而自立，是为考王'。嵬（个人名）=考王（谥号），名与谥之别。"
+    },
+    {
+      "group_id": 24,
+      "group_name": "赧王 ← 周君 + 王赧 + 周赧王",
+      "category": "B",
+      "decision": "approved",
+      "canonical_slug": "u8d67-u738b",
+      "merged_slugs": ["u5468-u541b", "u738b-u8d67", "u5468-u8d67-u738b"],
+      "rationale": "王赧=周赧王=赧王无争议（名与谥+国号组合）。'周君'确指赧王：《周本纪》末段'周君、王赧卒，周民遂东亡'明文并称——赧王末年周室名存实亡，降格称'周君'。四称一人，approved。"
+    }
+  ]
+}
