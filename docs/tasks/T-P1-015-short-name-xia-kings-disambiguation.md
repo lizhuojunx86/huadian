@@ -17,3 +17,4 @@ xia-ben-ji §33 is a dense succession paragraph: "帝相崩，子帝少康立。
 - [ ] Add bare-name aliases (予, 槐, 芒, 泄, 不降, 扃, 廑) to person_names for these 7 kings
 - [ ] Re-run backfill → 7 names get evidence
 - [ ] V7 improves by ~1.3pp (7/524)
+- [ ] 附属：形成《短名 disambiguation 规则》文档（slug-first + 显式 disambiguation 规则文档化），沉淀本 Sprint 方法论，避免散佚
