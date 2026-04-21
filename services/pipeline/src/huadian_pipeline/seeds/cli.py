@@ -80,22 +80,49 @@ async def load_persons_from_db(dsn: str) -> list[PersonInput]:
         await conn.close()
 
 
+async def _upsert_entry(
+    conn: asyncpg.Connection,
+    source_id: str,
+    hit: dict,
+) -> str:
+    """Insert or fetch a dictionary_entry for a Wikidata hit."""
+    return await conn.fetchval(
+        """
+        INSERT INTO dictionary_entries
+          (source_id, external_id, entry_type, primary_name, attributes)
+        VALUES ($1, $2, 'person', $3, $4::jsonb)
+        ON CONFLICT (source_id, external_id) DO UPDATE
+          SET source_id = dictionary_entries.source_id
+        RETURNING id
+        """,
+        uuid.UUID(source_id),
+        hit["qid"],
+        hit.get("label_zh", ""),
+        json.dumps({"description_zh": hit.get("description_zh", "")}, ensure_ascii=False),
+    )
+
+
 async def write_seed_data(
     dsn: str,
     results: list[MatchResult],
     source_version: str,
 ) -> dict:
-    """Write matching results to dictionary_sources/entries/seed_mappings.
+    """Write matching results to DB.
 
-    Only writes single-match results (r1/r2/r3). Multi-hit and no-match
-    are skipped.
+    - Single-match (r1/r2/r3): dictionary_entry + seed_mapping(active)
+      + source_evidence(seed_dictionary)
+    - Multi-hit: dictionary_entry per candidate + seed_mapping(pending_review)
+      per candidate. No source_evidence.
+    - No-match: skipped.
 
     Returns summary dict of row counts.
     """
+    from .pseudo_book import ensure_wikidata_pseudo_book
+
     conn = await asyncpg.connect(dsn)
     try:
         async with conn.transaction():
-            # 1. Ensure dictionary_source exists
+            # 1. Ensure dictionary_source
             source_id = await conn.fetchval(
                 """
                 INSERT INTO dictionary_sources
@@ -103,76 +130,119 @@ async def write_seed_data(
                 VALUES ('wikidata', $1, 'CC0', true, 'https://query.wikidata.org/sparql')
                 ON CONFLICT (source_name, source_version) DO UPDATE SET source_name = 'wikidata'
                 RETURNING id
-            """,
+                """,
                 source_version,
             )
 
+            # 2. Ensure pseudo-book for source_evidences
+            book_id, raw_text_id = await ensure_wikidata_pseudo_book(conn, source_version)
+
             entries_written = 0
-            mappings_written = 0
+            active_mappings = 0
+            pending_mappings = 0
+            evidences_written = 0
             skipped = 0
 
             for r in results:
-                if r.match_round not in ("r1", "r2", "r3"):
-                    skipped += 1
-                    continue
-                if not r.hits:
+                if r.match_round == "none" or not r.hits:
                     skipped += 1
                     continue
 
-                hit = r.hits[0]  # single match
-                qid = hit["qid"]
+                pid = uuid.UUID(r.person_id)
 
-                # 2. Insert dictionary_entry (ON CONFLICT skip)
-                entry_id = await conn.fetchval(
-                    """
-                    INSERT INTO dictionary_entries
-                      (source_id, external_id, entry_type, primary_name, attributes)
-                    VALUES ($1, $2, 'person', $3, $4::jsonb)
-                    ON CONFLICT (source_id, external_id) DO UPDATE
-                      SET source_id = dictionary_entries.source_id
-                    RETURNING id
-                """,
-                    source_id,
-                    qid,
-                    hit.get("label_zh", ""),
-                    json.dumps(
-                        {"description_zh": hit.get("description_zh", "")}, ensure_ascii=False
-                    ),
-                )
-                entries_written += 1
+                if r.match_round in ("r1", "r2", "r3"):
+                    # Single match → active mapping + source_evidence
+                    hit = r.hits[0]
+                    entry_id = await _upsert_entry(conn, str(source_id), hit)
+                    entries_written += 1
 
-                # 3. Insert seed_mapping
-                existing = await conn.fetchval(
-                    """
-                    SELECT id FROM seed_mappings
-                    WHERE dictionary_entry_id = $1
-                      AND target_entity_type = 'person'
-                      AND target_entity_id = $2::uuid
-                      AND mapping_status = 'active'
-                """,
-                    entry_id,
-                    uuid.UUID(r.person_id),
-                )
-
-                if not existing:
-                    await conn.execute(
+                    existing = await conn.fetchval(
                         """
-                        INSERT INTO seed_mappings
-                          (dictionary_entry_id, target_entity_type, target_entity_id,
-                           confidence, mapping_method, mapping_status)
-                        VALUES ($1, 'person', $2::uuid, $3, $4, 'active')
-                    """,
+                        SELECT id FROM seed_mappings
+                        WHERE dictionary_entry_id = $1
+                          AND target_entity_type = 'person'
+                          AND target_entity_id = $2
+                          AND mapping_status = 'active'
+                        """,
                         entry_id,
-                        uuid.UUID(r.person_id),
-                        r.confidence,
-                        r.mapping_method,
+                        pid,
                     )
-                    mappings_written += 1
+                    if not existing:
+                        await conn.execute(
+                            """
+                            INSERT INTO seed_mappings
+                              (dictionary_entry_id, target_entity_type, target_entity_id,
+                               confidence, mapping_method, mapping_status)
+                            VALUES ($1, 'person', $2, $3, $4, 'active')
+                            """,
+                            entry_id,
+                            pid,
+                            r.confidence,
+                            r.mapping_method,
+                        )
+                        active_mappings += 1
+
+                    # Source evidence for active mapping
+                    se_exists = await conn.fetchval(
+                        """
+                        SELECT id FROM source_evidences
+                        WHERE book_id = $1::uuid AND provenance_tier = 'seed_dictionary'
+                          AND quoted_text = $2
+                        """,
+                        uuid.UUID(book_id),
+                        f"wikidata:{hit['qid']}→{r.slug}",
+                    )
+                    if not se_exists:
+                        await conn.execute(
+                            """
+                            INSERT INTO source_evidences
+                              (raw_text_id, book_id, provenance_tier, quoted_text, text_version)
+                            VALUES ($1::uuid, $2::uuid, 'seed_dictionary', $3, $4)
+                            """,
+                            uuid.UUID(raw_text_id),
+                            uuid.UUID(book_id),
+                            f"wikidata:{hit['qid']}→{r.slug}",
+                            source_version,
+                        )
+                        evidences_written += 1
+
+                elif r.match_round == "multi_hit":
+                    # Multi-hit → one pending_review mapping per candidate
+                    for hit in r.hits:
+                        entry_id = await _upsert_entry(conn, str(source_id), hit)
+                        entries_written += 1
+
+                        existing = await conn.fetchval(
+                            """
+                            SELECT id FROM seed_mappings
+                            WHERE dictionary_entry_id = $1
+                              AND target_entity_type = 'person'
+                              AND target_entity_id = $2
+                              AND mapping_status = 'pending_review'
+                            """,
+                            entry_id,
+                            pid,
+                        )
+                        if not existing:
+                            await conn.execute(
+                                """
+                                INSERT INTO seed_mappings
+                                  (dictionary_entry_id, target_entity_type, target_entity_id,
+                                   confidence, mapping_method, mapping_status)
+                                VALUES ($1, 'person', $2, 0.0, $3, 'pending_review')
+                                """,
+                                entry_id,
+                                pid,
+                                r.mapping_method,
+                            )
+                            pending_mappings += 1
 
             return {
                 "source_id": str(source_id),
                 "entries_written": entries_written,
-                "mappings_written": mappings_written,
+                "active_mappings": active_mappings,
+                "pending_mappings": pending_mappings,
+                "evidences_written": evidences_written,
                 "skipped": skipped,
             }
     finally:
@@ -233,8 +303,10 @@ async def cmd_load(args: argparse.Namespace) -> None:
         print("\nDB WRITES:")
         print(f"  Source ID: {write_summary['source_id']}")
         print(f"  Entries written: {write_summary['entries_written']}")
-        print(f"  Mappings written: {write_summary['mappings_written']}")
-        print(f"  Skipped (multi/none): {write_summary['skipped']}")
+        print(f"  Active mappings: {write_summary['active_mappings']}")
+        print(f"  Pending review mappings: {write_summary['pending_mappings']}")
+        print(f"  Source evidences: {write_summary['evidences_written']}")
+        print(f"  Skipped (no match): {write_summary['skipped']}")
 
 
 def main() -> None:
