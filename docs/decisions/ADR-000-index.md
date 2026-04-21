@@ -29,6 +29,7 @@
 | [ADR-014](ADR-014-canonical-merge-execution-model.md) | Canonical Merge Execution Model（names-stay + read-side aggregation） | 2026-04-19 | 架构师 |
 | [ADR-015](ADR-015-evidence-chain-fill-plan.md) | Evidence 链填充方案（staged activation + paragraph-level Stage 1） | 2026-04-19 | 架构师 |
 | [ADR-017](ADR-017-migration-rollback-strategy.md) | Migration Rollback Strategy（forward-only + pg_dump anchor + 4 闸门） | 2026-04-19 | 架构师 |
+| [ADR-021](ADR-021-dictionary-seed-strategy.md) | Dictionary Seed Strategy（open-data-first, Wikidata 作为唯一 TIER-1 源；CBDB 因 CC BY-NC-SA 延后） | 2026-04-21 | 架构师 |
 
 ### 已规划（尚未起草）
 
