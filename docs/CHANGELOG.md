@@ -7,6 +7,72 @@
 
 ## 2026-04-21
 
+### [data+docs+test] Sprint A — T-P0-019 α β 尾巴清理 + V8 invariant 引入
+
+- **角色**：首席架构师（决策 + Gate ACK + ADR 起草）+ 管线工程师（三阶段执行 + V8 SQL + self-test）
+- **性质**：invariant 零化 + NER 污染硬 DELETE + 规则精化 + 两条新 ADR
+- **关联**：ADR-014 names-stay / ADR-017 migration rollback / 新 ADR-022（NER 污染准则）/ 新 ADR-023（V8 invariant）
+
+#### Stage 1（V6 零化，T-P1-013 closed）
+- 5639868 data(pipeline): zero V6 — 28 rows alias+is_primary=true
+- 路径：`UPDATE person_names SET name_type='primary' WHERE id IN (...)`（TYPE-B 降格为合法 primary）
+- 结果：V6 28 → 0；V1-V5 无回归
+
+#### Stage 2（F1 硬 DELETE，T-P1-014 closed）
+- b986891 data(pipeline): hard DELETE 6 pronoun/bare-title rows per ADR-022
+- 三要素全满足：Evidence 链零依赖（source_evidence_id=NULL 6/6）+ 语义非合法名（代词/光秃爵位）+ FK 零引用
+- V7 机械性 96.37% → 97.49%（分母 524→518，分子 505 不变）
+- pg_dump anchor `f32964f4...`（per ADR-017）
+
+#### Stage 3（F2 V8 精化，T-P1-015 closed 名义）
+- 7629726 feat(pipeline): V8 prefix-containment invariant + self-test（test_v8_prefix_containment.py 3 cases）
+- 3 行单字条目（伯/管/蔡）Gate 0b 审计确认为合法古汉语 anaphoric short-form（《尚书·舜典》§15 / 《史记·周本纪》并列缩略）
+- `source_evidence_id IS NOT NULL`（α 豁免）+ `name_type='alias'`（β 豁免）双满足 → V8 不报
+- 不删数据；规则精化替代数据修改
+
+#### ADR 产出
+- af7581d docs: ADR-022 NER pollution cleanup vs names-stay principle（三要素 AND + Gate 0-4 协议）
+- 2dd53c9 docs: ADR-023 V8 prefix-containment invariant（与 V1-V7 同级 + α/β OR 豁免 + self-test 强制）
+- ADR-000-index 同步（+ADR-021/022/023 三行）
+
+#### Changed
+- person_names：-6 行硬 DELETE；28 行 name_type 修正
+- V6：28 → 0（转绿）
+- V7：96.37% → 97.49%（+1.12pp 机械性）
+- V8：新增 invariant（生产数据 0 violations）
+- pipeline tests：279 → 282（+3 V8 self-test）
+- ADR：16 → 19（+ADR-021 T-P0-026 并行登记 + ADR-022 + ADR-023）
+
+#### Debt closed
+- T-P1-013（V6 28 行清理）
+- T-P1-014（F1 pronoun residuals）
+- T-P1-015（短名夏王 / F2 prefix residuals — 名义 closed，规则化处理）
+
+#### Debt opened
+- T-P1-021（canonical merge missed pairs — 管叔/管叔鲜、蔡叔/蔡叔度；V8 probe 副产品）
+
+#### Sprint 成本
+- 6 commits on main：5639868 / b986891 / af7581d / 7629726 / 2dd53c9 / （ADR-023 typo fix，本次）
+- 2 pg_dump anchors（Stage 1 前 + Stage 2 前）
+- 0 LLM 成本（纯数据 + 规则工程）
+
+#### 关键判例
+- **ADR-022 首次应用即挡住错误 DELETE**：Stage 3 原计划按 F2 假设硬删 3 行；Gate 0b 审计触发三要素判定，evidence 非空 → 转向 V8 规则路径，保留 3 条合法别名。这是"让 ADR 在第一次应用时就自我校准"的证据。
+- **V8 的 α/β OR 豁免 vs ADR-022 的三要素 AND**：前者是"证明合法 → 豁免"（防御向）；后者是"三维都证明是污染 → 删除"（清理向）。两者哲学共通（evidence 链作为合法性客观信号），互补非 supersede。
+
+---
+
+### [feat+docs] T-P0-026 — 字典种子研究 + ADR-021 Dictionary Seed Strategy
+
+- **角色**：首席架构师 + 历史学家
+- **性质**：open-data 调研 + license 审查 + 新 ADR
+- **关联**：T-P0-025（字典加载器，planned）/ ADR-021（产出）
+
+- 17570d6 docs: ADR-021 Dictionary Seed Strategy — open-data-first; Wikidata as sole TIER-1 source（CBDB 因 CC BY-NC-SA 延后）
+- 产出 3 docs（ADR-021 + 调研报告 + 许可证矩阵），指导 T-P0-025 字典加载器实现
+
+---
+
 ### [feat+docs] T-P0-024 α — 历史章节证据链主回填（Path C 混合方案）
 
 - **角色**：管线工程师（实施）+ 首席架构师（裁决 / Gate ACK / 歧义仲裁）
