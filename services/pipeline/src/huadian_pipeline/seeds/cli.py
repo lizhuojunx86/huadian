@@ -72,7 +72,7 @@ async def load_persons_from_db(dsn: str) -> list[PersonInput]:
                 continue
             p = persons[pid]
             p.all_names.append(nr["name"])
-            if nr["name_type"] in ("primary", "alias", "nickname", "posthumous", "temple"):
+            if nr["name_type"] in ("primary", "alias"):
                 p.alias_names.append(nr["name"])
 
         return list(persons.values())
@@ -206,9 +206,11 @@ async def cmd_load(args: argparse.Namespace) -> None:
     print(f"MATCHING COMPLETE ({elapsed:.0f}s)")
     print(f"  Total: {summary.total}")
     print(f"  R1 single: {summary.r1_single}")
-    print(f"  R1 multi (manual review): {summary.r1_multi}")
+    print(f"  R1 multi: {summary.r1_multi}")
     print(f"  R2 alias: {summary.r2_alias}")
+    print(f"  R2 multi: {summary.r2_multi}")
     print(f"  R3 scan: {summary.r3_scan}")
+    print(f"  R3 multi: {summary.r3_multi}")
     print(f"  No match: {summary.no_match}")
     print(f"  Hit rate: {100 * total_matched / summary.total:.1f}%")
     print(f"  HTTP requests: {summary.http_requests}")

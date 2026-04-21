@@ -70,7 +70,9 @@ class MatchSummary:
     r1_single: int = 0
     r1_multi: int = 0
     r2_alias: int = 0
+    r2_multi: int = 0
     r3_scan: int = 0
+    r3_multi: int = 0
     no_match: int = 0
     http_requests: int = 0
     errors: int = 0
@@ -175,7 +177,7 @@ async def run_matching(
                 r.mapping_method = "r2_alias_multi"
                 r.hits = [asdict(h) for h in hits]
                 r.matched_name = alias
-                summary.r1_multi += 1  # count in multi bucket
+                summary.r2_multi += 1
                 found = True
                 break
 
@@ -220,7 +222,7 @@ async def run_matching(
                     r.mapping_method = "r3_name_scan_multi"
                     r.hits = [asdict(h) for h in hits]
                     r.matched_name = name
-                    summary.r1_multi += 1
+                    summary.r3_multi += 1
                     found = True
                     break
 
@@ -240,15 +242,19 @@ async def run_matching(
 
     summary.errors = adapter.total_errors
     total_matched = summary.r1_single + summary.r2_alias + summary.r3_scan
+    total_multi = summary.r1_multi + summary.r2_multi + summary.r3_multi
     logger.info(
-        "=== FINAL: %d/%d matched (%.1f%%) | R1=%d R2=%d R3=%d multi=%d none=%d ===",
+        "=== FINAL: %d/%d matched (%.1f%%) | R1=%d R2=%d R3=%d multi=%d(%d+%d+%d) none=%d ===",
         total_matched,
         summary.total,
         100 * total_matched / summary.total if summary.total else 0,
         summary.r1_single,
         summary.r2_alias,
         summary.r3_scan,
+        total_multi,
         summary.r1_multi,
+        summary.r2_multi,
+        summary.r3_multi,
         summary.no_match,
     )
 
