@@ -95,6 +95,7 @@ export const seedMappings = pgTable(
     mappingCreatedAt: timestamp("mapping_created_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
+    // Lifecycle: pending_review → active|rejected; active → superseded
     mappingStatus: text("mapping_status").notNull().default("active"),
     notes: jsonb("notes"),
   },
@@ -114,7 +115,7 @@ export const seedMappings = pgTable(
     ),
     check(
       "seed_mappings_status_check",
-      sql`${table.mappingStatus} IN ('active', 'superseded', 'rejected')`,
+      sql`${table.mappingStatus} IN ('active', 'superseded', 'rejected', 'pending_review')`,
     ),
   ],
 );
