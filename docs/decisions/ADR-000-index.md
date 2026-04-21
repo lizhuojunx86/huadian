@@ -31,6 +31,7 @@
 | [ADR-017](ADR-017-migration-rollback-strategy.md) | Migration Rollback Strategy（forward-only + pg_dump anchor + 4 闸门） | 2026-04-19 | 架构师 |
 | [ADR-021](ADR-021-dictionary-seed-strategy.md) | Dictionary Seed Strategy（open-data-first, Wikidata 作为唯一 TIER-1 源；CBDB 因 CC BY-NC-SA 延后） | 2026-04-21 | 架构师 |
 | [ADR-022](ADR-022-ner-pollution-cleanup-principle.md) | NER 污染清理 vs Names-Stay 判定准则（三要素 AND：evidence 零依赖 + 非合法名语义 + FK 零引用 → 硬 DELETE + pg_dump anchor） | 2026-04-21 | 架构师 + 管线工程师 |
+| [ADR-023](ADR-023-v8-prefix-containment-invariant.md) | V8 Invariant 引入：Prefix-Containment 检测（length=1 名 + 跨 person 前缀包含 → 违反；α evidence-backed 或 β alias-typed → 豁免） | 2026-04-21 | 架构师 + 管线工程师 |
 
 ### 已规划（尚未起草）
 
