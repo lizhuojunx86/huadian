@@ -2,25 +2,44 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-20
-- **更新人**：管线工程师（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅**
+- **最近更新**：2026-04-21
+- **更新人**：首席架构师（Claude Opus）
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A V6/F1/F2 尾巴清零 ✅ + V8 不变量引入 ✅**
 
 ---
 
 ## 当前在哪
 
-**T-P0-024 α 完成。证据链主回填达成 V7 96.37%。**
+**Sprint A 收官完成。V6 清零 + F1 硬 DELETE + F2 通过 V8 规则精化（名义保留 3 条合法古汉语短形）。不变量集扩至 V1-V8。**
 
-T-P0-024 α（历史章节证据链回填）完成。Path C 混合方案：C1 β Path A（hash 复用 27 段，+30 names）+ C2 Phase A/B Path B via fast lane（99 段重抽取，+200 names）。AMBIGUOUS_SLUGS 审计网 21/21 命中、三态名回退验证通过、zero fail-loud。
+Sprint A（T-P0-019 α β 尾巴清理）三阶段全部完成：
+- **Stage 1（V6 零化）**：28 行 alias+is_primary=true → `name_type` 修为 primary（采用"降格为合法 primary"而非 is_primary 翻转；T-P1-013 closed）
+- **Stage 2（F1 硬 DELETE）**：6 行代词/光秃爵位残留（帝×2/王×2/朕/予一人）per **ADR-022** 三要素全满足 → 硬 DELETE + pg_dump anchor；V7 机械性 96.37%→97.49%；T-P1-014 closed
+- **Stage 3（F2 V8 精化）**：3 行单字条目（伯/管/蔡）审计后判为**合法古汉语 anaphoric short-form**（α evidence-backed + β alias-typed 双豁免），**不删数据**，改立 **ADR-023 V8 Prefix-Containment Invariant** 防御未来回归；T-P1-015 closed（名义）
 
-**里程碑：source_evidences 242→412 / V7 52.48%→96.37%（超 80% 硬指标 +16.37pp，超 90% 拉伸 +6.37pp）/ LLM 成本 $0.78（快车道 $0 新增 execute 成本）/ 10 条 P1 债务登记（T-P1-011~020）。**
+**里程碑**：
+- V6 转绿：pre-existing 28 → 0
+- V7：96.37% → 97.49%（+1.12pp 机械性）
+- V8：新增 invariant，生产数据 0 violations，self-test 282 通过
+- ADR +3：ADR-021（Dictionary Seed Strategy）+ ADR-022（NER 污染清理准则）+ ADR-023（V8 invariant）
+- 副产品债务：T-P1-021（canonical merge missed pairs — 管叔 vs 管叔鲜 / 蔡叔 vs 蔡叔度）
 
-**下一步**：等架构师指派（候选：T-P0-019 β 尾巴清理 / T-P1-013 V6 清理 / T-P1-014 武王归并审核 / T-P1-015 短名夏王）
+**下一步**：等用户指派（候选：T-P0-025 字典加载器基于 ADR-021 / T-P1-021 canonical merge missed pairs / T-P0-005a SigNoz 接入 / T-P0-004 批次 2）
 
 ---
 
 ## 已完成
+
+### Sprint A — T-P0-019 α β 尾巴清理 + V8 invariant 引入（2026-04-21）
+- [x] Stage 1（V6 零化）：28 行 alias+is_primary=true → `name_type='primary'`（TYPE-B 降格为合法 primary；T-P1-013 closed）
+- [x] Stage 2（F1 硬 DELETE）：6 行代词/光秃爵位残留 per ADR-022 三要素 → 硬 DELETE + pg_dump anchor；V7 96.37%→97.49%；T-P1-014 closed
+- [x] Stage 3（F2 V8 精化）：3 行单字 α/β 双豁免（合法古汉语 anaphoric short-form），不删数据；ADR-023 V8 invariant 上线；T-P1-015 closed（名义）
+- [x] ADR-022 accepted — NER 污染清理 vs Names-Stay 判定准则（三要素 AND 硬 DELETE + Gate 0-4 协议）
+- [x] ADR-023 accepted — V8 Prefix-Containment Invariant（与 V1-V7 同级 + α evidence OR β alias 豁免 + self-test 强制）
+- [x] V8 SQL + self-test（3 tests）落盘 services/pipeline/tests/test_v8_prefix_containment.py；282 tests 全绿
+- 结果：V6 28→0（转绿）/ V7 96.37%→97.49%（+1.12pp 机械性）/ V8 引入（0 violations）/ ADR +3（ADR-021 Dictionary Seed Strategy 并行登记 + ADR-022 + ADR-023）
+- 衍生债：T-P1-021（canonical merge missed pairs — 管叔/管叔鲜、蔡叔/蔡叔度；V8 probe 副产品）
+- 累计：6 commits / 3 new tests（V8 self-test）/ 2 pg_dump anchors / 3 new ADRs
 
 ### T-P0-024 α — 历史章节证据链回填（2026-04-21）
 - [x] Stage 0a：侦察（β 现状 + Phase A/B 盘点 + 路径 C 混合方案选定）
@@ -356,16 +375,14 @@ T-P0-024 α（历史章节证据链回填）完成。Path C 混合方案：C1 β
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
-| 🟡 中 | T-P0-019 | β 尾巴清理（F1 pronoun + F2 prefix-containment；F4 已由 ADR-010 supplement 统一） | 管线 | — | planned |
+| 🟡 中 | T-P0-025 | 字典加载器（基于 ADR-021 open-data-first + Wikidata TIER-1 源） | 管线 + 后端 | ADR-021 ✅ | planned |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
 | 🟡 中 | T-P1-005 | 统一 migration 入口（Drizzle + pipeline SQL 双轨合一） | DevOps + 后端 | — | registered |
 | 🟡 中 | T-P1-007 | u6853-u516c 桓公 person 拆分（§43 鲁桓公 vs §64 西周桓公） | 管线 + historian | — | registered |
 | 🟡 中 | T-P1-008 | Union-Find 簇验证（跨朝代污染防护） | 管线 + 架构师 | — | registered |
 | 🟡 中 | T-P1-009 | NER 合成词护栏（文武/尧舜 类识别） | 管线 + historian | — | registered |
-| 🟡 中 | T-P1-013 | V6 alias+is_primary=true 历史 28 条清理 | 管线 + 后端 | — | registered |
-| 🟡 中 | T-P1-014 | wu-wang/zhou-wu-wang/tang 归并审核 | historian + 管线 | — | registered |
-| 🟡 中 | T-P1-015 | 短名夏王 disambiguation（7 uncovered） | 管线 + historian | — | registered |
+| 🟡 中 | T-P1-021 | canonical merge missed pairs（管叔/管叔鲜、蔡叔/蔡叔度，V8 probe 副产品） | 管线 + historian | ADR-014 ✅ | registered |
 | 🟢 低 | T-P1-010 | Resolver R2 dynasty + reality_status 预过滤 | 管线 + 架构师 | — | registered |
 | 🟢 低 | T-P1-011 | Merged-alias evidence backfill（垂→倕） | 管线 | — | registered |
 | 🟢 低 | T-P1-012 | Dry-run first-write-wins 预测模型 | 管线 | — | registered |
@@ -404,6 +421,9 @@ T-P0-024 α（历史章节证据链回填）完成。Path C 混合方案：C1 β
 - `ADR-014` — Canonical Merge Execution Model（names-stay + read-side aggregation + apply_merges() 唯一入口）
 - `ADR-015` — Evidence 链填充方案（staged activation + paragraph-level Stage 1）
 - `ADR-017` — Migration Rollback Strategy（forward-only + pg_dump anchor + 4 闸门协议）
+- `ADR-021` — Dictionary Seed Strategy（open-data-first；Wikidata 作为唯一 TIER-1 源；CBDB 因 CC BY-NC-SA 延后）
+- `ADR-022` — NER 污染清理 vs Names-Stay 判定准则（三要素 AND：evidence 零依赖 + 非合法名语义 + FK 零引用 → 硬 DELETE + pg_dump anchor）
+- `ADR-023` — V8 Invariant 引入：Prefix-Containment（length=1 名 + 跨 person 前缀包含 → 违反；α evidence-backed 或 β alias-typed → 豁免）
 - `ADR-010 Supplement` — persons 表三态 soft-delete 语义 + 单向 CHECK 选型
 
 ---
@@ -411,15 +431,15 @@ T-P0-024 α（历史章节证据链回填）完成。Path C 混合方案：C1 β
 ## 健康度指标
 
 - 📘 文档覆盖度：核心 7/7 ✅
-- 🧭 ADR 数量：16 accepted（含 ADR-010 supplement）
-- 📋 任务卡数量：T-P0-001~T-P0-016 + T-P0-019~T-P0-024 + T-P1-007~T-P1-010 done/planned/registered（28+）
+- 🧭 ADR 数量：19 accepted（含 ADR-010 supplement；新增 ADR-021/022/023 @ 2026-04-21）
+- 📋 任务卡数量：T-P0-001~T-P0-016 + T-P0-019~T-P0-024 + T-P1-007~T-P1-021 done/planned/registered（32+）
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
-- 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-006 加载
-- 🧪 测试覆盖：395 passed（pipeline 279 + api 61 + web 55）+ 0 skipped；E2E 7 specs
+- 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-025 加载（按 ADR-021 open-data-first 策略扩充）
+- 🧪 测试覆盖：398 passed（pipeline 282 + api 61 + web 55）+ 0 skipped；E2E 7 specs；V8 self-test 3 新增
 - 🔗 合并状态：320 active persons / 45 merge-soft-deleted / 5 pure-soft-deleted = 370 total
-- 📊 Evidence 覆盖：source_evidences 412 行 / V7 覆盖率 96.37%（T-P0-024 α done; 19 names uncovered = 4 pronoun + 7 短名夏王 + 2 微子 + 6 misc）
+- 📊 Evidence 覆盖：source_evidences 412 行 / V7 覆盖率 97.49%（Sprint A Stage 2 机械性 +1.12pp；分母 524→518，分子 505 不变；残余 ≈13 names = 7 短名夏王 + 2 微子 + 4 misc）
 - 🗄️ Pipeline migrations：0001–0008（latest: 0008_t-p0-023-seed-dictionary-enum.sql）
 - 🚦 阻塞项数量：0 ✅
 
@@ -432,17 +452,17 @@ T-P0-024 α（历史章节证据链回填）完成。Path C 混合方案：C1 β
 | V3 | FK completeness | merged_into_id 指向存在的 person | ✅ | 历史绿 |
 | V4 | model-B leakage | merged source 无 primary name | ✅ | 2026-04-19（T-P0-022） |
 | V5 | active definition | 无 merged 但未 deleted（CHECK 约束保护） | ✅ | 2026-04-19（T-P0-020） |
-| V6 | alias ≠ is_primary | 全表无 alias+is_primary=true | ✅ | 2026-04-19（T-P0-016） |
-| V7 | evidence coverage | active person_names 的 source_evidence_id 覆盖率 | ✅ 96.37% (PASS) | 2026-04-21（T-P0-024 α 完成） |
+| V6 | alias ≠ is_primary | 全表无 alias+is_primary=true | ✅ | 2026-04-21（Sprint A Stage 1，28→0；机制历史绿自 2026-04-19 T-P0-016） |
+| V7 | evidence coverage | active person_names 的 source_evidence_id 覆盖率 | ✅ 97.49% (PASS) | 2026-04-21（Sprint A Stage 2 机械性 +1.12pp） |
+| V8 | prefix-containment | length=1 name + 跨 person 前缀包含（α evidence OR β alias 豁免） | ✅ 0 violations | 2026-04-21（Sprint A Stage 3；ADR-023） |
 
-**V1-V5 全绿；V6 pre-existing 28（T-P1-013 待修）；V7 96.37% PASS（超 80% 硬 / 90% 拉伸；19 names 残余 = T-P1-015 + T-P1-016 scope）**。
+**V1-V8 全绿；V7 97.49% PASS（超 80% 硬 / 90% 拉伸；≈13 names 残余 = T-P1-015 部分 + T-P1-016 scope）；V8 self-test 282 tests 通过**。
 
 ### 已知未处理违规（debt baseline）
 
 | Debt | 描述 | 行数 | 优先级 |
 |------|------|------|--------|
 | F12 | primary + is_primary=false（W2 路径） | 11 行 active | P2 |
-| T-P1-013 | alias+is_primary=true（Phase A/B 遗产） | 28 行 active | P2 |
 
 ### 已知验证盲点
 
@@ -485,6 +505,8 @@ T-P0-024 α（历史章节证据链回填）完成。Path C 混合方案：C1 β
 - 2026-04-19：T-P0-023 sprint 完成（证据链 Stage 1 激活；6 commits；+10 tests；migration 0008；V7 warning 级不变量；smoke 验证盲点登记 T-P1-006）
 - 2026-04-20：T-P0-006 α sprint 完成（周本纪 82 段 ingest + evidence 写路径验证 + 29 persons merge；8 commits；persons 153→320；source_evidences 0→242；V7 0%→52.48%；LLM $0.77；衍生 T-P1-007~010）
 - 2026-04-21：T-P0-024 α sprint 完成（证据链主回填 Path C 混合：C1 β hash 复用 + C2 Phase A/B 重抽取 fast lane；source_evidences 242→412；V7 52.48%→96.37%（+43.89pp）；LLM $0.78；5 commits + 2 merges；衍生 T-P1-011~020）
+- 2026-04-21：T-P0-026 字典种子研究完成 — ADR-021 Dictionary Seed Strategy accepted（open-data-first；Wikidata 作为唯一 TIER-1 源；CBDB 因 CC BY-NC-SA 延后；17570d6）
+- 2026-04-21：Sprint A 收官（T-P0-019 α β 尾巴清理）— Stage 1 V6 28→0（name_type 修正）/ Stage 2 F1 6 行硬 DELETE per ADR-022（V7 96.37%→97.49%）/ Stage 3 F2 3 行 V8 规则精化（合法古汉语 anaphoric short-form 双豁免，不删）；ADR-022 accepted + ADR-023 accepted（V8 Prefix-Containment Invariant 与 V1-V7 同级）；6 commits；T-P1-013/014/015 closed；衍生 T-P1-021（canonical merge missed pairs）
 
 ---
 
@@ -512,6 +534,27 @@ T-P0-024 α（历史章节证据链回填）完成。Path C 混合方案：C1 β
 - **修复**：方向 3（分层白名单）— Tier-S 人物用 pinyin slug（74 条白名单 `data/tier-s-slugs.yaml`），其余用 unicode hex fallback
 - **结果**：slug 规则明文化；`slug.py` 模块化生成；不变量测试 CI 保证；零 DB 变更；零 URL 变更
 - **治理**：新增白名单条目必须附带 ADR/CHANGELOG 记录（ADR-011）
+
+### ~~T-P1-013: alias+is_primary=true（Phase A/B 遗产 28 行）~~ — **closed 2026-04-21**
+
+- **修复**：Sprint A Stage 1 — 28 行 `name_type='alias' AND is_primary=true` → `UPDATE SET name_type='primary'`（采用"降格为合法 primary"路径，保留 is_primary=true；架构师原提议 is_primary 翻转由工程师 SQL 精化为 `name_type` 修正，两者对 V6 皆等价）
+- **结果**：V6 转绿（28 → 0）；零 DELETE、零 merge；V1-V5 无回归
+- **commit**：5639868
+
+### ~~T-P1-014: F1 代词 / 光秃爵位残留清理~~ — **closed 2026-04-21**
+
+- **修复**：Sprint A Stage 2 — 6 行（帝×2 / 王×2 / 朕 / 予一人）per ADR-022 三要素全满足 → 硬 DELETE + pg_dump anchor
+- **三要素判定**：Evidence 链零依赖（`source_evidence_id IS NULL` 6/6）+ 语义非合法名（代词 / 光秃爵位）+ FK 零引用（0 表引用）
+- **机械性副作用**：V7 覆盖率 96.37% → 97.49%（分母 524→518，分子 505 不变）——非 extraction 改善
+- **commit**：b986891 + pg_dump anchor `f32964f4...`
+
+### ~~T-P1-015: 短名夏王 disambiguation（F2 prefix residuals）~~ — **closed（名义，规则化处理）2026-04-21**
+
+- **原意图**：对单字"伯 / 管 / 蔡"等短名做 disambiguation 或清理
+- **实际处置**：Sprint A Stage 3 Gate 0b 审计发现 3 行全部 `source_evidence_id IS NOT NULL` + `name_type='alias'`——属合法古汉语 anaphoric short-form（《尚书·舜典》§15 立名短形回指伯夷；《史记·周本纪》"管蔡畔周"并列缩略），不适用 ADR-022 硬 DELETE
+- **结论**：不删数据；改立 **ADR-023 V8 Prefix-Containment Invariant**（与 V1-V7 同级）防御未来回归。V8 SQL 对 α evidence-backed OR β alias-typed 豁免，生产数据 0 violations
+- **衍生债**：T-P1-021（V8 probe 副产品：canonical merge missed pairs 管叔/管叔鲜、蔡叔/蔡叔度）
+- **commit**：7629726（V8 实现 + self-test）+ 2dd53c9（ADR-023）+ af7581d（ADR-022）
 
 ### T-P1-005: 统一 migration 入口（Drizzle + pipeline SQL 双轨合一）— **registered 2026-04-19**
 
