@@ -1,0 +1,4701 @@
+[
+  {
+    "person_slug": "bai-qi",
+    "canonical_name": "白起",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q701746",
+        "label_zh": "白起",
+        "description_zh": "戰國四名將之一"
+      },
+      {
+        "qid": "Q65820802",
+        "label_zh": "白起",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_multi",
+    "error": ""
+  },
+  {
+    "person_slug": "bao-si",
+    "canonical_name": "褒姒",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1069735",
+        "label_zh": "褒姒",
+        "description_zh": "周幽王王后"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "bi-gan",
+    "canonical_name": "比干",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1051287",
+        "label_zh": "比干",
+        "description_zh": "商朝贵族"
+      },
+      {
+        "qid": "Q45519000",
+        "label_zh": "比干",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_multi",
+    "error": ""
+  },
+  {
+    "person_slug": "bo-yi",
+    "canonical_name": "伯夷",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q61314449",
+        "label_zh": "伯夷",
+        "description_zh": "商朝末年孤竹国王子"
+      },
+      {
+        "qid": "Q10787522",
+        "label_zh": "伯夷",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_multi",
+    "error": ""
+  },
+  {
+    "person_slug": "chang-pu",
+    "canonical_name": "昌仆",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "chang-xian",
+    "canonical_name": "常先",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q11060279",
+        "label_zh": "常先",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "chang-yi",
+    "canonical_name": "昌意",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q6377648",
+        "label_zh": "昌意",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "chi-you",
+    "canonical_name": "蚩尤",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q17370568",
+        "label_zh": "蚩尤",
+        "description_zh": "台灣插畫家"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "chui",
+    "canonical_name": "倕",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "chu-zhuang-wang",
+    "canonical_name": "楚庄王",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q198154",
+        "label_zh": "楚庄王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "da-hong",
+    "canonical_name": "大鸿",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q9970261",
+        "label_zh": "大鸿",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "da-ji",
+    "canonical_name": "妲己",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q1377681",
+        "label_zh": "妲己",
+        "description_zh": "商纣王妃子"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "dan-zhu",
+    "canonical_name": "丹朱",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q5221466",
+        "label_zh": "丹朱",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "di-ku",
+    "canonical_name": "高辛",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "fang-qi",
+    "canonical_name": "放齐",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q10297711",
+        "label_zh": "放齐",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "feng-hou",
+    "canonical_name": "风后",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "fu-yue",
+    "canonical_name": "傅说",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "gao-yao",
+    "canonical_name": "皋陶",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q3659487",
+        "label_zh": "皋陶",
+        "description_zh": "中国传说时代人物"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "gong-gong",
+    "canonical_name": "共工",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "gou-wang",
+    "canonical_name": "句望",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q9569181",
+        "label_zh": "句望",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "guan-zhong",
+    "canonical_name": "管仲",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q457972",
+        "label_zh": "管仲",
+        "description_zh": "春秋時期齊國丞相"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "gu-gong-dan-fu",
+    "canonical_name": "古公亶父",
+    "dynasty": "先周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "gun",
+    "canonical_name": "鲧",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q1157063",
+        "label_zh": "鲧",
+        "description_zh": "上古时期邦国首领"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "gu-sou",
+    "canonical_name": "瞽叟",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q10438384",
+        "label_zh": "瞽叟",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "he-shu",
+    "canonical_name": "和叔",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q10921376",
+        "label_zh": "和叔",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "he-zhong",
+    "canonical_name": "和仲",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q10921349",
+        "label_zh": "和仲",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "hou-ji",
+    "canonical_name": "弃",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q1207613",
+        "label_zh": "弃",
+        "description_zh": "周人始祖"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "huang-di",
+    "canonical_name": "轩辕",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "jian-di",
+    "canonical_name": "简狄",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "jiao-ji",
+    "canonical_name": "蟜极",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "jie",
+    "canonical_name": "帝履癸",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q465081",
+        "label_zh": "桀",
+        "description_zh": "夏朝末代君主"
+      }
+    ],
+    "round2_alias_used": "夏桀",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "ji-li",
+    "canonical_name": "季历",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "jing-kang",
+    "canonical_name": "敬康",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q10299225",
+        "label_zh": "敬康",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "jin-wen-gong",
+    "canonical_name": "晋文公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q561973",
+        "label_zh": "晋文公",
+        "description_zh": "春秋時期諸侯國君"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "ji-zi",
+    "canonical_name": "箕子",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q125218765",
+        "label_zh": "箕子",
+        "description_zh": "中国艺术家"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "kong-jia",
+    "canonical_name": "孔甲",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q1193337",
+        "label_zh": "孔甲",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "kui",
+    "canonical_name": "夔",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "lei-zu",
+    "canonical_name": "嫘祖",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "li-mu",
+    "canonical_name": "力牧",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q10900662",
+        "label_zh": "力牧",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "liu-lei",
+    "canonical_name": "刘累",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "long",
+    "canonical_name": "龙",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q706911",
+        "label_zh": "龙",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "pan-geng",
+    "canonical_name": "盘庚",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q736654",
+        "label_zh": "盘庚",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "peng-zu",
+    "canonical_name": "彭祖",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q2194386",
+        "label_zh": "彭祖",
+        "description_zh": "传说中的彭姓始祖"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "qi",
+    "canonical_name": "启",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q186544",
+        "label_zh": "启",
+        "description_zh": "夏朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "qiao-niu",
+    "canonical_name": "桥牛",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "qi-huan-gong",
+    "canonical_name": "齐桓公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q470108",
+        "label_zh": "齐桓公",
+        "description_zh": "春秋時代齊國國君、春秋五霸之一"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "qin-mu-gong",
+    "canonical_name": "秦穆公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1146646",
+        "label_zh": "秦穆公",
+        "description_zh": "春秋时期秦国国君"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "qiong-chan",
+    "canonical_name": "穷蝉",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "shang-jun",
+    "canonical_name": "商均",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q6380869",
+        "label_zh": "商均",
+        "description_zh": "舜的儿子"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "shao-dian",
+    "canonical_name": "少典",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q4302144",
+        "label_zh": "少典",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "shao-kang",
+    "canonical_name": "少康",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q1195072",
+        "label_zh": "少康",
+        "description_zh": "夏朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "shen-nong-shi",
+    "canonical_name": "神农氏",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "shun",
+    "canonical_name": "舜",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q28409920",
+        "label_zh": "舜",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "shu-qi",
+    "canonical_name": "叔齐",
+    "dynasty": "先周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "tai-bo",
+    "canonical_name": "太伯",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "tai-jia",
+    "canonical_name": "太甲",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q878465",
+        "label_zh": "太甲",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "tai-kang",
+    "canonical_name": "太康",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q1155744",
+        "label_zh": "太康",
+        "description_zh": "夏朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "tang",
+    "canonical_name": "汤",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q471820",
+        "label_zh": "商汤",
+        "description_zh": "商朝的第一任君王"
+      }
+    ],
+    "round2_alias_used": "成汤",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "u4e0d-u7a8b",
+    "canonical_name": "不窋",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q5003460",
+        "label_zh": "不窋",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u4e1c-u5468-u60e0-u516c",
+    "canonical_name": "东周惠公",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u4e2d-u4e01",
+    "canonical_name": "中丁",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q197807",
+        "label_zh": "中丁",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u4e2d-u58ec",
+    "canonical_name": "中壬",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u4e3b-u58ec",
+    "canonical_name": "主壬",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q10877438",
+        "label_zh": "主壬",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u4e3b-u7678",
+    "canonical_name": "主癸",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q10877461",
+        "label_zh": "主癸",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u4e49-u4f2f",
+    "canonical_name": "义伯",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u4e5d-u4faf",
+    "canonical_name": "九侯",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u4e5d-u4faf-u5973",
+    "canonical_name": "九侯女",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q120698892",
+        "label_zh": "九侯女",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u4e9a-u5709",
+    "canonical_name": "亚圉",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q10882572",
+        "label_zh": "亚圉",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u4ef2-u4f2f",
+    "canonical_name": "仲伯",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u4ef2-u5c71-u752b",
+    "canonical_name": "仲山甫",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q10884578",
+        "label_zh": "仲山甫",
+        "description_zh": "西周時期卿士"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u4f0a-u965f",
+    "canonical_name": "伊陟",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q10885169",
+        "label_zh": "伊陟",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u4f2f-u4e0e",
+    "canonical_name": "伯与",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u4f2f-u58eb",
+    "canonical_name": "伯士",
+    "dynasty": "西周",
+    "reality_status": "uncertain",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u4f2f-u670d",
+    "canonical_name": "伯服",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q4937301",
+        "label_zh": "伯服",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u4f2f-u81e9",
+    "canonical_name": "伯臩",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u4f2f-u9633",
+    "canonical_name": "伯阳",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u4f2f-u9633-u752b",
+    "canonical_name": "伯阳甫",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u516c-u5218",
+    "canonical_name": "公刘",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q1022885",
+        "label_zh": "公刘",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u516c-u53d4-u7956-u7c7b",
+    "canonical_name": "公叔祖类",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q16475859",
+        "label_zh": "公叔祖类",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u516c-u5b50-u548e",
+    "canonical_name": "公子咎",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u516c-u975e",
+    "canonical_name": "公非",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q16904640",
+        "label_zh": "公非",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5171-u738b",
+    "canonical_name": "共王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u517b-u7531-u57fa",
+    "canonical_name": "养由基",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u51a5",
+    "canonical_name": "冥",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5357-u5bab-u62ec",
+    "canonical_name": "南宫括",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5357-u5e9a",
+    "canonical_name": "南庚",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q878426",
+        "label_zh": "南庚",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u536b-u5eb7-u53d4",
+    "canonical_name": "卫康叔",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q5962686",
+        "label_zh": "衛康叔",
+        "description_zh": "周文王之子，卫国始祖"
+      }
+    ],
+    "round2_alias_used": "卫康叔",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "u536b-u5eb7-u53d4-u5c01",
+    "canonical_name": "卫康叔封",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5389-u738b",
+    "canonical_name": "厉王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q11832842",
+        "label_zh": "祇園行剛",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45430566",
+        "label_zh": "釋應如",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45508524",
+        "label_zh": "齊子",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45657022",
+        "label_zh": "釋妙善",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45679086",
+        "label_zh": "釋道英",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_used": "胡",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "u5398-u738b",
+    "canonical_name": "厘王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u53bb-u75be",
+    "canonical_name": "去疾",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u53d4",
+    "canonical_name": "叔",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q45567107",
+        "label_zh": "吳麟瑞",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_used": "思王",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "u53d4-u632f-u94ce",
+    "canonical_name": "叔振铎",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u53ec-u516c",
+    "canonical_name": "召公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u53f2-u4f5a",
+    "canonical_name": "史佚",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u53f2-u538c",
+    "canonical_name": "史厌",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u53f8-u9a6c-u7fe6",
+    "canonical_name": "司马翦",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u53f8-u9a6c-u8fc1",
+    "canonical_name": "司马迁",
+    "dynasty": "西汉",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q713013",
+        "label_zh": "宋濂",
+        "description_zh": "中国明朝初年思想家、文学家"
+      },
+      {
+        "qid": "Q15898236",
+        "label_zh": "林偕春",
+        "description_zh": "明朝政治人物"
+      },
+      {
+        "qid": "Q9372",
+        "label_zh": "司馬遷",
+        "description_zh": "西漢史學家、文學家"
+      }
+    ],
+    "round2_alias_used": "太史公",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u5143-u738b",
+    "canonical_name": "周元王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1207443",
+        "label_zh": "周元王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u516c",
+    "canonical_name": "周公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q468747",
+        "label_zh": "周公旦",
+        "description_zh": "周朝的公爵"
+      }
+    ],
+    "round2_alias_used": "周文公",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u516c-u65e6",
+    "canonical_name": "周公旦",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q468747",
+        "label_zh": "周公旦",
+        "description_zh": "周朝的公爵"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u516c-u9ed1-u80a9",
+    "canonical_name": "周公黑肩",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u5321-u738b",
+    "canonical_name": "周匡王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1157087",
+        "label_zh": "周匡王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u5b9a-u738b",
+    "canonical_name": "周定王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1157075",
+        "label_zh": "周定王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u5ba3-u738b",
+    "canonical_name": "周宣王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q55247",
+        "label_zh": "周宣王",
+        "description_zh": "西周第十一代君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u5e73-u738b",
+    "canonical_name": "周平王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1193546",
+        "label_zh": "周平王",
+        "description_zh": "東周第一位天子"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u5e84-u738b",
+    "canonical_name": "周庄王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u5eb7-u738b",
+    "canonical_name": "周康王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q929178",
+        "label_zh": "周康王",
+        "description_zh": "周朝天子"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u60bc-u738b",
+    "canonical_name": "周悼王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1185205",
+        "label_zh": "周悼王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u60e0-u738b",
+    "canonical_name": "周惠王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1156951",
+        "label_zh": "周惠王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u6210-u738b",
+    "canonical_name": "周成王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q388766",
+        "label_zh": "周成王",
+        "description_zh": "周朝第二代君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u656c-u738b",
+    "canonical_name": "周敬王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q878483",
+        "label_zh": "周敬王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u666f-u738b",
+    "canonical_name": "周景王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1184856",
+        "label_zh": "周景王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u6853-u738b",
+    "canonical_name": "周桓王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1202938",
+        "label_zh": "周桓王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u6b66-u738b",
+    "canonical_name": "发",
+    "dynasty": "周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q1039354",
+        "label_zh": "豪格",
+        "description_zh": "清朝的亲王"
+      },
+      {
+        "qid": "Q1564685",
+        "label_zh": "李愬",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45433797",
+        "label_zh": "劉若川",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45593917",
+        "label_zh": "楊政",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45708655",
+        "label_zh": "釋了性",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_used": "武",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u76f8-u56fd",
+    "canonical_name": "周相国",
+    "dynasty": "战国",
+    "reality_status": "uncertain",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u7b80-u738b",
+    "canonical_name": "周简王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1157071",
+        "label_zh": "周简王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u805a",
+    "canonical_name": "周聚",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q65855819",
+        "label_zh": "周聚",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5468-u9877-u738b",
+    "canonical_name": "周顷王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1157084",
+        "label_zh": "周顷王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u548e-u5355",
+    "canonical_name": "咎单",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5546-u5bb9",
+    "canonical_name": "商容",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q7488355",
+        "label_zh": "商容",
+        "description_zh": "商朝官员"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5609",
+    "canonical_name": "嘉",
+    "dynasty": "西汉",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q3244590",
+        "label_zh": "嘉",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5916-u4e19",
+    "canonical_name": "外丙",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q536732",
+        "label_zh": "外丙",
+        "description_zh": "商朝的一位君王"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5927-u6bd5",
+    "canonical_name": "大毕",
+    "dynasty": "西周",
+    "reality_status": "uncertain",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u592a-u4e01",
+    "canonical_name": "太丁",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q888231",
+        "label_zh": "太丁",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u592a-u4efb",
+    "canonical_name": "太任",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q10940999",
+        "label_zh": "太任",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u592a-u53f2-u510b",
+    "canonical_name": "太史儋",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u592a-u59dc",
+    "canonical_name": "太姜",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q10941153",
+        "label_zh": "太姜",
+        "description_zh": "周文王祖母"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u592a-u5e9a",
+    "canonical_name": "太庚",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u592a-u620a",
+    "canonical_name": "太戊",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q878479",
+        "label_zh": "太戊",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u592a-u98a0",
+    "canonical_name": "太颠",
+    "dynasty": "先周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q10941862",
+        "label_zh": "太颠",
+        "description_zh": "西周大臣"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5937-u738b",
+    "canonical_name": "夷王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5973-u623f",
+    "canonical_name": "女房",
+    "dynasty": "商",
+    "reality_status": "uncertain",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5973-u9e20",
+    "canonical_name": "女鸠",
+    "dynasty": "商",
+    "reality_status": "uncertain",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u59da",
+    "canonical_name": "姚",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q65801317",
+        "label_zh": "姚",
+        "description_zh": "王+軖"
+      },
+      {
+        "qid": "Q45469590",
+        "label_zh": "姚",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_multi",
+    "error": ""
+  },
+  {
+    "person_slug": "u59dc-u539f",
+    "canonical_name": "姜原",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u59dc-u5c1a",
+    "canonical_name": "姜尚",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5a01-u516c",
+    "canonical_name": "威公",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5a01-u70c8-u738b",
+    "canonical_name": "威烈王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5b50-u9893",
+    "canonical_name": "子颓",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5b54-u5b50",
+    "canonical_name": "孔子",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q4604",
+        "label_zh": "孔子",
+        "description_zh": "中国古代思想家，儒家学派创始人"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5b5d-u738b",
+    "canonical_name": "孝王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5b89-u738b",
+    "canonical_name": "安王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q27891772",
+        "label_zh": "安王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5bb0-u4e88",
+    "canonical_name": "宰予",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q837573",
+        "label_zh": "宰予",
+        "description_zh": "孔子弟子"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5bc6-u5eb7-u516c",
+    "canonical_name": "密康公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q65047992",
+        "label_zh": "密康公",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5bc6-u5eb7-u516c-u4e4b-u6bcd",
+    "canonical_name": "密康公之母",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5bcc-u8fb0",
+    "canonical_name": "富辰",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q45383149",
+        "label_zh": "富辰",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5c0f-u4e59",
+    "canonical_name": "小乙",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q878463",
+        "label_zh": "小乙",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5c0f-u7532",
+    "canonical_name": "小甲",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q878459",
+        "label_zh": "小甲",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5c0f-u8f9b",
+    "canonical_name": "小辛",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q887641",
+        "label_zh": "小辛",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5c11-u66a4-u6c0f",
+    "canonical_name": "少暤氏",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5c39-u4f5a",
+    "canonical_name": "尹佚",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q11040216",
+        "label_zh": "尹佚",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5d07-u4faf-u864e",
+    "canonical_name": "崇侯虎",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q5104597",
+        "label_zh": "崇侯虎",
+        "description_zh": "商朝诸侯"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5d14-u677c",
+    "canonical_name": "崔杼",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q8010040",
+        "label_zh": "崔杼",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5d6c",
+    "canonical_name": "嵬",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5de6-u6210",
+    "canonical_name": "左成",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q114691798",
+        "label_zh": "左成",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5deb-u54b8",
+    "canonical_name": "巫咸",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q843880",
+        "label_zh": "巫咸",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5deb-u8d24",
+    "canonical_name": "巫贤",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5dee-u5f17",
+    "canonical_name": "差弗",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q16904959",
+        "label_zh": "差弗",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e08-u6b66",
+    "canonical_name": "师武",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e08-u6d93",
+    "canonical_name": "师涓",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q11059822",
+        "label_zh": "师涓",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u4e0d-u964d",
+    "canonical_name": "帝不降",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u4e59",
+    "canonical_name": "帝乙",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q735420",
+        "label_zh": "帝乙",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u4e88",
+    "canonical_name": "帝予",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u53d1",
+    "canonical_name": "帝发",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u5916-u58ec",
+    "canonical_name": "外壬",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q888264",
+        "label_zh": "外壬",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u5e9a-u4e01",
+    "canonical_name": "庚丁",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q878469",
+        "label_zh": "庚丁",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u5ed1",
+    "canonical_name": "帝廑",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u5eea-u8f9b",
+    "canonical_name": "帝廪辛",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u6243",
+    "canonical_name": "帝扃",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u631a",
+    "canonical_name": "挚",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u69d0",
+    "canonical_name": "帝槐",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u6cc4",
+    "canonical_name": "帝泄",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u768b",
+    "canonical_name": "帝皋",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u76f8",
+    "canonical_name": "相",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q1195067",
+        "label_zh": "相",
+        "description_zh": "夏朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e1d-u8292",
+    "canonical_name": "帝芒",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e84-u738b",
+    "canonical_name": "庄王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5e86-u8282",
+    "canonical_name": "庆节",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q7234080",
+        "label_zh": "庆节",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5eb7-u738b",
+    "canonical_name": "康王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q27891488",
+        "label_zh": "康王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u5f3a",
+    "canonical_name": "强",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5fae",
+    "canonical_name": "微",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u5fae-u5b50-u5f00",
+    "canonical_name": "微子开",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u6076-u6765",
+    "canonical_name": "恶来",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u60e0-u516c",
+    "canonical_name": "惠公",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u60e0-u540e",
+    "canonical_name": "惠后",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u60e0-u738b",
+    "canonical_name": "惠王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q497959",
+        "label_zh": "惠王",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q27892394",
+        "label_zh": "惠王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_multi",
+    "error": ""
+  },
+  {
+    "person_slug": "u614e-u9753-u738b",
+    "canonical_name": "慎靓王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q838433",
+        "label_zh": "朱橚",
+        "description_zh": "明朝藩王"
+      },
+      {
+        "qid": "Q1017968",
+        "label_zh": "于志寧",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q4939946",
+        "label_zh": "博洛",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q11070799",
+        "label_zh": "徐浩",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q11094073",
+        "label_zh": "朱惟焯",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_used": "定",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "u61ff-u738b",
+    "canonical_name": "懿王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u62a5-u4e01",
+    "canonical_name": "报丁",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u62a5-u4e19",
+    "canonical_name": "报丙",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u62a5-u4e59",
+    "canonical_name": "报乙",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u632f",
+    "canonical_name": "振",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u644e",
+    "canonical_name": "摎",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q10297274",
+        "label_zh": "摎",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u6563-u5b9c-u751f",
+    "canonical_name": "散宜生",
+    "dynasty": "先周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q11079273",
+        "label_zh": "散宜生",
+        "description_zh": "周朝官员"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u660c-u82e5",
+    "canonical_name": "昌若",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q11087645",
+        "label_zh": "昌若",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u662d-u660e",
+    "canonical_name": "昭明",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q11088970",
+        "label_zh": "昭明",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u662d-u738b",
+    "canonical_name": "昭王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u663e-u738b",
+    "canonical_name": "显王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u664b-u5389-u516c",
+    "canonical_name": "晋厉公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u664b-u5510-u53d4",
+    "canonical_name": "晋唐叔",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u664b-u5b9a-u516c",
+    "canonical_name": "晋定公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u664b-u60bc-u516c",
+    "canonical_name": "晋悼公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q985696",
+        "label_zh": "晋悼公",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u667a-u4f2f",
+    "canonical_name": "智伯",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q45690836",
+        "label_zh": "智伯",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u66f9-u5709",
+    "canonical_name": "曹圉",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q11090990",
+        "label_zh": "曹圉",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u6731-u864e",
+    "canonical_name": "朱虎",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q45424403",
+        "label_zh": "朱虎",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45554133",
+        "label_zh": "朱虎",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_multi",
+    "error": ""
+  },
+  {
+    "person_slug": "u6853-u516c",
+    "canonical_name": "桓公",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u6881-u738b",
+    "canonical_name": "梁王",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u68bc-u674c",
+    "canonical_name": "梼杌",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u695a-u58f0-u738b",
+    "canonical_name": "楚声王",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u6b66-u4e59",
+    "canonical_name": "武乙",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q878473",
+        "label_zh": "武乙",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u6b66-u516c",
+    "canonical_name": "武公",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u6b66-u5e9a",
+    "canonical_name": "武庚",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1049457",
+        "label_zh": "武庚",
+        "description_zh": "商代宗室及周代諸侯"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u6bb3-u65a8",
+    "canonical_name": "殳斨",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u6bc1-u9683",
+    "canonical_name": "毁隃",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q16905577",
+        "label_zh": "毁隃",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u6bd5-u516c",
+    "canonical_name": "毕公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u6bdb-u53d4-u90d1",
+    "canonical_name": "毛叔郑",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u6c83-u4e01",
+    "canonical_name": "沃丁",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q888017",
+        "label_zh": "沃丁",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u6c83-u7532",
+    "canonical_name": "沃甲",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q887633",
+        "label_zh": "沃甲",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u6cb3-u4eb6-u7532",
+    "canonical_name": "河亶甲",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q878414",
+        "label_zh": "河亶甲",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u6cc4-u7236",
+    "canonical_name": "泄父",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u6d51-u6c8c",
+    "canonical_name": "浑沌",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u6d82-u5c71-u6c0f",
+    "canonical_name": "涂山氏",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u6e38-u5b59",
+    "canonical_name": "游孙",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u7075-u738b",
+    "canonical_name": "灵王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u70c8-u738b",
+    "canonical_name": "烈王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q10944799",
+        "label_zh": "孙星衍",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_used": "喜",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "u718a-u7f74",
+    "canonical_name": "熊罴",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u738b-u5b50-u514b",
+    "canonical_name": "王子克",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q17026392",
+        "label_zh": "王子克",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u738b-u5b50-u5e26",
+    "canonical_name": "王子带",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q3178385",
+        "label_zh": "王子带",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u738b-u5b50-u671d",
+    "canonical_name": "王子朝",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q3178377",
+        "label_zh": "王子朝",
+        "description_zh": "东周春秋时期周景王的庶长子"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u738b-u5b59-u6ee1",
+    "canonical_name": "王孙满",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q15951842",
+        "label_zh": "王孙满",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u738b-u9893",
+    "canonical_name": "王颓",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u752b-u4faf",
+    "canonical_name": "甫侯",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u7530-u5e38",
+    "canonical_name": "田常",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u7533-u4faf",
+    "canonical_name": "申侯",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q6772561",
+        "label_zh": "申侯",
+        "description_zh": "周幽王时期西申国君主"
+      },
+      {
+        "qid": "Q15939420",
+        "label_zh": "申侯",
+        "description_zh": "周孝王时期西申国君主"
+      },
+      {
+        "qid": "Q16077042",
+        "label_zh": "申侯",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_multi",
+    "error": ""
+  },
+  {
+    "person_slug": "u7533-u540e",
+    "canonical_name": "申后",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q16077053",
+        "label_zh": "申后",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u75b5",
+    "canonical_name": "疵",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u7687-u4ec6",
+    "canonical_name": "皇仆",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q16906325",
+        "label_zh": "皇仆",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u76f8-u571f",
+    "canonical_name": "相土",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q5098875",
+        "label_zh": "相土",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u7956-u4e01",
+    "canonical_name": "祖丁",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q878455",
+        "label_zh": "祖丁",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u7956-u4e59",
+    "canonical_name": "祖乙",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q878487",
+        "label_zh": "祖乙",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u7956-u4f0a",
+    "canonical_name": "祖伊",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q30950832",
+        "label_zh": "祖伊",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u7956-u5df1",
+    "canonical_name": "祖己",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q886708",
+        "label_zh": "祖己",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u7956-u5e9a",
+    "canonical_name": "祖庚",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q291267",
+        "label_zh": "祖庚",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u7956-u7532",
+    "canonical_name": "祖甲",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q878444",
+        "label_zh": "祖甲",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u7956-u8f9b",
+    "canonical_name": "祖辛",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q878449",
+        "label_zh": "祖辛",
+        "description_zh": "商朝君主"
+      },
+      {
+        "qid": "Q2042552",
+        "label_zh": "祖辛",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_multi",
+    "error": ""
+  },
+  {
+    "person_slug": "u796d-u516c-u8c0b-u7236",
+    "canonical_name": "祭公谋父",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q15927399",
+        "label_zh": "祭公谋父",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u79e6-u5b5d-u516c",
+    "canonical_name": "秦孝公",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q553245",
+        "label_zh": "秦孝公",
+        "description_zh": "戰國中期秦國君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u79e6-u5e84-u8944-u738b",
+    "canonical_name": "秦庄襄王",
+    "dynasty": "秦",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u79e6-u60e0-u738b",
+    "canonical_name": "秦惠王",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u79e6-u662d-u738b",
+    "canonical_name": "秦昭王",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u79e6-u732e-u516c",
+    "canonical_name": "秦献公",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q553840",
+        "label_zh": "秦献公",
+        "description_zh": "戰國初期秦國君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u79e6-u738b",
+    "canonical_name": "秦王",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u7a46-u738b",
+    "canonical_name": "穆王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u7a77-u5947",
+    "canonical_name": "穷奇",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u7ba1-u53d4",
+    "canonical_name": "管叔",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u7ba1-u53d4-u9c9c",
+    "canonical_name": "管叔鲜",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u7f19-u4e91-u6c0f",
+    "canonical_name": "缙云氏",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u80e4",
+    "canonical_name": "胤",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q109343386",
+        "label_zh": "胤",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u82ae-u826f-u592b",
+    "canonical_name": "芮良夫",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q15896030",
+        "label_zh": "芮良夫",
+        "description_zh": "芮国国君，周厉王大臣"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u82cf-u4ee3",
+    "canonical_name": "苏代",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q10500844",
+        "label_zh": "苏代",
+        "description_zh": "东周洛阳人，战国时纵横家"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u82cf-u5389",
+    "canonical_name": "苏厉",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u8363-u4f2f",
+    "canonical_name": "荣伯",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u8363-u5937-u516c",
+    "canonical_name": "荣夷公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u845b-u4f2f",
+    "canonical_name": "葛伯",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u8521-u53d4",
+    "canonical_name": "蔡叔",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q45436619",
+        "label_zh": "釋如照",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45678172",
+        "label_zh": "釋憨山",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_used": "蔡",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "u8521-u53d4-u5ea6",
+    "canonical_name": "蔡叔度",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q159173",
+        "label_zh": "蔡叔度",
+        "description_zh": "周文王之子"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u865e-u4ef2",
+    "canonical_name": "虞仲",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q7420129",
+        "label_zh": "虞仲",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u8662-u6587-u516c",
+    "canonical_name": "虢文公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q17059941",
+        "label_zh": "虢文公",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u8662-u77f3-u7236",
+    "canonical_name": "虢石父",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q11294001",
+        "label_zh": "虢石父",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u8944-u738b",
+    "canonical_name": "襄王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q11093684",
+        "label_zh": "朱厚熲",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q11094497",
+        "label_zh": "朱瞻墡",
+        "description_zh": "明朝人，中國歷代人物傳記資料庫編號=67486"
+      }
+    ],
+    "round2_alias_used": "襄王",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "u897f-u5468-u516c",
+    "canonical_name": "西周公",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u897f-u5468-u541b",
+    "canonical_name": "西周君",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q6418676",
+        "label_zh": "西周君",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u8c2d-u4f2f",
+    "canonical_name": "谭伯",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u8d39-u4e2d",
+    "canonical_name": "费中",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u8d39-u4ef2",
+    "canonical_name": "费仲",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u8d67-u738b",
+    "canonical_name": "赧王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q45445320",
+        "label_zh": "釋祥邁",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45481125",
+        "label_zh": "呼華國",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_used": "延",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "u8f9b-u4f2f",
+    "canonical_name": "辛伯",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u8f9b-u7532",
+    "canonical_name": "辛甲",
+    "dynasty": "先周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q10546077",
+        "label_zh": "辛甲",
+        "description_zh": "西周官员"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u8fb9-u4f2f",
+    "canonical_name": "边伯",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u90d1-u4f2f",
+    "canonical_name": "郑伯",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u90d1-u5e84-u516c",
+    "canonical_name": "郑庄公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u90d1-u6587-u516c",
+    "canonical_name": "郑文公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u9102-u4faf",
+    "canonical_name": "鄂侯",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u95f3-u592d",
+    "canonical_name": "闳夭",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q17031441",
+        "label_zh": "闳夭",
+        "description_zh": "西周大臣"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u9633-u7532",
+    "canonical_name": "阳甲",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q878422",
+        "label_zh": "阳甲",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u96b0-u670b",
+    "canonical_name": "隰朋",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q17035322",
+        "label_zh": "隰朋",
+        "description_zh": "春秋時期齊國大夫"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u96cd-u5df1",
+    "canonical_name": "雍己",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q665910",
+        "label_zh": "雍己",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u97a0",
+    "canonical_name": "鞠",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q13403508",
+        "label_zh": "鞠",
+        "description_zh": "夏朝末周部落首领"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u97e9-u516c-u53d4",
+    "canonical_name": "韩公叔",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q120699360",
+        "label_zh": "韩公叔",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u97e9-u738b",
+    "canonical_name": "韩王",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u97e9-u76f8-u56fd",
+    "canonical_name": "韩相国",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q110105059",
+        "label_zh": "韩相国",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u9955-u992e",
+    "canonical_name": "饕餮",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u9a69-u515c",
+    "canonical_name": "驩兜",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u9a6c-u72af",
+    "canonical_name": "马犯",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u9ad8-u5709",
+    "canonical_name": "高圉",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q15940718",
+        "label_zh": "高圉",
+        "description_zh": "中国先秦历史人物"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u9b3b-u5b50",
+    "canonical_name": "鬻子",
+    "dynasty": "先周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u9c81-u6853-u516c",
+    "canonical_name": "鲁桓公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q1044443",
+        "label_zh": "鲁桓公",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u9c81-u6b66-u516c",
+    "canonical_name": "鲁武公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u9c81-u9690-u516c",
+    "canonical_name": "鲁隐公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q626901",
+        "label_zh": "鲁隐公",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "u9f50-u5e84-u516c",
+    "canonical_name": "齐庄公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "u9f50-u7b80-u516c",
+    "canonical_name": "齐简公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "wei-zi-qi",
+    "canonical_name": "微子启",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q855012",
+        "label_zh": "微子",
+        "description_zh": "商朝宗室，宋国始祖"
+      }
+    ],
+    "round2_alias_used": "微子启",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "wu-ding",
+    "canonical_name": "武丁",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q369159",
+        "label_zh": "武丁",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "wu-wang",
+    "canonical_name": "武王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q498007",
+        "label_zh": "武王",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "xiang",
+    "canonical_name": "象",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q4499078",
+        "label_zh": "象",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "xi-bo-chang",
+    "canonical_name": "西伯昌",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q698909",
+        "label_zh": "周文王",
+        "description_zh": "中國商末周氏族首領"
+      }
+    ],
+    "round2_alias_used": "西伯",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "xie",
+    "canonical_name": "契",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "xi-shu",
+    "canonical_name": "羲叔",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q15902268",
+        "label_zh": "羲叔",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "xi-zhong",
+    "canonical_name": "羲仲",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q17034070",
+        "label_zh": "羲仲",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "xuan-xiao",
+    "canonical_name": "玄嚣",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "yan-di",
+    "canonical_name": "炎帝",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "yao",
+    "canonical_name": "尧",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "yi",
+    "canonical_name": "益",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "yi-yin",
+    "canonical_name": "伊尹",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q981363",
+        "label_zh": "伊尹",
+        "description_zh": "中国商朝名臣、名厨"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "you-wang",
+    "canonical_name": "幽王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "no_match",
+    "error": ""
+  },
+  {
+    "person_slug": "yu",
+    "canonical_name": "禹",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q45461701",
+        "label_zh": "廖瑀",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_used": "伯禹",
+    "match_tier": "round2",
+    "error": ""
+  },
+  {
+    "person_slug": "zhao-gong-shi",
+    "canonical_name": "召公奭",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "round1_hits": [
+      {
+        "qid": "Q5928108",
+        "label_zh": "召公奭",
+        "description_zh": "西周宗室，燕國和召國始祖"
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "zhong-kang",
+    "canonical_name": "中康",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q1195050",
+        "label_zh": "中康",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "zhou-xin",
+    "canonical_name": "辛",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "round1_hits": [
+      {
+        "qid": "Q65862783",
+        "label_zh": "辛",
+        "description_zh": ""
+      }
+    ],
+    "round2_alias_hits": [],
+    "round2_alias_used": "",
+    "match_tier": "round1_single",
+    "error": ""
+  },
+  {
+    "person_slug": "zhuan-xu",
+    "canonical_name": "颛顼",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "round1_hits": [],
+    "round2_alias_hits": [
+      {
+        "qid": "Q198180",
+        "label_zh": "顓頊",
+        "description_zh": "中国传说时代君主"
+      },
+      {
+        "qid": "Q15913176",
+        "label_zh": "高陽",
+        "description_zh": "台灣作家(1922-1992)"
+      }
+    ],
+    "round2_alias_used": "高阳",
+    "match_tier": "round2",
+    "error": ""
+  }
+]
