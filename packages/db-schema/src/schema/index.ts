@@ -76,3 +76,10 @@ export {
 
 // I layer — Feedback
 export { feedback } from "./feedback";
+
+// J layer — Dictionary Seeds
+export {
+  dictionarySources,
+  dictionaryEntries,
+  seedMappings,
+} from "./seeds";
