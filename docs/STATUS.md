@@ -4,27 +4,28 @@
 
 - **最近更新**：2026-04-21
 - **更新人**：首席架构师（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A V6/F1/F2 尾巴清零 ✅ + V8 不变量引入 ✅**
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A V6/F1/F2 尾巴清零 ✅ + V8 不变量引入 ✅ + Sprint B Gate 0a Wikidata probe ✅**
 
 ---
 
 ## 当前在哪
 
-**Sprint A 收官完成。V6 清零 + F1 硬 DELETE + F2 通过 V8 规则精化（名义保留 3 条合法古汉语短形）。不变量集扩至 V1-V8。**
+**Sprint B 启动，T-P0-025 Gate 0a（Wikidata 覆盖率 probe）完成。决策矩阵落 "≥ 40% 全量推进" 桶，准备进 Stage 0b schema migration。**
 
-Sprint A（T-P0-019 α β 尾巴清理）三阶段全部完成：
-- **Stage 1（V6 零化）**：28 行 alias+is_primary=true → `name_type` 修为 primary（采用"降格为合法 primary"而非 is_primary 翻转；T-P1-013 closed）
-- **Stage 2（F1 硬 DELETE）**：6 行代词/光秃爵位残留（帝×2/王×2/朕/予一人）per **ADR-022** 三要素全满足 → 硬 DELETE + pg_dump anchor；V7 机械性 96.37%→97.49%；T-P1-014 closed
-- **Stage 3（F2 V8 精化）**：3 行单字条目（伯/管/蔡）审计后判为**合法古汉语 anaphoric short-form**（α evidence-backed + β alias-typed 双豁免），**不删数据**，改立 **ADR-023 V8 Prefix-Containment Invariant** 防御未来回归；T-P1-015 closed（名义）
+T-P0-025 Sprint B（Wikidata TIER-1 seed loader）已启动：
+- **Gate 0a（✅ done, commit 4cf34b5）**：对 320 active persons 跑 Wikidata SPARQL 两轮匹配
+  - 全局命中率 **54.4%** (174/320)；Round 1 精确 49.1% + Round 2 alias +17
+  - 多候选仅 2.5%（8 条），消歧负担低
+  - 朝代分层：商 70.5% / 春秋 59.1% / 西周 46.3% / 夏 45.0%
+  - reality_status 分层：historical 54.9% ≈ legendary 55.7%（Wikidata 对上古传说人物覆盖意外好）
+  - 0 HTTP 错误，endpoint 稳定
+  - 副发现：27 个 active person 缺 is_primary=true name（V1 下界缺失 → 登记 **T-P1-022**）
+- **Stage 0b-5（planned）**：migration 0009（3 新表）→ wikidata_adapter + matcher（含 Round 3 全 person_names 扫描）→ manual review queue → R6 规则 → V invariant 候选 → 收尾
+- **T-P0-025 主任务卡已按 ADR-021 对齐重写**；原 pre-ADR-021 的 40 条 JSON loader 需求演化为 **T-P0-025b**（TIER-4 自建 seed 补丁，Sprint B 后的 follow-up）
 
-**里程碑**：
-- V6 转绿：pre-existing 28 → 0
-- V7：96.37% → 97.49%（+1.12pp 机械性）
-- V8：新增 invariant，生产数据 0 violations，self-test 282 通过
-- ADR +3：ADR-021（Dictionary Seed Strategy）+ ADR-022（NER 污染清理准则）+ ADR-023（V8 invariant）
-- 副产品债务：T-P1-021（canonical merge missed pairs — 管叔 vs 管叔鲜 / 蔡叔 vs 蔡叔度）
+**Sprint A 上一里程碑**：V6 清零 + F1 硬 DELETE + F2 通过 V8 规则精化；V1-V8 全绿；ADR-021/022/023 accepted；副产品债 T-P1-021。
 
-**下一步**：等用户指派（候选：T-P0-025 字典加载器基于 ADR-021 / T-P1-021 canonical merge missed pairs / T-P0-005a SigNoz 接入 / T-P0-004 批次 2）
+**下一步**：等用户指派 Stage 0b 启动（建议休整或直接推进；Stage 0b schema migration 预估 0.5 工作日）。
 
 ---
 
@@ -375,7 +376,9 @@ Sprint A（T-P0-019 α β 尾巴清理）三阶段全部完成：
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
-| 🟡 中 | T-P0-025 | 字典加载器（基于 ADR-021 open-data-first + Wikidata TIER-1 源） | 管线 + 后端 | ADR-021 ✅ | planned |
+| 🔴 高 | T-P0-025 | Sprint B 字典加载器（Wikidata TIER-1；Gate 0a ✅ done 4cf34b5；Stage 0b-5 待启动） | 管线 + 后端 | ADR-021 ✅ | in_progress |
+| 🟡 中 | T-P0-025b | TIER-4 自建 seed 补丁（继承原 persons.seed.json 40 条 + 扩充 ~60-80 先秦冷门人物） | 管线 + 历史专家 | T-P0-025 | backlog |
+| 🟡 中 | T-P1-022 | V1 下界缺失 — 27 个 active person 缺 is_primary=true name（方案 B 倾向：新增 V9） | 管线 + 架构师 | — | registered |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
 | 🟡 中 | T-P1-005 | 统一 migration 入口（Drizzle + pipeline SQL 双轨合一） | DevOps + 后端 | — | registered |
@@ -432,11 +435,11 @@ Sprint A（T-P0-019 α β 尾巴清理）三阶段全部完成：
 
 - 📘 文档覆盖度：核心 7/7 ✅
 - 🧭 ADR 数量：19 accepted（含 ADR-010 supplement；新增 ADR-021/022/023 @ 2026-04-21）
-- 📋 任务卡数量：T-P0-001~T-P0-016 + T-P0-019~T-P0-024 + T-P1-007~T-P1-021 done/planned/registered（32+）
+- 📋 任务卡数量：T-P0-001~T-P0-016 + T-P0-019~T-P0-026 + T-P1-007~T-P1-022 done/in_progress/planned/registered/backlog（34+）
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
-- 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-025 加载（按 ADR-021 open-data-first 策略扩充）
+- 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-025 加载；Sprint B Gate 0a Wikidata 覆盖 54.4%（174/320）；persons.seed.json 40 条 TIER-4 演化为 T-P0-025b
 - 🧪 测试覆盖：398 passed（pipeline 282 + api 61 + web 55）+ 0 skipped；E2E 7 specs；V8 self-test 3 新增
 - 🔗 合并状态：320 active persons / 45 merge-soft-deleted / 5 pure-soft-deleted = 370 total
 - 📊 Evidence 覆盖：source_evidences 412 行 / V7 覆盖率 97.49%（Sprint A Stage 2 机械性 +1.12pp；分母 524→518，分子 505 不变；残余 ≈13 names = 7 短名夏王 + 2 微子 + 4 misc）
@@ -507,6 +510,8 @@ Sprint A（T-P0-019 α β 尾巴清理）三阶段全部完成：
 - 2026-04-21：T-P0-024 α sprint 完成（证据链主回填 Path C 混合：C1 β hash 复用 + C2 Phase A/B 重抽取 fast lane；source_evidences 242→412；V7 52.48%→96.37%（+43.89pp）；LLM $0.78；5 commits + 2 merges；衍生 T-P1-011~020）
 - 2026-04-21：T-P0-026 字典种子研究完成 — ADR-021 Dictionary Seed Strategy accepted（open-data-first；Wikidata 作为唯一 TIER-1 源；CBDB 因 CC BY-NC-SA 延后；17570d6）
 - 2026-04-21：Sprint A 收官（T-P0-019 α β 尾巴清理）— Stage 1 V6 28→0（name_type 修正）/ Stage 2 F1 6 行硬 DELETE per ADR-022（V7 96.37%→97.49%）/ Stage 3 F2 3 行 V8 规则精化（合法古汉语 anaphoric short-form 双豁免，不删）；ADR-022 accepted + ADR-023 accepted（V8 Prefix-Containment Invariant 与 V1-V7 同级）；6 commits；T-P1-013/014/015 closed；衍生 T-P1-021（canonical merge missed pairs）
+- 2026-04-21：Sprint B 启动 — T-P0-025 Gate 0a Wikidata 覆盖率 probe 完成（commit 4cf34b5）；320 active persons / 54.4% 命中率（174/320；Round 1 精确 49.1% + Round 2 alias +17）；8 条多候选（2.5%）；朝代分层商 70.5% / 春秋 59.1% / 西周 46.3% / 夏 45%；decision matrix 落 "≥40% 全量推进" 桶；245s elapsed / 0 HTTP 错误；副发现 27 person 缺 primary name（V1 下界盲点 → T-P1-022 registered）
+- 2026-04-21：T-P0-025 任务卡按 ADR-021 对齐重写（pre-ADR-021 40-JSON 窄范围 → Sprint B 完整规格 6 Stage + Round 3 新增 person_names 全表扫描以覆盖 Type B label mismatch 如 高辛↔帝喾）；原需求演化为 T-P0-025b（TIER-4 self-curated seed patch，backlog）
 
 ---
 
