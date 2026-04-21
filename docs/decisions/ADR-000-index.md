@@ -30,6 +30,7 @@
 | [ADR-015](ADR-015-evidence-chain-fill-plan.md) | Evidence 链填充方案（staged activation + paragraph-level Stage 1） | 2026-04-19 | 架构师 |
 | [ADR-017](ADR-017-migration-rollback-strategy.md) | Migration Rollback Strategy（forward-only + pg_dump anchor + 4 闸门） | 2026-04-19 | 架构师 |
 | [ADR-021](ADR-021-dictionary-seed-strategy.md) | Dictionary Seed Strategy（open-data-first, Wikidata 作为唯一 TIER-1 源；CBDB 因 CC BY-NC-SA 延后） | 2026-04-21 | 架构师 |
+| [ADR-022](ADR-022-ner-pollution-cleanup-principle.md) | NER 污染清理 vs Names-Stay 判定准则（三要素 AND：evidence 零依赖 + 非合法名语义 + FK 零引用 → 硬 DELETE + pg_dump anchor） | 2026-04-21 | 架构师 + 管线工程师 |
 
 ### 已规划（尚未起草）
 
