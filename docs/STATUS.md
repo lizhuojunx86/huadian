@@ -372,8 +372,9 @@ Sprint B 全 Stage 完成：
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
-| 🔴 高 | T-P0-025 | Sprint B 字典加载器（Wikidata TIER-1；Gate 0a ✅ done 4cf34b5；Stage 0b-5 待启动） | 管线 + 后端 | ADR-021 ✅ | in_progress |
-| 🟡 中 | T-P0-025b | TIER-4 自建 seed 补丁（继承原 persons.seed.json 40 条 + 扩充 ~60-80 先秦冷门人物） | 管线 + 历史专家 | T-P0-025 | backlog |
+| 🔴 高 | T-P0-027 | Resolver orchestration（R1-R6 全集成接入主调度，Phase 1 入口） | 管线 + 架构师 | T-P0-025 ✅ | planned |
+| 🟡 中 | T-P0-025b | TIER-4 自建 seed 补丁（继承原 persons.seed.json 40 条 + 扩充 ~60-80 先秦冷门人物；≠ pending_review triage，后者见 T-P0-028） | 管线 + 历史专家 | T-P0-025 | backlog |
+| 🟡 中 | T-P0-028 | Manual triage UI for pending_review（44 条待审 → active/rejected） | 管线 + 历史专家 + 前端 | T-P0-025 ✅ | planned |
 | 🟡 中 | T-P1-022 | V1 下界缺失 — 27 个 active person 缺 is_primary=true name（方案 B 倾向：新增 V9） | 管线 + 架构师 | — | registered |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
@@ -512,6 +513,7 @@ Sprint B 全 Stage 完成：
 - 2026-04-21：Sprint B 启动 — T-P0-025 Gate 0a Wikidata 覆盖率 probe 完成（commit 4cf34b5）；320 active persons / 54.4% 命中率（174/320；Round 1 精确 49.1% + Round 2 alias +17）；8 条多候选（2.5%）；朝代分层商 70.5% / 春秋 59.1% / 西周 46.3% / 夏 45%；decision matrix 落 "≥40% 全量推进" 桶；245s elapsed / 0 HTTP 错误；副发现 27 person 缺 primary name（V1 下界盲点 → T-P1-022 registered）
 - 2026-04-21：T-P0-025 任务卡按 ADR-021 对齐重写（pre-ADR-021 40-JSON 窄范围 → Sprint B 完整规格 6 Stage + Round 3 新增 person_names 全表扫描以覆盖 Type B label mismatch 如 高辛↔帝喾）；原需求演化为 T-P0-025b（TIER-4 self-curated seed patch，backlog）
 - 2026-04-21：Sprint B Stage 0b done（commit 199e8ba）— migration 0009 三表落地（dictionary_sources / dictionary_entries / seed_mappings）；Drizzle J layer seeds.ts + index.ts 导出 + pg_dump anchor pre-t-p0-025-stage-0b-20260421-234943.dump；CHECK 约束（entry_type 5 枚举 / confidence 0-1 / mapping_status 3 枚举）+ 三索引（idx_seed_mappings_target partial + idx_dictionary_entries_primary_name + idx_dictionary_entries_source）全部就位；pipeline 282 + api 61 tests 全绿；V1-V8 无回归；衍生债 T-P1-023（uniqueIndex 命名不一致，P2）
+- 2026-04-22：ID 治理修订 — T-P0-026 撞号澄清（仅研究文档 ID，不复用为 task card）+ T-P0-025b 含义边界明确（≠ retro §4 误用的 manual triage UI）+ 新立 T-P0-027 / T-P0-028 stub；流程改进：未来 research 文档使用独立命名空间（建议 R-NNN）
 
 ---
 

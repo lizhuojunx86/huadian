@@ -27,6 +27,8 @@
 | T-P0-023 | [Evidence 链 Stage 1（新行必填 + 段落粒度）](T-P0-023-evidence-chain-stage-1.md) | **planned** | 管线 + 后端 | Phase 0 |
 | T-P0-024 | [Evidence 链 Stage 2（存量 text-search 回填）](T-P0-024-evidence-chain-stage-2-backfill.md) | **planned** | 管线 + historian | Phase 0 |
 | T-P1-005 | 统一 migration 入口（Drizzle + pipeline SQL 双轨合一） | **planned** | DevOps + 后端 | Phase 1 |
+| T-P0-027 | Resolver orchestration（R1-R6 全集成主调度） | **planned** | 管线 + 架构师 | Phase 0/1 桥接 |
+| T-P0-028 | Manual triage UI for pending_review mappings | **planned** | 管线 + 历史专家 + 前端 | Phase 0 tail |
 
 ## 已完成
 | 任务 ID | 标题 | 完成日期 | 主导角色 |
@@ -73,6 +75,9 @@
 - ~~T-TG-002 TraceGuard Adapter 实现（管线）~~ ✅ done（2026-04-17）
 - T-TG-002-F6 Drizzle schema 同步（后端 + DevOps）← backlog，不阻塞
 - T-P0-006 Pipeline MVP：鸿门宴 NER（管线）
+- T-P0-025b TIER-4 self-curated seed patch（task card 已落地，backlog）
+- T-P0-027 Resolver orchestration（Sprint C 主线，task card stub 已立，待 Stage 0 brief）
+- T-P0-028 pending_review triage UI（Sprint C 候选独立 track，task card stub 已立）
 - ~~T-P0-007 API MVP：person query（后端）~~ ✅ done（2026-04-18）
 - ~~T-P0-008 Web MVP：人物卡片页（前端）~~ ✅ done（2026-04-18）
 - T-P0-009 Docker Compose 一键启动验证（DevOps）
