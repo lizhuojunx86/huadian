@@ -364,7 +364,16 @@ Sprint B 全 Stage 完成：
 
 ## 进行中
 
-无。（T-P0-024 α 已完成，等用户指定下一张卡）
+### Sprint C — T-P0-027 Resolver Orchestration（R1-R6 全集成主调度）
+
+- **主线**：T-P0-027 R1-R6 全集成主调度
+- **进度**：Stage 1-4 ✅ + Stage 5 预案 ✅
+- **阻塞**：historian 对 启 ↔ 微子启 (Q186544) 的判定（→ docs/sprint-logs/T-P0-027/historian-ruling-qi-vs-weizi-qi.md）
+- **已发现 follow-up debt**：T-P0-029（R6 cross-dynasty guard，P1 级）
+- **当前数字**：320 active persons / R6 pre-pass matched=153 / below_cutoff=6 / not_found=161 / R6 MergeProposal=1（待裁决）
+- **V1-V11 全绿**（V11 bootstrap=0）
+- **Pipeline tests**：293 passed + 34 skipped = 327 total（+13 vs Sprint B）
+- **Stop Rule 记录**：Stage 1 触发 1 次（r6_seed_match name fallback → FK 直查修复，方案 A）
 
 ---
 

@@ -7,6 +7,36 @@
 
 ## 2026-04-22
 
+### [feat+test+docs] Sprint C Stage 1-4 — T-P0-027 R6 集成主调度
+
+- **角色**：管线工程师（实施）+ 首席架构师（brief / Gate ACK / 裁决）
+- **性质**：resolver pipeline batch 路径 R6 集成；不含 API 在线 resolve / NER 自动触发
+- **关联**：ADR-010 §R6 / ADR-021 / Sprint B retro §7 hand-off
+
+T-P0-027 Sprint C Stage 1-4：R6 pre-pass 接入 resolver 主调度（pre-pass batch FK query + same-QID merge detection + apply_merges --skip-rule + V11 invariant + 13 tests）；触发 1 次 Stop Rule（Plan A 修复，FK 直查替代 r6_seed_match name fallback）；Stage 4 dry-run 发现 1 例 R6 false positive（启 ↔ 微子启 Q186544，跨夏/商 ~1000 年），挂起等 historian 判定后走 Stage 5 路径 A/B/C；架构追责开 T-P0-029（R6 cross-dynasty guard）。
+
+#### Added
+- `resolve.py`: `R6PrePassResult` dataclass + `_r6_prepass()` batch FK query + `_detect_r6_merges()` same-QID merge detection + `_filter_groups_by_skip_rules()` + dry-run report R6 distribution + rule distribution
+- `resolve_rules.py`: `PersonSnapshot.r6_result` field
+- `resolve_types.py`: `ResolveResult.r6_distribution` field
+- `scripts/apply_resolve.py`: `--skip-rule` CLI parameter
+- `tests/test_r6_prepass.py`: 10 unit tests (R6PrePassResult 3 + _detect_r6_merges 7)
+- `tests/test_invariants_v11.py`: V11 cardinality invariant + 3 self-tests
+- `docs/tasks/T-P0-029-r6-cross-dynasty-guard.md`: follow-up stub
+- `docs/sprint-logs/T-P0-027/historian-ruling-qi-vs-weizi-qi.md`: historian 判定卡 + SPARQL 模板
+
+#### Numbers
+- Pipeline tests: 314 → 327 (+13)
+- V11 bootstrap: 0
+- R6 pre-pass: matched=153 / below_cutoff=6 / ambiguous=0 / not_found=161
+- R6 MergeProposal: 1 (false positive, pending historian ruling)
+- Stop Rules triggered: 1 (Stage 1, resolved via Plan A)
+
+#### Blocked
+- Stage 5 awaiting historian ruling on 启 ↔ 微子启 (Q186544)
+
+---
+
 ### [docs] ID 治理修订 — T-P0-026 / T-P0-025b 撞号与含义漂移修正
 
 - **角色**：首席架构师（裁决）+ 管线工程师（执行）
