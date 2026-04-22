@@ -63,6 +63,7 @@ class ResolveResult:
     merge_groups: list[MergeGroup] = field(default_factory=list)
     hypotheses: list[HypothesisProposal] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    r6_distribution: dict[str, int] = field(default_factory=dict)
 
     @property
     def total_merged_persons(self) -> int:

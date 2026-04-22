@@ -19,7 +19,7 @@ import logging
 import re
 import warnings
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 try:
     import yaml
@@ -27,6 +27,9 @@ try:
     _HAS_YAML = True
 except ImportError:
     _HAS_YAML = False
+
+if TYPE_CHECKING:
+    from .resolve import R6PrePassResult
 
 from .resolve_types import MatchResult
 
@@ -155,6 +158,7 @@ class PersonSnapshot:
         identity_notes: list of identity_notes strings (from person_names or
                         extracted annotations)
         created_at:     ISO timestamp string (for canonical selection tiebreaking)
+        r6_result:      R6PrePassResult from seed-match pre-pass (None if not yet run)
     """
 
     __slots__ = (
@@ -165,6 +169,7 @@ class PersonSnapshot:
         "surface_forms",
         "identity_notes",
         "created_at",
+        "r6_result",
     )
 
     def __init__(
@@ -176,6 +181,7 @@ class PersonSnapshot:
         surface_forms: set[str],
         identity_notes: list[str],
         created_at: str,
+        r6_result: R6PrePassResult | None = None,
     ) -> None:
         self.id = id
         self.name = name
@@ -184,6 +190,7 @@ class PersonSnapshot:
         self.surface_forms = surface_forms
         self.identity_notes = identity_notes
         self.created_at = created_at
+        self.r6_result = r6_result
 
     def all_names(self) -> set[str]:
         """Return the union of name + all surface_forms."""
