@@ -308,6 +308,32 @@ def _is_di_prefix_match(a: Person, b: Person) -> bool:
 | R3 | variant_chars 归一化 | 0.90 | 字典条目需标出处 |
 | R5 | 庙号字典 | 0.90 | 同朝代 |
 | R4 | identity_notes 正则 | 0.65 | 仅生成 hypothesis |
+| R6 | seed dictionary match | 1.00/0.85/0.70 | cutoff ≥ 0.80; pending_review 不可见 |
+
+### R6: Seed Dictionary Match (status: implemented 2026-04-22)
+
+**Implementation**: `services/pipeline/src/huadian_pipeline/r6_seed_match.py`
+
+**Lookup contract**:
+- Primary path: `(dictionary_sources.source_name='wikidata', dictionary_entries.external_id=qid)`
+  → `seed_mappings.target_entity_id` where `mapping_status='active' AND confidence >= 0.80`
+- Fallback path: `dictionary_entries.primary_name = candidate_name` (single-hit only).
+- `mapping_status='pending_review'` rows are **invisible** to R6 (not bound, awaiting manual triage).
+- Confidence cutoff `0.80` → R3 scan hits (conf 0.70) are recorded as `below_cutoff`
+  and intentionally **not** auto-bound; upper-layer resolver falls through to R1-R5.
+
+**Return states** (`R6Result`):
+- `matched` — single active mapping at/above cutoff. Caller binds to `person_id`.
+- `below_cutoff` — match exists but confidence < 0.80. Caller treats as "no signal from R6".
+- `ambiguous` — fallback name path returned >1 entries. Caller does not bind via R6.
+- `not_found` — no active mapping. Caller proceeds to other rules.
+
+**R6 is a pure lookup**: never raises on ambiguity, never writes. All decisions belong to the orchestrating resolver.
+
+**Bootstrap state** (Sprint B Gate 1, commit b507012):
+- 153 / 159 active mappings → matched (R1 149 + R2 4)
+- 6 / 159 → below_cutoff (R3 0.70 scan)
+- 44 / 44 pending_review → invisible (filtered by mapping_status)
 
 ### 字典文件
 
