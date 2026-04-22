@@ -147,3 +147,112 @@ async def test_v10a_self_test_detects_orphan(db_conn) -> None:
 
     finally:
         await tx.rollback()
+
+
+async def test_v10b_self_test_detects_orphan_entry(db_conn) -> None:
+    """Self-test: drop FK, delete entry → mapping points to nothing → V10.b catches."""
+    tx = db_conn.transaction()
+    await tx.start()
+    try:
+        # Create infrastructure
+        person_id = uuid.uuid4()
+        name_json = '{"zh-Hans": "test-v10b"}'
+        await db_conn.execute(
+            """INSERT INTO persons (id, slug, name, dynasty, reality_status, provenance_tier)
+               VALUES ($1, $2, $3::jsonb, '上古', 'legendary', 'primary_text')""",
+            person_id,
+            f"v10b-{person_id.hex[:8]}",
+            name_json,
+        )
+        await db_conn.execute(
+            """INSERT INTO person_names (person_id, name, name_type, is_primary)
+               VALUES ($1, $2, 'primary', true)""",
+            person_id,
+            f"test-v10b-{person_id.hex[:8]}",
+        )
+
+        source_id = await db_conn.fetchval(
+            """INSERT INTO dictionary_sources (source_name, source_version, license, commercial_safe)
+               VALUES ('test-v10b', 'v0', 'CC0', true)
+               ON CONFLICT (source_name, source_version) DO UPDATE SET source_name = 'test-v10b'
+               RETURNING id"""
+        )
+        entry_id = await db_conn.fetchval(
+            """INSERT INTO dictionary_entries (source_id, external_id, entry_type, primary_name, attributes)
+               VALUES ($1, 'Q_V10B_ORPHAN', 'person', 'orphan-entry', '{}'::jsonb)
+               ON CONFLICT (source_id, external_id) DO UPDATE SET source_id = dictionary_entries.source_id
+               RETURNING id""",
+            source_id,
+        )
+        await db_conn.execute(
+            """INSERT INTO seed_mappings
+               (dictionary_entry_id, target_entity_type, target_entity_id,
+                confidence, mapping_method, mapping_status)
+               VALUES ($1, 'person', $2, 0.90, 'test', 'active')""",
+            entry_id,
+            person_id,
+        )
+
+        # Temporarily drop FK so we can delete the entry without cascade
+        await db_conn.execute(
+            "ALTER TABLE seed_mappings DROP CONSTRAINT seed_mappings_dictionary_entry_id_fkey"
+        )
+        await db_conn.execute("DELETE FROM dictionary_entries WHERE id = $1", entry_id)
+
+        count = await db_conn.fetchval(V10B_QUERY)
+        assert count >= 1, "V10.b self-test FAILED: orphan entry reference not detected"
+
+    finally:
+        await tx.rollback()
+
+
+async def test_v10c_self_test_detects_active_without_evidence(db_conn) -> None:
+    """Self-test: active mapping with no source_evidence → V10.c catches."""
+    tx = db_conn.transaction()
+    await tx.start()
+    try:
+        person_id = uuid.uuid4()
+        name_json = '{"zh-Hans": "test-v10c"}'
+        await db_conn.execute(
+            """INSERT INTO persons (id, slug, name, dynasty, reality_status, provenance_tier)
+               VALUES ($1, $2, $3::jsonb, '上古', 'legendary', 'primary_text')""",
+            person_id,
+            f"v10c-{person_id.hex[:8]}",
+            name_json,
+        )
+        await db_conn.execute(
+            """INSERT INTO person_names (person_id, name, name_type, is_primary)
+               VALUES ($1, $2, 'primary', true)""",
+            person_id,
+            f"test-v10c-{person_id.hex[:8]}",
+        )
+
+        source_id = await db_conn.fetchval(
+            """INSERT INTO dictionary_sources (source_name, source_version, license, commercial_safe)
+               VALUES ('wikidata', 'test-v10c', 'CC0', true)
+               ON CONFLICT (source_name, source_version) DO UPDATE SET source_name = 'wikidata'
+               RETURNING id"""
+        )
+        entry_id = await db_conn.fetchval(
+            """INSERT INTO dictionary_entries (source_id, external_id, entry_type, primary_name, attributes)
+               VALUES ($1, 'Q_V10C_NO_EVIDENCE', 'person', 'no-evidence', '{}'::jsonb)
+               ON CONFLICT (source_id, external_id) DO UPDATE SET source_id = dictionary_entries.source_id
+               RETURNING id""",
+            source_id,
+        )
+
+        # Insert active mapping but DON'T insert source_evidence
+        await db_conn.execute(
+            """INSERT INTO seed_mappings
+               (dictionary_entry_id, target_entity_type, target_entity_id,
+                confidence, mapping_method, mapping_status)
+               VALUES ($1, 'person', $2, 0.90, 'test', 'active')""",
+            entry_id,
+            person_id,
+        )
+
+        count = await db_conn.fetchval(V10C_QUERY)
+        assert count >= 1, "V10.c self-test FAILED: active mapping without evidence not detected"
+
+    finally:
+        await tx.rollback()
