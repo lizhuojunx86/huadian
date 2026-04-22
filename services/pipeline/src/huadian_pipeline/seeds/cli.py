@@ -83,10 +83,10 @@ async def load_persons_from_db(dsn: str) -> list[PersonInput]:
 async def _upsert_entry(
     conn: asyncpg.Connection,
     source_id: str,
-    hit: dict,
-) -> str:
+    hit: dict[str, str],
+) -> uuid.UUID:
     """Insert or fetch a dictionary_entry for a Wikidata hit."""
-    return await conn.fetchval(
+    entry_id: uuid.UUID | None = await conn.fetchval(
         """
         INSERT INTO dictionary_entries
           (source_id, external_id, entry_type, primary_name, attributes)
@@ -100,13 +100,18 @@ async def _upsert_entry(
         hit.get("label_zh", ""),
         json.dumps({"description_zh": hit.get("description_zh", "")}, ensure_ascii=False),
     )
+    if entry_id is None:
+        raise RuntimeError(
+            f"dictionary_entries INSERT...RETURNING id returned None for qid={hit['qid']}"
+        )
+    return entry_id
 
 
 async def write_seed_data(
     dsn: str,
     results: list[MatchResult],
     source_version: str,
-) -> dict:
+) -> dict[str, object]:
     """Write matching results to DB.
 
     - Single-match (r1/r2/r3): dictionary_entry + seed_mapping(active)
@@ -123,7 +128,7 @@ async def write_seed_data(
     try:
         async with conn.transaction():
             # 1. Ensure dictionary_source
-            source_id = await conn.fetchval(
+            source_id: uuid.UUID | None = await conn.fetchval(
                 """
                 INSERT INTO dictionary_sources
                   (source_name, source_version, license, commercial_safe, access_url)
@@ -133,6 +138,8 @@ async def write_seed_data(
                 """,
                 source_version,
             )
+            if source_id is None:
+                raise RuntimeError("dictionary_sources INSERT failed")
 
             # 2. Ensure pseudo-book for source_evidences
             book_id, raw_text_id = await ensure_wikidata_pseudo_book(conn, source_version)
