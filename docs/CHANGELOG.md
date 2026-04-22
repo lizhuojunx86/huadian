@@ -7,6 +7,30 @@
 
 ## 2026-04-22
 
+### [docs] ID 治理修订 — T-P0-026 / T-P0-025b 撞号与含义漂移修正
+
+- **角色**：首席架构师（裁决）+ 管线工程师（执行）
+- **性质**：纯文档治理；零数据 / 代码 / ADR 改动
+- **关联**：retro §4 / §5.2 hand-off
+
+#### 修正
+- T-P0-026 撞号澄清：实际只是 docs/research/T-P0-026-dictionary-seed-feasibility.md 研究文档 ID，**不复用为 task card**；STATUS 历史把研究当 done 任务统计造成撞号假象
+- T-P0-025b 含义边界明确：保留 STATUS 既有"TIER-4 self-curated seed patch"含义不变；retro §4 用同 ID 描述 manual triage UI 为编写时 ID 复用失误
+
+#### Added
+- docs/tasks/T-P0-027-resolver-orchestration.md（stub，Sprint C 主线，详细 spec 待 Stage 0 brief）
+- docs/tasks/T-P0-028-pending-review-triage-ui.md（stub，取代 retro §4 误用的 T-P0-025b 含义）
+
+#### Changed
+- STATUS.md 候选表：删 T-P0-025（已 done）+ 新增 T-P0-027 / T-P0-028 + T-P0-025b 描述微调
+- retro §4 / §5.2 加 [ID-corrected 2026-04-22] 注脚（正文不动）
+- tasks/T-000-index.md 同步两条新卡
+
+#### 流程改进（待 Sprint C retro 沉淀）
+- 未来 research / study 文档使用独立命名空间（建议 R-NNN 或 STUDY-NNN-*），不复用 T-NNN task card 命名空间
+
+---
+
 ### [feat+data+docs] Sprint B — T-P0-025 Wikidata Seed Loader
 
 - **角色**：管线工程师（实施）+ 首席架构师（scope ruling / ADR / Gate ACK）
