@@ -5,6 +5,51 @@
 
 ---
 
+## 2026-04-22
+
+### [feat+data+docs] Sprint B — T-P0-025 Wikidata Seed Loader
+
+- **角色**：管线工程师（实施）+ 首席架构师（scope ruling / ADR / Gate ACK）
+- **性质**：external dictionary seed ingestion + resolver integration + invariant system
+- **关联**：ADR-021 / ADR-010 §R6 / ADR-015 seed_dictionary tier / T-P0-026
+
+#### Added
+- Migration 0009: dictionary_sources / dictionary_entries / seed_mappings (3 tables)
+- Migration 0010: seed_mappings.mapping_status CHECK + 'pending_review'
+- Migration 0011: unique index naming alignment (T-P1-023)
+- Drizzle schema: `packages/db-schema/src/schema/seeds.ts` (J layer)
+- `services/pipeline/src/huadian_pipeline/seeds/` subpackage:
+  - `wikidata_adapter.py`: SPARQL client (rate-limited, retrying, batched)
+  - `matcher.py`: R1/R2/R3 three-round matching engine
+  - `cli.py`: `load --mode dry-run/execute` CLI
+  - `pseudo_book.py`: Wikidata pseudo-book for source_evidences anchoring
+- `services/pipeline/src/huadian_pipeline/r6_seed_match.py`: R6 seed-first rule
+- V10 invariant: seed_mapping orphan + evidence checks (3 sub-rules, 6 self-tests)
+- Test suites: 32 new tests (adapter 12 + matcher 8 + R6 6 + V10 6)
+
+#### Changed
+- dictionary_sources: 1 row (wikidata/20260422/CC0)
+- dictionary_entries: 201 rows
+- seed_mappings: 159 active + 44 pending_review = 203 total
+- source_evidences: +159 rows (provenance_tier='seed_dictionary')
+- V1-V8 no regression; V7 97.49% unchanged; V10 = 0/0/0
+- Pipeline tests: 282 → 314 (+32)
+- ADR-010 §R6: implemented (153 matched / 6 below_cutoff / 44 filtered)
+- ADR-021: final accepted with implementation summary
+
+#### Sprint B Cost
+- LLM: $0
+- SPARQL: ~400 queries (2 runs × ~200 queries)
+- Commits: 10 on main
+- Elapsed: ~2 work-days
+
+#### Debt
+- T-P0-025b: pending_review triage (16 persons, Sprint C)
+- T-P1-022: 27 persons missing is_primary=true (V1 lower-bound gap)
+- T-P1-021: 管叔/管叔鲜 + 蔡叔/蔡叔度 canonical merge
+
+---
+
 ## 2026-04-21
 
 ### [data+docs+test] Sprint A — T-P0-019 α β 尾巴清理 + V8 invariant 引入

@@ -1,6 +1,6 @@
 # T-P0-025 — 字典 Seed Loader（Sprint B，Wikidata TIER-1）
 
-- **状态**: in_progress（Gate 0a done 2026-04-21, commit 4cf34b5；Stage 0b 待启动）
+- **状态**: done（Sprint B 完成 2026-04-22；ADR-021 final accepted）
 - **优先级**: P0
 - **主导角色**: 管线工程师 + 后端工程师（schema migration）+ 架构师（Stage ruling）
 - **所属 Phase**: Phase 0 tail（数据治理 → 消歧基础设施）
