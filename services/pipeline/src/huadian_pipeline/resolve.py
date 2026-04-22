@@ -25,12 +25,14 @@ from __future__ import annotations
 
 import logging
 import uuid
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     import asyncpg
 
+from .r6_seed_match import R6Status
 from .resolve_rules import (
     MERGE_CONFIDENCE_THRESHOLD,
     PersonSnapshot,
@@ -39,6 +41,7 @@ from .resolve_rules import (
 )
 from .resolve_types import (
     HypothesisProposal,
+    MatchResult,
     MergeGroup,
     MergeProposal,
     ResolveResult,
@@ -178,6 +181,175 @@ async def _load_persons(conn: Any) -> list[PersonSnapshot]:
 
 
 # ---------------------------------------------------------------------------
+# R6 seed-match pre-pass (T-P0-027 Sprint C)
+# ---------------------------------------------------------------------------
+
+# Cutoff mirroring r6_seed_match default — active mappings below this
+# confidence are tagged BELOW_CUTOFF rather than MATCHED.
+_R6_CONFIDENCE_CUTOFF = 0.80
+
+
+@dataclass(frozen=True, slots=True)
+class R6PrePassResult:
+    """Result of the internal R6 pre-pass for a single person.
+
+    Distinct from R6Result (external lookup mode). The pre-pass queries
+    seed_mappings by target_entity_id (FK direct), never by name.
+    """
+
+    status: R6Status
+    qid: str | None = None
+    entry_id: str | None = None
+    confidence: float | None = None
+
+
+async def _r6_prepass(conn: Any, snapshots: list[PersonSnapshot]) -> dict[str, int]:
+    """Batch-load active seed_mappings for all persons via FK direct query.
+
+    For each person, derives an R6PrePassResult:
+      - confidence >= cutoff → MATCHED
+      - confidence < cutoff  → BELOW_CUTOFF
+      - multiple active rows → AMBIGUOUS (data quality issue, logged as warning)
+      - no active row        → NOT_FOUND
+
+    Attaches result to PersonSnapshot.r6_result and returns status distribution.
+    """
+    person_ids = [snap.id for snap in snapshots]
+
+    rows = await conn.fetch(
+        """
+        SELECT sm.target_entity_id::text AS person_id,
+               de.external_id AS qid,
+               de.id::text AS entry_id,
+               sm.confidence
+        FROM seed_mappings sm
+        JOIN dictionary_entries de ON de.id = sm.dictionary_entry_id
+        WHERE sm.target_entity_type = 'person'
+          AND sm.target_entity_id = ANY($1::uuid[])
+          AND sm.mapping_status = 'active'
+        ORDER BY sm.target_entity_id, sm.confidence DESC
+        """,
+        person_ids,
+    )
+
+    # Group rows by person_id
+    from collections import defaultdict
+
+    by_person: dict[str, list[Any]] = defaultdict(list)
+    for row in rows:
+        by_person[row["person_id"]].append(row)
+
+    distribution: dict[str, int] = {
+        "matched": 0,
+        "below_cutoff": 0,
+        "ambiguous": 0,
+        "not_found": 0,
+    }
+
+    for snap in snapshots:
+        mapping_rows = by_person.get(snap.id, [])
+
+        if not mapping_rows:
+            snap.r6_result = R6PrePassResult(status=R6Status.NOT_FOUND)
+            distribution["not_found"] += 1
+        elif len(mapping_rows) > 1:
+            logger.warning(
+                "R6 pre-pass: person %s (%s) has %d active seed_mappings — "
+                "marking AMBIGUOUS (data quality issue)",
+                snap.id,
+                snap.name,
+                len(mapping_rows),
+            )
+            snap.r6_result = R6PrePassResult(status=R6Status.AMBIGUOUS)
+            distribution["ambiguous"] += 1
+        else:
+            row = mapping_rows[0]
+            conf = float(row["confidence"]) if row["confidence"] is not None else 0.0
+            if conf >= _R6_CONFIDENCE_CUTOFF:
+                snap.r6_result = R6PrePassResult(
+                    status=R6Status.MATCHED,
+                    qid=row["qid"],
+                    entry_id=row["entry_id"],
+                    confidence=conf,
+                )
+                distribution["matched"] += 1
+            else:
+                snap.r6_result = R6PrePassResult(
+                    status=R6Status.BELOW_CUTOFF,
+                    qid=row["qid"],
+                    entry_id=row["entry_id"],
+                    confidence=conf,
+                )
+                distribution["below_cutoff"] += 1
+
+    logger.info(
+        "R6 pre-pass complete: %d persons — matched=%d, not_found=%d, "
+        "below_cutoff=%d, ambiguous=%d",
+        len(snapshots),
+        distribution["matched"],
+        distribution["not_found"],
+        distribution["below_cutoff"],
+        distribution["ambiguous"],
+    )
+    return distribution
+
+
+def _detect_r6_merges(snapshots: list[PersonSnapshot]) -> list[MergeProposal]:
+    """Detect merge proposals from R6 pre-pass: two persons mapping to the same QID.
+
+    Only MATCHED-status results are considered (裁决 4).
+    Two persons with the same external_id (QID) produce a MergeProposal with
+    rule="R6" and confidence=1.0.
+    """
+    from collections import defaultdict
+
+    # Group MATCHED persons by QID
+    by_qid: dict[str, list[PersonSnapshot]] = defaultdict(list)
+    for snap in snapshots:
+        if (
+            snap.r6_result is not None
+            and snap.r6_result.status == R6Status.MATCHED
+            and snap.r6_result.qid is not None
+        ):
+            by_qid[snap.r6_result.qid].append(snap)
+
+    proposals: list[MergeProposal] = []
+    for qid, persons in by_qid.items():
+        if len(persons) < 2:
+            continue
+        # Generate pairwise proposals within the same-QID group
+        for i in range(len(persons)):
+            for j in range(i + 1, len(persons)):
+                a, b = persons[i], persons[j]
+                proposals.append(
+                    MergeProposal(
+                        person_a_id=a.id,
+                        person_b_id=b.id,
+                        person_a_name=a.name,
+                        person_b_name=b.name,
+                        match=MatchResult(
+                            rule="R6",
+                            confidence=1.0,
+                            evidence={
+                                "external_id": qid,
+                                "source": "wikidata",
+                                "pre_pass": True,
+                            },
+                        ),
+                    )
+                )
+
+    if proposals:
+        logger.info(
+            "R6 merge detection: %d proposals from %d same-QID groups",
+            len(proposals),
+            sum(1 for persons in by_qid.values() if len(persons) >= 2),
+        )
+
+    return proposals
+
+
+# ---------------------------------------------------------------------------
 # Canonical selection
 # ---------------------------------------------------------------------------
 
@@ -222,7 +394,11 @@ async def resolve_identities(pool: asyncpg.Pool) -> ResolveResult:
     async with pool.acquire() as conn:
         persons = await _load_persons(conn)
 
+        # R6 pre-pass: seed-match lookup for each person (T-P0-027)
+        r6_distribution = await _r6_prepass(conn, persons)
+
     result.total_persons = len(persons)
+    result.r6_distribution = r6_distribution
     logger.info("Loaded %d persons for identity resolution (run_id=%s)", len(persons), run_id)
 
     if len(persons) < 2:
@@ -269,12 +445,19 @@ async def resolve_identities(pool: asyncpg.Pool) -> ResolveResult:
                     )
                 )
 
+    # R6 merge detection: two persons mapping to same QID (T-P0-027)
+    r6_proposals = _detect_r6_merges(persons)
+    merge_proposals.extend(r6_proposals)
+
     result.errors.extend(errors)
     result.hypotheses = hyp_proposals
 
     logger.info(
-        "Pairwise evaluation complete: %d merge proposals, %d hypothesis proposals",
+        "Pairwise evaluation complete: %d merge proposals (%d R1-R5 + %d R6), "
+        "%d hypothesis proposals",
         len(merge_proposals),
+        len(merge_proposals) - len(r6_proposals),
+        len(r6_proposals),
         len(hyp_proposals),
     )
 
@@ -361,6 +544,9 @@ def _build_reason(
             )
         elif rule == "R4":
             parts.append("R4 identity_notes reference")
+        elif rule == "R6":
+            qid = ev.get("external_id", "")
+            parts.append(f"R6 seed-match same QID: {qid}")
 
     reason_str = "; ".join(parts) if parts else "unknown"
     canon_reason = "has pinyin slug" if canonical.has_pinyin_slug() else "most surface forms"
@@ -372,12 +558,41 @@ def _build_reason(
 # ---------------------------------------------------------------------------
 
 
+def _filter_groups_by_skip_rules(
+    groups: list[MergeGroup],
+    skip_rules: set[str],
+) -> list[MergeGroup]:
+    """Filter out merge groups whose proposals are ALL from skipped rules.
+
+    A group is kept if at least one contributing proposal uses a non-skipped rule.
+    A group is dropped only if ALL its proposals use skipped rules.
+    """
+    if not skip_rules:
+        return groups
+
+    filtered: list[MergeGroup] = []
+    for group in groups:
+        has_non_skipped = any(prop.match.rule not in skip_rules for prop in group.proposals)
+        if has_non_skipped:
+            filtered.append(group)
+        else:
+            logger.info(
+                "Skipping merge group %s (%s): all proposals from skipped rules %s",
+                group.canonical_name,
+                [p.match.rule for p in group.proposals],
+                skip_rules,
+            )
+
+    return filtered
+
+
 async def apply_merges(
     pool: asyncpg.Pool,
     result: ResolveResult,
     *,
     dry_run: bool = True,
     merged_by: str = "pipeline:resolve",
+    skip_rules: set[str] | None = None,
 ) -> dict[str, Any]:
     """Apply (or dry-run) soft merges from a ResolveResult.
 
@@ -391,11 +606,17 @@ async def apply_merges(
         result:     ResolveResult from resolve_identities()
         dry_run:    if True, produce report without writing to DB (default: True)
         merged_by:  attribution string written to person_merge_log
+        skip_rules: set of rule names (e.g. {"R6"}) to exclude from apply.
+                    Groups whose ALL proposals are from skipped rules are dropped.
     """
+    active_groups = _filter_groups_by_skip_rules(result.merge_groups, skip_rules or set())
+
     summary: dict[str, Any] = {
         "run_id": result.run_id,
         "dry_run": dry_run,
-        "groups": len(result.merge_groups),
+        "groups": len(active_groups),
+        "groups_skipped": len(result.merge_groups) - len(active_groups),
+        "skip_rules": sorted(skip_rules) if skip_rules else [],
         "persons_soft_deleted": 0,
         "log_rows_inserted": 0,
         "hypotheses_queued": len(result.hypotheses),
@@ -404,20 +625,22 @@ async def apply_merges(
 
     if dry_run:
         # Count without writing
-        for group in result.merge_groups:
+        for group in active_groups:
             summary["persons_soft_deleted"] += len(group.merged_ids)
             summary["log_rows_inserted"] += len(group.merged_ids)
         logger.info(
-            "[DRY RUN] Would soft-delete %d persons across %d groups",
+            "[DRY RUN] Would soft-delete %d persons across %d groups "
+            "(%d groups skipped via --skip-rule)",
             summary["persons_soft_deleted"],
             summary["groups"],
+            summary["groups_skipped"],
         )
         return summary
 
     now = datetime.now(UTC)
 
     async with pool.acquire() as conn, conn.transaction():
-        for group in result.merge_groups:
+        for group in active_groups:
             for merged_id in group.merged_ids:
                 # Determine the rule + confidence from best proposal for this pair
                 relevant = [
@@ -596,6 +819,26 @@ def generate_dry_run_report(result: ResolveResult) -> str:
         for err in result.errors:
             lines.append(f"  - {err}")
 
+    # R6 pre-pass distribution (T-P0-027)
+    if result.r6_distribution:
+        lines.append("")
+        lines.append("R6 seed-match pre-pass 分布:")
+        for status_key in ("matched", "not_found", "below_cutoff", "ambiguous"):
+            count = result.r6_distribution.get(status_key, 0)
+            lines.append(f"  {status_key}: {count}")
+        lines.append(f"  总计: {sum(result.r6_distribution.values())}")
+
+    # Rule distribution across all merge proposals
+    rule_counts: dict[str, int] = {}
+    for group in result.merge_groups:
+        for prop in group.proposals:
+            rule_counts[prop.match.rule] = rule_counts.get(prop.match.rule, 0) + 1
+    if rule_counts:
+        lines.append("")
+        lines.append("规则命中分布 (merge proposals):")
+        for rule_name in sorted(rule_counts):
+            lines.append(f"  {rule_name}: {rule_counts[rule_name]}")
+
     lines.append("")
     lines.append(
         f"合并后预计人数: {result.persons_after_merge} (减少 {result.total_merged_persons} 人)"
@@ -638,5 +881,9 @@ def _format_rule_evidence(rule: str, ev: dict[str, Any]) -> str:
         source = ev.get("source", "")
         src_str = f" (来源: {source})" if source else ""
         return f"R5 庙号/谥号 {canon}/{alias}{src_str}"
+    elif rule == "R6":
+        qid = ev.get("external_id", "?")
+        source = ev.get("source", "wikidata")
+        return f"R6 外部锚点 {source}:{qid}"
     else:
         return f"{rule} unknown evidence"
