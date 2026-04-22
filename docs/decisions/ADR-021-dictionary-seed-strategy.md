@@ -194,3 +194,44 @@ Sprint B 收尾时考虑新增 V8 invariant：**seed_mappings 的 target_entity_
 ## 6. Notes on ADR Numbering
 
 本 ADR 起草时原拟编号 018，落笔前发现 `ADR-000-index.md` 已把 016 / 018 / 019 / 020 四个编号预占给其他 planned 主题（搜索召回回溯 / extractions_history C-11 / 多语言 JSONB / Prompt 版本化）。为不侵占预占主题，本 ADR 跳到下一空位 **021**。预占主题待各自独立起草时沿用其原分配编号。
+
+---
+
+## Implementation Summary (Sprint B, 2026-04-22)
+
+### Artifacts
+
+| Layer | File | Purpose |
+|-------|------|---------|
+| Migration | `0009_dictionary_seed_schema.sql` | 3 tables: dictionary_sources / dictionary_entries / seed_mappings |
+| Migration | `0010_seed_mappings_add_pending_review_status.sql` | Extend status CHECK for multi-hit triage |
+| Migration | `0011_seed_unique_index_naming_alignment.sql` | Align UNIQUE constraint names with Drizzle |
+| Drizzle | `packages/db-schema/src/schema/seeds.ts` | J layer schema (dictionarySources / dictionaryEntries / seedMappings) |
+| Adapter | `services/pipeline/src/huadian_pipeline/seeds/wikidata_adapter.py` | SPARQL client with rate limiting + retry |
+| Matcher | `services/pipeline/src/huadian_pipeline/seeds/matcher.py` | R1/R2/R3 three-round matching engine |
+| CLI | `services/pipeline/src/huadian_pipeline/seeds/cli.py` | `load --mode dry-run/execute` |
+| Pseudo-book | `services/pipeline/src/huadian_pipeline/seeds/pseudo_book.py` | source_evidence anchor for seed_dictionary tier |
+| R6 Rule | `services/pipeline/src/huadian_pipeline/r6_seed_match.py` | Seed-first identity resolver lookup (ADR-010 §R6) |
+| Invariant | `services/pipeline/tests/test_invariants_v10.py` | V10.a/b/c seed_mapping consistency (6 tests incl. self-tests) |
+
+### Bootstrap Results (320 active persons, Wikidata source_version=20260422)
+
+| Round | Count | Confidence | DB status |
+|-------|-------|------------|-----------|
+| R1 single | 149 | 1.00 | active |
+| R2 alias | 4 | 0.85 | active |
+| R3 scan | 6 | 0.70 | active (below R6 cutoff, not auto-bound) |
+| R1 multi | 8 persons / ~17 candidates | n/a | pending_review |
+| R2 multi | 7 persons / ~21 candidates | n/a | pending_review |
+| R3 multi | 1 person / ~3 candidates | n/a | pending_review |
+| No match | 145 | n/a | not written |
+
+**R6 visibility**: 153 matched, 6 below_cutoff, 44 pending invisible.
+
+**DB totals**: dictionary_sources=1, dictionary_entries=201, seed_mappings=203 (159 active + 44 pending_review), source_evidences(seed_dictionary)=159.
+
+### Open Follow-ups
+
+- **T-P0-025b**: manual triage UI for 16 pending_review persons (Sprint C)
+- **T-P1-022**: 27 persons missing is_primary=true name (V1 lower-bound gap)
+- Hit rate 49.7% — second TIER-1 source (CBDB / Baike) deferred to future ADR evaluation
