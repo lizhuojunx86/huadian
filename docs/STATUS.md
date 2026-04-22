@@ -2,25 +2,26 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-21
-- **更新人**：首席架构师（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A V6/F1/F2 尾巴清零 ✅ + V8 不变量引入 ✅ + Sprint B Gate 0a Wikidata probe ✅ + Sprint B Stage 0b seed schema migration 0009 ✅**
+- **最近更新**：2026-04-22
+- **更新人**：管线工程师（Claude Opus）
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅**
 
 ---
 
 ## 当前在哪
 
-**Sprint B 第二里程碑：Stage 0b migration 0009 三表落地完成（commit 199e8ba, 2026-04-21）。准备进 Stage 1 — wikidata_adapter + matcher + CLI dry-run。**
+**Sprint B（T-P0-025 Wikidata Seed Loader）完成。159 active seed mappings + 44 pending_review + R6 规则上线 + V10 三子规则注册。**
 
-T-P0-025 Sprint B 进度：
-- **Gate 0a（✅ done, commit 4cf34b5）**：Wikidata 覆盖率 probe — 320 active persons / 54.4% 命中（R1 49.1% + R2 alias +17）/ 8 条多候选（2.5%）/ 商 70.5% 最高 / 0 HTTP 错误 / 245s。决策矩阵落 "≥ 40% 全量推进" 桶。副发现 T-P1-022 登记（V1 下界缺失）。
-- **Stage 0b（✅ done, commit 199e8ba）**：migration 0009 三表落地 — dictionary_sources / dictionary_entries / seed_mappings。Drizzle `packages/db-schema/src/schema/seeds.ts`（J layer）+ index.ts 导出 + pg_dump anchor + V1-V8 无回归 + pipeline 282 / api 61 tests 全绿。衍生债 **T-P1-023**（Drizzle uniqueIndex 与 SQL UNIQUE 命名不一致，P2，Sprint 收尾处理）。
-- **Stage 1-5（planned）**：wikidata_adapter + matcher（含 R3 全 person_names 扫描）→ manual review queue → R6 规则 → V invariant 候选 → 收尾
-- **T-P0-025 主任务卡已按 ADR-021 对齐重写**；原 pre-ADR-021 的 40 条 JSON loader 需求演化为 **T-P0-025b**（TIER-4 自建 seed 补丁，Sprint B 后的 follow-up）
+Sprint B 全 Stage 完成：
+- **Gate 0a（✅）**：Wikidata probe 54.4% 命中 → ≥40% 桶
+- **Stage 0b（✅）**：migration 0009 三表 + Drizzle J layer
+- **Stage 1（✅）**：wikidata_adapter + matcher（R1/R2/R3 三轮）+ CLI dry-run/execute
+- **Stage 2（✅）**：execute 写入 159 active + 44 pending_review + 159 source_evidences(seed_dictionary) + migration 0010 pending_review CHECK
+- **Stage 3（✅）**：R6 seed-match 规则（153 matched / 6 below_cutoff / 44 filtered）+ ADR-010 §R6 落地
+- **Stage 4（✅）**：V10 invariant 三子规则（orphan target / orphan entry / active evidence）+ 6 self-tests
+- **Stage 5（✅）**：migration 0011 unique index 对齐 + ADR-021 final + Sprint 收口
 
-**Sprint A 上一里程碑**：V6 清零 + F1 硬 DELETE + F2 通过 V8 规则精化；V1-V8 全绿；ADR-021/022/023 accepted；副产品债 T-P1-021。
-
-**下一步**：Stage 1 — wikidata_adapter + matcher + CLI dry-run（1-1.5 工作日，$0 LLM）。
+**下一步候选**：T-P0-025b（pending_review triage）/ T-P1-021（管叔/蔡叔归并）/ T-P1-022（V1 下界）
 
 ---
 
@@ -436,10 +437,11 @@ T-P0-025 Sprint B 进度：
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-025 加载；Sprint B Gate 0a Wikidata 覆盖 54.4%（174/320）；persons.seed.json 40 条 TIER-4 演化为 T-P0-025b
-- 🧪 测试覆盖：398 passed（pipeline 282 + api 61 + web 55）+ 0 skipped；E2E 7 specs；V8 self-test 3 新增
+- 🧪 测试覆盖：430 passed（pipeline 314 + api 61 + web 55）+ 0 skipped；E2E 7 specs
 - 🔗 合并状态：320 active persons / 45 merge-soft-deleted / 5 pure-soft-deleted = 370 total
-- 📊 Evidence 覆盖：source_evidences 412 行 / V7 覆盖率 97.49%（Sprint A Stage 2 机械性 +1.12pp；分母 524→518，分子 505 不变；残余 ≈13 names = 7 短名夏王 + 2 微子 + 4 misc）
-- 🗄️ Pipeline migrations：0001–0009（latest: 0009_dictionary_seed_schema.sql @ Sprint B Stage 0b）
+- 📊 Evidence 覆盖：source_evidences 412 + 159 seed = 571 行 / V7 覆盖率 97.49%（person_names 层不变，seed evidence 独立层）
+- 🌐 Seed 覆盖：dictionary_entries 201 / seed_mappings 203（159 active + 44 pending_review）/ 覆盖率 49.7%（159/320）
+- 🗄️ Pipeline migrations：0001–0011（latest: 0011_seed_unique_index_naming_alignment.sql @ Sprint B Stage 5）
 - 🚦 阻塞项数量：0 ✅
 
 ### 数据层不变量矩阵
@@ -454,8 +456,9 @@ T-P0-025 Sprint B 进度：
 | V6 | alias ≠ is_primary | 全表无 alias+is_primary=true | ✅ | 2026-04-21（Sprint A Stage 1，28→0；机制历史绿自 2026-04-19 T-P0-016） |
 | V7 | evidence coverage | active person_names 的 source_evidence_id 覆盖率 | ✅ 97.49% (PASS) | 2026-04-21（Sprint A Stage 2 机械性 +1.12pp） |
 | V8 | prefix-containment | length=1 name + 跨 person 前缀包含（α evidence OR β alias 豁免） | ✅ 0 violations | 2026-04-21（Sprint A Stage 3；ADR-023） |
+| V10 | seed_mapping consistency | V10.a orphan target + V10.b orphan entry + V10.c active evidence | ✅ 0/0/0 | 2026-04-22（Sprint B Stage 4） |
 
-**V1-V8 全绿；V7 97.49% PASS（超 80% 硬 / 90% 拉伸；≈13 names 残余 = T-P1-015 部分 + T-P1-016 scope）；V8 self-test 282 tests 通过**。
+**V1-V8 + V10 全绿；V7 97.49% PASS；seed coverage 49.7%（159/320 active persons matched）**。
 
 ### 已知未处理违规（debt baseline）
 

@@ -1,6 +1,6 @@
 # T-P1-023: Drizzle uniqueIndex 命名与 raw SQL UNIQUE 约束不一致
 
-- **状态**: registered
+- **状态**: done（migration 0011, Sprint B Stage 5, 2026-04-22）
 - **优先级**: P2（审美性/治理性 nit，零功能影响）
 - **主导角色**: 后端工程师
 - **所属 Phase**: Phase 0 tail / Phase 1 head
