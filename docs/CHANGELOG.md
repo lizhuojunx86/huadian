@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-04-24
+
+### [docs] Historian 判定 — 启 vs 微子启 Q186544（T-P0-027 Stage 5 unblock）
+
+- **角色**：古籍专家（裁决）
+- **判定**：(a) Q186544 实指夏启，微子启 seed_mapping 误挂 → reject R6 merge，wei-zi-qi mapping 降级 pending_review
+- **证据**：Wikidata SPARQL 四查（A1-A4）+ 《史记·夏本纪》+《史记·宋微子世家》
+- **正确 QID**：微子启 = Q855012（label "微子"，description "商朝宗室，宋国始祖"）
+- **判定卡**：`docs/sprint-logs/T-P0-027/historian-ruling-qi-vs-weizi-qi.md`
+
+---
+
 ## 2026-04-22
 
 ### [feat+test+docs] Sprint C Stage 1-4 — T-P0-027 R6 集成主调度
