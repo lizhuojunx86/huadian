@@ -27,10 +27,14 @@
 | T-P0-023 | [Evidence 链 Stage 1（新行必填 + 段落粒度）](T-P0-023-evidence-chain-stage-1.md) | **planned** | 管线 + 后端 | Phase 0 |
 | T-P0-024 | [Evidence 链 Stage 2（存量 text-search 回填）](T-P0-024-evidence-chain-stage-2-backfill.md) | **planned** | 管线 + historian | Phase 0 |
 | T-P1-005 | 统一 migration 入口（Drizzle + pipeline SQL 双轨合一） | **planned** | DevOps + 后端 | Phase 1 |
-| T-P0-027 | Resolver orchestration（R1-R6 全集成主调度） | **planned** | 管线 + 架构师 | Phase 0/1 桥接 |
 | T-P0-028 | Manual triage UI for pending_review mappings | **planned** | 管线 + 历史专家 + 前端 | Phase 0 tail |
+| T-P0-029 | R6 cross-dynasty / temporal guard | **planned** | 管线 + 架构师 | Phase 0 tail |
+| T-P0-030 | Corrective seed-add wei-zi-qi → Q855012 | **planned** | 管线 | Phase 0 tail |
 
 ## 已完成
+| 任务 ID | 标题 | 完成日期 | 主导角色 |
+|---------|------|---------|---------|
+| T-P0-027 | Resolver orchestration — R1-R6 全集成主调度（Sprint C；路径 A：R1 ×1 apply / R6 ×0；V11 上线；13 tests） | 2026-04-24 | 管线 + 架构师 + historian |
 | 任务 ID | 标题 | 完成日期 | 主导角色 |
 |---------|------|---------|---------|
 | T-P0-016 | apply_merges + load.py W1 双路径 is_primary 同步（F5/F11 根治；backfill 18 行；V6 上线；首次 V1-V6 全绿） | 2026-04-19 | 管线 |

@@ -2,15 +2,15 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-22
+- **最近更新**：2026-04-24
 - **更新人**：管线工程师（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅**
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅ + Sprint C Resolver Orchestration ✅**
 
 ---
 
 ## 当前在哪
 
-**Sprint B（T-P0-025 Wikidata Seed Loader）完成。159 active seed mappings + 44 pending_review + R6 规则上线 + V10 三子规则注册。**
+**Sprint C（T-P0-027 Resolver Orchestration）完成。R6 pre-pass 接入 resolver 主调度 + V11 invariant 上线 + 1 例 R6 false positive 由 historian 裁决否决（路径 A）。158 active seed mappings + 45 pending_review。**
 
 Sprint B 全 Stage 完成：
 - **Gate 0a（✅）**：Wikidata probe 54.4% 命中 → ≥40% 桶
@@ -26,6 +26,18 @@ Sprint B 全 Stage 完成：
 ---
 
 ## 已完成
+
+### Sprint C — T-P0-027 Resolver Orchestration（2026-04-22 ~ 2026-04-24）
+- [x] Stage 0：R1-R6 现状 inventory + 架构师 brief（5 裁决 + 5 stop rules）
+- [x] Stage 1：R6 pre-pass infrastructure（R6PrePassResult + batch FK query + PersonSnapshot.r6_result）
+  - Stop Rule #1 触发：r6_seed_match name fallback 偏离先验 → 架构师裁决方案 A（FK 直查）修复
+- [x] Stage 2：R6 merge logic + audit log（_detect_r6_merges same-QID + apply_merges --skip-rule）
+- [x] Stage 3：V11 invariant（anti-ambiguity cardinality）+ 13 tests（10 R6 prepass + 3 V11）
+- [x] Stage 4：Full dry-run → 1 R6 MergeProposal（启 ↔ 微子启 Q186544）→ historian 裁决 false positive
+- [x] Stage 5（路径 A）：R1 merge ×1 apply（鲁桓公↔桓公）/ R6 ×0 apply / wei-zi-qi seed_mapping 降级 pending_review
+- 结果：319 active persons（-1 from R1 merge）/ 158 active seed_mappings（-1 from wei-zi-qi downgrade）/ 45 pending_review / V1-V11 全绿
+- 累计：7 commits / 13 new tests / 1 pg_dump anchor / 0 migrations / $0 LLM
+- 衍生债：T-P0-029（R6 cross-dynasty guard）/ T-P0-030（corrective seed-add wei-zi-qi→Q855012）
 
 ### Sprint A — T-P0-019 α β 尾巴清理 + V8 invariant 引入（2026-04-21）
 - [x] Stage 1（V6 零化）：28 行 alias+is_primary=true → `name_type='primary'`（TYPE-B 降格为合法 primary；T-P1-013 closed）
@@ -364,16 +376,7 @@ Sprint B 全 Stage 完成：
 
 ## 进行中
 
-### Sprint C — T-P0-027 Resolver Orchestration（R1-R6 全集成主调度）
-
-- **主线**：T-P0-027 R1-R6 全集成主调度
-- **进度**：Stage 1-4 ✅ + Stage 5 预案 ✅
-- **阻塞**：historian 对 启 ↔ 微子启 (Q186544) 的判定（→ docs/sprint-logs/T-P0-027/historian-ruling-qi-vs-weizi-qi.md）
-- **已发现 follow-up debt**：T-P0-029（R6 cross-dynasty guard，P1 级）
-- **当前数字**：320 active persons / R6 pre-pass matched=153 / below_cutoff=6 / not_found=161 / R6 MergeProposal=1（待裁决）
-- **V1-V11 全绿**（V11 bootstrap=0）
-- **Pipeline tests**：293 passed + 34 skipped = 327 total（+13 vs Sprint B）
-- **Stop Rule 记录**：Stage 1 触发 1 次（r6_seed_match name fallback → FK 直查修复，方案 A）
+无。（Sprint C 已完成，等用户指定下一张卡）
 
 ---
 
@@ -381,7 +384,8 @@ Sprint B 全 Stage 完成：
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
-| 🔴 高 | T-P0-027 | Resolver orchestration（R1-R6 全集成接入主调度，Phase 1 入口） | 管线 + 架构师 | T-P0-025 ✅ | planned |
+| 🟡 中 | T-P0-029 | R6 cross-dynasty / temporal guard（同 QID 跨朝代自动降级） | 管线 + 架构师 | T-P0-027 ✅ | planned |
+| 🟡 中 | T-P0-030 | Corrective seed-add wei-zi-qi → Q855012 | 管线 | T-P0-027 ✅ | planned |
 | 🟡 中 | T-P0-025b | TIER-4 自建 seed 补丁（继承原 persons.seed.json 40 条 + 扩充 ~60-80 先秦冷门人物；≠ pending_review triage，后者见 T-P0-028） | 管线 + 历史专家 | T-P0-025 | backlog |
 | 🟡 中 | T-P0-028 | Manual triage UI for pending_review（44 条待审 → active/rejected） | 管线 + 历史专家 + 前端 | T-P0-025 ✅ | planned |
 | 🟡 中 | T-P1-022 | V1 下界缺失 — 27 个 active person 缺 is_primary=true name（方案 B 倾向：新增 V9） | 管线 + 架构师 | — | registered |
@@ -447,10 +451,10 @@ Sprint B 全 Stage 完成：
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-025 加载；Sprint B Gate 0a Wikidata 覆盖 54.4%（174/320）；persons.seed.json 40 条 TIER-4 演化为 T-P0-025b
-- 🧪 测试覆盖：430 passed（pipeline 314 + api 61 + web 55）+ 0 skipped；E2E 7 specs
-- 🔗 合并状态：320 active persons / 45 merge-soft-deleted / 5 pure-soft-deleted = 370 total
+- 🧪 测试覆盖：443 passed（pipeline 327 + api 61 + web 55）+ 0 skipped；E2E 7 specs
+- 🔗 合并状态：319 active persons / 46 merge-soft-deleted / 5 pure-soft-deleted = 370 total
 - 📊 Evidence 覆盖：source_evidences 412 + 159 seed = 571 行 / V7 覆盖率 97.49%（person_names 层不变，seed evidence 独立层）
-- 🌐 Seed 覆盖：dictionary_entries 201 / seed_mappings 203（159 active + 44 pending_review）/ 覆盖率 49.7%（159/320）
+- 🌐 Seed 覆盖：dictionary_entries 201 / seed_mappings 203（158 active + 45 pending_review）/ 覆盖率 49.5%（158/319）
 - 🗄️ Pipeline migrations：0001–0011（latest: 0011_seed_unique_index_naming_alignment.sql @ Sprint B Stage 5）
 - 🚦 阻塞项数量：0 ✅
 
@@ -467,8 +471,9 @@ Sprint B 全 Stage 完成：
 | V7 | evidence coverage | active person_names 的 source_evidence_id 覆盖率 | ✅ 97.49% (PASS) | 2026-04-21（Sprint A Stage 2 机械性 +1.12pp） |
 | V8 | prefix-containment | length=1 name + 跨 person 前缀包含（α evidence OR β alias 豁免） | ✅ 0 violations | 2026-04-21（Sprint A Stage 3；ADR-023） |
 | V10 | seed_mapping consistency | V10.a orphan target + V10.b orphan entry + V10.c active evidence | ✅ 0/0/0 | 2026-04-22（Sprint B Stage 4） |
+| V11 | R6 pre-pass cardinality | no active person has >1 active seed_mapping（anti-ambiguity） | ✅ 0 | 2026-04-22（Sprint C Stage 3） |
 
-**V1-V8 + V10 全绿；V7 97.49% PASS；seed coverage 49.7%（159/320 active persons matched）**。
+**V1-V8 + V10-V11 全绿；V7 97.49% PASS；seed coverage 49.5%（158/319 active persons matched）**。
 
 ### 已知未处理违规（debt baseline）
 
@@ -523,6 +528,8 @@ Sprint B 全 Stage 完成：
 - 2026-04-21：T-P0-025 任务卡按 ADR-021 对齐重写（pre-ADR-021 40-JSON 窄范围 → Sprint B 完整规格 6 Stage + Round 3 新增 person_names 全表扫描以覆盖 Type B label mismatch 如 高辛↔帝喾）；原需求演化为 T-P0-025b（TIER-4 self-curated seed patch，backlog）
 - 2026-04-21：Sprint B Stage 0b done（commit 199e8ba）— migration 0009 三表落地（dictionary_sources / dictionary_entries / seed_mappings）；Drizzle J layer seeds.ts + index.ts 导出 + pg_dump anchor pre-t-p0-025-stage-0b-20260421-234943.dump；CHECK 约束（entry_type 5 枚举 / confidence 0-1 / mapping_status 3 枚举）+ 三索引（idx_seed_mappings_target partial + idx_dictionary_entries_primary_name + idx_dictionary_entries_source）全部就位；pipeline 282 + api 61 tests 全绿；V1-V8 无回归；衍生债 T-P1-023（uniqueIndex 命名不一致，P2）
 - 2026-04-22：ID 治理修订 — T-P0-026 撞号澄清（仅研究文档 ID，不复用为 task card）+ T-P0-025b 含义边界明确（≠ retro §4 误用的 manual triage UI）+ 新立 T-P0-027 / T-P0-028 stub；流程改进：未来 research 文档使用独立命名空间（建议 R-NNN）
+- 2026-04-22：Sprint C Stage 1-4 完成（R6 pre-pass + merge detection + V11 invariant + 13 tests）；Stage 1 Stop Rule #1 触发→方案 A 修复；Stage 4 发现 R6 FP（启↔微子启 Q186544）→挂起等 historian
+- 2026-04-24：Sprint C Stage 5 路径 A 收口 — historian ruling 98de7bc 确认 Q186544=夏启，R6 merge rejected；R1 merge ×1 apply（鲁桓公↔桓公 → run_id 2b4a28f0）；wei-zi-qi seed_mapping 降级 pending_review；开 T-P0-029/030；319 active persons / 158 active seeds / V1-V11 全绿
 
 ---
 
