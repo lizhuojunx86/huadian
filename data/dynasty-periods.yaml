@@ -1,0 +1,87 @@
+# Dynasty / period → approximate year ranges for temporal guard evaluation.
+#
+# Used by: services/pipeline/src/huadian_pipeline/r6_temporal_guards.py
+# Task: T-P0-029 (R6 cross-dynasty guard)
+#
+# Convention:
+#   - Years are signed integers: negative = BCE, positive = CE
+#   - midpoint = floor((start_year + end_year) / 2)
+#   - aliases: alternative dynasty labels that map to the same period
+#
+# Maintenance:
+#   - Add entries when new dynasty values appear in persons.dynasty
+#   - Historian should review year ranges for accuracy
+#   - Changes should be noted in CHANGELOG.md
+
+periods:
+  - name: "上古"
+    start_year: -3000
+    end_year: -2070
+    midpoint: -2535
+    aliases: ["远古", "太古"]
+
+  - name: "夏"
+    start_year: -2070
+    end_year: -1600
+    midpoint: -1835
+    aliases: ["夏朝"]
+
+  - name: "商"
+    start_year: -1600
+    end_year: -1046
+    midpoint: -1323
+    aliases: ["商朝", "殷", "殷商"]
+
+  - name: "商末周初"
+    start_year: -1100
+    end_year: -1000
+    midpoint: -1050
+    aliases: []
+
+  - name: "先周"
+    start_year: -1200
+    end_year: -1046
+    midpoint: -1123
+    aliases: []
+
+  - name: "西周"
+    start_year: -1046
+    end_year: -771
+    midpoint: -909
+    aliases: []
+
+  - name: "周"
+    start_year: -1046
+    end_year: -256
+    midpoint: -651
+    aliases: ["周朝"]
+
+  - name: "春秋"
+    start_year: -770
+    end_year: -476
+    midpoint: -623
+    aliases: ["春秋时期"]
+
+  - name: "东周"
+    start_year: -770
+    end_year: -256
+    midpoint: -513
+    aliases: []
+
+  - name: "战国"
+    start_year: -475
+    end_year: -221
+    midpoint: -348
+    aliases: ["战国时期"]
+
+  - name: "秦"
+    start_year: -221
+    end_year: -207
+    midpoint: -214
+    aliases: ["秦朝"]
+
+  - name: "西汉"
+    start_year: -202
+    end_year: 9
+    midpoint: -97
+    aliases: ["前汉"]

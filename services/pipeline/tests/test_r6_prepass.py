@@ -74,8 +74,9 @@ class TestDetectR6Merges:
                 status=R6Status.MATCHED, qid="Q100", entry_id="e2", confidence=1.0
             ),
         )
-        proposals = _detect_r6_merges([a, b])
+        proposals, blocked = _detect_r6_merges([a, b])
         assert len(proposals) == 1
+        assert len(blocked) == 0
         assert proposals[0].match.rule == "R6"
         assert proposals[0].match.confidence == 1.0
         assert proposals[0].match.evidence["external_id"] == "Q100"
@@ -97,7 +98,7 @@ class TestDetectR6Merges:
                 status=R6Status.MATCHED, qid="Q200", entry_id="e2", confidence=1.0
             ),
         )
-        proposals = _detect_r6_merges([a, b])
+        proposals, _blocked = _detect_r6_merges([a, b])
         assert len(proposals) == 0
 
     def test_below_cutoff_same_qid_no_proposal(self) -> None:
@@ -116,7 +117,7 @@ class TestDetectR6Merges:
                 status=R6Status.BELOW_CUTOFF, qid="Q100", entry_id="e2", confidence=0.70
             ),
         )
-        proposals = _detect_r6_merges([a, b])
+        proposals, _blocked = _detect_r6_merges([a, b])
         assert len(proposals) == 0
 
     def test_not_found_no_proposal(self) -> None:
@@ -129,14 +130,14 @@ class TestDetectR6Merges:
             id="bbbb",
             r6_result=R6PrePassResult(status=R6Status.NOT_FOUND),
         )
-        proposals = _detect_r6_merges([a, b])
+        proposals, _blocked = _detect_r6_merges([a, b])
         assert len(proposals) == 0
 
     def test_none_r6_result_no_proposal(self) -> None:
         """Persons with r6_result=None -> 0 proposals."""
         a = _make_snapshot(id="aaaa")
         b = _make_snapshot(id="bbbb")
-        proposals = _detect_r6_merges([a, b])
+        proposals, _blocked = _detect_r6_merges([a, b])
         assert len(proposals) == 0
 
     def test_three_way_same_qid_produces_three_proposals(self) -> None:
@@ -147,9 +148,10 @@ class TestDetectR6Merges:
         a = _make_snapshot(id="aaaa", name="甲", r6_result=matched)
         b = _make_snapshot(id="bbbb", name="乙", r6_result=matched)
         c = _make_snapshot(id="cccc", name="丙", r6_result=matched)
-        proposals = _detect_r6_merges([a, b, c])
+        proposals, blocked = _detect_r6_merges([a, b, c])
         # C(3,2) = 3 pairwise proposals
         assert len(proposals) == 3
+        assert len(blocked) == 0
         assert all(p.match.rule == "R6" for p in proposals)
 
     def test_mixed_matched_and_not_found_same_qid(self) -> None:
@@ -164,5 +166,5 @@ class TestDetectR6Merges:
             id="bbbb",
             r6_result=R6PrePassResult(status=R6Status.NOT_FOUND),
         )
-        proposals = _detect_r6_merges([a, b])
+        proposals, _blocked = _detect_r6_merges([a, b])
         assert len(proposals) == 0
