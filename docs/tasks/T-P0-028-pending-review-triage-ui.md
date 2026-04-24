@@ -39,3 +39,29 @@ Sprint B 收口时 44 条 seed_mappings 处于 pending_review 状态，分布在
 - resolver 主调度集成（→ T-P0-027 ✅）
 - seed schema 扩展
 - corrective seed-add（→ T-P0-030）
+
+## 6. 数据源约定（T-P0-029 确立，2026-04-24）
+
+Triage UI 应同时读两个通道（UI 层合并展示，数据层分离存储）：
+
+### 通道 A：seed_mappings.mapping_status = 'pending_review'
+
+- **含义**：单条 name→QID 映射本身可疑（mapping-level）
+- **来源**：Sprint B matcher multi-hit / Sprint C 手动降级
+- **当前行数**：45
+- **Schema 引用**：`services/pipeline/migrations/0009_dictionary_seed_schema.sql` / `packages/db-schema/src/schema/seeds.ts`
+- **操作**：triage → UPDATE mapping_status = 'active'|'rejected' + INSERT source_evidence（V10.c 约束）
+
+### 通道 B：pending_merge_reviews.status = 'pending'
+
+- **含义**：一对 person 的 merge 提议被 temporal guard 自动拦截（pair-level）
+- **来源**：T-P0-029 r6_temporal_guards.py 自动写入
+- **当前行数**：0（bootstrap；guard 为预防性基础设施）
+- **Schema 引用**：`services/pipeline/migrations/0012_add_pending_merge_reviews.sql` / `packages/db-schema/src/schema/pendingMergeReviews.ts`
+- **操作**：triage → UPDATE status = 'accepted'|'rejected'|'deferred' + resolved_at/resolved_by/resolved_notes
+
+### 设计约束
+
+- 两个通道**概念不同**（mapping-level vs pair-level），不合并存储
+- UI 可以合并展示为统一的"待审"列表，但底层 SQL 分别查两张表
+- 子类型标记：通道 A 靠 `mapping_method` 区分；通道 B 靠 `guard_type` 区分

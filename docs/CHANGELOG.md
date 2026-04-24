@@ -7,6 +7,42 @@
 
 ## 2026-04-24
 
+### [feat+test+docs] Sprint D — T-P0-029 R6 Cross-Dynasty Guard
+
+- **角色**：管线工程师（实施）+ 首席架构师（brief / 选型签字 / 裁决）
+- **性质**：R6 merge 检测新增跨朝代 temporal guard 防线（预防性基础设施）
+- **关联**：T-P0-027（上游）/ T-P0-028（下游 triage UI）/ T-P0-030（corrective seed-add）
+
+#### Stage 0 — Inventory + Design
+- 6 项数据审计：persons.dynasty 100% 唯一可用源 / events 空 / dictionary_entries dateOfBirth 0% / R6 merge baseline = 0
+- 方案选定：α（persons.dynasty midpoint distance > 500yr），brief δ 倾向被 Stage 0 数据 override
+- Stop Rule #5 触发 → 架构师签字 α 通过（KISS 原则胜出）
+
+#### Stage 1 — Guard 实现
+- migration 0012: `pending_merge_reviews` 新表（guard-blocked merge 队列；T-P0-028 triage UI 唯一数据源）
+- Drizzle K layer: `pendingMergeReviews.ts` + index.ts 导出
+- `data/dynasty-periods.yaml`: 12 朝代→年代范围映射（historian 可增补）
+- `r6_temporal_guards.py`: `evaluate_guards()` chain + `cross_dynasty_guard()` 实现
+- `resolve.py`: `_detect_r6_merges()` → `(proposals, blocked)` tuple；`apply_merges()` 写 `pending_merge_reviews`
+- `resolve_types.py`: +`BlockedMerge` dataclass + `ResolveResult.blocked_merges`
+- 22 new tests: dynasty loading(6) + cross_dynasty_guard(8) + evaluate_guards(2) + detect 集成(4) + GuardResult(2)
+
+#### Stage 2/3 — Apply + 收口
+- apply pass: no-op（319 active persons 不变 / 0 pending_merge_reviews）
+- Stop Rule #2 触发（0 live 拦截）→ 接受为 "clean baseline change"（Sprint C 已修复唯一跨代案例）
+
+#### Numbers
+- Commits: 4（9c72e54 / 8f874f9 / C8 / C9）
+- Pipeline tests: 327 → 349（+22 guard tests）
+- New table: `pending_merge_reviews`（34th table）
+- New YAML: `data/dynasty-periods.yaml`（12 entries）
+- LLM cost: $0
+- Active persons: 319（unchanged）
+- Pending merge reviews: 0（bootstrap）
+- V1-V11: V11 ✅ / V1 30 violations（存量 T-P1-022，非本卡）
+
+---
+
 ### [feat+data+docs] Sprint C 收口 — T-P0-027 Stage 5 路径 A
 
 - **角色**：管线工程师（执行）+ 首席架构师（Gate ACK）+ historian（裁决 ruling 98de7bc）
