@@ -6,8 +6,8 @@
     "draftedAt": "2026-04-16",
     "status": "draft_pending_review",
     "schemaTable": "disambiguation_seeds",
-    "surfaceGroupCount": 10,
-    "rowCount": 26,
+    "surfaceGroupCount": 19,
+    "rowCount": 42,
     "defaultSources": [
       "《史记》", "《汉书》", "《后汉书》", "《资治通鉴》",
       "钱穆《史记地名考》", "王伯祥《史记选》",
@@ -250,6 +250,177 @@
       "priority": 70,
       "_notes": "韩成 (?–BC 206)，项羽分封十八诸侯之一的韩王，因张良事，项羽留之不遣，后杀之于彭城。楚汉早期文献『韩王』常指此人。",
       "_sources": ["《史记·项羽本纪》", "《史记·留侯世家》"]
+    },
+
+    {
+      "name": "穆公",
+      "personSlug": "qin-mu-gong",
+      "dynastyHint": "春秋",
+      "contextHint": "秦缪公、任好、百里奚、蹇叔、由余、西霸戎夷、殽之战、晋文公、三良从死",
+      "priority": 100,
+      "_notes": "秦穆公（?–BC 621），秦本纪中写作『缪公』（缪=穆通假）。春秋五霸之一。",
+      "_sources": ["《史记·秦本纪》"]
+    },
+    {
+      "name": "穆公",
+      "personSlug": null,
+      "dynastyHint": "春秋",
+      "contextHint": "鲁穆公、鲁国、曲阜",
+      "priority": 50,
+      "_notes": "鲁穆公 (?–BC 377)。多国有穆公，鲁/郑/宋等。秦本纪语境下『穆公/缪公』默认指秦穆公。",
+      "_sources": ["《史记·鲁周公世家》"]
+    },
+
+    {
+      "name": "孝公",
+      "personSlug": "qin-xiao-gong",
+      "dynastyHint": "战国",
+      "contextHint": "秦孝公、商鞅变法、栎阳、求贤令、河山以东强国六",
+      "priority": 100,
+      "_notes": "秦孝公（BC 381–BC 338），任用商鞅变法。秦本纪语境下『孝公』默认指秦孝公。",
+      "_sources": ["《史记·秦本纪》", "《史记·商君列传》"]
+    },
+    {
+      "name": "孝公",
+      "personSlug": null,
+      "dynastyHint": "春秋",
+      "contextHint": "齐孝公、齐国、齐桓公子",
+      "priority": 40,
+      "_notes": "齐孝公 (?–BC 633)，齐桓公之子。多国有孝公。",
+      "_sources": ["《史记·齐太公世家》"]
+    },
+
+    {
+      "name": "惠王",
+      "personSlug": "qin-hui-wen-wang",
+      "dynastyHint": "战国",
+      "contextHint": "秦惠文王、惠文君、张仪、车裂商鞅、连横、巴蜀",
+      "priority": 100,
+      "_notes": "秦惠文王（BC 356–BC 311），秦本纪语境下『惠王/惠文君』默认指秦惠文王。",
+      "_sources": ["《史记·秦本纪》"]
+    },
+    {
+      "name": "惠王",
+      "personSlug": null,
+      "dynastyHint": "战国",
+      "contextHint": "魏惠王、魏国、梁惠王、大梁、孟子",
+      "priority": 70,
+      "_notes": "魏惠王（BC 400–BC 319），即梁惠王。秦本纪中常与秦惠文王同现，以『魏惠王』区分。",
+      "_sources": ["《史记·魏世家》"]
+    },
+
+    {
+      "name": "昭王",
+      "personSlug": "qin-zhao-xiang-wang",
+      "dynastyHint": "战国",
+      "contextHint": "秦昭襄王、昭王、宣太后、穰侯魏冉、范雎、白起、长平之战、远交近攻",
+      "priority": 100,
+      "_notes": "秦昭襄王（BC 325–BC 251），秦本纪后半最重要君主。『昭王』默认指秦昭襄王。",
+      "_sources": ["《史记·秦本纪》"]
+    },
+    {
+      "name": "昭王",
+      "personSlug": null,
+      "dynastyHint": "战国",
+      "contextHint": "楚昭王、楚国、吴伍子胥伐楚、郢都失守、申包胥",
+      "priority": 50,
+      "_notes": "楚昭王（?–BC 489）。秦本纪中不常见，但跨章节可能出现。",
+      "_sources": ["《史记·楚世家》"]
+    },
+
+    {
+      "name": "献公",
+      "personSlug": null,
+      "dynastyHint": "战国",
+      "contextHint": "秦献公、河西之战、栎阳、止从死、石门之战",
+      "priority": 100,
+      "_notes": "秦献公（?–BC 362），秦孝公之父。秦本纪语境下『献公』默认指秦献公。",
+      "_sources": ["《史记·秦本纪》"]
+    },
+    {
+      "name": "献公",
+      "personSlug": null,
+      "dynastyHint": "春秋",
+      "contextHint": "晋献公、晋国、骊姬之乱、太子申生、重耳、夷吾、虞虢",
+      "priority": 80,
+      "_notes": "晋献公（?–BC 651），秦本纪中高频出现（秦缪公与晋献公同时代）。",
+      "_sources": ["《史记·晋世家》"]
+    },
+
+    {
+      "name": "庄公",
+      "personSlug": "qin-zhuang-gong",
+      "dynastyHint": "西周末/春秋初",
+      "contextHint": "秦庄公、西犬丘、世父、击西戎有功",
+      "priority": 100,
+      "_notes": "秦庄公（?–BC 778），秦本纪早期君主。多国有庄公。",
+      "_sources": ["《史记·秦本纪》"]
+    },
+    {
+      "name": "庄公",
+      "personSlug": null,
+      "dynastyHint": "春秋",
+      "contextHint": "郑庄公、郑国、克段于鄢、周桓王",
+      "priority": 70,
+      "_notes": "郑庄公（BC 757–BC 701），春秋小霸。已在 persons 表中。",
+      "_sources": ["《左传》"]
+    },
+
+    {
+      "name": "武公",
+      "personSlug": null,
+      "dynastyHint": "春秋",
+      "contextHint": "秦武公、伐彭戲氏、灭小虢、初县杜郑",
+      "priority": 100,
+      "_notes": "秦武公（?–BC 678），秦本纪中重要君主。多国有武公。",
+      "_sources": ["《史记·秦本纪》"]
+    },
+    {
+      "name": "武公",
+      "personSlug": null,
+      "dynastyHint": "西周",
+      "contextHint": "晋武公、晋国、曲沃代翼、灭晋侯缗",
+      "priority": 60,
+      "_notes": "晋武公（?–BC 677），曲沃代翼完成统一。秦本纪提及。",
+      "_sources": ["《史记·晋世家》"]
+    },
+
+    {
+      "name": "文公",
+      "personSlug": null,
+      "dynastyHint": "春秋",
+      "contextHint": "秦文公、西垂宫、东猎、收周馀民",
+      "priority": 100,
+      "_notes": "秦文公（?–BC 716），秦本纪早期君主。秦本纪语境下『文公』默认指秦文公。",
+      "_sources": ["《史记·秦本纪》"]
+    },
+    {
+      "name": "文公",
+      "personSlug": "jin-wen-gong",
+      "dynastyHint": "春秋",
+      "contextHint": "晋文公、重耳、城濮之战、践土之盟、秦缪公、春秋五霸",
+      "priority": 90,
+      "_notes": "晋文公（BC 697–BC 628），春秋五霸之一。秦本纪中高频出现（与秦缪公同代）。",
+      "_sources": ["《史记·晋世家》"]
+    },
+
+    {
+      "name": "惠公",
+      "personSlug": null,
+      "dynastyHint": "春秋",
+      "contextHint": "晋惠公、夷吾、秦送入、背秦约、韩原之战、河西城",
+      "priority": 100,
+      "_notes": "晋惠公（?–BC 637），夷吾，被秦缪公送回晋国即位后背约。秦本纪高频。",
+      "_sources": ["《史记·秦本纪》", "《史记·晋世家》"]
+    },
+    {
+      "name": "惠公",
+      "personSlug": null,
+      "dynastyHint": "战国",
+      "contextHint": "秦惠公、秦国、伐蜀取南郑",
+      "priority": 50,
+      "_notes": "秦惠公（?–BC 387），战国早期秦国君主。与晋惠公不同人。",
+      "_sources": ["《史记·秦本纪》"]
     }
 
   ]
