@@ -7,6 +7,37 @@
 
 ## 2026-04-24
 
+### [feat+data+docs] Sprint C 收口 — T-P0-027 Stage 5 路径 A
+
+- **角色**：管线工程师（执行）+ 首席架构师（Gate ACK）+ historian（裁决 ruling 98de7bc）
+- **性质**：resolver orchestration R6 集成完成；R1 merge apply + R6 false positive reject
+- **关联**：ADR-010 §R6 / ADR-021 / historian ruling 98de7bc
+
+#### Applied
+- R1 merge ×1：鲁桓公(u9c81-u6853-u516c) ↔ 桓公(u6853-u516c) → 鲁桓公（run_id 2b4a28f0）
+- R6 merge ×0：启 ↔ 微子启 (Q186544) skipped via `--skip-rule R6`（historian 判定 false positive）
+
+#### Changed
+- seed_mappings: wei-zi-qi → Q186544 从 active 降级为 pending_review（historian-rejected-cross-dynasty-conflation）
+- Active persons: 320 → 319（-1 from R1 merge）
+- Active seed_mappings: 159 → 158（-1 from wei-zi-qi downgrade）
+- Pending_review: 44 → 45（+1）
+
+#### Added
+- docs/tasks/T-P0-030-corrective-seed-add-weizi-qi.md（corrective seed-add wei-zi-qi → Q855012，Sprint D 候选）
+- docs/sprint-logs/T-P0-027/sprint-c-retro.md（Sprint C 复盘纪要）
+
+#### Sprint C 总账
+- Commits: 9（ca37039..本 commit）
+- Tests: 314 → 327（+13）
+- Invariants: V1-V11 全绿（V11 新增 @ Sprint C Stage 3）
+- LLM cost: $0
+- Stop Rules: 1 triggered / 1 resolved（Stage 1 Plan A）
+- Debt opened: T-P0-029（R6 cross-dynasty guard）/ T-P0-030（corrective seed-add）
+- Debt closed: T-P0-027
+
+---
+
 ### [docs] Historian 判定 — 启 vs 微子启 Q186544（T-P0-027 Stage 5 unblock）
 
 - **角色**：古籍专家（裁决）
