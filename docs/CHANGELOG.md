@@ -7,6 +7,34 @@
 
 ## 2026-04-24
 
+### [feat+data] Sprint E Track A — T-P0-030 Corrective Seed-Add wei-zi-qi → Q855012
+
+- **角色**：管线工程师（执行）
+- **性质**：修正性 seed mapping（historian ruling 驱动）
+- **关联**：T-P0-027 Stage 5（上游降级）/ historian ruling 98de7bc / ADR-021
+
+#### Pre-flight
+- A0: Wikidata SPARQL 实时复核 Q855012（label=微子, description=商朝宗室宋国始祖, P31=Q5）— 与 historian ruling 2 天前记录一致
+- A1-A3: 4 闸门（pg_dump `pre-t-p0-030-seed-add-20260424.dump` / schema \d+ / pseudo-book 确认）
+- A4: 基线 SELECT（Q855012 不在 dictionary_entries / active seeds=158 / wei-zi-qi 已有 Q186544 pending_review mapping）
+
+#### Applied（三步同事务）
+- dictionary_entry: Q855012 (entry_type=person, primary_name=微子, aliases=[微子启/微子開/Weizi], attributes.correction_source=historian_ruling_98de7bc)
+- seed_mapping: wei-zi-qi → Q855012, confidence=1.00, mapping_method='historian_correction', status='active'
+- source_evidence: provenance_tier='seed_dictionary', quoted_text='wikidata:Q855012→wei-zi-qi', text_version='20260422'
+
+#### Numbers
+- Active seed_mappings: 158 → 159 (+1)
+- dictionary_entries: 201 → 202 (+1)
+- Pending_review: 45 (unchanged; Q186544 mapping stays pending_review for T-P0-028)
+- V10: 0/0/0 ✅ | V11: 0 ✅
+- Active persons: 319 (unchanged)
+- Commits: 1
+- LLM cost: $0
+- New mapping_method value: 'historian_correction' (audit-distinguishable from wikidata_match/r1_exact/r2_alias)
+
+---
+
 ### [feat+test+docs] Sprint D — T-P0-029 R6 Cross-Dynasty Guard
 
 - **角色**：管线工程师（实施）+ 首席架构师（brief / 选型签字 / 裁决）

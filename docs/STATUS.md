@@ -4,13 +4,15 @@
 
 - **最近更新**：2026-04-24
 - **更新人**：管线工程师（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅ + Sprint C Resolver Orchestration ✅ + Sprint D R6 Cross-Dynasty Guard ✅**
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅ + Sprint C Resolver Orchestration ✅ + Sprint D R6 Cross-Dynasty Guard ✅ + Sprint E T-P0-030 wei-zi-qi corrective seed ✅**
 
 ---
 
 ## 当前在哪
 
-**Sprint D（T-P0-029 R6 Cross-Dynasty Guard）完成。R6 merge 检测新增跨朝代 temporal guard（方案 α / persons.dynasty / midpoint gap > 500 年 → pending_merge_reviews）。新表 pending_merge_reviews 落地（T-P0-028 triage UI 唯一数据源）。Guard 22 unit tests 全绿。Active persons 319 不变。**
+**Sprint E Track A（T-P0-030 corrective seed-add wei-zi-qi → Q855012）完成。Historian ruling 98de7bc 确认微子启正确 QID=Q855012（非 Q186544 夏启）。新建 dictionary_entry(Q855012) + seed_mapping(active, historian_correction, confidence=1.0) + source_evidence(seed_dictionary)。Active seed_mappings 158→159。V10+V11 全绿。Sprint E Track B（Phase 1 inventory）进行中。**
+
+Sprint D（T-P0-029）完成：R6 merge 检测新增跨朝代 temporal guard。
 
 Sprint B 全 Stage 完成：
 - **Gate 0a（✅）**：Wikidata probe 54.4% 命中 → ≥40% 桶
@@ -21,11 +23,21 @@ Sprint B 全 Stage 完成：
 - **Stage 4（✅）**：V10 invariant 三子规则（orphan target / orphan entry / active evidence）+ 6 self-tests
 - **Stage 5（✅）**：migration 0011 unique index 对齐 + ADR-021 final + Sprint 收口
 
-**下一步候选**：T-P0-025b（pending_review triage）/ T-P1-021（管叔/蔡叔归并）/ T-P1-022（V1 下界）
+**下一步候选**：Sprint E Track B（Phase 1 真书推进，待 inventory + 架构师签字）/ T-P0-025b（TIER-4 自建 seed）/ T-P0-028（pending_review triage UI）
 
 ---
 
 ## 已完成
+
+### Sprint E Track A — T-P0-030 Corrective Seed-Add wei-zi-qi → Q855012（2026-04-24）
+- [x] A0：Wikidata SPARQL 实时复核 Q855012（label=微子, description=商朝宗室宋国始祖, P31=Q5 — 与 historian ruling 98de7bc 一致）
+- [x] A1-A3：4 闸门（pg_dump + schema + artifact）
+- [x] A4：基线 SELECT（Q855012 不在 dictionary_entries / active seeds=158 / wei-zi-qi 已有 Q186544 pending_review）
+- [x] A5-A6：dry-run RETURNING + 用户 ACK
+- [x] A7：COMMIT（dictionary_entry + seed_mapping + source_evidence 三步同事务）
+- [x] A8：V10(0/0/0) + V11(0) 全绿；active seed_mappings 158→159
+- 结果：wei-zi-qi → Q855012 active / Q186544 保持 pending_review / 319 active persons 不变
+- 累计：1 commit / 0 migrations / 0 new tests / $0 LLM / mapping_method='historian_correction'（新枚举值）
 
 ### Sprint D — T-P0-029 R6 Cross-Dynasty Guard（2026-04-24）
 - [x] Stage 0：Phase 0 数据 inventory（persons.dynasty 100% / events 空 / dictionary_entries dateOfBirth 空 → 方案 α 选定）
@@ -385,7 +397,7 @@ Sprint B 全 Stage 完成：
 
 ## 进行中
 
-无。（Sprint D 已完成，等用户指定下一张卡）
+Sprint E Track B — Phase 1 真书推进 inventory（等架构师签字后执行）
 
 ---
 
@@ -393,7 +405,7 @@ Sprint B 全 Stage 完成：
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
-| 🟡 中 | T-P0-030 | Corrective seed-add wei-zi-qi → Q855012 | 管线 | T-P0-027 ✅ | planned |
+| ~~🟡 中~~ | ~~T-P0-030~~ | ~~Corrective seed-add wei-zi-qi → Q855012~~ | ~~管线~~ | ~~T-P0-027 ✅~~ | **done** |
 | 🟡 中 | T-P0-025b | TIER-4 自建 seed 补丁（继承原 persons.seed.json 40 条 + 扩充 ~60-80 先秦冷门人物；≠ pending_review triage，后者见 T-P0-028） | 管线 + 历史专家 | T-P0-025 | backlog |
 | 🟡 中 | T-P0-028 | Manual triage UI for pending_review（44 条待审 → active/rejected） | 管线 + 历史专家 + 前端 | T-P0-025 ✅ | planned |
 | 🟡 中 | T-P1-022 | V1 下界缺失 — 27 个 active person 缺 is_primary=true name（方案 B 倾向：新增 V9） | 管线 + 架构师 | — | registered |
@@ -461,8 +473,8 @@ Sprint B 全 Stage 完成：
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-025 加载；Sprint B Gate 0a Wikidata 覆盖 54.4%（174/320）；persons.seed.json 40 条 TIER-4 演化为 T-P0-025b
 - 🧪 测试覆盖：471 passed（pipeline 349 + api 61 + web 55）+ 34 skipped（DB-dependent invariant）；E2E 7 specs
 - 🔗 合并状态：319 active persons / 46 merge-soft-deleted / 5 pure-soft-deleted = 370 total
-- 📊 Evidence 覆盖：source_evidences 412 + 159 seed = 571 行 / V7 覆盖率 97.49%（person_names 层不变，seed evidence 独立层）
-- 🌐 Seed 覆盖：dictionary_entries 201 / seed_mappings 203（158 active + 45 pending_review）/ 覆盖率 49.5%（158/319）
+- 📊 Evidence 覆盖：source_evidences 412 + 160 seed = 572 行 / V7 覆盖率 97.49%（person_names 层不变，seed evidence 独立层）
+- 🌐 Seed 覆盖：dictionary_entries 202 / seed_mappings 204（159 active + 45 pending_review）/ 覆盖率 49.8%（159/319）
 - 🗄️ Pipeline migrations：0001–0012（latest: 0012_add_pending_merge_reviews.sql @ Sprint D Stage 1）
 - 🚦 阻塞项数量：0 ✅
 
@@ -481,7 +493,7 @@ Sprint B 全 Stage 完成：
 | V10 | seed_mapping consistency | V10.a orphan target + V10.b orphan entry + V10.c active evidence | ✅ 0/0/0 | 2026-04-22（Sprint B Stage 4） |
 | V11 | R6 pre-pass cardinality | no active person has >1 active seed_mapping（anti-ambiguity） | ✅ 0 | 2026-04-22（Sprint C Stage 3） |
 
-**V1-V8 + V10-V11 全绿；V7 97.49% PASS；seed coverage 49.5%（158/319 active persons matched）**。
+**V1-V8 + V10-V11 全绿；V7 97.49% PASS；seed coverage 49.8%（159/319 active persons matched）**。
 
 ### 已知未处理违规（debt baseline）
 
@@ -539,6 +551,7 @@ Sprint B 全 Stage 完成：
 - 2026-04-22：Sprint C Stage 1-4 完成（R6 pre-pass + merge detection + V11 invariant + 13 tests）；Stage 1 Stop Rule #1 触发→方案 A 修复；Stage 4 发现 R6 FP（启↔微子启 Q186544）→挂起等 historian
 - 2026-04-24：Sprint C Stage 5 路径 A 收口 — historian ruling 98de7bc 确认 Q186544=夏启，R6 merge rejected；R1 merge ×1 apply（鲁桓公↔桓公 → run_id 2b4a28f0）；wei-zi-qi seed_mapping 降级 pending_review；开 T-P0-029/030；319 active persons / 158 active seeds / V1-V11 全绿
 - 2026-04-24：Sprint D 完成（T-P0-029 R6 Cross-Dynasty Guard）— 方案 α（persons.dynasty midpoint > 500yr）；migration 0012 pending_merge_reviews；r6_temporal_guards.py evaluate_guards() chain；dynasty-periods.yaml 12 条；22 new tests；4 commits；Stop Rule #2 接受为 baseline change；V11 全绿；active persons 319 不变
+- 2026-04-24：Sprint E Track A 完成（T-P0-030 corrective seed-add）— wei-zi-qi → Q855012（historian_correction）；dictionary_entry + seed_mapping(active) + source_evidence(seed_dictionary) 三步同事务；active seeds 158→159；V10+V11 全绿；1 commit；$0 LLM
 
 ---
 
