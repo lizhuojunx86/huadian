@@ -27,7 +27,15 @@ Sprint B 收口时 44 条 seed_mappings 处于 pending_review 状态，分布在
 - 后端：mapping_status 状态机迁移 + active 时补 source_evidence
 - 不变量保护：V10.c（active 必须有 evidence）
 
-## 4. 不在本卡范围
+## 4. pending_review 子类型（Sprint C 发现）
 
-- resolver 主调度集成（→ T-P0-027）
+| 子类型 # | 描述 | 首例来源 | UI 需求 |
+|----------|------|---------|---------|
+| #1 | Wikidata 跨实体编辑混淆（同 QID 指向不同朝代人物） | T-P0-027 Stage 5：启↔微子启 Q186544 | 需支持"标记为上游数据错" + 关联正确 QID |
+| #2 | R1/R2/R3 multi-hit（Sprint B 原有 44 条） | T-P0-025 Sprint B | 候选列表 + 一键选择 |
+
+## 5. 不在本卡范围
+
+- resolver 主调度集成（→ T-P0-027 ✅）
 - seed schema 扩展
+- corrective seed-add（→ T-P0-030）
