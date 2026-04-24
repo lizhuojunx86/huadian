@@ -4,13 +4,13 @@
 
 - **最近更新**：2026-04-24
 - **更新人**：管线工程师（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅ + Sprint C Resolver Orchestration ✅**
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅ + Sprint C Resolver Orchestration ✅ + Sprint D R6 Cross-Dynasty Guard ✅**
 
 ---
 
 ## 当前在哪
 
-**Sprint C（T-P0-027 Resolver Orchestration）完成。R6 pre-pass 接入 resolver 主调度 + V11 invariant 上线 + 1 例 R6 false positive 由 historian 裁决否决（路径 A）。158 active seed mappings + 45 pending_review。**
+**Sprint D（T-P0-029 R6 Cross-Dynasty Guard）完成。R6 merge 检测新增跨朝代 temporal guard（方案 α / persons.dynasty / midpoint gap > 500 年 → pending_merge_reviews）。新表 pending_merge_reviews 落地（T-P0-028 triage UI 唯一数据源）。Guard 22 unit tests 全绿。Active persons 319 不变。**
 
 Sprint B 全 Stage 完成：
 - **Gate 0a（✅）**：Wikidata probe 54.4% 命中 → ≥40% 桶
@@ -26,6 +26,15 @@ Sprint B 全 Stage 完成：
 ---
 
 ## 已完成
+
+### Sprint D — T-P0-029 R6 Cross-Dynasty Guard（2026-04-24）
+- [x] Stage 0：Phase 0 数据 inventory（persons.dynasty 100% / events 空 / dictionary_entries dateOfBirth 空 → 方案 α 选定）
+- [x] Stage 1：migration 0012 pending_merge_reviews + dynasty-periods.yaml 12 条 + r6_temporal_guards.py + resolve.py 改造 + 22 unit tests
+- [x] Stage 2/3：apply pass（no-op）+ 收档
+- 结果：319 active persons（不变）/ 0 pending_merge_reviews（bootstrap）/ V11 全绿
+- 架构选型：方案 α（persons.dynasty 单源 midpoint distance）> brief δ 倾向被 Stage 0 数据 override
+- Stop Rules：#2 触发（0 live 拦截），接受为"clean baseline change"（Sprint C 已修复唯一案例）
+- 累计：4 commits / 22 new tests / 1 migration / 1 new table / 1 new YAML / $0 LLM
 
 ### Sprint C — T-P0-027 Resolver Orchestration（2026-04-22 ~ 2026-04-24）
 - [x] Stage 0：R1-R6 现状 inventory + 架构师 brief（5 裁决 + 5 stop rules）
@@ -376,7 +385,7 @@ Sprint B 全 Stage 完成：
 
 ## 进行中
 
-无。（Sprint C 已完成，等用户指定下一张卡）
+无。（Sprint D 已完成，等用户指定下一张卡）
 
 ---
 
@@ -384,7 +393,6 @@ Sprint B 全 Stage 完成：
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
-| 🟡 中 | T-P0-029 | R6 cross-dynasty / temporal guard（同 QID 跨朝代自动降级） | 管线 + 架构师 | T-P0-027 ✅ | planned |
 | 🟡 中 | T-P0-030 | Corrective seed-add wei-zi-qi → Q855012 | 管线 | T-P0-027 ✅ | planned |
 | 🟡 中 | T-P0-025b | TIER-4 自建 seed 补丁（继承原 persons.seed.json 40 条 + 扩充 ~60-80 先秦冷门人物；≠ pending_review triage，后者见 T-P0-028） | 管线 + 历史专家 | T-P0-025 | backlog |
 | 🟡 中 | T-P0-028 | Manual triage UI for pending_review（44 条待审 → active/rejected） | 管线 + 历史专家 + 前端 | T-P0-025 ✅ | planned |
@@ -449,13 +457,13 @@ Sprint B 全 Stage 完成：
 - 📋 任务卡数量：T-P0-001~T-P0-016 + T-P0-019~T-P0-026 + T-P1-007~T-P1-023 done/in_progress/planned/registered/backlog（35+）
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
-- 🐳 Docker：PG + Redis 健康；33 张表 migrate 成功；SigNoz deferred；端口约定 5433/6380
+- 🐳 Docker：PG + Redis 健康；34 张表 migrate 成功（+pending_merge_reviews）；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-025 加载；Sprint B Gate 0a Wikidata 覆盖 54.4%（174/320）；persons.seed.json 40 条 TIER-4 演化为 T-P0-025b
-- 🧪 测试覆盖：443 passed（pipeline 327 + api 61 + web 55）+ 0 skipped；E2E 7 specs
+- 🧪 测试覆盖：471 passed（pipeline 349 + api 61 + web 55）+ 34 skipped（DB-dependent invariant）；E2E 7 specs
 - 🔗 合并状态：319 active persons / 46 merge-soft-deleted / 5 pure-soft-deleted = 370 total
 - 📊 Evidence 覆盖：source_evidences 412 + 159 seed = 571 行 / V7 覆盖率 97.49%（person_names 层不变，seed evidence 独立层）
 - 🌐 Seed 覆盖：dictionary_entries 201 / seed_mappings 203（158 active + 45 pending_review）/ 覆盖率 49.5%（158/319）
-- 🗄️ Pipeline migrations：0001–0011（latest: 0011_seed_unique_index_naming_alignment.sql @ Sprint B Stage 5）
+- 🗄️ Pipeline migrations：0001–0012（latest: 0012_add_pending_merge_reviews.sql @ Sprint D Stage 1）
 - 🚦 阻塞项数量：0 ✅
 
 ### 数据层不变量矩阵
@@ -530,6 +538,7 @@ Sprint B 全 Stage 完成：
 - 2026-04-22：ID 治理修订 — T-P0-026 撞号澄清（仅研究文档 ID，不复用为 task card）+ T-P0-025b 含义边界明确（≠ retro §4 误用的 manual triage UI）+ 新立 T-P0-027 / T-P0-028 stub；流程改进：未来 research 文档使用独立命名空间（建议 R-NNN）
 - 2026-04-22：Sprint C Stage 1-4 完成（R6 pre-pass + merge detection + V11 invariant + 13 tests）；Stage 1 Stop Rule #1 触发→方案 A 修复；Stage 4 发现 R6 FP（启↔微子启 Q186544）→挂起等 historian
 - 2026-04-24：Sprint C Stage 5 路径 A 收口 — historian ruling 98de7bc 确认 Q186544=夏启，R6 merge rejected；R1 merge ×1 apply（鲁桓公↔桓公 → run_id 2b4a28f0）；wei-zi-qi seed_mapping 降级 pending_review；开 T-P0-029/030；319 active persons / 158 active seeds / V1-V11 全绿
+- 2026-04-24：Sprint D 完成（T-P0-029 R6 Cross-Dynasty Guard）— 方案 α（persons.dynasty midpoint > 500yr）；migration 0012 pending_merge_reviews；r6_temporal_guards.py evaluate_guards() chain；dynasty-periods.yaml 12 条；22 new tests；4 commits；Stop Rule #2 接受为 baseline change；V11 全绿；active persons 319 不变
 
 ---
 
