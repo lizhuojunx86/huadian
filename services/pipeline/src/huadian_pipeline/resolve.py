@@ -33,6 +33,7 @@ if TYPE_CHECKING:
     import asyncpg
 
 from .r6_seed_match import R6Status
+from .r6_temporal_guards import evaluate_guards
 from .resolve_rules import (
     MERGE_CONFIDENCE_THRESHOLD,
     PersonSnapshot,
@@ -40,6 +41,7 @@ from .resolve_rules import (
     score_pair,
 )
 from .resolve_types import (
+    BlockedMerge,
     HypothesisProposal,
     MatchResult,
     MergeGroup,
@@ -294,12 +296,22 @@ async def _r6_prepass(conn: Any, snapshots: list[PersonSnapshot]) -> dict[str, i
     return distribution
 
 
-def _detect_r6_merges(snapshots: list[PersonSnapshot]) -> list[MergeProposal]:
+def _detect_r6_merges(
+    snapshots: list[PersonSnapshot],
+) -> tuple[list[MergeProposal], list[BlockedMerge]]:
     """Detect merge proposals from R6 pre-pass: two persons mapping to the same QID.
 
     Only MATCHED-status results are considered (裁决 4).
     Two persons with the same external_id (QID) produce a MergeProposal with
     rule="R6" and confidence=1.0.
+
+    T-P0-029: Before generating a MergeProposal, runs temporal guards
+    (evaluate_guards). Guard-blocked pairs are returned as BlockedMerge
+    items instead of MergeProposal items.
+
+    Returns:
+        (proposals, blocked) — proposals go to Union-Find; blocked go to
+        pending_merge_reviews via apply_merges().
     """
     from collections import defaultdict
 
@@ -314,6 +326,8 @@ def _detect_r6_merges(snapshots: list[PersonSnapshot]) -> list[MergeProposal]:
             by_qid[snap.r6_result.qid].append(snap)
 
     proposals: list[MergeProposal] = []
+    blocked: list[BlockedMerge] = []
+
     for qid, persons in by_qid.items():
         if len(persons) < 2:
             continue
@@ -321,6 +335,44 @@ def _detect_r6_merges(snapshots: list[PersonSnapshot]) -> list[MergeProposal]:
         for i in range(len(persons)):
             for j in range(i + 1, len(persons)):
                 a, b = persons[i], persons[j]
+
+                r6_evidence = {
+                    "external_id": qid,
+                    "source": "wikidata",
+                    "pre_pass": True,
+                }
+
+                # T-P0-029: temporal guard check
+                guard_result = evaluate_guards(a, b)
+                if guard_result is not None and guard_result.blocked:
+                    # Enforce pair order: person_a_id < person_b_id (DB CHECK)
+                    if a.id < b.id:
+                        aid, bid, aname, bname = a.id, b.id, a.name, b.name
+                    else:
+                        aid, bid, aname, bname = b.id, a.id, b.name, a.name
+
+                    blocked.append(
+                        BlockedMerge(
+                            person_a_id=aid,
+                            person_b_id=bid,
+                            person_a_name=aname,
+                            person_b_name=bname,
+                            proposed_rule="R6",
+                            guard_type=guard_result.guard_type,
+                            guard_payload=guard_result.payload,
+                            evidence=r6_evidence,
+                        )
+                    )
+                    logger.info(
+                        "R6 guard blocked: %s (%s) ↔ %s (%s) — %s",
+                        a.name,
+                        a.dynasty,
+                        b.name,
+                        b.dynasty,
+                        guard_result.reason,
+                    )
+                    continue
+
                 proposals.append(
                     MergeProposal(
                         person_a_id=a.id,
@@ -330,23 +382,20 @@ def _detect_r6_merges(snapshots: list[PersonSnapshot]) -> list[MergeProposal]:
                         match=MatchResult(
                             rule="R6",
                             confidence=1.0,
-                            evidence={
-                                "external_id": qid,
-                                "source": "wikidata",
-                                "pre_pass": True,
-                            },
+                            evidence=r6_evidence,
                         ),
                     )
                 )
 
-    if proposals:
+    if proposals or blocked:
         logger.info(
-            "R6 merge detection: %d proposals from %d same-QID groups",
+            "R6 merge detection: %d proposals, %d guard-blocked from %d same-QID groups",
             len(proposals),
+            len(blocked),
             sum(1 for persons in by_qid.values() if len(persons) >= 2),
         )
 
-    return proposals
+    return proposals, blocked
 
 
 # ---------------------------------------------------------------------------
@@ -446,18 +495,21 @@ async def resolve_identities(pool: asyncpg.Pool) -> ResolveResult:
                 )
 
     # R6 merge detection: two persons mapping to same QID (T-P0-027)
-    r6_proposals = _detect_r6_merges(persons)
+    # T-P0-029: also returns guard-blocked pairs for pending_merge_reviews
+    r6_proposals, r6_blocked = _detect_r6_merges(persons)
     merge_proposals.extend(r6_proposals)
+    result.blocked_merges.extend(r6_blocked)
 
     result.errors.extend(errors)
     result.hypotheses = hyp_proposals
 
     logger.info(
         "Pairwise evaluation complete: %d merge proposals (%d R1-R5 + %d R6), "
-        "%d hypothesis proposals",
+        "%d guard-blocked, %d hypothesis proposals",
         len(merge_proposals),
         len(merge_proposals) - len(r6_proposals),
         len(r6_proposals),
+        len(r6_blocked),
         len(hyp_proposals),
     )
 
@@ -620,6 +672,8 @@ async def apply_merges(
         "persons_soft_deleted": 0,
         "log_rows_inserted": 0,
         "hypotheses_queued": len(result.hypotheses),
+        "guard_blocked": len(result.blocked_merges),
+        "guard_reviews_written": 0,
         "errors": [],
     }
 
@@ -630,10 +684,11 @@ async def apply_merges(
             summary["log_rows_inserted"] += len(group.merged_ids)
         logger.info(
             "[DRY RUN] Would soft-delete %d persons across %d groups "
-            "(%d groups skipped via --skip-rule)",
+            "(%d groups skipped via --skip-rule, %d guard-blocked)",
             summary["persons_soft_deleted"],
             summary["groups"],
             summary["groups_skipped"],
+            summary["guard_blocked"],
         )
         return summary
 
@@ -744,10 +799,42 @@ async def apply_merges(
                 logger.warning(msg)
                 summary["errors"].append(msg)
 
+        # T-P0-029: Write guard-blocked merges to pending_merge_reviews
+        for item in result.blocked_merges:
+            try:
+                import json as _json
+
+                await conn.execute(
+                    """
+                    INSERT INTO pending_merge_reviews
+                        (person_a_id, person_b_id, proposed_rule, guard_type,
+                         guard_payload, evidence)
+                    VALUES ($1::uuid, $2::uuid, $3, $4, $5::jsonb, $6::jsonb)
+                    ON CONFLICT (person_a_id, person_b_id, proposed_rule, guard_type)
+                        WHERE status = 'pending'
+                    DO NOTHING
+                    """,
+                    item.person_a_id,
+                    item.person_b_id,
+                    item.proposed_rule,
+                    item.guard_type,
+                    _json.dumps(item.guard_payload, ensure_ascii=False),
+                    _json.dumps(item.evidence, ensure_ascii=False),
+                )
+                summary["guard_reviews_written"] += 1
+            except Exception as exc:  # noqa: BLE001
+                msg = (
+                    f"Failed to write pending_merge_review for "
+                    f"{item.person_a_name} ↔ {item.person_b_name}: {exc}"
+                )
+                logger.error(msg)
+                summary["errors"].append(msg)
+
     logger.info(
-        "Applied merges: %d persons soft-deleted, %d log rows, %d errors",
+        "Applied merges: %d persons soft-deleted, %d log rows, %d guard reviews written, %d errors",
         summary["persons_soft_deleted"],
         summary["log_rows_inserted"],
+        summary["guard_reviews_written"],
         len(summary["errors"]),
     )
     return summary
@@ -818,6 +905,21 @@ def generate_dry_run_report(result: ResolveResult) -> str:
         lines.append(f"错误: {len(result.errors)}")
         for err in result.errors:
             lines.append(f"  - {err}")
+
+    # T-P0-029: guard-blocked merges
+    if result.blocked_merges:
+        lines.append("")
+        lines.append(f"R6 guard 拦截: {len(result.blocked_merges)} 对")
+        for idx, item in enumerate(result.blocked_merges, start=1):
+            payload = item.guard_payload
+            dynasty_a = payload.get("dynasty_a", "?")
+            dynasty_b = payload.get("dynasty_b", "?")
+            gap = payload.get("gap_years", "?")
+            lines.append(
+                f"  拦截 {idx}: {item.person_a_name}({dynasty_a}) ↔ "
+                f"{item.person_b_name}({dynasty_b}) — "
+                f"{item.guard_type} gap {gap}yr"
+            )
 
     # R6 pre-pass distribution (T-P0-027)
     if result.r6_distribution:

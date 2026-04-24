@@ -83,3 +83,6 @@ export {
   dictionaryEntries,
   seedMappings,
 } from "./seeds";
+
+// K layer — Pending Merge Reviews (guard-blocked candidates)
+export { pendingMergeReviews } from "./pendingMergeReviews";

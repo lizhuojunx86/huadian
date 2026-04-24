@@ -54,6 +54,24 @@ class HypothesisProposal:
     match: MatchResult
 
 
+@dataclass(frozen=True, slots=True)
+class BlockedMerge:
+    """A proposed merge blocked by a temporal guard (T-P0-029).
+
+    Written to pending_merge_reviews table for historian triage.
+    person_a_id < person_b_id is enforced (DB CHECK constraint).
+    """
+
+    person_a_id: str
+    person_b_id: str
+    person_a_name: str
+    person_b_name: str
+    proposed_rule: str  # "R6"
+    guard_type: str  # "cross_dynasty"
+    guard_payload: dict[str, Any]  # structured guard evidence
+    evidence: dict[str, Any]  # original R6 evidence (QID etc.)
+
+
 @dataclass(slots=True)
 class ResolveResult:
     """Full output of a single identity resolution run."""
@@ -62,6 +80,7 @@ class ResolveResult:
     total_persons: int
     merge_groups: list[MergeGroup] = field(default_factory=list)
     hypotheses: list[HypothesisProposal] = field(default_factory=list)
+    blocked_merges: list[BlockedMerge] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
     r6_distribution: dict[str, int] = field(default_factory=dict)
 
