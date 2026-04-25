@@ -5,6 +5,48 @@
 
 ---
 
+## 2026-04-26
+
+### [feat+data] Sprint G — T-P0-006-δ 项羽本纪完整 ingest + identity resolution
+
+- **角色**：管线工程师（执行，Sonnet 4.6 试用）+ 古籍专家（Stage 3 merge review）+ 首席架构师（Stage 0 brief + Stage 4 裁决）
+- **性质**：Phase 1 真书内容推进（项羽本纪 = 《史记》十二本纪第八篇）
+- **关联**：Sprint F 修复验证 / historian review commit fdfb7cb / T-P0-031 P0 升格
+
+#### Stage 0-2 — Ingest（commit 0b15f0e / 76b3038 / 036e492）
+- Stage 0: fixture + tier-s slug 楚汉扩充（项羽/范增/英布等）+ disambig prep
+- Stage 1: smoke (5 段) — V1=0/V9=0 post-smoke，验证 Sprint F load.py 修复覆盖楚汉数据
+- Stage 2: full ingest — 45 段 / 117 NER persons / $0.60 LLM / V1-V11 全绿
+- Stop Rule #4 触发（117>80）：Stage 4 等 historian 完整审核
+
+#### Stage 3 — Resolver Dry-Run + Historian Review（commit 727e37e / fdfb7cb）
+- Dry-run: 21 proposals / R1×31 / R3×1 / R6 cross-dynasty guard=0 ✅
+- Historian review (fdfb7cb): 7 approve + 13 reject + 1 split (G13)
+- 13 reject 中 12 组为秦γ 已裁决残留（R1 跨国同谥号 FP 根因：T-P1-028）
+- **CRITICAL 发现**：楚怀王 entity 跨章同号异人（战国熊槐 vs 秦末熊心）→ T-P0-031 P0 升格
+
+#### Stage 4 — Apply Merges（commit e83a7a3）
+- 9 soft-deletes（7 approve + 2 G13 sub-merges）；0 errors
+- G15 项籍→项羽：manual_textbook_fact（第 2 例，2/3 阈值，#1 为 T-P1-025 重耳→晋文公）
+- G13 canonical=熊心：historian domain override（personal-name 优先于 posthumous-title convention；architect ACK 2026-04-26）
+- 楚怀王 entity-split（T-P0-031）不在本 sprint 范畴
+
+#### Numbers
+- Active persons: 555 → 672 (ingest) → **663** (post-merge)
+- Merge log: 83 → **92** (+9)
+- V1=0 / V9=0 / V10=0/0/0 / V11=0（全绿，无回归）
+- LLM cost: **$0.60**（smoke $0.06 + stage2 $0.54）
+- Commits: C31 (e83a7a3) + C32 + C33
+- New tests: 0 / New migrations: 0
+
+#### Derivative Debt
+- T-P0-031：楚怀王 Entity Split（P0，已存在 stub）
+- T-P1-027：disambig_seeds 楚汉多义封号（齐王/楚王/汉王/怀王）
+- T-P1-028：R1 dynasty 前置过滤（减少跨国 FP，可能需 ADR）
+- T-P2-005：NER v1-r6 楚汉封号+名 few-shot
+
+---
+
 ## 2026-04-25
 
 ### [fix+feat] Sprint F — V1 根因修复 + V9 invariant + 衍生债批清理

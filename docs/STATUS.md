@@ -2,15 +2,15 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-25
-- **更新人**：管线工程师（Claude Opus）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅ + Sprint C Resolver Orchestration ✅ + Sprint D R6 Cross-Dynasty Guard ✅ + Sprint E 秦本纪 ✅**
+- **最近更新**：2026-04-26
+- **更新人**：管线工程师（Claude Sonnet 4.6）
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅ + Sprint C Resolver Orchestration ✅ + Sprint D R6 Cross-Dynasty Guard ✅ + Sprint E 秦本纪 ✅ + Sprint G 项羽本纪 ✅**
 
 ---
 
 ## 当前在哪
 
-**Sprint F 完成（2026-04-25）。V1 根因修复（load.py Bug 1+2 → 94→0）+ V9 invariant 上线（ADR-024）+ 4 衍生债 close（T-P1-024/025/026 + T-P2-004）+ 重耳↔晋文公 textbook merge。Active persons 555 / merge_log 83 / V1-V9 + V10-V11 全绿。**
+**Sprint G 完成（2026-04-26）。T-P0-006-δ 项羽本纪完整 ingest（45 段 / +117 NER persons / $0.60）+ Stage 4 apply（9 merges）+ Sprint F 修复真实验证（新数据 V1+V9 +0）。Active persons 663 / merge_log 92 / V1-V11 全绿。textbook-fact precedent 2/3（G15 项籍→项羽）。楚怀王 entity-split → T-P0-031 P0 独立 sprint。**
 
 Sprint D（T-P0-029）完成：R6 merge 检测新增跨朝代 temporal guard。
 
@@ -23,11 +23,23 @@ Sprint B 全 Stage 完成：
 - **Stage 4（✅）**：V10 invariant 三子规则（orphan target / orphan entry / active evidence）+ 6 self-tests
 - **Stage 5（✅）**：migration 0011 unique index 对齐 + ADR-021 final + Sprint 收口
 
-**下一步候选**：Sprint G（项羽本纪 ingest 或新章 pilot）/ T-P0-028（pending_review triage UI）/ T-P0-025b（TIER-4 自建 seed）
+**下一步候选**：T-P0-031（楚怀王 entity-split，P0）/ T-P0-028（pending_review triage UI）/ T-P0-025b（TIER-4 自建 seed）/ Sprint H（新章 pilot）
 
 ---
 
 ## 已完成
+
+### Sprint G — T-P0-006-δ 项羽本纪完整 ingest + identity resolution（2026-04-25 ~ 2026-04-26）
+- [x] Stage 0：fixture + adapter + tier-s slug 楚汉扩充 + disambig prep
+- [x] Stage 1-2：smoke + full ingest（45 段 / 117 NER persons / $0.60）+ Sprint F 修复验证（V1=0 / V9=0 on new data）
+- [x] Stage 3：resolver dry-run（21 proposals）+ historian merge review（7 approve / 13 reject / 1 split）
+- [x] Stage 4：apply_merges（9 soft-deletes：7 approve + 2 G13 sub-merges）+ V1-V11 全绿验证
+- [x] Stage 5：task card + 3 debt stubs + STATUS + CHANGELOG + retro
+- 结果：active persons 555→672→663 / merge_log 83→92 / V1-V11 全绿 / $0.60 LLM
+- 核心发现：楚怀王 entity-level 同号异人（T-P0-031 P0 升格）/ Sprint F 修复真实验证通过
+- textbook-fact precedent：G15 项籍→项羽（第 2 例，2/3 阈值）
+- 衍生债：T-P1-027 / T-P1-028 / T-P2-005 + T-P0-031（P0 已存在 stub）
+- 累计：3 commits (C31-C33) / 9 merges / $0.60 LLM / 0 new tests / 0 migrations
 
 ### Sprint F — V1 根因修复 + V9 invariant + 衍生债批清理（2026-04-25）
 - [x] Stage 0：V1 +64 根因诊断（100% load.py，Bug 1 name_type 默认值 + Bug 2 is_primary 硬编码）
@@ -421,7 +433,7 @@ Sprint B 全 Stage 完成：
 
 ## 进行中
 
-（无当前进行中任务 — Sprint E 已完成）
+（无当前进行中任务 — Sprint G 已完成）
 
 ---
 
@@ -429,6 +441,7 @@ Sprint B 全 Stage 完成：
 
 | 优先级 | 任务 ID | 描述 | 主导角色 | 依赖 | 状态 |
 |--------|---------|------|---------|------|------|
+| 🔴 高 | T-P0-031 | 楚怀王 Entity Split (熊槐/熊心 同号异人)——数据正确性 critical | historian + 管线 | T-P0-006-δ ✅ | pending |
 | ~~🟡 中~~ | ~~T-P0-030~~ | ~~Corrective seed-add wei-zi-qi → Q855012~~ | ~~管线~~ | ~~T-P0-027 ✅~~ | **done** |
 | 🟡 中 | T-P0-025b | TIER-4 自建 seed 补丁（继承原 persons.seed.json 40 条 + 扩充 ~60-80 先秦冷门人物；≠ pending_review triage，后者见 T-P0-028） | 管线 + 历史专家 | T-P0-025 | backlog |
 | 🟡 中 | T-P0-028 | Manual triage UI for pending_review（44 条待审 → active/rejected） | 管线 + 历史专家 + 前端 | T-P0-025 ✅ | planned |
@@ -452,8 +465,11 @@ Sprint B 全 Stage 完成：
 | ~~🟡 中~~ | ~~T-P1-024~~ | ~~tongjia.yaml 扩充（缪/穆、傒/奚）~~ | ~~管线 + historian~~ | T-P0-006-γ ✅ | **done (Sprint F)** |
 | ~~🟡 中~~ | ~~T-P1-025~~ | ~~重耳↔晋文公 merge~~ | ~~管线~~ | T-P0-006-γ ✅ | **done (Sprint F)** |
 | ~~🟡 中~~ | ~~T-P1-026~~ | ~~disambig_seeds 跨国同名扩充~~ | ~~管线 + historian~~ | T-P0-006-γ ✅ | **done (Sprint F)** |
+| 🟡 中 | T-P1-027 | disambig_seeds 楚汉多义封号扩充（齐王/楚王/汉王/怀王；historian §4.3 引用 fdfb7cb） | 管线 + historian | T-P0-006-δ ✅ | registered |
+| 🟡 中 | T-P1-028 | R1 dynasty 前置过滤（减少跨国 FP；historian §4.4；可能需 ADR） | 管线 + 架构师 | T-P0-006-δ ✅ | registered |
 | ⚪ 微 | T-P2-001 | codegen trailing newline 不一致 | DevOps | — | registered |
 | ~~⚪ 微~~ | ~~T-P2-004~~ | ~~NER prompt v1-r5~~ | ~~管线~~ | T-P0-006-γ ✅ | **done (Sprint F)** |
+| ⚪ 微 | T-P2-005 | NER v1-r6 楚汉封号+名 few-shot（historian §4.5 引用 fdfb7cb） | 管线 | T-P0-006-δ ✅ | registered |
 
 ---
 
@@ -501,8 +517,8 @@ Sprint B 全 Stage 完成：
 - 🐳 Docker：PG + Redis 健康；34 张表 migrate 成功（+pending_merge_reviews）；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-025 加载；Sprint B Gate 0a Wikidata 覆盖 54.4%（174/320）；persons.seed.json 40 条 TIER-4 演化为 T-P0-025b
 - 🧪 测试覆盖：471 passed（pipeline 349 + api 61 + web 55）+ 34 skipped（DB-dependent invariant）；E2E 7 specs
-- 🔗 合并状态：555 active persons / 76 merge-soft-deleted / 5 pure-soft-deleted = 636 total
-- 📊 Evidence 覆盖：V7 覆盖率 98.54%（person_names 层，含秦本纪 evidence）
+- 🔗 合并状态：663 active persons / 85 merge-soft-deleted / 5 pure-soft-deleted = 753 total
+- 📊 Evidence 覆盖：V7 覆盖率（项羽本纪 +117 persons，覆盖率待 Sprint H 更新）
 - 🌐 Seed 覆盖：dictionary_entries 202 / seed_mappings 204（159 active + 45 pending_review）/ 覆盖率 28.6%（159/556）
 - 🗄️ Pipeline migrations：0001–0012（latest: 0012_add_pending_merge_reviews.sql @ Sprint D Stage 1）
 - 🚦 阻塞项数量：0 ✅
@@ -523,7 +539,7 @@ Sprint B 全 Stage 完成：
 | V10 | seed_mapping consistency | V10.a orphan target + V10.b orphan entry + V10.c active evidence | ✅ 0/0/0 | 2026-04-22（Sprint B Stage 4） |
 | V11 | R6 pre-pass cardinality | no active person has >1 active seed_mapping（anti-ambiguity） | ✅ 0 | 2026-04-22（Sprint C Stage 3） |
 
-**V1-V9 + V10-V11 全绿；V1=0（Sprint F 修复 94→0）；V9=0 bootstrap（ADR-024）；V7 98.54% PASS；seed coverage 28.6%（159/555 active persons matched）**。
+**V1-V9 + V10-V11 全绿；V1=0（Sprint F 修复 + Sprint G 新数据验证）；V9=0（Sprint G 新数据验证）；V10=0/0/0；V11=0；seed coverage ~24%（159/663 active persons matched，分母因 Sprint G +117 增大）**。
 
 ### 已知未处理违规（debt baseline）
 
@@ -585,6 +601,7 @@ Sprint B 全 Stage 完成：
 - 2026-04-25：Sprint E Track B 完成（T-P0-006-γ 秦本纪）— 72 段 ingest / 266 NER persons / $0.83 LLM；35 merge proposals → historian ruling 3280a35（21/5/9）→ 29 soft-deletes apply（+V10a seed redirect）；active persons 319→585→556；merge_log 53→82；V1-V11 全绿（V1=94 存量）；衍生 T-P1-024/025/026 + T-P2-004
 - 2026-04-25：Sprint E 收口 — task card T-P0-006-γ + 4 debt stubs + retro + STATUS + CHANGELOG；Sprint E 完成标记
 - 2026-04-25：Sprint F 完成 — V1 根因修复（load.py Bug 1+2 → 94→0）+ V9 invariant 上线（ADR-024 bootstrap=0）+ 4 衍生债 close（T-P1-024/025/026 + T-P2-004）+ 重耳↔晋文公 textbook merge；active persons 555 / merge_log 83 / V1-V9+V10-V11 全绿；8 commits + $0.163 LLM
+- 2026-04-26：Sprint G 完成 — T-P0-006-δ 项羽本纪 ingest（45 段 / +117 persons / $0.60）+ Stage 4 apply（9 merges）；active persons 663 / merge_log 92 / V1-V11 全绿；Sprint F 修复真实验证（新数据 V1+V9 +0）；textbook-fact 2/3 阈值（G15 项籍→项羽）；T-P0-031 P0 升格（楚怀王 entity-split）；衍生债 T-P1-027/028 + T-P2-005；3 commits (C31-C33)
 
 ---
 
