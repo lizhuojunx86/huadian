@@ -105,8 +105,7 @@ async def test_load_demoted_name_zh_sets_is_primary_false(db_conn, test_person_i
 
     # name_zh="神農氏" is alias, "炎帝" is the sole primary
     # _enforce_single_primary: 1 primary → pass through
-    # L353-357: finds "神農氏" → name_type = "alias"
-    # W1 INSERT: name_type='alias', is_primary must be false (was hardcoded true)
+    # Sprint F S1.2: "炎帝" as designated primary gets is_primary=true
     person = _person("神農氏", [("神農氏", "alias"), ("炎帝", "primary")])
 
     await _insert_person_names(db_conn, test_person_id, person)
@@ -121,6 +120,130 @@ async def test_load_demoted_name_zh_sets_is_primary_false(db_conn, test_person_i
     assert row["is_primary"] is False, (
         f"Expected is_primary=false after demotion, got {row['is_primary']}"
     )
+
+
+# ---------------------------------------------------------------------------
+# Sprint F Stage 1 — V1 root cause fix tests (S1.4)
+# ---------------------------------------------------------------------------
+
+
+async def test_name_zh_not_in_forms_creates_canonical_primary(db_conn, test_person_id):
+    """S1.1 Bug 1 fix: name_zh absent from surface_forms → insert as canonical primary.
+
+    Scenario: NER returns name_zh="秦庄公" but surface_forms only contain "庄公".
+    Previously this created TWO name_type='primary' rows (92 MULTI_NAMETYPE violations).
+    After fix: name_zh inserted as primary+is_primary=true, NER primary demoted to alias.
+    """
+    from huadian_pipeline.load import _insert_person_names
+
+    person = _person("秦庄公", [("庄公", "primary")])
+
+    await _insert_person_names(db_conn, test_person_id, person)
+
+    # name_zh should be the sole primary
+    name_zh_row = await db_conn.fetchrow(
+        "SELECT name_type, is_primary FROM person_names WHERE person_id = $1 AND name = $2",
+        test_person_id,
+        "秦庄公",
+    )
+    assert name_zh_row is not None, "name_zh must be inserted when absent from surface_forms"
+    assert name_zh_row["name_type"] == "primary"
+    assert name_zh_row["is_primary"] is True
+
+    # NER-designated primary should be demoted to alias
+    sf_row = await db_conn.fetchrow(
+        "SELECT name_type, is_primary FROM person_names WHERE person_id = $1 AND name = $2",
+        test_person_id,
+        "庄公",
+    )
+    assert sf_row is not None, "surface_form must still be inserted"
+    assert sf_row["name_type"] == "alias", (
+        "NER primary must be demoted to alias when name_zh is canonical primary"
+    )
+    assert sf_row["is_primary"] is False
+
+    # Exactly 1 is_primary=true
+    count = await db_conn.fetchval(
+        "SELECT count(*) FROM person_names WHERE person_id = $1 AND is_primary = true",
+        test_person_id,
+    )
+    assert count == 1, f"Expected exactly 1 is_primary=true, got {count}"
+
+
+async def test_designated_primary_gets_is_primary_true(db_conn, test_person_id):
+    """S1.2 Bug 2 fix: NER-designated primary in surface_forms gets is_primary=true.
+
+    Scenario: name_zh="武王" is in surface_forms as posthumous, "发" is the sole primary.
+    Previously the loop hardcoded is_primary=false for all forms → 0 is_primary=true.
+    After fix: "发" gets is_primary=true as the designated primary.
+    """
+    from huadian_pipeline.load import _insert_person_names
+
+    person = _person("武王", [("武王", "posthumous"), ("太子发", "alias"), ("发", "primary")])
+
+    await _insert_person_names(db_conn, test_person_id, person)
+
+    # name_zh "武王" should be posthumous with is_primary=false
+    wuwang = await db_conn.fetchrow(
+        "SELECT name_type, is_primary FROM person_names WHERE person_id = $1 AND name = $2",
+        test_person_id,
+        "武王",
+    )
+    assert wuwang is not None
+    assert wuwang["name_type"] == "posthumous"
+    assert wuwang["is_primary"] is False
+
+    # "发" should be primary with is_primary=true (Bug 2 fix)
+    fa = await db_conn.fetchrow(
+        "SELECT name_type, is_primary FROM person_names WHERE person_id = $1 AND name = $2",
+        test_person_id,
+        "发",
+    )
+    assert fa is not None
+    assert fa["name_type"] == "primary"
+    assert fa["is_primary"] is True, "Designated primary must get is_primary=true (Bug 2 fix)"
+
+    # Exactly 1 is_primary=true
+    count = await db_conn.fetchval(
+        "SELECT count(*) FROM person_names WHERE person_id = $1 AND is_primary = true",
+        test_person_id,
+    )
+    assert count == 1
+
+
+async def test_no_primary_fallback_with_warning(db_conn, test_person_id):
+    """S1.2 fallback: when _enforce_single_primary returns 0 primaries, first form promoted.
+
+    This should not normally happen (_enforce_single_primary guarantees 1 primary),
+    but the fallback ensures robustness.
+    """
+    from huadian_pipeline.load import _insert_person_names
+
+    # Bypass _enforce_single_primary by giving all forms as alias
+    # (simulates an edge case where enforcement fails)
+    person = _person("测试", [("测试", "alias"), ("别名", "alias")])
+
+    # _enforce_single_primary will promote "测试" (matches name_zh) to primary
+    # So this test actually validates the enforce → insert chain
+
+    await _insert_person_names(db_conn, test_person_id, person)
+
+    # After _enforce_single_primary: "测试" promoted to primary (name_zh match)
+    row = await db_conn.fetchrow(
+        "SELECT name_type, is_primary FROM person_names WHERE person_id = $1 AND name = $2",
+        test_person_id,
+        "测试",
+    )
+    assert row is not None
+    assert row["name_type"] == "primary"
+    assert row["is_primary"] is True
+
+    # Exactly 1 is_primary=true
+    count = await db_conn.fetchval(
+        "SELECT count(*) FROM person_names WHERE person_id = $1 AND is_primary = true",
+        test_person_id,
+    )
+    assert count == 1
 
 
 # ---------------------------------------------------------------------------

@@ -399,43 +399,52 @@ async def _insert_person_names(
     # Restore original forms
     person.surface_forms = original_forms
 
-    # Determine which surface form is the "primary" name
-    # Use the first validated form whose text matches name_zh, or fallback
-    primary_name_type = "primary"
-    for sf in validated_forms:
-        if sf.text == person.name_zh:
-            primary_name_type = sf.name_type
-            break
+    # Sprint F S1.1+S1.2: determine insertion strategy for is_primary correctness
+    # Find the NER-designated primary from _enforce_single_primary output
+    designated_primary: SurfaceForm | None = next(
+        (sf for sf in validated_forms if sf.name_type == "primary"), None
+    )
 
-    # Insert primary name (name_zh)
-    # T-P0-016 step 1b: is_primary must mirror name_type semantics.
-    # When _enforce_single_primary demotes name_zh to alias, the INSERT must
-    # reflect is_primary=false. Previously hardcoded `true` produced V6 violations
-    # (5 active samples observed: fu-yue / shen-nong-shi / 少暤氏 / 缙云氏 / 微子启).
-    is_primary_value = primary_name_type == "primary"
-    if person.name_zh not in seen_names:
-        existing = await conn.fetchval(
-            "SELECT id FROM person_names WHERE person_id = $1 AND name = $2",
-            person_id,
+    # S1.2 fallback: _enforce_single_primary guarantees 1 primary, but guard
+    if designated_primary is None and validated_forms:
+        logger.warning(
+            "_insert_person_names fallback: no designated primary for %r; promoting first form %r",
             person.name_zh,
+            validated_forms[0].text,
         )
-        if not existing:
-            await conn.execute(
-                """
-                INSERT INTO person_names (id, person_id, name, name_type, is_primary, source_evidence_id)
-                VALUES ($1, $2, $3, $4::name_type, $5, $6::uuid)
-                """,
-                str(uuid.uuid4()),
+        designated_primary = SurfaceForm(text=validated_forms[0].text, name_type="primary")
+        validated_forms = [designated_primary, *validated_forms[1:]]
+
+    # Check if name_zh is already represented in validated surface_forms
+    name_zh_in_forms = any(sf.text == person.name_zh for sf in validated_forms)
+
+    # S1.1: Insert name_zh only if NOT already covered by a surface_form.
+    # When name_zh is absent from NER surface_forms (e.g. NER returns "庄公"
+    # but name_zh="秦庄公"), name_zh is the canonical primary display name.
+    if not name_zh_in_forms and person.name_zh:
+        if person.name_zh not in seen_names:
+            existing = await conn.fetchval(
+                "SELECT id FROM person_names WHERE person_id = $1 AND name = $2",
                 person_id,
                 person.name_zh,
-                primary_name_type,
-                is_primary_value,
-                source_evidence_id,
             )
-            inserted += 1
-        seen_names.add(person.name_zh)
+            if not existing:
+                await conn.execute(
+                    """
+                    INSERT INTO person_names (id, person_id, name, name_type, is_primary, source_evidence_id)
+                    VALUES ($1, $2, $3, $4::name_type, $5, $6::uuid)
+                    """,
+                    str(uuid.uuid4()),
+                    person_id,
+                    person.name_zh,
+                    "primary",
+                    True,
+                    source_evidence_id,
+                )
+                inserted += 1
+            seen_names.add(person.name_zh)
 
-    # Insert all surface forms with their validated name_types
+    # Insert all validated surface_forms
     for sf in validated_forms:
         if sf.text in seen_names:
             continue
@@ -445,18 +454,42 @@ async def _insert_person_names(
             sf.text,
         )
         if not existing:
+            if name_zh_in_forms:
+                # S1.2: name_zh is a surface_form → follow NER designation
+                sf_is_primary = (
+                    designated_primary is not None and sf.text == designated_primary.text
+                )
+                sf_name_type = sf.name_type
+            else:
+                # name_zh was inserted as canonical primary → demote NER primary
+                sf_is_primary = False
+                sf_name_type = "alias" if sf.name_type == "primary" else sf.name_type
+
             await conn.execute(
                 """
                 INSERT INTO person_names (id, person_id, name, name_type, is_primary, source_evidence_id)
-                VALUES ($1, $2, $3, $4::name_type, false, $5::uuid)
+                VALUES ($1, $2, $3, $4::name_type, $5, $6::uuid)
                 """,
                 str(uuid.uuid4()),
                 person_id,
                 sf.text,
-                sf.name_type,
+                sf_name_type,
+                sf_is_primary,
                 source_evidence_id,
             )
             inserted += 1
         seen_names.add(sf.text)
+
+    # S1.3: Function-level invariant guard — exactly 1 is_primary=true per person.
+    # Fires inside the transaction so failure triggers automatic rollback.
+    primary_count = await conn.fetchval(
+        "SELECT count(*) FROM person_names WHERE person_id = $1 AND is_primary = true",
+        person_id,
+    )
+    if primary_count != 1:
+        raise RuntimeError(
+            f"_insert_person_names invariant: person {person_id} ({person.name_zh}) "
+            f"has {primary_count} is_primary=true names (expected 1)"
+        )
 
     return inserted
