@@ -6,8 +6,8 @@
     "draftedAt": "2026-04-16",
     "status": "draft_pending_review",
     "schemaTable": "disambiguation_seeds",
-    "surfaceGroupCount": 19,
-    "rowCount": 42,
+    "surfaceGroupCount": 27,
+    "rowCount": 61,
     "defaultSources": [
       "《史记》", "《汉书》", "《后汉书》", "《资治通鉴》",
       "钱穆《史记地名考》", "王伯祥《史记选》",
@@ -365,6 +365,17 @@
       "_notes": "郑庄公（BC 757–BC 701），春秋小霸。已在 persons 表中。",
       "_sources": ["《左传》"]
     },
+    {
+      "name": "庄公",
+      "personSlug": "u9f50-u5e84-u516c",
+      "dynastyHint": "春秋",
+      "contextHint": "齐庄公、姜光、崔杼弑君、卫国聘问、晋平公",
+      "priority": 55,
+      "_notes": "齐庄公（姜光，?–BC 548），被崔杼所弑。秦/齐/郑三国皆有庄公，T-P1-026 §4.4（commit 3280a35）补录。跨国歧义：秦本纪语境下默认指秦庄公，非秦国叙述时需据 dynasty 消歧。",
+      "_sources": ["《史记·齐太公世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 9"
+    },
 
     {
       "name": "武公",
@@ -421,6 +432,212 @@
       "priority": 50,
       "_notes": "秦惠公（?–BC 387），战国早期秦国君主。与晋惠公不同人。",
       "_sources": ["《史记·秦本纪》"]
+    },
+
+    {
+      "name": "桓公",
+      "personSlug": "u79e6-u6853-u516c",
+      "dynastyHint": "春秋",
+      "contextHint": "秦桓公、嬴荣、晋败辅氏、石楼、秦本纪纪事段",
+      "priority": 100,
+      "_notes": "秦桓公（嬴荣，?–BC 577），秦本纪秦国纪事段『桓公三年，晋败我辅氏』中的『桓公』专指此人。T-P1-026 §4.4（commit 3280a35）新增。",
+      "_sources": ["《史记·秦本纪》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 5"
+    },
+    {
+      "name": "桓公",
+      "personSlug": "u9c81-u6853-u516c",
+      "dynastyHint": "春秋",
+      "contextHint": "鲁桓公、姬允、文姜、齐国、周本纪语境",
+      "priority": 80,
+      "_notes": "鲁桓公（姬允，?–BC 694），Spring and Autumn 时期鲁国君主。秦/鲁/齐三国皆有桓公，跨国歧义。",
+      "_sources": ["《史记·鲁周公世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 5"
+    },
+    {
+      "name": "桓公",
+      "personSlug": "qi-huan-gong",
+      "dynastyHint": "春秋",
+      "contextHint": "齐桓公、管仲、尊王攘夷、葵丘会盟、春秋五霸",
+      "priority": 60,
+      "_notes": "齐桓公（姜小白，?–BC 643），春秋五霸之首。其 primary name 为『齐桓公』而非裸称『桓公』，在非秦国叙述语境下需据 dynasty/context 消歧。",
+      "_sources": ["《史记·齐太公世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 5"
+    },
+
+    {
+      "name": "灵公",
+      "personSlug": "u79e6-u7075-u516c",
+      "dynastyHint": "战国初",
+      "contextHint": "秦灵公、嬴肃、城少梁、秦灵公六年、秦国纪事段",
+      "priority": 100,
+      "_notes": "秦灵公（嬴肃，?–BC 415），秦本纪『灵公……灵公六年，晋城少梁』中的『灵公』在秦国纪事段专指此人。T-P1-026 §4.4（commit 3280a35）新增。",
+      "_sources": ["《史记·秦本纪》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 28"
+    },
+    {
+      "name": "灵公",
+      "personSlug": "u664b-u7075-u516c",
+      "dynastyHint": "春秋",
+      "contextHint": "晋灵公、姬夷皋、赵穿弑君、共公二年、晋国无道",
+      "priority": 80,
+      "_notes": "晋灵公（姬夷皋，?–BC 607），《史记·秦本纪》『共公二年，晋赵穿弑其君灵公』中的『灵公』指此人。秦/晋两国皆有灵公，相隔约200年，为典型跨代跨国歧义。",
+      "_sources": ["《史记·秦本纪》", "《史记·晋世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 28"
+    },
+
+    {
+      "name": "悼公",
+      "personSlug": "u664b-u60bc-u516c",
+      "dynastyHint": "春秋",
+      "contextHint": "晋悼公、姬周、秦景公段、晋悼公强、春秋晋国中兴",
+      "priority": 100,
+      "_notes": "晋悼公（姬周，BC 586–BC 558），秦本纪秦景公段『晋悼公强』『悼公立』语境指此人。T-P1-026 §4.4（commit 3280a35）新增。",
+      "_sources": ["《史记·秦本纪》", "《史记·晋世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 7"
+    },
+    {
+      "name": "悼公",
+      "personSlug": "u9f50-u60bc-u516c",
+      "dynastyHint": "春秋",
+      "contextHint": "齐悼公、姜阳生、春秋末、齐国内乱",
+      "priority": 60,
+      "_notes": "齐悼公（姜阳生，?–BC 485），春秋末期齐国国君。在秦本纪中不以『悼公』短称出现，但属跨国歧义 surface。晋/齐两国皆有悼公，需据 dynasty/context 消歧。",
+      "_sources": ["《史记·齐太公世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 7"
+    },
+
+    {
+      "name": "简公",
+      "personSlug": "u79e6-u7b80-u516c",
+      "dynastyHint": "战国",
+      "contextHint": "秦简公、嬴悼子、令吏初带剑、简公六年、秦国纪事段",
+      "priority": 100,
+      "_notes": "秦简公（嬴悼子，?–BC 400），秦本纪『简公六年，令吏初带剑』中的『简公』专指此人。T-P1-026 §4.4（commit 3280a35）新增。",
+      "_sources": ["《史记·秦本纪》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 10"
+    },
+    {
+      "name": "简公",
+      "personSlug": "u9f50-u7b80-u516c",
+      "dynastyHint": "春秋末/战国初",
+      "contextHint": "齐简公、姜壬、田常弑君、战国开端",
+      "priority": 70,
+      "_notes": "齐简公（姜壬，?–BC 481），被田常所弑，为春秋/战国转折标志事件之一。与秦简公大致同时代，秦本纪中以『齐简公』全称出现，但裸称语境需消歧。秦/齐两国皆有简公。",
+      "_sources": ["《史记·齐太公世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 10"
+    },
+
+    {
+      "name": "襄公",
+      "personSlug": "u79e6-u8944-u516c",
+      "dynastyHint": "西周末/春秋初",
+      "contextHint": "秦襄公、嬴开、护送周平王东迁、始封诸侯、西犬丘",
+      "priority": 100,
+      "_notes": "秦襄公（嬴开，?–BC 766），秦国始封诸侯，《史记·秦本纪》『襄公元年，以女弟缪嬴为丰王妃』。T-P1-026 §4.4（commit 3280a35）新增。",
+      "_sources": ["《史记·秦本纪》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 16"
+    },
+    {
+      "name": "襄公",
+      "personSlug": "u9f50-u8944-u516c",
+      "dynastyHint": "春秋",
+      "contextHint": "齐襄公、姜诸儿、文姜、鲁桓公、春秋初期齐国",
+      "priority": 75,
+      "_notes": "齐襄公（姜诸儿，?–BC 686），春秋初期齐国国君，与秦襄公大致同代但不同国。秦/齐/晋三国皆有襄公，属 R1 大量 false positive 的根源（Group 16）。",
+      "_sources": ["《史记·齐太公世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 16"
+    },
+    {
+      "name": "襄公",
+      "personSlug": "u664b-u8944-u516c",
+      "dynastyHint": "春秋",
+      "contextHint": "晋襄公、姬欢、晋文公子、崤之战、秦缪公同代",
+      "priority": 70,
+      "_notes": "晋襄公（姬欢，?–BC 621），晋文公之子，与秦缪公晚期同代。秦本纪缪公段涉及秦晋之争，晋方国君为晋襄公。与秦/齐两国的襄公形成三向歧义。",
+      "_sources": ["《史记·晋世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 16"
+    },
+
+    {
+      "name": "怀公",
+      "personSlug": "u79e6-u6000-u516c",
+      "dynastyHint": "战国",
+      "contextHint": "秦怀公、嬴封、庶长鼌围攻、怀公四年自杀",
+      "priority": 100,
+      "_notes": "秦怀公（嬴封，?–BC 425），《史记·秦本纪》『怀公四年……庶长鼌与大臣围怀公，怀公自杀』。T-P1-026 §4.4（commit 3280a35）新增。",
+      "_sources": ["《史记·秦本纪》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 26"
+    },
+    {
+      "name": "怀公",
+      "personSlug": "u592a-u5b50-u5709",
+      "dynastyHint": "春秋",
+      "contextHint": "晋怀公、姬圉、太子圉、子圉、质秦逃归、秦缪公段",
+      "priority": 75,
+      "_notes": "晋怀公（姬圉，?–BC 636），即太子圉/子圉，晋惠公之子，质秦后逃归即位，为晋文公重耳所杀。DB entity slug 为 u592a-u5b50-u5709（以太子圉为主称）。『怀公』在秦本纪中可指晋怀公（春秋）或秦怀公（战国），相隔约200年，为跨代歧义。",
+      "_sources": ["《史记·秦本纪》", "《史记·晋世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 26"
+    },
+
+    {
+      "name": "平公",
+      "personSlug": "u664b-u5e73-u516c",
+      "dynastyHint": "春秋",
+      "contextHint": "晋平公、姬彪、秦景公段、晋平公之丧、春秋晋国",
+      "priority": 100,
+      "_notes": "晋平公（姬彪，?–BC 532），《史记·秦本纪》秦景公段『晋平公之丧』中出现。T-P1-026 §4.4（commit 3280a35）新增。",
+      "_sources": ["《史记·秦本纪》", "《史记·晋世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 29"
+    },
+    {
+      "name": "平公",
+      "personSlug": "u9f50-u5e73-u516c",
+      "dynastyHint": "战国初",
+      "contextHint": "齐平公、姜骜、战国初期齐国、与晋平公不同时代",
+      "priority": 60,
+      "_notes": "齐平公（姜骜，?–BC 456），战国初期齐国国君，与晋平公相差约100年。晋/齐两国皆有平公，跨国跨代歧义，属 R1 Group 29 false positive 的根源。",
+      "_sources": ["《史记·齐太公世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 29"
+    },
+
+    {
+      "name": "成王",
+      "personSlug": "u5468-u6210-u738b",
+      "dynastyHint": "西周",
+      "contextHint": "周成王、姬诵、封伯禽、成王伐奄、周公辅政、西周初年",
+      "priority": 100,
+      "_notes": "周成王（姬诵，约BC 1042–BC 1021），《史记·秦本纪》『成王封伯禽』段涉及。T-P1-026 §4.4（commit 3280a35）新增。",
+      "_sources": ["《史记·秦本纪》", "《史记·周本纪》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 2"
+    },
+    {
+      "name": "成王",
+      "personSlug": "u695a-u6210-u738b",
+      "dynastyHint": "春秋",
+      "contextHint": "楚成王、熊恽、秦缪公段、楚国、城濮之战",
+      "priority": 70,
+      "_notes": "楚成王（熊恽，?–BC 626），春秋时楚国国君，《史记·秦本纪》秦缪公段『楚成王』出现。与周成王相隔约400年，分属西周、春秋，为典型跨代跨国歧义（R1 Group 2 false positive 的根源）。",
+      "_sources": ["《史记·秦本纪》", "《史记·楚世家》"],
+      "_taskRef": "T-P1-026",
+      "_historianRef": "historian-review-2026-04-25.md §4.4 Group 2"
     }
 
   ]
