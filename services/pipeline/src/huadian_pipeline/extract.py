@@ -98,8 +98,8 @@ async def extract_persons(
         Maximum total cost for this extraction run.
     """
     # Load prompt
-    prompt = load_prompt("ner", "v1-r4")
-    file_hash = prompt_file_hash("ner", "v1-r4")
+    prompt = load_prompt("ner", "v1-r5")
+    file_hash = prompt_file_hash("ner", "v1-r5")
 
     result = ExtractionResult(
         book_id=book_id,
