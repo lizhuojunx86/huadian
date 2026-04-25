@@ -7,6 +7,49 @@
 
 ## 2026-04-25
 
+### [fix+feat] Sprint F — V1 根因修复 + V9 invariant + 衍生债批清理
+
+- **角色**：管线工程师（执行）+ 首席架构师（brief + ACK + ADR-024）
+- **性质**：V1 线性增长根因修复 + invariant 体系补全 + Sprint E 衍生债清理
+- **关联**：Sprint E 收口（V1=94 触发）/ T-P1-022（升 P0）/ ADR-024
+
+#### Stage 0 — V1 根因诊断
+- 100% 根因在 load.py `_insert_person_names`（非 NER / 非 merge）
+- Bug 1: name_zh 默认 name_type='primary' → 92 MULTI_NAMETYPE
+- Bug 2: surface_forms 循环硬编码 is_primary=false → 33 TYPE_A/B
+- 诊断报告：docs/sprint-logs/sprint-f/v1-root-cause-2026-04-25.md (18a3229)
+
+#### Stage 1 — load.py 修复
+- S1.1: name_zh 不在 surface_forms → 插入为 canonical primary，NER primary 降为 alias
+- S1.2: designated primary surface_form → is_primary=true（不再硬编码 false）
+- S1.3: 函数级 invariant guard（primary_count != 1 → RuntimeError + txn rollback）
+- 3 tests：name_zh_not_in_forms / designated_primary / fallback_with_warning (acc9451)
+
+#### Stage 2 — 存量回填
+- 125 行 UPDATE（92 MULTI_NAMETYPE demote + 31 TYPE_A promote + 2 TYPE_B full promote）
+- V1 94→0 / is_primary 33→0 / pg_dump anchor (f21991c)
+
+#### Stage 3 — V9 invariant
+- ADR-024: V9 at-least-one-primary（V1 上界 + V9 下界 = exactly-one-primary）
+- 3 self-tests: bootstrap=0 / inject-catches / deleted-exempt (5f90d4e)
+
+#### Stage 4 — 衍生债
+- T-P1-024: tongjia.yaml +2（缪→穆/傒→奚），historian ruling 3280a35 引用 (c3f98f1)
+- T-P1-026: disambig_seeds +19 条 / 8 新 surface groups，historian §4.4 引用 (9dcda8f)
+- T-P1-025: 重耳→晋文公 textbook-fact merge（首例 manual_textbook_fact rule）(bdb8941)
+- T-P2-004: NER v1-r5 官衔+名复合识别（5/6 CRITICAL 修复，$0.163）(ff889e0)
+
+#### Numbers
+- V1: 94 → **0** | V9: **0 (新增 bootstrap)** | V6/V10/V11: 0 (无回归)
+- Active persons: 556 → **555** (-1 重耳 merge) | Merge log: 82 → **83**
+- Commits: 8 (C18-C25) + 1 closeout = 9
+- LLM cost: $0.163 (v1-r5 验证)
+- New tests: 6 (3 V9 self-test + 3 Stage 1 load insert)
+- ADR: +1 (ADR-024)
+- Debt closed: T-P1-022/024/025/026 + T-P2-004 = 5
+
+---
+
 ### [feat+data] Sprint E Track B — T-P0-006-γ 秦本纪完整摄入 + identity resolution
 
 - **角色**：管线工程师（执行）+ 古籍专家（Stage 3 merge review）+ 首席架构师（Stage 0 brief）
