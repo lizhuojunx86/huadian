@@ -5,6 +5,53 @@
 
 ---
 
+## 2026-04-25
+
+### [feat+data] Sprint E Track B — T-P0-006-γ 秦本纪完整摄入 + identity resolution
+
+- **角色**：管线工程师（执行）+ 古籍专家（Stage 3 merge review）+ 首席架构师（Stage 0 brief）
+- **性质**：Phase 1 真书内容推进（秦本纪 = 《史记》十二本纪第五篇）
+- **关联**：T-P0-030（前置 Track A）/ historian ruling 3280a35 / dry-run 789c0bcf
+
+#### Stage 0-2 — Ingest
+- Stage 0: fixture + ctext adapter + tier-s slug 扩列 + disambig prep (d818330)
+- Stage 1-2: smoke + full ingest — 72 段 / 266 NER persons / $0.83 LLM (eb8c4de)
+- 9 个 CRITICAL auto-promotion 告警（蜀壮/礼/若/胡阳/贲/陵 官衔截断；嬴政/昭襄王/孝文王 合理 promotion）
+
+#### Stage 3 — Resolver Dry-Run + Historian Review
+- Dry-run: 35 merge proposals / R1 ×57 / 0 hypotheses / 0 guard blocked (0ce12a9)
+- Historian review (3280a35): 21 approve + 5 reject + 9 split (7 with safe sub-merges, 2 fully independent)
+- R1 跨国同名 false positive 严重：16/35 组来自 §3.2 跨国歧义（桓公/灵公/惠公/襄公/庄公/简公等）
+
+#### Stage 4 — Apply Merges
+- 29 soft-deletes: 22 from 21 approve groups (G6 = 3-person group) + 7 sub-merges (2ac8956)
+- V10a 发现 1 例 orphan seed_mapping (Q553245 秦孝公 slug dedup) → 手动 redirect 修复
+- Merge rules: R1+historian-confirm (22) / R1+R3-tongjia+historian-confirm (3) / R1+historian-split-sub (7)
+
+#### Stage 5 — Closeout
+- Task card: docs/tasks/T-P0-006-gamma-qin-ben-ji.md (done)
+- 4 derivative debt stubs: T-P1-024/025/026 + T-P2-004
+- Sprint E retro: docs/sprint-logs/sprint-e/sprint-e-retro.md
+
+#### Numbers
+- Active persons: 319 → 585 (ingest) → 556 (post-merge, -29)
+- Merge log: 53 → 82 (+29)
+- V1: 94 (92 multi + 2 zero, down from 95 pre-merge — improved by 1)
+- V2-V6: 0 | V7: 98.54% | V10: 0/0/0 | V11: 0
+- Commits: 5 (Stage 0-3) + 2 (Stage 4-5) = 7
+- LLM cost: $0.83
+- New tests: 0 | Migrations: 0
+
+### [docs] Sprint E closeout
+
+- T-P0-030 corrective seed-add wei-zi-qi → Q855012 完成（Track A, 2026-04-24）
+- T-P0-006-γ 秦本纪完整 ingest + Stage 4 apply 完成（Track B, 2026-04-25）
+- Mit 3 边界解读修订：PE 应主动报架构师确认 "Stop BEFORE Stage 4" 的含义，而非自行解读为"可直接挂起"
+- 衍生债 4 卡登记：T-P1-024（tongjia 缪/穆+傒/奚）/ T-P1-025（重耳↔晋文公）/ T-P1-026（disambig_seeds 10 组）/ T-P2-004（NER v1-r5）
+- Sprint E retro 起草
+
+---
+
 ## 2026-04-24
 
 ### [feat+data] Sprint E Track A — T-P0-030 Corrective Seed-Add wei-zi-qi → Q855012
