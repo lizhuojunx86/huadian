@@ -157,3 +157,31 @@
 秦庄襄王: qin-zhuang-xiang-wang
 李斯: li-si
 赵高: zhao-gao
+
+# --- 楚汉 (T-P0-006 δ 项羽本纪) ---
+# 楚方核心
+项羽: xiang-yu
+项梁: xiang-liang
+项伯: xiang-bo
+项庄: xiang-zhuang
+范增: fan-zeng
+英布: ying-bu
+龙且: long-ju
+虞姬: yu-ji
+钟离昧: zhong-li-mei
+季布: ji-bu
+# 汉方核心
+刘邦: liu-bang
+张良: zhang-liang
+樊哙: fan-kuai
+陈平: chen-ping
+彭越: peng-yue
+萧何: xiao-he
+夏侯婴: xia-hou-ying
+灌婴: guan-ying
+# 韩信: 歧义（淮阴侯韩信 vs 韩王信），不进 tier-s；由 NER 名+disambig_seeds 消歧
+# 其他楚汉
+章邯: zhang-han
+宋义: song-yi
+陈余: chen-yu
+张耳: zhang-er
