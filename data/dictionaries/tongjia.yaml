@@ -58,3 +58,17 @@ entries:
     canonical: "微子"
     source: "《史记·殷本纪》"
     notes: "部分段落简称微，指微子启。需结合上下文（R1 surface overlap优先）。"
+
+  # 缪 / 穆 — tongjia (同音假借，非古今字)；秦本纪 Group 6
+  # historian-review-2026-04-25.md commit 3280a35 §G6
+  - variant: "缪"
+    canonical: "穆"
+    source: "段玉裁《说文解字注》；中华书局《史记》点校本注「缪音穆，即秦穆公」"
+    notes: "上古音同属幽部明母，同音假借。historian source_type: in_chapter, scholarly。T-P1-024 / historian ruling 3280a35 G6。"
+
+  # 傒 / 奚 — tongjia (声符替代)；秦本纪 Group 25
+  # historian-review-2026-04-25.md commit 3280a35 §G25
+  - variant: "傒"
+    canonical: "奚"
+    source: "《史记集解》引贾逵「傒，百里奚也」；中华书局《史记》点校本注"
+    notes: "上古音同属支部匣母，声符替代。historian source_type: in_chapter, scholarly。T-P1-024 / historian ruling 3280a35 G25。"

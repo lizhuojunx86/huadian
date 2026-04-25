@@ -216,6 +216,36 @@ class TestR3Tongjia:
         result = score_pair(a, b)
         assert result is None
 
+    def test_tp_miu_mu(self) -> None:
+        """缪 ↔ 穆: tongjia pair added in T-P1-024 (historian ruling 3280a35 G6).
+
+        缪 is a borrowed character for 穆 in 秦本纪 (e.g. 秦缪公 = 秦穆公).
+        Upper Old Chinese: both belong to 幽部明母 (homophonous borrowing).
+        Source: 段玉裁《说文解字注》; 中华书局《史记》点校本注.
+        """
+        ensure_dicts_loaded()
+        a = _person(id="a", name="缪公", surface_forms={"缪公"})
+        b = _person(id="b", name="穆公", surface_forms={"穆公"})
+        result = score_pair(a, b)
+        assert result is not None
+        assert result.rule == "R3"
+        assert result.confidence >= MERGE_CONFIDENCE_THRESHOLD
+
+    def test_tp_xi_xi2(self) -> None:
+        """傒 ↔ 奚: tongjia pair added in T-P1-024 (historian ruling 3280a35 G25).
+
+        傒 is a phonetic-component substitute for 奚 in 秦本纪 (e.g. 百里傒 = 百里奚).
+        Upper Old Chinese: both belong to 支部匣母 (phonetic component substitution).
+        Source: 《史记集解》引贾逵「傒，百里奚也」; 中华书局《史记》点校本注.
+        """
+        ensure_dicts_loaded()
+        a = _person(id="a", name="百里傒", surface_forms={"百里傒"})
+        b = _person(id="b", name="百里奚", surface_forms={"百里奚"})
+        result = score_pair(a, b)
+        assert result is not None
+        assert result.rule == "R3"
+        assert result.confidence >= MERGE_CONFIDENCE_THRESHOLD
+
 
 # ---------------------------------------------------------------------------
 # R5: miaohao (庙号)
