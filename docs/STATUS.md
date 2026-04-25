@@ -10,7 +10,7 @@
 
 ## 当前在哪
 
-**Sprint E 完成（2026-04-25）。Track A T-P0-030 corrective seed-add（wei-zi-qi → Q855012）+ Track B T-P0-006-γ 秦本纪完整 ingest（72 段 / 266 NER persons / $0.83）+ Stage 4 apply（29 merges：21 approve + 7 sub-merges + 1 V10a seed fix）。Active persons 556 / merge_log 82 / V1-V11 全绿。**
+**Sprint F 完成（2026-04-25）。V1 根因修复（load.py Bug 1+2 → 94→0）+ V9 invariant 上线（ADR-024）+ 4 衍生债 close（T-P1-024/025/026 + T-P2-004）+ 重耳↔晋文公 textbook merge。Active persons 555 / merge_log 83 / V1-V9 + V10-V11 全绿。**
 
 Sprint D（T-P0-029）完成：R6 merge 检测新增跨朝代 temporal guard。
 
@@ -23,11 +23,24 @@ Sprint B 全 Stage 完成：
 - **Stage 4（✅）**：V10 invariant 三子规则（orphan target / orphan entry / active evidence）+ 6 self-tests
 - **Stage 5（✅）**：migration 0011 unique index 对齐 + ADR-021 final + Sprint 收口
 
-**下一步候选**：Sprint E Track B（Phase 1 真书推进，待 inventory + 架构师签字）/ T-P0-025b（TIER-4 自建 seed）/ T-P0-028（pending_review triage UI）
+**下一步候选**：Sprint G（项羽本纪 ingest 或新章 pilot）/ T-P0-028（pending_review triage UI）/ T-P0-025b（TIER-4 自建 seed）
 
 ---
 
 ## 已完成
+
+### Sprint F — V1 根因修复 + V9 invariant + 衍生债批清理（2026-04-25）
+- [x] Stage 0：V1 +64 根因诊断（100% load.py，Bug 1 name_type 默认值 + Bug 2 is_primary 硬编码）
+- [x] Stage 1：load.py _insert_person_names 修复（~15 行改动 + S1.3 函数级 guard + 3 tests）
+- [x] Stage 2：94→0 回填（125 行 UPDATE 单事务 + pg_dump anchor）
+- [x] Stage 3：V9 invariant 上线（ADR-024 + 3 self-tests + bootstrap=0）
+- [x] Stage 4 小卡：T-P1-024（tongjia 缪/穆+傒/奚）+ T-P1-026（disambig_seeds 10 组）
+- [x] Stage 4 大卡：T-P1-025（重耳↔晋文公 textbook merge → 555 active）+ T-P2-004（NER v1-r5 官衔+名）
+- [x] Stage 5：验证（V1=0/V9=0/V10=0/V11=0）+ 收档
+- 结果：V1 94→0 / V9 bootstrap=0 / active persons 556→555 / merge_log 82→83 / ADR-024 落地
+- 核心修复：load.py Bug 1（name_zh 默认 primary → 92 duplicate）+ Bug 2（is_primary 硬编码 false → 33 desync）
+- 衍生债：T-P1-022/024/025/026 + T-P2-004 全部 close
+- 累计：8 commits / $0.163 LLM / 3 V9 tests + 3 Stage 1 tests / ADR-024 / NER v1-r5
 
 ### Sprint E Track B — T-P0-006-γ 秦本纪摄入 + identity resolution（2026-04-24 ~ 2026-04-25）
 - [x] Stage 0：fixture + adapter + tier-s slug 扩列 + disambig prep
@@ -419,7 +432,7 @@ Sprint B 全 Stage 完成：
 | ~~🟡 中~~ | ~~T-P0-030~~ | ~~Corrective seed-add wei-zi-qi → Q855012~~ | ~~管线~~ | ~~T-P0-027 ✅~~ | **done** |
 | 🟡 中 | T-P0-025b | TIER-4 自建 seed 补丁（继承原 persons.seed.json 40 条 + 扩充 ~60-80 先秦冷门人物；≠ pending_review triage，后者见 T-P0-028） | 管线 + 历史专家 | T-P0-025 | backlog |
 | 🟡 中 | T-P0-028 | Manual triage UI for pending_review（44 条待审 → active/rejected） | 管线 + 历史专家 + 前端 | T-P0-025 ✅ | planned |
-| 🟡 中 | T-P1-022 | V1 下界缺失 — 27 个 active person 缺 is_primary=true name（方案 B 倾向：新增 V9） | 管线 + 架构师 | — | registered |
+| ~~🟡 中~~ | ~~T-P1-022~~ | ~~V1 下界缺失~~ | ~~管线 + 架构师~~ | — | **done (Sprint F)** |
 | 🟡 中 | T-P0-005a | SigNoz 版本对齐与接入 | DevOps + 管线 | T-P0-005 ✅ | planned |
 | 🟡 中 | T-P0-004 批次 2 | 字典扩展（秦汉二线人物 + 封国/战役地 + slug 补齐） | 历史专家 | T-P0-004 批次 1 ✅ | planned |
 | 🟡 中 | T-P1-005 | 统一 migration 入口（Drizzle + pipeline SQL 双轨合一） | DevOps + 后端 | — | registered |
@@ -436,11 +449,11 @@ Sprint B 全 Stage 完成：
 | ⚪ 微 | T-P1-018 | Backfill 自动触发器 | 管线 + DevOps | — | registered |
 | ⚪ 微 | T-P1-019 | AMBIGUOUS_SLUGS DB 迁移 | 管线 + QA | — | registered |
 | ⚪ 微 | T-P1-020 | Name resolution 共享模块抽取 | 管线 | — | registered |
-| 🟡 中 | T-P1-024 | tongjia.yaml 扩充（缪/穆、傒/奚）— γ historian review 衍生 | 管线 + historian | T-P0-006-γ ✅ | registered |
-| 🟡 中 | T-P1-025 | 重耳↔晋文公 merge 检查 — γ G17 reject 衍生 | 管线 | T-P0-006-γ ✅ | registered |
-| 🟡 中 | T-P1-026 | disambig_seeds 跨国同名扩充（10 组）— γ §4.4 衍生 | 管线 + historian | T-P0-006-γ ✅ | registered |
+| ~~🟡 中~~ | ~~T-P1-024~~ | ~~tongjia.yaml 扩充（缪/穆、傒/奚）~~ | ~~管线 + historian~~ | T-P0-006-γ ✅ | **done (Sprint F)** |
+| ~~🟡 中~~ | ~~T-P1-025~~ | ~~重耳↔晋文公 merge~~ | ~~管线~~ | T-P0-006-γ ✅ | **done (Sprint F)** |
+| ~~🟡 中~~ | ~~T-P1-026~~ | ~~disambig_seeds 跨国同名扩充~~ | ~~管线 + historian~~ | T-P0-006-γ ✅ | **done (Sprint F)** |
 | ⚪ 微 | T-P2-001 | codegen trailing newline 不一致 | DevOps | — | registered |
-| ⚪ 微 | T-P2-004 | NER prompt v1-r5 质量改进 — γ auto-promotion 衍生 | 管线 | T-P0-006-γ ✅ | registered |
+| ~~⚪ 微~~ | ~~T-P2-004~~ | ~~NER prompt v1-r5~~ | ~~管线~~ | T-P0-006-γ ✅ | **done (Sprint F)** |
 
 ---
 
@@ -474,20 +487,21 @@ Sprint B 全 Stage 完成：
 - `ADR-022` — NER 污染清理 vs Names-Stay 判定准则（三要素 AND：evidence 零依赖 + 非合法名语义 + FK 零引用 → 硬 DELETE + pg_dump anchor）
 - `ADR-023` — V8 Invariant 引入：Prefix-Containment（length=1 名 + 跨 person 前缀包含 → 违反；α evidence-backed 或 β alias-typed → 豁免）
 - `ADR-010 Supplement` — persons 表三态 soft-delete 语义 + 单向 CHECK 选型
+- `ADR-024` — V9 Invariant: At-Least-One-Primary Lower-Bound Check（V1 上界 + V9 下界 = exactly-one-primary）
 
 ---
 
 ## 健康度指标
 
 - 📘 文档覆盖度：核心 7/7 ✅
-- 🧭 ADR 数量：19 accepted（含 ADR-010 supplement；新增 ADR-021/022/023 @ 2026-04-21）
+- 🧭 ADR 数量：20 accepted（含 ADR-010 supplement；新增 ADR-024 V9 @ 2026-04-25）
 - 📋 任务卡数量：T-P0-001~T-P0-016 + T-P0-019~T-P0-030 + T-P0-006-γ + T-P1-007~T-P1-026 + T-P2-001~T-P2-004 done/in_progress/planned/registered/backlog（40+）
 - 👥 Agent 角色定义：10/10 ✅
 - 🏗️ 子包 build：10/10 全绿
 - 🐳 Docker：PG + Redis 健康；34 张表 migrate 成功（+pending_merge_reviews）；SigNoz deferred；端口约定 5433/6380
 - 📚 字典种子：185 条（polities 5 / reign_eras 89 / disamb 26 / persons 40 / places 25）@ 0.1.0-draft 静躺待 T-P0-025 加载；Sprint B Gate 0a Wikidata 覆盖 54.4%（174/320）；persons.seed.json 40 条 TIER-4 演化为 T-P0-025b
 - 🧪 测试覆盖：471 passed（pipeline 349 + api 61 + web 55）+ 34 skipped（DB-dependent invariant）；E2E 7 specs
-- 🔗 合并状态：556 active persons / 75 merge-soft-deleted / 5 pure-soft-deleted = 636 total
+- 🔗 合并状态：555 active persons / 76 merge-soft-deleted / 5 pure-soft-deleted = 636 total
 - 📊 Evidence 覆盖：V7 覆盖率 98.54%（person_names 层，含秦本纪 evidence）
 - 🌐 Seed 覆盖：dictionary_entries 202 / seed_mappings 204（159 active + 45 pending_review）/ 覆盖率 28.6%（159/556）
 - 🗄️ Pipeline migrations：0001–0012（latest: 0012_add_pending_merge_reviews.sql @ Sprint D Stage 1）
@@ -505,10 +519,11 @@ Sprint B 全 Stage 完成：
 | V6 | alias ≠ is_primary | 全表无 alias+is_primary=true | ✅ | 2026-04-21（Sprint A Stage 1，28→0；机制历史绿自 2026-04-19 T-P0-016） |
 | V7 | evidence coverage | active person_names 的 source_evidence_id 覆盖率 | ✅ 98.54% (PASS) | 2026-04-25（Sprint E γ 秦本纪 evidence 新增） |
 | V8 | prefix-containment | length=1 name + 跨 person 前缀包含（α evidence OR β alias 豁免） | ✅ 0 violations | 2026-04-21（Sprint A Stage 3；ADR-023） |
+| V9 | at-least-one-primary | 每 active person 至少 1 个 is_primary=true name（V1 下界） | ✅ 0 (bootstrap) | 2026-04-25（Sprint F Stage 3；ADR-024） |
 | V10 | seed_mapping consistency | V10.a orphan target + V10.b orphan entry + V10.c active evidence | ✅ 0/0/0 | 2026-04-22（Sprint B Stage 4） |
 | V11 | R6 pre-pass cardinality | no active person has >1 active seed_mapping（anti-ambiguity） | ✅ 0 | 2026-04-22（Sprint C Stage 3） |
 
-**V1-V8 + V10-V11 全绿；V1=94 存量（T-P1-022）；V7 98.54% PASS；seed coverage 28.6%（159/556 active persons matched）**。
+**V1-V9 + V10-V11 全绿；V1=0（Sprint F 修复 94→0）；V9=0 bootstrap（ADR-024）；V7 98.54% PASS；seed coverage 28.6%（159/555 active persons matched）**。
 
 ### 已知未处理违规（debt baseline）
 
@@ -569,6 +584,7 @@ Sprint B 全 Stage 完成：
 - 2026-04-24：Sprint E Track A 完成（T-P0-030 corrective seed-add）— wei-zi-qi → Q855012（historian_correction）；dictionary_entry + seed_mapping(active) + source_evidence(seed_dictionary) 三步同事务；active seeds 158→159；V10+V11 全绿；1 commit；$0 LLM
 - 2026-04-25：Sprint E Track B 完成（T-P0-006-γ 秦本纪）— 72 段 ingest / 266 NER persons / $0.83 LLM；35 merge proposals → historian ruling 3280a35（21/5/9）→ 29 soft-deletes apply（+V10a seed redirect）；active persons 319→585→556；merge_log 53→82；V1-V11 全绿（V1=94 存量）；衍生 T-P1-024/025/026 + T-P2-004
 - 2026-04-25：Sprint E 收口 — task card T-P0-006-γ + 4 debt stubs + retro + STATUS + CHANGELOG；Sprint E 完成标记
+- 2026-04-25：Sprint F 完成 — V1 根因修复（load.py Bug 1+2 → 94→0）+ V9 invariant 上线（ADR-024 bootstrap=0）+ 4 衍生债 close（T-P1-024/025/026 + T-P2-004）+ 重耳↔晋文公 textbook merge；active persons 555 / merge_log 83 / V1-V9+V10-V11 全绿；8 commits + $0.163 LLM
 
 ---
 
