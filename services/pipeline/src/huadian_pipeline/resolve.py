@@ -33,7 +33,7 @@ if TYPE_CHECKING:
     import asyncpg
 
 from .r6_seed_match import R6Status
-from .r6_temporal_guards import evaluate_guards
+from .r6_temporal_guards import evaluate_pair_guards
 from .resolve_rules import (
     MERGE_CONFIDENCE_THRESHOLD,
     PersonSnapshot,
@@ -342,8 +342,8 @@ def _detect_r6_merges(
                     "pre_pass": True,
                 }
 
-                # T-P0-029: temporal guard check
-                guard_result = evaluate_guards(a, b)
+                # T-P0-029 + T-P1-028 (ADR-025): rule-aware temporal guard check
+                guard_result = evaluate_pair_guards(a, b, rule="R6")
                 if guard_result is not None and guard_result.blocked:
                     # Enforce pair order: person_a_id < person_b_id (DB CHECK)
                     if a.id < b.id:
@@ -474,6 +474,40 @@ async def resolve_identities(pool: asyncpg.Pool) -> ResolveResult:
                 continue
 
             if match.confidence >= MERGE_CONFIDENCE_THRESHOLD:
+                # T-P1-028 (ADR-025): rule-aware guard. Guards block proposals
+                # for rules registered in GUARD_THRESHOLDS (R1=200yr, R6=500yr).
+                # Unregistered rules (R2/R3/R5) get None and proceed unchanged.
+                guard_result = evaluate_pair_guards(a, b, rule=match.rule)
+                if guard_result is not None and guard_result.blocked:
+                    # Pair-order normalize per pending_merge_reviews CHECK
+                    if a.id < b.id:
+                        aid, bid, aname, bname = a.id, b.id, a.name, b.name
+                    else:
+                        aid, bid, aname, bname = b.id, a.id, b.name, a.name
+
+                    result.blocked_merges.append(
+                        BlockedMerge(
+                            person_a_id=aid,
+                            person_b_id=bid,
+                            person_a_name=aname,
+                            person_b_name=bname,
+                            proposed_rule=match.rule,
+                            guard_type=guard_result.guard_type,
+                            guard_payload=guard_result.payload,
+                            evidence=match.evidence,
+                        )
+                    )
+                    logger.info(
+                        "%s guard blocked: %s (%s) ↔ %s (%s) — %s",
+                        match.rule,
+                        a.name,
+                        a.dynasty,
+                        b.name,
+                        b.dynasty,
+                        guard_result.reason,
+                    )
+                    continue
+
                 merge_proposals.append(
                     MergeProposal(
                         person_a_id=a.id,

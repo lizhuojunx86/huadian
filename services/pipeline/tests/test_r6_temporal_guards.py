@@ -129,7 +129,7 @@ class TestCrossDynastyGuard:
         """夏 vs 商: midpoint gap ~512yr > 500yr threshold -> blocked."""
         a = _snap(id="aaaa", name="启", dynasty="夏")
         b = _snap(id="bbbb", name="微子启", dynasty="商")
-        result = cross_dynasty_guard(a, b)
+        result = cross_dynasty_guard(a, b, threshold_years=CROSS_DYNASTY_THRESHOLD_YEARS)
         assert result is not None
         assert result.blocked is True
         assert result.guard_type == "cross_dynasty"
@@ -141,14 +141,14 @@ class TestCrossDynastyGuard:
         """西周 vs 西周: gap = 0 -> pass (no guard result)."""
         a = _snap(id="aaaa", name="周公", dynasty="西周")
         b = _snap(id="bbbb", name="周公旦", dynasty="西周")
-        result = cross_dynasty_guard(a, b)
+        result = cross_dynasty_guard(a, b, threshold_years=CROSS_DYNASTY_THRESHOLD_YEARS)
         assert result is None
 
     def test_passes_adjacent_dynasties(self) -> None:
         """商末周初 vs 西周: close enough -> pass."""
         a = _snap(id="aaaa", name="微子", dynasty="商末周初")
         b = _snap(id="bbbb", name="周武王", dynasty="西周")
-        result = cross_dynasty_guard(a, b)
+        result = cross_dynasty_guard(a, b, threshold_years=CROSS_DYNASTY_THRESHOLD_YEARS)
         # gap = |(-1050) - (-909)| = 141yr < 500yr -> pass
         assert result is None
 
@@ -156,7 +156,7 @@ class TestCrossDynastyGuard:
         """上古 vs 西周: midpoint gap ~1626yr > 500yr -> blocked."""
         a = _snap(id="aaaa", name="伏羲", dynasty="上古")
         b = _snap(id="bbbb", name="周公", dynasty="西周")
-        result = cross_dynasty_guard(a, b)
+        result = cross_dynasty_guard(a, b, threshold_years=CROSS_DYNASTY_THRESHOLD_YEARS)
         assert result is not None
         assert result.blocked is True
         assert result.payload["gap_years"] > 1000
@@ -165,28 +165,28 @@ class TestCrossDynastyGuard:
         """Empty dynasty string -> None (cannot evaluate)."""
         a = _snap(id="aaaa", name="甲", dynasty="")
         b = _snap(id="bbbb", name="乙", dynasty="商")
-        result = cross_dynasty_guard(a, b)
+        result = cross_dynasty_guard(a, b, threshold_years=CROSS_DYNASTY_THRESHOLD_YEARS)
         assert result is None
 
     def test_skip_unknown_dynasty(self) -> None:
         """Unknown dynasty value -> None (cannot evaluate)."""
         a = _snap(id="aaaa", name="甲", dynasty="外星")
         b = _snap(id="bbbb", name="乙", dynasty="商")
-        result = cross_dynasty_guard(a, b)
+        result = cross_dynasty_guard(a, b, threshold_years=CROSS_DYNASTY_THRESHOLD_YEARS)
         assert result is None
 
     def test_passes_chunqiu_vs_zhanguo(self) -> None:
         """春秋 vs 战国: midpoint gap ~275yr < 500yr -> pass."""
         a = _snap(id="aaaa", name="孔子", dynasty="春秋")
         b = _snap(id="bbbb", name="白起", dynasty="战国")
-        result = cross_dynasty_guard(a, b)
+        result = cross_dynasty_guard(a, b, threshold_years=CROSS_DYNASTY_THRESHOLD_YEARS)
         assert result is None
 
     def test_blocks_xia_vs_xihan(self) -> None:
         """夏 vs 西汉: midpoint gap ~1738yr > 500yr -> blocked."""
         a = _snap(id="aaaa", name="禹", dynasty="夏")
         b = _snap(id="bbbb", name="刘邦", dynasty="西汉")
-        result = cross_dynasty_guard(a, b)
+        result = cross_dynasty_guard(a, b, threshold_years=CROSS_DYNASTY_THRESHOLD_YEARS)
         assert result is not None
         assert result.blocked is True
 
