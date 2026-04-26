@@ -72,13 +72,71 @@ periods:
     start_year: -475
     end_year: -221
     midpoint: -348
-    aliases: ["战国时期"]
+    # T-P1-028 (Sprint H Stage 2): "战国·秦/战国秦/战国·韩/战国·魏" 是战国细分国别
+    # 标注，midpoint 与"战国"差异 < 50yr，作为 alias 处理保持 mapping 简洁。
+    # historian-review pending: 如需细分独立 period，后续单独 ADR 处理。
+    aliases:
+      - "战国时期"
+      - "战国·秦"   # pending-historian-review
+      - "战国秦"    # pending-historian-review (NER variant of 战国·秦)
+      - "战国·韩"   # pending-historian-review
+      - "战国·魏"   # pending-historian-review
 
   - name: "秦"
     start_year: -221
     end_year: -207
     midpoint: -214
     aliases: ["秦朝"]
+
+  # === T-P1-028 (Sprint H Stage 2 / ADR-025 §6.1) — 9 缺失映射 draft ===
+  # 起草: PE 2026-04-26（基于 inventory §5.4 经典史源年代界定）
+  # 复核: pending-historian-review（不阻塞 Stage 2，draft 直接生效）
+  # Reference 标注 = "为何取这段年代"的史源依据
+
+  - name: "春秋战国"
+    start_year: -500
+    end_year: -450
+    midpoint: -475
+    # Reference: 《史记·六国年表》以周元王元年（前 475）为战国开端；
+    # 《资治通鉴》以三家分晋（前 403）为开端。本条作为"生卒跨春秋战国之交"
+    # 的人物标注，取折中区间 -500 ~ -450。
+    aliases: []  # pending-historian-review
+
+  - name: "西周/春秋"
+    start_year: -800
+    end_year: -700
+    midpoint: -750
+    # Reference: 西周（-1046 ~ -771）与春秋（-770 ~ -476）的过渡区间；
+    # 平王东迁（前 770）为分界，本条覆盖跨过渡的人物标注（多见于秦本纪
+    # 早期段落如秦襄公）。
+    aliases: []  # pending-historian-review
+
+  - name: "战国末秦初"
+    start_year: -230
+    end_year: -210
+    midpoint: -220
+    # Reference: 战国结束（前 221 秦统一）+ 秦朝初年；本条覆盖跨战国/秦
+    # 过渡的人物标注（如部分秦统一前后的人物如秦楚南公、楚南公）。
+    aliases: []  # pending-historian-review
+
+  - name: "秦末"
+    start_year: -209
+    end_year: -207
+    midpoint: -208
+    # Reference: 《史记·秦始皇本纪》"二世元年七月"陈胜起义（前 209）至
+    # 子婴投降刘邦（前 207）秦亡。覆盖陈胜起义至秦灭的过渡期。
+    # 注：此 dynasty 在 DB 中标 61 persons（最大缺失映射），覆盖楚汉时期
+    # 反秦义军核心人物（如熊心 / 怀王 / 项梁等）。
+    aliases: []  # pending-historian-review
+
+  - name: "秦末汉初"
+    start_year: -209
+    end_year: -202
+    midpoint: -205
+    # Reference: 陈胜起义（前 209）至西汉建立（前 202 高祖称帝）；覆盖
+    # 楚汉战争阶段（前 206 ~ 前 202）。本条覆盖跨秦末至汉初的人物标注
+    # （如义帝 / 项羽末段）。
+    aliases: []  # pending-historian-review
 
   - name: "西汉"
     start_year: -202
