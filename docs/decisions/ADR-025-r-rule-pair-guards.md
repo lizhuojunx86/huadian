@@ -1,8 +1,9 @@
 # ADR-025 — R Rule Pair Guards：通用 pair-level guard 接口
 
-- **Status**: proposed
+- **Status**: accepted
 - **Date**: 2026-04-26
-- **Authors**: 管线工程师（起草，Opus 4.7）+ 首席架构师（待签字）
+- **Accepted-Date**: 2026-04-26
+- **Authors**: 管线工程师（起草，Opus 4.7）+ 首席架构师（签字 2026-04-26）
 - **Related**:
   - ADR-010（Cross-Chunk Identity Resolution — R 规则引擎本体）
   - ADR-014（Canonical Merge Execution Model — names-stay）
@@ -140,6 +141,11 @@ def evaluate_guards(a, b) -> GuardResult | None:
     return evaluate_pair_guards(a, b, rule="R6")
 ```
 
+**保留期**：包装在 **Sprint I 收口**前保留（**不在 Stage 2 末删除**）。理由：
+- 第三方代码（如未来的 historian 工具脚本）可能依赖既有 `evaluate_guards` 签名；Sprint I 完整 grep audit 后再删可避免遗漏
+- DeprecationWarning 持续输出 1 个 sprint 给上游 caller 充分迁移时间
+- Sprint I 末段移除时同步去掉 §6.1 中"R6 既有调用点 grep"工作项
+
 ### 2.5 Pending Merge Reviews schema 复用
 
 `pending_merge_reviews` (Sprint D migration 0012) 已支持本 ADR 全部需求：
@@ -254,9 +260,9 @@ ADR-025 与 ADR-022/023 共同延续"客观信号驱动 + 规则精化优先"路
 
 ### 6.1 短期（Sprint H Stage 2-4）
 
-- **`data/dynasty-periods.yaml` 9 缺失映射补全**（管线工程师起草 + historian 年代复核）：秦末 / 秦末汉初 / 春秋战国 / 战国·秦 / 战国·韩 / 战国·魏 / 战国秦 / 战国末秦初 / 西周/春秋
-- **R6 既有调用点 grep** 全部从 `evaluate_guards` 迁移到 `evaluate_pair_guards(rule="R6")`，去除 deprecated 包装（Stage 2 末段）
-- **dry-run 验证**：项羽δ + 秦γ 历史数据回跑，对比 Stage 0.5 拦截预测
+- **`data/dynasty-periods.yaml` 9 缺失映射补全**（管线工程师起草 draft + historian 后续年代复核）：秦末 / 秦末汉初 / 春秋战国 / 战国·秦 / 战国·韩 / 战国·魏 / 战国秦 / 战国末秦初 / 西周/春秋。每条标 `pending-historian-review`，draft 直接生效供 stage 2-5 使用
+- **R6 既有调用点迁移到 `evaluate_pair_guards(rule="R6")`**（Stage 2 内完成）；deprecated 包装**保留至 Sprint I 收口**（不在 Stage 2 末删除）
+- **dry-run 验证**：当前 DB（663 active persons）回跑，对比 Stage 0.5 拦截预测
 
 ### 6.2 中期（Sprint I/J 候选）
 
@@ -286,12 +292,12 @@ ADR-025 与 ADR-022/023 共同延续"客观信号驱动 + 规则精化优先"路
 
 ---
 
-## 8. Architect Sign-off
+## 8. Architect Sign-off (2026-04-26)
 
-- [ ] 阈值最终选定（200yr 推荐 / 150yr 备选 / 其他）
-- [ ] 接口命名最终选定（`evaluate_pair_guards` 推荐 / 其他）
-- [ ] 向后兼容包装保留期（建议 1 sprint，Stage 2 末段去除）
-- [ ] dynasty-periods.yaml 9 缺失映射的年代复核（historian 还是工程师起草？）
-- [ ] state_prefix_guard 是否本 sprint 同步实施（默认延后到 Sprint I）
+- [x] **阈值最终选定**：**R1=200yr / R6=500yr**（PE 推荐采纳）
+- [x] **接口命名最终选定**：`evaluate_pair_guards`（PE 推荐采纳）
+- [x] **向后兼容包装保留期**：**Sprint I 收口**前保留（不在 Stage 2 末删除）；§2.4 / §6.1 已同步修订
+- [x] **dynasty-periods.yaml 9 缺失映射**：**PE 起草 draft + historian 后续年代复核**（不阻塞 Stage 2，draft 直接生效）；§6.1 已同步修订
+- [x] **state_prefix_guard 实施时机**：**延后 Sprint I**（本 sprint 仅 R1 dynasty filter）
 
-签字后状态改为 `accepted`。
+状态：**accepted**（2026-04-26）。
