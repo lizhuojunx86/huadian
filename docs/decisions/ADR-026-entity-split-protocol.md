@@ -171,7 +171,11 @@ TABLE entity_split_log
   run_id                uuid NOT NULL              -- 一次 split 操作的批次 id
   source_person_id      uuid NOT NULL              -- mention 迁出 entity (FK persons.id)
   target_person_id      uuid NOT NULL              -- mention 迁入 entity (FK persons.id)
-  person_name_id        uuid NOT NULL              -- 被迁移的 person_names 行 (FK person_names.id)
+  person_name_id        uuid NOT NULL              -- 该 audit 行解释的 person_names 行 (FK person_names.id)
+                                                   --   在 redirect 场景：指向被 UPDATE 的 person_names 行（行 id 不变）
+                                                   --   在 split_for_safety 场景：指向 target entity 上**新 INSERT 副本**的 person_names 行（不是 source 原行）
+                                                   -- Source 原行 id 可通过 (source_person_id, redirected_name, redirected_name_type) 在 person_names 表中 JOIN 恢复
+                                                   -- 见 §4.4 verification 友好备注
   redirected_name       text NOT NULL              -- 该 person_name 的 name (snapshot, 防 UPDATE 后丢)
   redirected_name_type  text NOT NULL              -- name_type (snapshot)
   source_evidence_id    uuid                       -- 关联 SE (FK source_evidences.id, NULL ok)
@@ -209,7 +213,22 @@ INDEX idx_entity_split_log_target btree (target_person_id)
 （不在本 sprint scope）；T-P0-031 Stage 3 实施时由 PE 起草 + 后端工程师
 review。
 
-### 4.4 复杂度评估（Stop Rule #4 检查）
+### 4.4 Verification 友好约定（apply 脚本必备）
+
+为方便 dry-run 输出与 historian ruling 双向对账，apply 脚本应在 dry-run
+报告中**同时**显示两个维度的 pn_id（不要只显示 `entity_split_log.person_name_id`
+一列）：
+
+| 列 | 说明 | 来源 | apply 后是否稳定 |
+|---|---|---|---|
+| `source pn_id` | source entity 上的原 person_names 行 id | 脚本常量（SPLIT_MENTIONS） | ✅ 稳定（在 redirect 场景=被 UPDATE 行，在 split_for_safety 场景=保留不动的原行） |
+| `target pn_id (new INSERT)` | target entity 上新 INSERT 副本的 person_names 行 id | RETURNING（事务内 `gen_random_uuid()`） | ⚠️ ROLLBACK 后失效；真 apply 时重新生成不同 UUID |
+
+架构师对照 historian ruling 时按 **source pn_id** 列对账（与 ruling 中
+mention 短前缀直接匹配）；`entity_split_log.person_name_id` 列在
+split_for_safety 场景下指向 target 副本（不是 source 原行）。
+
+### 4.5 复杂度评估（Stop Rule #4 检查）
 
 - 字段数：**13** 列（含 4 个外键 / 1 个 CHECK / 3 个索引）
 - 与现有 `person_merge_log` 字段数相当（13 vs 9，多了 4 个 split 特有字段）
