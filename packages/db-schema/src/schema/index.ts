@@ -86,3 +86,6 @@ export {
 
 // K layer — Pending Merge Reviews (guard-blocked candidates)
 export { pendingMergeReviews } from "./pendingMergeReviews";
+
+// L layer — Entity Split Log (ADR-026 audit)
+export { entitySplitLog } from "./entitySplitLog";
