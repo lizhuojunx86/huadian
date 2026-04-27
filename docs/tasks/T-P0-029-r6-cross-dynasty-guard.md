@@ -1,11 +1,13 @@
 # T-P0-029 — R6 Cross-Dynasty / Temporal Guard
 
-- **状态**: planned（Sprint C 架构追责产物）
+- **状态**: **done**（Sprint D 落地 ✅；Sprint H 通过 ADR-025 evaluate_pair_guards 兼容性扩展，R6 既有行为不变）
 - **优先级**: P1 中（仅 1 例 false positive，不阻塞 Phase 1）
 - **主导角色**: 管线工程师 + 首席架构师
 - **所属 Phase**: Phase 0 tail
 - **依赖**: T-P0-027（R6 集成 ✅）
 - **创建日期**: 2026-04-22
+- **完成日期**: 2026-04-24（Sprint D）
+- **Sprint H follow-up**: ADR-025 evaluate_pair_guards rule-aware 接口将 R6 调用从 `evaluate_guards(a,b)` 迁移到 `evaluate_pair_guards(a,b,rule="R6")`；deprecated 包装保留至 Sprint I 收口；R6 行为零变化（22 既有 R6 测试全绿）
 - **触发事件**: Sprint C Stage 4 发现启(夏) ↔ 微子启(商) 映射到同一 Wikidata Q186544，纯 QID 锚点不够强
 
 ## 1. 背景
