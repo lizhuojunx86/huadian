@@ -6,6 +6,7 @@
 - **Related**:
   - ADR-010（cross-chunk identity resolution with soft-merge）
   - ADR-013（persons.slug partial unique）
+  - **ADR-026**（Entity Split Protocol — supplement，2026-04-27 §2.1 第 2 项 footnote 增补）
   - T-P0-006-β《尚书·尧典 + 舜典》ingest（discovery context）
   - T-P0-015（partial-merge leak precedent）
 
@@ -39,7 +40,10 @@ T-P0-006-β 的 S-5 apply 阶段，管线工程师在没有咨询架构师、也
 一次 merge 必须且只能做下列操作：
 
 1. 在 `persons` 表上对 source 原子地设置 `deleted_at` + `merged_into_id`（单条 `UPDATE`，二列同时写）。
-2. **不修改** `person_names.person_id`——每条 name 永远指向它被抽取时所属的 person 实体，哪怕该实体已被 soft-delete。
+2. **不修改** `person_names.person_id`——每条 name 永远指向它被抽取时所属的 person 实体，哪怕该实体已被 soft-delete。[^adr-026-exception]
+
+[^adr-026-exception]: **ADR-026 例外**（2026-04-27 supplement）：entity-split 协议下的 `person_names` mention redirect（UPDATE `person_id`）/ split_for_safety INSERT 是 ADR-014 §2.2 末尾"或经 ADR 授权"的具体实现，且仅在 ADR-026 §3 全部条件满足时（架构师 + historian 双签 / 4 闸门 / pg_dump anchor / 单事务 / V1-V11 全跑）生效。本例外**不**改变 §2.1 默认规则，仅为 entity-split 这一特定场景开授权口径。
+
 3. 在 source 上执行 `UPDATE person_names SET name_type = 'alias' WHERE person_id = source AND name_type = 'primary'`，把 source 原先的 primary name 降级为 alias。
 4. 在 `person_merge_log` 写入一条审计行（含 `run_id / source_id / target_id / rule / confidence`）。
 5. **不修改任何其他表**（不 INSERT、不 DELETE、不触碰 `raw_texts` / `person_aliases` / 未实现的 `raw_text_names`）。

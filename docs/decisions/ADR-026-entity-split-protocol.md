@@ -1,8 +1,9 @@
 # ADR-026 — Entity Split Protocol：mention-level redirect 例外授权
 
-- **Status**: proposed
+- **Status**: accepted
 - **Date**: 2026-04-26
-- **Authors**: 管线工程师（起草，Opus 4.7）+ 首席架构师（待签字）
+- **Accepted-Date**: 2026-04-27
+- **Authors**: 管线工程师（起草，Opus 4.7）+ 首席架构师（签字 2026-04-27）
 - **Related**:
   - **ADR-014**（Canonical Merge Execution Model — names-stay 铁律）
     本 ADR 是 ADR-014 的 **supplement**（不 supersede），授权一类 ADR-014
@@ -66,6 +67,7 @@ ADR-014 §2.2 应被 rollback。
 | 表 | 字段 | 操作 | 边界 |
 |----|------|------|------|
 | `person_names` | `person_id` | UPDATE | 仅在 historian 明确裁决的 mention 列表上，FROM `<source person>` TO `<target person>` |
+| `person_names` | (整行) | INSERT | 仅 historian `split_for_safety` 裁决场景；INSERT 行 `source_evidence_id` 必须等于 source entity 上同 surface + 同 `name_type` 对应行的 `source_evidence_id`（共享 SE）；INSERT 行 `person_id` = target entity；INSERT 必须在 `entity_split_log` 写对应 audit 行 |
 | `source_evidences` | (无字段直接改) | mention 关联调整通过 `person_names` 上的 FK 间接完成 | 不直接 UPDATE source_evidences 列 |
 
 ### 2.2 不开放清单（明确边界）
@@ -89,8 +91,14 @@ ADR-014 §2.2 应被 rollback。
    target person 映射
 3. **目标 entity 已存在** — 不允许在 entity-split 协议内**新建** persons
    行（如需新建，走 ingest 路径产出，再做 split）
+4. **`split_for_safety` 子场景** — historian 裁决某 mention 跨人可能性**双端
+   保留**时，原行在 source entity 保留不动，target entity 上 INSERT 同
+   surface + 同 `name_type` + 同 `source_evidence_id` 副本。该子场景为
+   **过渡态**：等未来 mention 段内位置切分（T-P2-007 候选）成熟后，由
+   historian 复审决定将哪一端的副本 demote / delete
 
-不满足任一条件 → **不**适用本协议，回到 ADR-014 names-stay。
+不满足条件 1-3 任一 → **不**适用本协议，回到 ADR-014 names-stay。
+条件 4 仅在 `split_for_safety` 裁决出现时附加适用，不是必要条件。
 
 ### 2.4 与 ADR-025 的互补关系
 
@@ -306,24 +314,35 @@ entity 级操作（如新建 entity 再 merge），会引入额外 entity（slug
 
 ---
 
-## 8. Architect Sign-off
+## 8. Architect Sign-off (2026-04-27)
 
-待架构师签字下列决策点：
+架构师签字（2026-04-27 PE Sprint H 会话 4）：
 
-- [ ] **§2.1 授权范围**：仅 `person_names.person_id` UPDATE 是否足够？
-      （`source_evidences` 是否真不需要直接改？）
-- [ ] **§2.2 不开放清单**：是否同意 `persons` 表本体在 split 协议外继续走
-      `apply_merges()` / 不开口？
-- [ ] **§3.1 双签机制**：historian sign-off 形式是否要求 sprint-logs
-      文件 + commit hash 引用，或允许 PR 评论作签字载体？
-- [ ] **§4 entity_split_log schema**：13 字段设计是否合理？是否需要加额外
-      字段（如 `before_person_id_chain` 等）？
-- [ ] **§5.2 ADR-014 修订**：footnote 形式是否合适，或应升级为 ADR-014 §2.1
-      原文修订？
-- [ ] **§7.2 CI 白名单**：ADR-014 §5.3 候选 T-P0-017 静态扫描是否需要本 ADR
-      联动起 design？
+- [x] **§2.1 授权范围**：`person_names.person_id` UPDATE **+ INSERT**（解读 A
+      采纳，与 historian §5 "保 1 份 + 复 1 份" 裁决一致；`source_evidences` 不直接改）
+- [x] **§2.2 不开放清单**：同意 `persons` 表本体在 split 协议外继续走
+      `apply_merges()` / 不开口
+- [x] **§3.1 双签机制**：sprint-logs file + commit hash 作签字载体（不允许仅 PR 评论）
+- [x] **§4 entity_split_log schema**：13 字段接受；CHECK (source ≠ target) 保留
+      （keep-case 不入 log，由 historian ruling commit 作 source of truth — 选项 X）
+- [x] **§5.2 ADR-014 修订**：footnote 形式（不动 ADR-014 §2.1 原条款）
+- [x] **§7.2 CI 白名单**：T-P0-017 未来联动设计（当前不动作）
 
-签字后状态改为 `accepted`。后续：T-P0-031 Stage 3 实施时基于本 ADR
+**额外 sign-off（2026-04-27 PE 会话 4 澄清）**：
+
+- [x] **解读 A 采纳**：`split_for_safety` = source 保留 + target INSERT（共享 SE）；
+      解读 B（UPDATE）违反 historian §5 "保 1 份"明文裁决；解读 C（仅 audit flag）
+      违反 T-P0-031 "修当下" 目标。决定性证据：historian §4.1 "两份 person_names
+      行将共享同一 source_evidence_id（73e39311）" — INSERT 才能产生此形态
+- [x] **entity_split_log 选项 X**：log 仅记数据变更行；keep-case 不入 log；
+      CHECK (source ≠ target) 不弱化
+- [x] **§2.1 INSERT 行授权措辞**：INSERT 行 `source_evidence_id` 必须等于 source
+      entity 上同 surface + 同 `name_type` 对应行的 `source_evidence_id`（共享 SE）；
+      INSERT 行 `person_id` = target entity；INSERT 必须在 `entity_split_log` 写对应 audit 行
+- [x] **§2.3 适用场景第 4 项**：`split_for_safety` 子场景定义（过渡态，未来 T-P2-007
+      段内位置切分成熟后清理）
+
+状态：**accepted**（2026-04-27）。后续：T-P0-031 Stage 3 实施基于本 ADR
 执行 4 闸门 + 双签 + dry-run + pg_dump anchor + 单事务 commit。
 
 ---

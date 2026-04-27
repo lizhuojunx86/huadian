@@ -33,12 +33,11 @@
 | [ADR-022](ADR-022-ner-pollution-cleanup-principle.md) | NER 污染清理 vs Names-Stay 判定准则（三要素 AND：evidence 零依赖 + 非合法名语义 + FK 零引用 → 硬 DELETE + pg_dump anchor） | 2026-04-21 | 架构师 + 管线工程师 |
 | [ADR-023](ADR-023-v8-prefix-containment-invariant.md) | V8 Invariant 引入：Prefix-Containment 检测（length=1 名 + 跨 person 前缀包含 → 违反；α evidence-backed 或 β alias-typed → 豁免） | 2026-04-21 | 架构师 + 管线工程师 |
 | [ADR-025](ADR-025-r-rule-pair-guards.md) | R Rule Pair Guards：通用 pair-level guard 接口（evaluate_pair_guards rule-aware；R1=200yr / R6=500yr cross_dynasty_guard 阈值；deprecated wrapper 保留至 Sprint I） | 2026-04-26 | 架构师 + 管线工程师 |
+| [ADR-026](ADR-026-entity-split-protocol.md) | Entity Split Protocol：mention-level redirect 例外授权（ADR-014 supplement；person_names UPDATE/INSERT 双授权；entity_split_log migration 0013；split_for_safety 子场景；双签 + 4 闸门 + dry-run + pg_dump anchor + 单事务） | 2026-04-27 | 架构师 + 管线工程师 + 历史专家 |
 
 ### 已提议（待签字）
 
-| # | 标题 | 状态 | 起草日期 | 负责人 |
-|---|------|------|---------|--------|
-| [ADR-026](ADR-026-entity-split-protocol.md) | Entity Split Protocol：mention-level redirect 例外授权（ADR-014 supplement；entity_split_log migration 0013 草案；双签 + 4 闸门 + dry-run + pg_dump anchor） | proposed | 2026-04-26 | 架构师 + 管线工程师 + 历史专家 |
+（暂无）
 
 ### 已规划（尚未起草）
 
