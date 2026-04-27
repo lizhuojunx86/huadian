@@ -26,7 +26,7 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^6.3.0",
+    "@graphql-codegen/cli": "^6.3.1",
     "@graphql-codegen/client-preset": "^5.3.0",
     "@graphql-tools/load-files": "^7.0.1",
     "@huadian/config-eslint": "workspace:*",
@@ -45,10 +45,10 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.37.3",
     "eslint-plugin-react-hooks": "^5.1.0",
-    "jsdom": "^29.0.2",
-    "postcss": "^8.5.10",
+    "jsdom": "^29.1.0",
+    "postcss": "^8.5.12",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.7.3",
-    "vitest": "^4.1.4"
+    "vitest": "^4.1.5"
   }
 }
