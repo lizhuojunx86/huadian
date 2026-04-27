@@ -6,6 +6,9 @@
 # Convention:
 #   - Years are signed integers: negative = BCE, positive = CE
 #   - midpoint = floor((start_year + end_year) / 2)
+#     For odd sums (e.g. -209 + -202 = -411), floor(-205.5) = -206.
+#     This is "rounding away from zero" for negative midpoints — unified
+#     convention across the file (PE Sprint H S4.2 / Hist Track B 2026-04-27).
 #   - aliases: alternative dynasty labels that map to the same period
 #
 # Maintenance:
@@ -73,14 +76,21 @@ periods:
     end_year: -221
     midpoint: -348
     # T-P1-028 (Sprint H Stage 2): "战国·秦/战国秦/战国·韩/战国·魏" 是战国细分国别
-    # 标注，midpoint 与"战国"差异 < 50yr，作为 alias 处理保持 mapping 简洁。
-    # historian-review pending: 如需细分独立 period，后续单独 ADR 处理。
+    # 标注，midpoint 与"战国"差异 32-46yr，作为 alias 处理保持 mapping 简洁。
+    # Hist Track B (2026-04-26 commit d7f79b7): historian 复核独立 period 估算
+    # midpoint —— 战国·秦 -302 / 战国·韩 -316 / 战国·魏 -314；与战国主区间
+    # midpoint -348 差异最大 46yr，临近 50yr "alias 处理上限"。
+    # **Future-risk 注释**：当 R 规则未来需要更精细 dynasty distance（如 R2/R5
+    # 候选 100yr 阈值）时，"战国" 主区间 -348 与 "战国·秦" 实际 -302 的 46yr 差异
+    # 可能进入"是否拦截"的 boundary 分歧区。届时再从 alias 提升为独立 period。
+    # NER variant 处理建议：未来在 NER prompt 层面 normalize（统一为带中点形式），
+    # 避免 dynasty 字段值膨胀（hist d7f79b7 §2.3.3）。
     aliases:
       - "战国时期"
-      - "战国·秦"   # pending-historian-review
-      - "战国秦"    # pending-historian-review (NER variant of 战国·秦)
-      - "战国·韩"   # pending-historian-review
-      - "战国·魏"   # pending-historian-review
+      - "战国·秦"   # historian-reviewed (commit d7f79b7); future-risk: midpoint diff 46yr near 50yr cap
+      - "战国秦"    # historian-reviewed (commit d7f79b7); NER format variant of 战国·秦
+      - "战国·韩"   # historian-reviewed (commit d7f79b7); future-risk: midpoint diff 32yr
+      - "战国·魏"   # historian-reviewed (commit d7f79b7); future-risk: midpoint diff 34yr
 
   - name: "秦"
     start_year: -221
@@ -88,19 +98,22 @@ periods:
     midpoint: -214
     aliases: ["秦朝"]
 
-  # === T-P1-028 (Sprint H Stage 2 / ADR-025 §6.1) — 9 缺失映射 draft ===
+  # === T-P1-028 (Sprint H Stage 2 / ADR-025 §6.1) — 9 缺失映射 ===
   # 起草: PE 2026-04-26（基于 inventory §5.4 经典史源年代界定）
-  # 复核: pending-historian-review（不阻塞 Stage 2，draft 直接生效）
+  # 复核: Hist Track B 2026-04-26 (commit d7f79b7) — 全 9 项独立年代复核
+  # 合流: PE Sprint H S4.2 2026-04-27 — 3 项学术修订采纳（详见各条注释）
   # Reference 标注 = "为何取这段年代"的史源依据
 
   - name: "春秋战国"
-    start_year: -500
-    end_year: -450
-    midpoint: -475
-    # Reference: 《史记·六国年表》以周元王元年（前 475）为战国开端；
-    # 《资治通鉴》以三家分晋（前 403）为开端。本条作为"生卒跨春秋战国之交"
-    # 的人物标注，取折中区间 -500 ~ -450。
-    aliases: []  # pending-historian-review
+    start_year: -481
+    end_year: -403
+    midpoint: -442
+    # Reference: 起点 -481 = 《春秋》绝笔之年（鲁哀公十四年获麟，孔子绝笔，
+    # 经学传统起点）；终点 -403 = 周威烈王二十三年三家分晋（《资治通鉴》开篇序，
+    # 宋代以来主流断代）。区间 ~78 年，midpoint -442（约鲁悼公元年 / 越灭吴前后）。
+    # Hist Track B 修订（2026-04-26 commit d7f79b7 §2.4 + §3 差异点 #3 major）：
+    # PE 原 draft -500 ~ -450 不在学界主流断代区间内，已修订为学界标准两端点。
+    aliases: []  # historian-reviewed (commit d7f79b7)
 
   - name: "西周/春秋"
     start_year: -800
@@ -109,7 +122,7 @@ periods:
     # Reference: 西周（-1046 ~ -771）与春秋（-770 ~ -476）的过渡区间；
     # 平王东迁（前 770）为分界，本条覆盖跨过渡的人物标注（多见于秦本纪
     # 早期段落如秦襄公）。
-    aliases: []  # pending-historian-review
+    aliases: []  # historian-reviewed (commit d7f79b7)
 
   - name: "战国末秦初"
     start_year: -230
@@ -117,7 +130,7 @@ periods:
     midpoint: -220
     # Reference: 战国结束（前 221 秦统一）+ 秦朝初年；本条覆盖跨战国/秦
     # 过渡的人物标注（如部分秦统一前后的人物如秦楚南公、楚南公）。
-    aliases: []  # pending-historian-review
+    aliases: []  # historian-reviewed (commit d7f79b7)
 
   - name: "秦末"
     start_year: -209
@@ -127,16 +140,19 @@ periods:
     # 子婴投降刘邦（前 207）秦亡。覆盖陈胜起义至秦灭的过渡期。
     # 注：此 dynasty 在 DB 中标 61 persons（最大缺失映射），覆盖楚汉时期
     # 反秦义军核心人物（如熊心 / 怀王 / 项梁等）。
-    aliases: []  # pending-historian-review
+    aliases: []  # historian-reviewed (commit d7f79b7)
 
   - name: "秦末汉初"
     start_year: -209
     end_year: -202
-    midpoint: -205
+    midpoint: -206
     # Reference: 陈胜起义（前 209）至西汉建立（前 202 高祖称帝）；覆盖
     # 楚汉战争阶段（前 206 ~ 前 202）。本条覆盖跨秦末至汉初的人物标注
     # （如义帝 / 项羽末段）。
-    aliases: []  # pending-historian-review
+    # Hist Track B 修订（2026-04-26 commit d7f79b7 §2.2 + §3 差异点 #1）：
+    # midpoint = floor((-209 + -202) / 2) = floor(-205.5) = -206（按文件头
+    # floor / rounding away from zero 约定）。PE 原 draft -205 修订为 -206。
+    aliases: []  # historian-reviewed (commit d7f79b7)
 
   - name: "西汉"
     start_year: -202
