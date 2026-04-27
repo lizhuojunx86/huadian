@@ -2,15 +2,17 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-26
-- **更新人**：管线工程师（Claude Sonnet 4.6）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅ + Sprint C Resolver Orchestration ✅ + Sprint D R6 Cross-Dynasty Guard ✅ + Sprint E 秦本纪 ✅ + Sprint G 项羽本纪 ✅**
+- **最近更新**：2026-04-27
+- **更新人**：管线工程师（Claude Opus 4.7 / 1M）
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅ + Sprint C Resolver Orchestration ✅ + Sprint D R6 Cross-Dynasty Guard ✅ + Sprint E 秦本纪 ✅ + Sprint G 项羽本纪 ✅ + Sprint H R1 Pair Guards + 楚怀王 Entity-Split ✅**
 
 ---
 
 ## 当前在哪
 
-**Sprint G 完成（2026-04-26）。T-P0-006-δ 项羽本纪完整 ingest（45 段 / +117 NER persons / $0.60）+ Stage 4 apply（9 merges）+ Sprint F 修复真实验证（新数据 V1+V9 +0）。Active persons 663 / merge_log 92 / V1-V11 全绿。textbook-fact precedent 2/3（G15 项籍→项羽）。楚怀王 entity-split → T-P0-031 P0 独立 sprint。**
+**Sprint H 完成（2026-04-27）。T-P1-028 R1 dynasty 前置过滤上线（ADR-025 evaluate_pair_guards rule-aware 接口；R1=200yr / R6=500yr）+ T-P0-031 楚怀王 entity-split 数据校正（ADR-026 Entity Split Protocol 首应用；2 split_for_safety person_names INSERTs）。ADR-014 §2.1 footnote 引入 ADR-026 例外。dynasty-periods.yaml 9 mappings 合流 Hist Track B 学术复核（春秋战国 -442 / 秦末汉初 -206 / 战国国别 future-risk）。Active persons 663 / V1-V11 全绿 / entity_split_log +2 行 / migration 0013。V12 评估为 backlog（T-P2-008，需 schema 变更）。**
+
+Sprint G 完成（2026-04-26）。T-P0-006-δ 项羽本纪完整 ingest（45 段 / +117 NER persons / $0.60）+ Stage 4 apply（9 merges）。textbook-fact precedent 2/3（G15 项籍→项羽）。
 
 Sprint D（T-P0-029）完成：R6 merge 检测新增跨朝代 temporal guard。
 
@@ -23,11 +25,23 @@ Sprint B 全 Stage 完成：
 - **Stage 4（✅）**：V10 invariant 三子规则（orphan target / orphan entry / active evidence）+ 6 self-tests
 - **Stage 5（✅）**：migration 0011 unique index 对齐 + ADR-021 final + Sprint 收口
 
-**下一步候选**：T-P0-031（楚怀王 entity-split，P0）/ T-P0-028（pending_review triage UI）/ T-P0-025b（TIER-4 自建 seed）/ Sprint H（新章 pilot）
+**下一步候选**：T-P0-028（pending_review triage UI）/ T-P0-025b（TIER-4 自建 seed）/ Sprint I 新章 pilot（高祖本纪候选）/ T-P1-029 候选（惠公 entity 数据修复）/ T-P2-007 mention 段内位置切分
 
 ---
 
 ## 已完成
+
+### Sprint H — R1 Pair Guards + 楚怀王 Entity-Split（2026-04-26 ~ 2026-04-27）
+
+- [x] **T-P1-028（R1 dynasty 前置过滤）**：ADR-025 evaluate_pair_guards rule-aware 接口（R1=200yr / R6=500yr）+ pending_merge_reviews 集成 + 6 单元测试（共 28 含 R6 既有）+ Stage 2 dry-run 663 active persons 8 拦截（1.14× 单章预测，Stop Rule #3 不触发）
+- [x] **T-P0-031（楚怀王 entity-split）**：ADR-026 Entity Split Protocol 首应用；2 split_for_safety person_names INSERTs（target=熊心 entity）；source 楚怀王 entity 3 行不动；entity_split_log 2 audit 行；V1-V11 全绿；pg_dump anchor `52bd6f91da5c`
+- [x] **ADR-026 落地**：accepted（10 决策点架构师签字 = 6 原 + 4 澄清）；ADR-014 §2.1 footnote 引入；migration 0013 entity_split_log 表 + Drizzle schema sync
+- [x] **dynasty-periods.yaml 合流 Hist Track B**：9 mappings 学术复核合流（3 项采纳：春秋战国 -442 / 秦末汉初 -206 / 战国国别 future-risk）；yaml 头加 floor "rounding away from zero" convention
+- [x] **V12 评估**：Stop Rule #5 触发（需 schema 变更）→ backlog T-P2-008（P2，触发条件 ≥2 例同号异人）
+- [x] **lessons learned**：ADR audit 字段语义两义性（option P 文档澄清）；ADR-017 forward-only 在 0-row 新表场景的正确路径（ALTER TABLE via 新 migration，不 DROP+rebuild）
+- 结果：Active persons 663（不变）/ person_names +2（target 熊心）/ entity_split_log 0→2 / merge_log 92（不变）/ V1-V11 全绿
+- 衍生债：T-P2-006（dry_run_report R6 标签泛化）/ T-P2-007（mention 段内位置切分）/ T-P2-008（V12 invariant）/ T-P2-009（ADR-026 §3 第 5 闸门）/ T-P1-029 候选（惠公 entity 数据修复）
+- 累计：13 commits / 1 migration（0013）/ 1 new audit table（entity_split_log）/ 1 new ADR（ADR-026）/ 1 ADR addendum（ADR-014 §2.1 footnote）/ 6 new tests / $0 LLM
 
 ### Sprint G — T-P0-006-δ 项羽本纪完整 ingest + identity resolution（2026-04-25 ~ 2026-04-26）
 - [x] Stage 0：fixture + adapter + tier-s slug 楚汉扩充 + disambig prep

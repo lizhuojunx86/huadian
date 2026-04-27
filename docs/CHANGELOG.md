@@ -5,6 +5,87 @@
 
 ---
 
+## 2026-04-27
+
+### [feat+data+docs] Sprint H — R1 Pair Guards + 楚怀王 Entity-Split
+
+- **角色**：管线工程师（执行，Opus 4.7 / 1M）+ 古籍专家（mention bucketing + dynasty mapping 学术复核）+ 首席架构师（ADR-025 / ADR-026 设计签字 + 仲裁）
+- **性质**：架构创设 sprint — 双 track（防未来 R1 guard + 修当下 entity-split 协议）
+- **关联**：Sprint G G13 楚怀王同号异人发现 / ADR-014 supplement / ADR-025 / ADR-026
+
+#### Stage 1-2 — T-P1-028 R1 Dynasty Filter（commit `e809f60` / `8501ab9`）
+
+- ADR-025 R Rule Pair Guards：`evaluate_pair_guards(a, b, *, rule)` rule-aware 接口
+  - R1=200yr / R6=500yr cross_dynasty_guard 阈值
+  - 复用 r6_temporal_guards 基础设施 + dynasty-periods.yaml + pending_merge_reviews
+  - deprecated `evaluate_guards()` 包装保留至 Sprint I 收口
+- 6 evaluate_pair_guards 单元测试 + 22 R6 既有测试（合计 28 全绿）
+- Stage 2 dry-run 663 active persons → 8 guard blocked pairs（100% 落在 inventory §5.2/§5.3 预测内 / 1.14× 单章上限 / Stop Rule #3 不触发）
+
+#### Stage 3 — ADR-026 Entity Split Protocol + T-P0-031 实施
+
+- **ADR-026 accepted（commit `ed2e8c8` + `56a6743`）**
+  - ADR-014 §2.1 第一个明文例外协议
+  - §2.1 授权范围：person_names UPDATE（redirect）+ INSERT（split_for_safety）
+  - §2.3 适用场景：4 项严格条件（含 split_for_safety 子场景）
+  - §3 执行条件：双签 + dry-run + pg_dump anchor + 4 闸门 + 单事务
+  - §4 entity_split_log audit table（13 字段，option X = 仅记数据变更行）
+  - §5.2 ADR-014 §2.1 footnote（不动原条款）
+  - 10 决策点架构师签字 = 6 原 + 4 澄清（P/X/INSERT/scenario#4）
+
+- **migration 0013（commit `c119b7c`）**
+  - entity_split_log 表（13 列 + 4 索引 + 2 CHECK + 4 FK ON DELETE RESTRICT）
+  - Drizzle TypeScript schema sync（packages/db-schema/src/schema/entitySplitLog.ts，L layer）
+
+- **T-P0-031 dry-run + apply（commit `ba01dea` / `ddc6108` / `14eb2f5`）**
+  - 4 闸门：pg_dump `pre-t-p0-031-stage-3-20260427-204634.dump:52bd6f91da5c` / schema `\d+` / NER cache 不影响 / RETURNING 双 pn_id 对账表
+  - 双签：architect commit `ed2e8c8` + `56a6743` / historian commit `a117fbf` §5
+  - apply 操作：2 person_names INSERTs on target 熊心（48061967）+ 2 entity_split_log audit 行
+  - source 楚怀王（777778a4）entity 3 行 person_names 不变（per ADR-026 split_for_safety 设计）
+
+#### Hist Track B — dynasty-periods.yaml 9 mappings 合流（commit `2b7cd0c`）
+
+- Historian 学术复核（commit `d7f79b7`）：9 缺失 mappings 独立产出 + 与 PE draft 比对
+- 3 项学术修订采纳：
+  - 春秋战国 -500/-450/-475 → **-481/-403/-442**（学界标准断代：《春秋》绝笔 + 三家分晋）
+  - 秦末汉初 midpoint -205 → **-206**（floor convention 统一）
+  - 战国·秦/韩/魏 alias 加 future-risk 注释（midpoint 差异 32-46yr 临近 50yr 上限）
+- yaml 头新增 "rounding away from zero" floor convention 明文
+
+#### V12 候选评估（commit `83a851c`）
+
+- Stop Rule #5 触发（V12 实施需 schema 变更：mention dynasty 字段）
+- 不在本 sprint 实施；登记 backlog T-P2-008（P2，触发条件 ≥2 例同号异人 case）
+- 推荐方案：方案 D（true mention dynasty 字段 + 500yr 阈值）；估算 4 days + ~$2 LLM
+
+#### Numbers
+
+- Active persons: 663 → **663**（mention-level 操作，不影响 entity 计数）
+- person_names: +2（target 熊心 entity 上 split_for_safety 副本）
+- entity_split_log: 0 → **2**（首次启用）
+- migration: 0012 → **0013**（entity_split_log）
+- ADR: 24 → **25**（+ADR-026）+ ADR-014 §2.1 footnote
+- New tests: 6（evaluate_pair_guards）
+- LLM cost: **$0**（Sprint H 全 schema/data-fix，无 ingest）
+- Commits: **13**（C1-C13 = ADR-025 chain + e809f60 + 8501ab9 + ed2e8c8 + 2b7cd0c + c119b7c + ba01dea + ddc6108 + 56a6743 + 14eb2f5 + 83a851c + closeout）
+
+#### Lessons Learned
+
+1. **ADR audit 字段语义在多场景下需明示**：`entity_split_log.person_name_id` 在 redirect vs split_for_safety 两场景下指向不同实体；架构师对账 dry-run 报告时误读引发暂缓 ACK。解决：option P 文档澄清（commit `56a6743`）+ ADR-026 §4.4 verification-friendly 双 pn_id 约定
+2. **ADR-017 forward-only 在 0-row 新表场景的正确路径**：ALTER TABLE via 新 migration（即使表当前空），不 DROP+rebuild；本 sprint PE 一度建议 DROP 是错误，作为 lessons 记入 retro
+3. **审计表语义边界**：选项 X（log 仅记数据变更行）vs Y（log 全 mention 留痕）；架构师选 X，与 person_merge_log 既有惯例（仅记动作不记裁决理由）一致
+4. **architect 对账作为协议第 5 闸门候选**：本次"PE 自验通过 + 报架构师对账暂缓 ACK + verification 后通过" 流程证明 sanity check 兜底机制有效；T-P2-009 候选将其显式化进 ADR-026 §3
+
+#### Derivative Debt
+
+- **T-P2-006**：generate_dry_run_report 标签泛化（"R6 guard 拦截" → "Guard 拦截"，含 R1）
+- **T-P2-007**：mention 段内位置切分（per historian a117fbf §6.1）；触发条件 ≥3 例同类 split_for_safety
+- **T-P2-008**：V12 invariant — entity-level cross-time mention detection（per S4.7 评估）；触发条件 ≥2 例同号异人
+- **T-P2-009**：ADR-026 §3 加第 5 闸门"架构师对账 historian ruling 短前缀"
+- **T-P1-029（候选）**：惠公 entity 内含晋惠公/秦惠公 dynasty 混合（Sprint H Stage 2.5 dry-run §3.1 异常调查发现）
+
+---
+
 ## 2026-04-26
 
 ### [feat+data] Sprint G — T-P0-006-δ 项羽本纪完整 ingest + identity resolution
