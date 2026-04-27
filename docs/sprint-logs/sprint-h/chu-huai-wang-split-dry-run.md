@@ -76,17 +76,15 @@ SELECT id FROM person_names
 
 ### 3.1 person_names INSERTs（2 行）
 
-```
-- id=f6879018-a4fd-49cc-b808-ac496323d6c5 (TX-local UUID, 真 apply 时会重新生成)
-  person_id=48061967-7058-47d2-9657-15c57a0b866b
-  name='怀王' name_type=posthumous is_primary=False
-  SE=73e39311-dfa7-4968-a608-b6a65e587d8f
+每行**新 INSERT** 在 target entity (48061967 熊心)，is_primary=False，
+source_evidence_id 与 source 原行共享（split_for_safety 设计语义）：
 
-- id=877a8954-c6df-4525-98d4-221bbe4d71d3 (TX-local UUID)
-  person_id=48061967-7058-47d2-9657-15c57a0b866b
-  name='楚王' name_type=nickname is_primary=False
-  SE=73e39311-dfa7-4968-a608-b6a65e587d8f
-```
+| target pn_id (new INSERT, ROLLBACK 后失效) | target person_id | name | name_type | is_primary | source_evidence_id |
+|--------------------------------------------|------------------|------|-----------|------------|---------------------|
+| `f6879018-a4fd-49cc-b808-ac496323d6c5` | 48061967 (熊心) | 怀王 | posthumous | False | 73e39311 |
+| `877a8954-c6df-4525-98d4-221bbe4d71d3` | 48061967 (熊心) | 楚王 | nickname | False | 73e39311 |
+
+注：本次 dry-run target pn_id 是事务内 `gen_random_uuid()` 生成，ROLLBACK 后实际不存在；真 apply 时会重新生成不同 UUID。
 
 **对架构师对读核对**：
 
@@ -101,19 +99,39 @@ SELECT id FROM person_names
 
 ### 3.2 entity_split_log INSERTs（2 行）
 
+**Verification-friendly 双 pn_id 对账表**（per ADR-026 §4.4）：
+
+| operation | source pn_id（原行 / 稳定） | target pn_id（新 INSERT / 事务内） | source → target person | name | type | SE |
+|-----------|----------------------------|------------------------------------|------------------------|------|------|-----|
+| split_for_safety | `7a68ff90-...-368a45b63cb8` | `f6879018-...-ac496323d6c5` (本次 dry-run, ROLLBACK 后失效) | 777778a4 → 48061967 | 怀王 | posthumous | 73e39311 |
+| split_for_safety | `2afc61fc-...-516125620490` | `877a8954-...-221bbe4d71d3` (本次 dry-run, ROLLBACK 后失效) | 777778a4 → 48061967 | 楚王 | nickname | 73e39311 |
+
+**架构师对照 historian ruling commit `a117fbf` §5 时按 `source pn_id` 列对账**（应见 `7a68ff90` / `2afc61fc` 两个短前缀，与 ruling 一致）。
+
+注：
+- `source pn_id` 列从脚本常量 `SPLIT_MENTIONS` 取，apply 前后稳定
+- `target pn_id (new INSERT)` 列从 RETURNING 取，事务内 `gen_random_uuid()` 生成；ROLLBACK 后实际不存在；真 apply 时会重新生成（不同 UUID）
+- `entity_split_log.person_name_id` 列在 split_for_safety 场景指向 **target 副本**（不是 source 原行）— 见 ADR-026 §4.1 / §4.4 字段语义说明
+
+**完整 entity_split_log INSERT 详情**（含 historian_ruling_ref / architect_ack_ref / pg_dump_anchor / applied_by / notes 字段）见脚本 perform_split() 实现 + RETURNING 原始输出：
+
 ```
-- id=b22fdd22-dac2-4533-9590-13f676124466
+- audit row 1:
+  id=b22fdd22-... (本次 dry-run, ROLLBACK 后失效)
+  run_id=a117fbf0-0031-4000-8000-000000000003 (deterministic)
   operation=split_for_safety
   source_person_id=777778a4-bc13-4f91-b2c3-6f8efd1b0e72  (战国楚怀王)
   target_person_id=48061967-7058-47d2-9657-15c57a0b866b  (熊心)
-  person_name_id=f6879018-a4fd-49cc-b808-ac496323d6c5    (新 INSERT 怀王 行)
+  person_name_id=f6879018-...-ac496323d6c5               (新 INSERT 怀王 行 / split_for_safety 副本)
   redirected_name='怀王' redirected_name_type=posthumous
   source_evidence_id=73e39311-dfa7-4968-a608-b6a65e587d8f
 
-- id=5f406359-ea33-4116-9ec5-5d30bce0de90
+- audit row 2:
+  id=5f406359-... (本次 dry-run, ROLLBACK 后失效)
+  run_id=a117fbf0-0031-4000-8000-000000000003
   operation=split_for_safety
   source_person_id=777778a4 → target_person_id=48061967
-  person_name_id=877a8954-c6df-4525-98d4-221bbe4d71d3    (新 INSERT 楚王 行)
+  person_name_id=877a8954-...-221bbe4d71d3               (新 INSERT 楚王 行 / split_for_safety 副本)
   redirected_name='楚王' redirected_name_type=nickname
   source_evidence_id=73e39311-dfa7-4968-a608-b6a65e587d8f
 ```
