@@ -89,3 +89,6 @@ export { pendingMergeReviews } from "./pendingMergeReviews";
 
 // L layer — Entity Split Log (ADR-026 audit)
 export { entitySplitLog } from "./entitySplitLog";
+
+// M layer — Triage Decisions (ADR-027 historian triage UI)
+export { triageDecisions } from "./triageDecisions";
