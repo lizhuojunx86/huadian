@@ -9,6 +9,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -160,6 +161,34 @@ export enum DatePrecision {
 }
 
 /**
+ * DictionaryEntry — projection of `dictionary_entries` row used by
+ * SeedMappingTriage detail page. Read-only.
+ */
+export type DictionaryEntry = {
+  __typename?: 'DictionaryEntry';
+  aliases: Maybe<Scalars['JSON']['output']>;
+  attributes: Scalars['JSON']['output'];
+  entryType: Scalars['String']['output'];
+  externalId: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  primaryName: Maybe<Scalars['String']['output']>;
+  source: DictionarySource;
+};
+
+/**
+ * DictionarySource — projection of `dictionary_sources` row used by
+ * SeedMappingTriage detail page. Read-only (no Mutation paths in V1).
+ */
+export type DictionarySource = {
+  __typename?: 'DictionarySource';
+  commercialSafe: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
+  license: Scalars['String']['output'];
+  sourceName: Scalars['String']['output'];
+  sourceVersion: Scalars['String']['output'];
+};
+
+/**
  * Event — abstract event anchor (see ADR-002). One Event may have multiple
  * EventAccount narratives across different source texts; AccountConflict
  * records structured disagreements between two accounts.
@@ -254,6 +283,31 @@ export enum EventType {
 }
 
 /**
+ * GuardBlockedMergeTriage — pending row from `pending_merge_reviews`
+ * (status='pending'). Surface = a stable representative name from the pair
+ * (resolver convention: shorter of personA/personB primary name).
+ */
+export type GuardBlockedMergeTriage = Traceable & TriageItem & {
+  __typename?: 'GuardBlockedMergeTriage';
+  evidence: Scalars['JSON']['output'];
+  guardPayload: Scalars['JSON']['output'];
+  guardType: Scalars['String']['output'];
+  historicalDecisions: Array<TriageDecision>;
+  id: Scalars['ID']['output'];
+  pendingSince: Scalars['DateTime']['output'];
+  personA: Person;
+  personB: Person;
+  proposedRule: Scalars['String']['output'];
+  provenanceTier: ProvenanceTier;
+  sourceEvidenceId: Maybe<Scalars['ID']['output']>;
+  sourceId: Scalars['ID']['output'];
+  sourceTable: Scalars['String']['output'];
+  suggestedDecision: Maybe<TriageDecisionType>;
+  surface: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+/**
  * HistoricalDate — flexible historical date model that supports open-ended
  * ranges, lunar calendar, sexagenary cycle, and reign-era references.
  * Mirrors the JSONB structure defined by historicalDateSchema in
@@ -336,6 +390,40 @@ export type MultiLangText = {
   en: Maybe<Scalars['String']['output']>;
   zhHans: Scalars['String']['output'];
   zhHant: Maybe<Scalars['String']['output']>;
+};
+
+/**
+ * Project-first Mutation root (T-P0-028 / ADR-027 §4.6). Constitutional
+ * C-2 mandate to return provenanceTier on every mutation is waived for
+ * this triage decision write per ADR-027 §4.6 (mutation operates on
+ * audit metadata, not on traceable content entities).
+ */
+export type Mutation = {
+  __typename?: 'Mutation';
+  /**
+   * Record a historian decision against a pending triage item.
+   *
+   * V1 zero-downstream: writes a row into triage_decisions and computes the
+   * next pending item for the inbox redirect; does NOT mutate the source
+   * table (seed_mappings / pending_merge_reviews stay untouched per
+   * ADR-027 §2.5 + §5 merge-iron-rule).
+   *
+   * Errors are returned via payload.error (not thrown) so that the FE
+   * Server Action can render a structured form-level error without
+   * navigation.
+   */
+  recordTriageDecision: RecordTriageDecisionPayload;
+};
+
+
+/**
+ * Project-first Mutation root (T-P0-028 / ADR-027 §4.6). Constitutional
+ * C-2 mandate to return provenanceTier on every mutation is waived for
+ * this triage decision write per ADR-027 §4.6 (mutation operates on
+ * audit metadata, not on traceable content entities).
+ */
+export type MutationRecordTriageDecisionArgs = {
+  input: RecordTriageDecisionInput;
 };
 
 /** Person name type (B layer). */
@@ -493,12 +581,26 @@ export type Query = {
   /** Fetch one Event by stable slug. Returns null when absent. */
   event: Maybe<Event>;
   /**
+   * List pending triage items, ordered by surface cluster + FIFO inside cluster
+   * (ADR-027 §2.3 inbox V1 algorithm).
+   *
+   * filterByType narrows to one implementing type; filterBySurface narrows to
+   * exact surface match (used by detail page hint banner cross-reference).
+   */
+  pendingTriageItems: TriageItemConnection;
+  /**
    * Fetch one Person by stable slug (C-13). Returns null when the slug
    * does not match any non-deleted row; an explicit NOT_FOUND error is
    * NOT raised, so that callers can distinguish "absent" from "server
    * error" without inspecting extensions.
    */
   person: Maybe<Person>;
+  /**
+   * Fetch one Person by UUID (BE inventory §3.1 推荐). Resolves merged
+   * persons to canonical via merged_into_id chain (max 5 hops). Returns
+   * null when not found or chain ends in a deleted non-merged person.
+   */
+  personById: Maybe<Person>;
   /**
    * Search and list Persons with offset-based pagination.
    *
@@ -524,6 +626,17 @@ export type Query = {
    * (no materialized view). Phase 0 scale (~200 persons) is fine.
    */
   stats: Stats;
+  /**
+   * Cross-sprint historical decisions for a given surface text. Powers the
+   * detail page hint banner (ADR-027 §2.3 痛点 #1).
+   */
+  triageDecisionsForSurface: Array<TriageDecision>;
+  /**
+   * Fetch one triage item by id. The id is the GraphQL ID emitted by the
+   * pendingTriageItems query (composite of source_table + source_id, see
+   * resolver). Returns null when the source row is no longer pending.
+   */
+  triageItem: Maybe<TriageItem>;
 };
 
 
@@ -532,8 +645,21 @@ export type QueryEventArgs = {
 };
 
 
+export type QueryPendingTriageItemsArgs = {
+  filterBySurface: InputMaybe<Scalars['String']['input']>;
+  filterByType?: InputMaybe<TriageItemTypeFilter>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type QueryPersonArgs = {
   slug: Scalars['String']['input'];
+};
+
+
+export type QueryPersonByIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -553,6 +679,17 @@ export type QuerySourceEvidenceArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
+export type QueryTriageDecisionsForSurfaceArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  surface: Scalars['String']['input'];
+};
+
+
+export type QueryTriageItemArgs = {
+  id: Scalars['ID']['input'];
+};
+
 /**
  * Reality status — applied to persons, events, places, etc.
  * Distinguishes historical records from legend / myth / fiction / composite
@@ -568,6 +705,30 @@ export enum RealityStatus {
 }
 
 /**
+ * Input for Mutation.recordTriageDecision. historianId is validated against
+ * apps/web/lib/historian-allowlist.yaml server-side (ADR-027 §2.4).
+ */
+export type RecordTriageDecisionInput = {
+  decision: TriageDecisionType;
+  historianId: Scalars['String']['input'];
+  itemId: Scalars['ID']['input'];
+  reasonSourceType?: InputMaybe<Scalars['String']['input']>;
+  reasonText?: InputMaybe<Scalars['String']['input']>;
+};
+
+/**
+ * Payload for Mutation.recordTriageDecision. nextPendingItemId enables
+ * the FE inbox redirect (ADR-027 §2.3); null if the queue is empty after
+ * this decision.
+ */
+export type RecordTriageDecisionPayload = {
+  __typename?: 'RecordTriageDecisionPayload';
+  error: Maybe<TriageDecisionError>;
+  nextPendingItemId: Maybe<Scalars['ID']['output']>;
+  triageDecision: Maybe<TriageDecision>;
+};
+
+/**
  * ReignEra — named era (年号) within a Polity (e.g. 建元, 元封).
  * name stays as raw TEXT per architect Q-3 on T-P0-002.
  */
@@ -581,6 +742,29 @@ export type ReignEra = {
   updatedAt: Scalars['DateTime']['output'];
   yearEnd: Maybe<Scalars['Int']['output']>;
   yearStart: Scalars['Int']['output'];
+};
+
+/**
+ * SeedMappingTriage — pending review row from `seed_mappings`
+ * (mapping_status='pending_review'). Surface = dictionaryEntry.primaryName.
+ */
+export type SeedMappingTriage = Traceable & TriageItem & {
+  __typename?: 'SeedMappingTriage';
+  confidence: Scalars['Float']['output'];
+  dictionaryEntry: DictionaryEntry;
+  historicalDecisions: Array<TriageDecision>;
+  id: Scalars['ID']['output'];
+  mappingMetadata: Maybe<Scalars['JSON']['output']>;
+  mappingMethod: Scalars['String']['output'];
+  pendingSince: Scalars['DateTime']['output'];
+  provenanceTier: ProvenanceTier;
+  sourceEvidenceId: Maybe<Scalars['ID']['output']>;
+  sourceId: Scalars['ID']['output'];
+  sourceTable: Scalars['String']['output'];
+  suggestedDecision: Maybe<TriageDecisionType>;
+  surface: Scalars['String']['output'];
+  targetPerson: Person;
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 /**
@@ -635,6 +819,93 @@ export type Traceable = {
   sourceEvidenceId: Maybe<Scalars['ID']['output']>;
   updatedAt: Scalars['DateTime']['output'];
 };
+
+/**
+ * TriageDecision — projection of `triage_decisions` row (migration 0014 / ADR-027 §3).
+ * Multi-row audit per source_id allowed (defer → revisit → approve).
+ */
+export type TriageDecision = {
+  __typename?: 'TriageDecision';
+  architectAckRef: Maybe<Scalars['String']['output']>;
+  decidedAt: Scalars['DateTime']['output'];
+  decision: TriageDecisionType;
+  downstreamApplied: Scalars['Boolean']['output'];
+  historianCommitRef: Maybe<Scalars['String']['output']>;
+  historianId: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  reasonSourceType: Maybe<Scalars['String']['output']>;
+  reasonText: Maybe<Scalars['String']['output']>;
+  sourceId: Scalars['ID']['output'];
+  sourceTable: Scalars['String']['output'];
+  surfaceSnapshot: Scalars['String']['output'];
+};
+
+/**
+ * Structured error for recordTriageDecision. When non-null, the mutation
+ * did not persist; the FE should display message and keep the form state.
+ * Codes: UNAUTHORIZED | INVALID_TRANSITION | ITEM_NOT_FOUND | INVALID_REASON_SOURCE_TYPE
+ */
+export type TriageDecisionError = {
+  __typename?: 'TriageDecisionError';
+  code: Scalars['String']['output'];
+  message: Scalars['String']['output'];
+};
+
+/**
+ * Decision verdict recorded against a pending triage item. Mirrors the
+ * `triage_decisions.decision` CHECK in migration 0014 (lower-case zh values
+ * in DB; GraphQL exposes UPPER_CASE per zod-mirror convention).
+ */
+export enum TriageDecisionType {
+  Approve = 'APPROVE',
+  Defer = 'DEFER',
+  Reject = 'REJECT'
+}
+
+/**
+ * A pending item awaiting historian triage.
+ * Two implementing types as of V1: SeedMappingTriage, GuardBlockedMergeTriage.
+ *
+ * Implements Traceable (constitutional C-2): provenanceTier + sourceEvidenceId
+ * are derived from the underlying source row by the resolver; on derivation
+ * failure, fallback is provenanceTier='unverified' / sourceEvidenceId=null.
+ *
+ * updatedAt is populated from the latest triage_decisions.decided_at if any
+ * exist for this source row, falling back to the source row's pendingSince.
+ */
+export type TriageItem = {
+  historicalDecisions: Array<TriageDecision>;
+  id: Scalars['ID']['output'];
+  pendingSince: Scalars['DateTime']['output'];
+  provenanceTier: ProvenanceTier;
+  sourceEvidenceId: Maybe<Scalars['ID']['output']>;
+  sourceId: Scalars['ID']['output'];
+  sourceTable: Scalars['String']['output'];
+  suggestedDecision: Maybe<TriageDecisionType>;
+  surface: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+/**
+ * Paginated queue wrapper for Query.pendingTriageItems. Mirrors
+ * PersonSearchResult shape (architect Q-5 ruling A: offset / limit pagination).
+ */
+export type TriageItemConnection = {
+  __typename?: 'TriageItemConnection';
+  hasMore: Scalars['Boolean']['output'];
+  items: Array<TriageItem>;
+  totalCount: Scalars['Int']['output'];
+};
+
+/**
+ * Filter narrowing the pending triage queue to one implementing type.
+ * ALL returns both kinds interleaved (default).
+ */
+export enum TriageItemTypeFilter {
+  All = 'ALL',
+  GuardBlockedMerge = 'GUARD_BLOCKED_MERGE',
+  SeedMapping = 'SEED_MAPPING'
+}
 
 
 
@@ -711,9 +982,15 @@ export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = 
   Traceable:
     | ( Book )
     | ( Event )
+    | ( GuardBlockedMergeTriage )
     | ( Person )
     | ( Place )
+    | ( SeedMappingTriage )
     | ( SourceEvidence )
+  ;
+  TriageItem:
+    | ( GuardBlockedMergeTriage )
+    | ( SeedMappingTriage )
   ;
 };
 
@@ -728,6 +1005,8 @@ export type ResolversTypes = {
   CredibilityTier: CredibilityTier;
   DatePrecision: DatePrecision;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  DictionaryEntry: ResolverTypeWrapper<DictionaryEntry>;
+  DictionarySource: ResolverTypeWrapper<DictionarySource>;
   Event: ResolverTypeWrapper<Event>;
   EventAccount: ResolverTypeWrapper<EventAccount>;
   EventParticipantRef: ResolverTypeWrapper<EventParticipantRef>;
@@ -735,6 +1014,7 @@ export type ResolversTypes = {
   EventSequenceStep: ResolverTypeWrapper<EventSequenceStep>;
   EventType: EventType;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  GuardBlockedMergeTriage: ResolverTypeWrapper<GuardBlockedMergeTriage>;
   HistoricalDate: ResolverTypeWrapper<HistoricalDate>;
   HypothesisRelationType: HypothesisRelationType;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
@@ -742,6 +1022,7 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   MultiLangText: ResolverTypeWrapper<MultiLangText>;
+  Mutation: ResolverTypeWrapper<Record<PropertyKey, never>>;
   NameType: NameType;
   Person: ResolverTypeWrapper<Person>;
   PersonName: ResolverTypeWrapper<PersonName>;
@@ -753,11 +1034,20 @@ export type ResolversTypes = {
   ProvenanceTier: ProvenanceTier;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
   RealityStatus: RealityStatus;
+  RecordTriageDecisionInput: RecordTriageDecisionInput;
+  RecordTriageDecisionPayload: ResolverTypeWrapper<RecordTriageDecisionPayload>;
   ReignEra: ResolverTypeWrapper<ReignEra>;
+  SeedMappingTriage: ResolverTypeWrapper<SeedMappingTriage>;
   SourceEvidence: ResolverTypeWrapper<SourceEvidence>;
   Stats: ResolverTypeWrapper<Stats>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Traceable: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Traceable']>;
+  TriageDecision: ResolverTypeWrapper<TriageDecision>;
+  TriageDecisionError: ResolverTypeWrapper<TriageDecisionError>;
+  TriageDecisionType: TriageDecisionType;
+  TriageItem: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['TriageItem']>;
+  TriageItemConnection: ResolverTypeWrapper<Omit<TriageItemConnection, 'items'> & { items: Array<ResolversTypes['TriageItem']> }>;
+  TriageItemTypeFilter: TriageItemTypeFilter;
   UUID: ResolverTypeWrapper<Scalars['UUID']['output']>;
 };
 
@@ -767,18 +1057,22 @@ export type ResolversParentTypes = {
   Book: Book;
   Boolean: Scalars['Boolean']['output'];
   DateTime: Scalars['DateTime']['output'];
+  DictionaryEntry: DictionaryEntry;
+  DictionarySource: DictionarySource;
   Event: Event;
   EventAccount: EventAccount;
   EventParticipantRef: EventParticipantRef;
   EventPlaceRef: EventPlaceRef;
   EventSequenceStep: EventSequenceStep;
   Float: Scalars['Float']['output'];
+  GuardBlockedMergeTriage: GuardBlockedMergeTriage;
   HistoricalDate: HistoricalDate;
   ID: Scalars['ID']['output'];
   IdentityHypothesis: IdentityHypothesis;
   Int: Scalars['Int']['output'];
   JSON: Scalars['JSON']['output'];
   MultiLangText: MultiLangText;
+  Mutation: Record<PropertyKey, never>;
   Person: Person;
   PersonName: PersonName;
   PersonSearchResult: PersonSearchResult;
@@ -787,11 +1081,18 @@ export type ResolversParentTypes = {
   Polity: Polity;
   PositiveInt: Scalars['PositiveInt']['output'];
   Query: Record<PropertyKey, never>;
+  RecordTriageDecisionInput: RecordTriageDecisionInput;
+  RecordTriageDecisionPayload: RecordTriageDecisionPayload;
   ReignEra: ReignEra;
+  SeedMappingTriage: SeedMappingTriage;
   SourceEvidence: SourceEvidence;
   Stats: Stats;
   String: Scalars['String']['output'];
   Traceable: ResolversInterfaceTypes<ResolversParentTypes>['Traceable'];
+  TriageDecision: TriageDecision;
+  TriageDecisionError: TriageDecisionError;
+  TriageItem: ResolversInterfaceTypes<ResolversParentTypes>['TriageItem'];
+  TriageItemConnection: Omit<TriageItemConnection, 'items'> & { items: Array<ResolversParentTypes['TriageItem']> };
   UUID: Scalars['UUID']['output'];
 };
 
@@ -826,6 +1127,24 @@ export type BookResolvers<ContextType = GraphQLContext, ParentType extends Resol
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
+
+export type DictionaryEntryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DictionaryEntry'] = ResolversParentTypes['DictionaryEntry']> = {
+  aliases?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  attributes?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  entryType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  externalId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  primaryName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  source?: Resolver<ResolversTypes['DictionarySource'], ParentType, ContextType>;
+};
+
+export type DictionarySourceResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DictionarySource'] = ResolversParentTypes['DictionarySource']> = {
+  commercialSafe?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  license?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  sourceName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  sourceVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+};
 
 export type EventResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Event'] = ResolversParentTypes['Event']> = {
   accounts?: Resolver<Array<ResolversTypes['EventAccount']>, ParentType, ContextType>;
@@ -881,6 +1200,26 @@ export type EventSequenceStepResolvers<ContextType = GraphQLContext, ParentType 
   time?: Resolver<Maybe<ResolversTypes['HistoricalDate']>, ParentType, ContextType>;
 };
 
+export type GuardBlockedMergeTriageResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['GuardBlockedMergeTriage'] = ResolversParentTypes['GuardBlockedMergeTriage']> = {
+  evidence?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  guardPayload?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  guardType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  historicalDecisions?: Resolver<Array<ResolversTypes['TriageDecision']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  pendingSince?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  personA?: Resolver<ResolversTypes['Person'], ParentType, ContextType>;
+  personB?: Resolver<ResolversTypes['Person'], ParentType, ContextType>;
+  proposedRule?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  provenanceTier?: Resolver<ResolversTypes['ProvenanceTier'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  sourceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  sourceTable?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  suggestedDecision?: Resolver<Maybe<ResolversTypes['TriageDecisionType']>, ParentType, ContextType>;
+  surface?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type HistoricalDateResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['HistoricalDate'] = ResolversParentTypes['HistoricalDate']> = {
   day?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   lunarDay?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -917,6 +1256,10 @@ export type MultiLangTextResolvers<ContextType = GraphQLContext, ParentType exte
   en?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   zhHans?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   zhHant?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type MutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  recordTriageDecision?: Resolver<ResolversTypes['RecordTriageDecisionPayload'], ParentType, ContextType, RequireFields<MutationRecordTriageDecisionArgs, 'input'>>;
 };
 
 export type PersonResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Person'] = ResolversParentTypes['Person']> = {
@@ -1003,11 +1346,21 @@ export interface PositiveIntScalarConfig extends GraphQLScalarTypeConfig<Resolve
 export type QueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   _schemaVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   event?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType, RequireFields<QueryEventArgs, 'slug'>>;
+  pendingTriageItems?: Resolver<ResolversTypes['TriageItemConnection'], ParentType, ContextType, RequireFields<QueryPendingTriageItemsArgs, 'filterByType' | 'limit' | 'offset'>>;
   person?: Resolver<Maybe<ResolversTypes['Person']>, ParentType, ContextType, RequireFields<QueryPersonArgs, 'slug'>>;
+  personById?: Resolver<Maybe<ResolversTypes['Person']>, ParentType, ContextType, RequireFields<QueryPersonByIdArgs, 'id'>>;
   persons?: Resolver<ResolversTypes['PersonSearchResult'], ParentType, ContextType, RequireFields<QueryPersonsArgs, 'limit' | 'offset'>>;
   place?: Resolver<Maybe<ResolversTypes['Place']>, ParentType, ContextType, RequireFields<QueryPlaceArgs, 'slug'>>;
   sourceEvidence?: Resolver<Maybe<ResolversTypes['SourceEvidence']>, ParentType, ContextType, RequireFields<QuerySourceEvidenceArgs, 'id'>>;
   stats?: Resolver<ResolversTypes['Stats'], ParentType, ContextType>;
+  triageDecisionsForSurface?: Resolver<Array<ResolversTypes['TriageDecision']>, ParentType, ContextType, RequireFields<QueryTriageDecisionsForSurfaceArgs, 'limit' | 'surface'>>;
+  triageItem?: Resolver<Maybe<ResolversTypes['TriageItem']>, ParentType, ContextType, RequireFields<QueryTriageItemArgs, 'id'>>;
+};
+
+export type RecordTriageDecisionPayloadResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['RecordTriageDecisionPayload'] = ResolversParentTypes['RecordTriageDecisionPayload']> = {
+  error?: Resolver<Maybe<ResolversTypes['TriageDecisionError']>, ParentType, ContextType>;
+  nextPendingItemId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  triageDecision?: Resolver<Maybe<ResolversTypes['TriageDecision']>, ParentType, ContextType>;
 };
 
 export type ReignEraResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['ReignEra'] = ResolversParentTypes['ReignEra']> = {
@@ -1019,6 +1372,25 @@ export type ReignEraResolvers<ContextType = GraphQLContext, ParentType extends R
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   yearEnd?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   yearStart?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+};
+
+export type SeedMappingTriageResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['SeedMappingTriage'] = ResolversParentTypes['SeedMappingTriage']> = {
+  confidence?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  dictionaryEntry?: Resolver<ResolversTypes['DictionaryEntry'], ParentType, ContextType>;
+  historicalDecisions?: Resolver<Array<ResolversTypes['TriageDecision']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  mappingMetadata?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  mappingMethod?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  pendingSince?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  provenanceTier?: Resolver<ResolversTypes['ProvenanceTier'], ParentType, ContextType>;
+  sourceEvidenceId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  sourceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  sourceTable?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  suggestedDecision?: Resolver<Maybe<ResolversTypes['TriageDecisionType']>, ParentType, ContextType>;
+  surface?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  targetPerson?: Resolver<ResolversTypes['Person'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type SourceEvidenceResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['SourceEvidence'] = ResolversParentTypes['SourceEvidence']> = {
@@ -1044,7 +1416,37 @@ export type StatsResolvers<ContextType = GraphQLContext, ParentType extends Reso
 };
 
 export type TraceableResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Traceable'] = ResolversParentTypes['Traceable']> = {
-  __resolveType: TypeResolveFn<'Book' | 'Event' | 'Person' | 'Place' | 'SourceEvidence', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'Book' | 'Event' | 'GuardBlockedMergeTriage' | 'Person' | 'Place' | 'SeedMappingTriage' | 'SourceEvidence', ParentType, ContextType>;
+};
+
+export type TriageDecisionResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TriageDecision'] = ResolversParentTypes['TriageDecision']> = {
+  architectAckRef?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  decidedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  decision?: Resolver<ResolversTypes['TriageDecisionType'], ParentType, ContextType>;
+  downstreamApplied?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  historianCommitRef?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  historianId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  reasonSourceType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  reasonText?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  sourceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  sourceTable?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  surfaceSnapshot?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type TriageDecisionErrorResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TriageDecisionError'] = ResolversParentTypes['TriageDecisionError']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type TriageItemResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TriageItem'] = ResolversParentTypes['TriageItem']> = {
+  __resolveType: TypeResolveFn<'GuardBlockedMergeTriage' | 'SeedMappingTriage', ParentType, ContextType>;
+};
+
+export type TriageItemConnectionResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TriageItemConnection'] = ResolversParentTypes['TriageItemConnection']> = {
+  hasMore?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  items?: Resolver<Array<ResolversTypes['TriageItem']>, ParentType, ContextType>;
+  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 };
 
 export interface UuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['UUID'], any> {
@@ -1055,15 +1457,19 @@ export type Resolvers<ContextType = GraphQLContext> = {
   AccountConflict?: AccountConflictResolvers<ContextType>;
   Book?: BookResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
+  DictionaryEntry?: DictionaryEntryResolvers<ContextType>;
+  DictionarySource?: DictionarySourceResolvers<ContextType>;
   Event?: EventResolvers<ContextType>;
   EventAccount?: EventAccountResolvers<ContextType>;
   EventParticipantRef?: EventParticipantRefResolvers<ContextType>;
   EventPlaceRef?: EventPlaceRefResolvers<ContextType>;
   EventSequenceStep?: EventSequenceStepResolvers<ContextType>;
+  GuardBlockedMergeTriage?: GuardBlockedMergeTriageResolvers<ContextType>;
   HistoricalDate?: HistoricalDateResolvers<ContextType>;
   IdentityHypothesis?: IdentityHypothesisResolvers<ContextType>;
   JSON?: GraphQLScalarType;
   MultiLangText?: MultiLangTextResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Person?: PersonResolvers<ContextType>;
   PersonName?: PersonNameResolvers<ContextType>;
   PersonSearchResult?: PersonSearchResultResolvers<ContextType>;
@@ -1072,10 +1478,16 @@ export type Resolvers<ContextType = GraphQLContext> = {
   Polity?: PolityResolvers<ContextType>;
   PositiveInt?: GraphQLScalarType;
   Query?: QueryResolvers<ContextType>;
+  RecordTriageDecisionPayload?: RecordTriageDecisionPayloadResolvers<ContextType>;
   ReignEra?: ReignEraResolvers<ContextType>;
+  SeedMappingTriage?: SeedMappingTriageResolvers<ContextType>;
   SourceEvidence?: SourceEvidenceResolvers<ContextType>;
   Stats?: StatsResolvers<ContextType>;
   Traceable?: TraceableResolvers<ContextType>;
+  TriageDecision?: TriageDecisionResolvers<ContextType>;
+  TriageDecisionError?: TriageDecisionErrorResolvers<ContextType>;
+  TriageItem?: TriageItemResolvers<ContextType>;
+  TriageItemConnection?: TriageItemConnectionResolvers<ContextType>;
   UUID?: GraphQLScalarType;
 };
 

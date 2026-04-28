@@ -4,6 +4,7 @@
 
 schema {
   query: Query
+  mutation: Mutation
 }
 
 """
@@ -131,6 +132,32 @@ Provided by graphql-scalars' DateTimeResolver.
 scalar DateTime
 
 """
+DictionaryEntry — projection of `dictionary_entries` row used by
+SeedMappingTriage detail page. Read-only.
+"""
+type DictionaryEntry {
+  id: ID!
+  source: DictionarySource!
+  externalId: String!
+  entryType: String!
+  primaryName: String
+  aliases: JSON
+  attributes: JSON!
+}
+
+"""
+DictionarySource — projection of `dictionary_sources` row used by
+SeedMappingTriage detail page. Read-only (no Mutation paths in V1).
+"""
+type DictionarySource {
+  id: ID!
+  sourceName: String!
+  sourceVersion: String!
+  license: String!
+  commercialSafe: Boolean!
+}
+
+"""
 Event — abstract event anchor (see ADR-002). One Event may have multiple
 EventAccount narratives across different source texts; AccountConflict
 records structured disagreements between two accounts.
@@ -220,6 +247,30 @@ enum EventType {
 }
 
 """
+GuardBlockedMergeTriage — pending row from `pending_merge_reviews`
+(status='pending'). Surface = a stable representative name from the pair
+(resolver convention: shorter of personA/personB primary name).
+"""
+type GuardBlockedMergeTriage implements TriageItem & Traceable {
+  id: ID!
+  sourceTable: String!
+  sourceId: ID!
+  surface: String!
+  pendingSince: DateTime!
+  historicalDecisions: [TriageDecision!]!
+  suggestedDecision: TriageDecisionType
+  provenanceTier: ProvenanceTier!
+  sourceEvidenceId: ID
+  updatedAt: DateTime!
+  personA: Person!
+  personB: Person!
+  proposedRule: String!
+  guardType: String!
+  guardPayload: JSON!
+  evidence: JSON!
+}
+
+"""
 HistoricalDate — flexible historical date model that supports open-ended
 ranges, lunar calendar, sexagenary cycle, and reign-era references.
 Mirrors the JSONB structure defined by historicalDateSchema in
@@ -305,6 +356,28 @@ type MultiLangText {
   zhHans: String!
   zhHant: String
   en: String
+}
+
+"""
+Project-first Mutation root (T-P0-028 / ADR-027 §4.6). Constitutional
+C-2 mandate to return provenanceTier on every mutation is waived for
+this triage decision write per ADR-027 §4.6 (mutation operates on
+audit metadata, not on traceable content entities).
+"""
+type Mutation {
+  """
+  Record a historian decision against a pending triage item.
+  
+  V1 zero-downstream: writes a row into triage_decisions and computes the
+  next pending item for the inbox redirect; does NOT mutate the source
+  table (seed_mappings / pending_merge_reviews stay untouched per
+  ADR-027 §2.5 + §5 merge-iron-rule).
+  
+  Errors are returned via payload.error (not thrown) so that the FE
+  Server Action can render a structured form-level error without
+  navigation.
+  """
+  recordTriageDecision(input: RecordTriageDecisionInput!): RecordTriageDecisionPayload!
 }
 
 """Person name type (B layer)."""
@@ -461,12 +534,26 @@ type Query {
   """Fetch one Event by stable slug. Returns null when absent."""
   event(slug: String!): Event
   """
+  List pending triage items, ordered by surface cluster + FIFO inside cluster
+  (ADR-027 §2.3 inbox V1 algorithm).
+  
+  filterByType narrows to one implementing type; filterBySurface narrows to
+  exact surface match (used by detail page hint banner cross-reference).
+  """
+  pendingTriageItems(limit: Int = 50, offset: Int = 0, filterByType: TriageItemTypeFilter = ALL, filterBySurface: String): TriageItemConnection!
+  """
   Fetch one Person by stable slug (C-13). Returns null when the slug
   does not match any non-deleted row; an explicit NOT_FOUND error is
   NOT raised, so that callers can distinguish "absent" from "server
   error" without inspecting extensions.
   """
   person(slug: String!): Person
+  """
+  Fetch one Person by UUID (BE inventory §3.1 推荐). Resolves merged
+  persons to canonical via merged_into_id chain (max 5 hops). Returns
+  null when not found or chain ends in a deleted non-merged person.
+  """
+  personById(id: ID!): Person
   """
   Search and list Persons with offset-based pagination.
   
@@ -492,6 +579,17 @@ type Query {
   (no materialized view). Phase 0 scale (~200 persons) is fine.
   """
   stats: Stats!
+  """
+  Cross-sprint historical decisions for a given surface text. Powers the
+  detail page hint banner (ADR-027 §2.3 痛点 #1).
+  """
+  triageDecisionsForSurface(surface: String!, limit: Int = 10): [TriageDecision!]!
+  """
+  Fetch one triage item by id. The id is the GraphQL ID emitted by the
+  pendingTriageItems query (composite of source_table + source_id, see
+  resolver). Returns null when the source row is no longer pending.
+  """
+  triageItem(id: ID!): TriageItem
 }
 
 """
@@ -509,6 +607,29 @@ enum RealityStatus {
 }
 
 """
+Input for Mutation.recordTriageDecision. historianId is validated against
+apps/web/lib/historian-allowlist.yaml server-side (ADR-027 §2.4).
+"""
+input RecordTriageDecisionInput {
+  itemId: ID!
+  decision: TriageDecisionType!
+  reasonText: String
+  reasonSourceType: String
+  historianId: String!
+}
+
+"""
+Payload for Mutation.recordTriageDecision. nextPendingItemId enables
+the FE inbox redirect (ADR-027 §2.3); null if the queue is empty after
+this decision.
+"""
+type RecordTriageDecisionPayload {
+  triageDecision: TriageDecision
+  nextPendingItemId: ID
+  error: TriageDecisionError
+}
+
+"""
 ReignEra — named era (年号) within a Polity (e.g. 建元, 元封).
 name stays as raw TEXT per architect Q-3 on T-P0-002.
 """
@@ -521,6 +642,28 @@ type ReignEra {
   emperorPersonId: UUID
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+"""
+SeedMappingTriage — pending review row from `seed_mappings`
+(mapping_status='pending_review'). Surface = dictionaryEntry.primaryName.
+"""
+type SeedMappingTriage implements TriageItem & Traceable {
+  id: ID!
+  sourceTable: String!
+  sourceId: ID!
+  surface: String!
+  pendingSince: DateTime!
+  historicalDecisions: [TriageDecision!]!
+  suggestedDecision: TriageDecisionType
+  provenanceTier: ProvenanceTier!
+  sourceEvidenceId: ID
+  updatedAt: DateTime!
+  targetPerson: Person!
+  dictionaryEntry: DictionaryEntry!
+  confidence: Float!
+  mappingMethod: String!
+  mappingMetadata: JSON
 }
 
 """
@@ -572,6 +715,90 @@ interface Traceable {
   sourceEvidenceId: ID
   provenanceTier: ProvenanceTier!
   updatedAt: DateTime!
+}
+
+"""
+TriageDecision — projection of `triage_decisions` row (migration 0014 / ADR-027 §3).
+Multi-row audit per source_id allowed (defer → revisit → approve).
+"""
+type TriageDecision {
+  id: ID!
+  sourceTable: String!
+  sourceId: ID!
+  surfaceSnapshot: String!
+  decision: TriageDecisionType!
+  reasonText: String
+  reasonSourceType: String
+  historianId: String!
+  historianCommitRef: String
+  architectAckRef: String
+  decidedAt: DateTime!
+  downstreamApplied: Boolean!
+}
+
+"""
+Structured error for recordTriageDecision. When non-null, the mutation
+did not persist; the FE should display message and keep the form state.
+Codes: UNAUTHORIZED | INVALID_TRANSITION | ITEM_NOT_FOUND | INVALID_REASON_SOURCE_TYPE
+"""
+type TriageDecisionError {
+  code: String!
+  message: String!
+}
+
+"""
+Decision verdict recorded against a pending triage item. Mirrors the
+`triage_decisions.decision` CHECK in migration 0014 (lower-case zh values
+in DB; GraphQL exposes UPPER_CASE per zod-mirror convention).
+"""
+enum TriageDecisionType {
+  APPROVE
+  REJECT
+  DEFER
+}
+
+"""
+A pending item awaiting historian triage.
+Two implementing types as of V1: SeedMappingTriage, GuardBlockedMergeTriage.
+
+Implements Traceable (constitutional C-2): provenanceTier + sourceEvidenceId
+are derived from the underlying source row by the resolver; on derivation
+failure, fallback is provenanceTier='unverified' / sourceEvidenceId=null.
+
+updatedAt is populated from the latest triage_decisions.decided_at if any
+exist for this source row, falling back to the source row's pendingSince.
+"""
+interface TriageItem implements Traceable {
+  id: ID!
+  sourceTable: String!
+  sourceId: ID!
+  surface: String!
+  pendingSince: DateTime!
+  historicalDecisions: [TriageDecision!]!
+  suggestedDecision: TriageDecisionType
+  provenanceTier: ProvenanceTier!
+  sourceEvidenceId: ID
+  updatedAt: DateTime!
+}
+
+"""
+Paginated queue wrapper for Query.pendingTriageItems. Mirrors
+PersonSearchResult shape (architect Q-5 ruling A: offset / limit pagination).
+"""
+type TriageItemConnection {
+  items: [TriageItem!]!
+  totalCount: Int!
+  hasMore: Boolean!
+}
+
+"""
+Filter narrowing the pending triage queue to one implementing type.
+ALL returns both kinds interleaved (default).
+"""
+enum TriageItemTypeFilter {
+  SEED_MAPPING
+  GUARD_BLOCKED_MERGE
+  ALL
 }
 
 """
