@@ -424,11 +424,11 @@ Day 8: 收档
    - `.ts` 文件头注释明示"⚠️ Mirrored from historian-allowlist.yaml; if updating, edit yaml first then sync .ts"。
    - V2 SSO 升级时两文件一并退役，middleware 直接接 SSO 校验。
 
-**【PE】签字**：
-- [ ] ADR-027 §5 merge 铁律继承条款接受
-- [ ] 本 design doc §5.1 pending_merge_reviews 补跑 spec 实施可行
-- [ ] 本 design doc §5.2 markdown backfill spec 实施可行
-- [ ] 工时 1.5d（两脚本 +）估计准确
+**【PE】签字**（2026-04-29 Stage 2 完成后回填，commit C4 `333398f`）：
+- [x] ADR-027 §5 merge 铁律继承条款接受
+- [x] 本 design doc §5.1 pending_merge_reviews 补跑 spec 实施可行 — PMR 18 written / 0 errors
+- [x] 本 design doc §5.2 markdown backfill spec 实施可行 — TD 175 written + 4 idempotency-skipped (architect-approved 2026-04-29 R1+R3 hybrid)
+- [x] 工时 1.5d（两脚本 +）估计准确 — 实际两脚本编写 + dry-run + apply 累计约 1.2d (PE Opus 4.7)
 
 **【Hist】签字**：
 - [ ] ADR-027 §1.2 + §2.6 痛点解决方案接受
