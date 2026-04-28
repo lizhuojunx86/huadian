@@ -7,6 +7,65 @@
 
 ## 2026-04-28
 
+### [feat+fix+docs] Sprint J — T-P0-006-ε 高祖本纪 ingest + identity resolution
+
+- **角色**：管线工程师（执行，Sonnet 4.6）+ 首席架构师（Stage 0 brief + S4.3' inline 裁决 A+C+D）+ 古籍专家（Stage 3 historian review）
+- **性质**：新章节 ingest sprint — 高祖本纪 NER + resolver apply + `_swap_ab_payload` bug fix
+
+#### Stage 0-2 — NER Ingest
+
+- 高祖本纪全量 ingest：+85 NER persons（663→748）；$0.04 smoke + $0.75 full = **$0.79**
+- NER v1-r5（Sprint F），无 prompt 变更；slug tier-s 扩充沿用 Sprint G 模式
+
+#### Stage 3 — Dry-Run Resolve（commit `336cdee`）
+
+- Run ID: `c9f9a1d8-37e9-452c-8124-e61e4fb2ba03`；748 active persons
+- 23 merge proposals / 18 guard 拦截（11 cross_dynasty + 7 state_prefix）
+- R1 FP 治理率：state_prefix_guard 7/7 = **100%**（≥90% Sprint G→J 目标达成）
+- 新增 +2 guard blocks（rows 11/18）：dynasty A/B 列顺序在报告中显示有误（display bug，DB 值正确）
+
+#### Stage 4 S4.3' — Bug Fix（commits `203cb7c` + `7fa75a0`）
+
+架构师 inline 裁决 A+C+D（Stop Rule 触发后）：
+
+- **A**: S4.3 dynasty DB fix 跳过（DB 值已正确：吕后=西汉 / 刘盈=西汉）；T-P1-031 不创建
+- **C**: dry-run report 修正 §correction-2026-04-28（rows 11/18 dynasty 列位错位说明）
+- **D**: `resolve.py` 引入 `_swap_ab_payload()` helper：pair-order normalization swap 时同步互换 guard_payload `*_a`/`*_b` 键；R1/R6 两路径均修复
+- **5 regression tests** 全绿（`tests/resolve/test_dry_run_report.py`，含 cross_dynasty + state_prefix + idempotent + no-swap/with-swap 列位对齐验证）
+
+#### Stage 4 Apply（commit `a85f599`）
+
+- 19 soft-deletes：`manual_textbook_fact`×2 + `R1+historian-confirm`×9 + `R1+structural-dedup`×6 + `R1+historian-split-sub`×2
+- Run ID: `07db8930-0006-4000-e000-000000000019`；historian commit: `07db893`
+- pre-apply: active=748 merge_log=92 → post-apply: **active=729 merge_log=111**
+- Gate 3: V1=0 / V9=0 / V10a=0 / V11=0 全绿
+
+#### 关键裁决
+
+- **textbook-fact 累计 4 例**（嬴政→始皇帝 #3 + 陈胜→陈涉 #4）→ ADR-014 addendum 触发（T-P1-030）
+- **G7 entity-split sub-merges**：怀王（高祖本纪新实例）→ 熊心 / 义帝（高祖本纪新实例）→ 熊心（`R1+historian-split-sub`）
+- **chain merge 创建**：陈王(deleted→陈胜) → 陈胜(deleted→陈涉) → 陈涉(canonical)
+- **田广 §4.5**：SELECT 确认仅 1 active 田广，不追加第 20 条 SD
+
+#### Numbers
+
+- Active persons: 748 → **729**（-19 merges）；累计历程：663→748（ingest）→729（merge）
+- merge_log: 92 → **111**（+19）
+- R1 FP 治理率: **100%**（Sprint G→J 全章节达成 ≥90% 目标）
+- New tests: **5**（`_swap_ab_payload` + 列位对齐 regression tests）
+- LLM cost: **$0.79**
+- Commits: **3**（C1a=dry-run correction / C1b=resolve.py fix+tests / C2=Stage 4 apply）
+- Migrations: 0
+
+#### Derivative Debt
+
+- **T-P1-030**（新）：ADR-014 addendum — textbook-fact merge_rule 正式规范（4 例触发阈值）
+- **T-P1-027 增项**：塞王欣 surface 新增 + 齐王候选列表扩展为 5 人
+- **T-P2-005 增项**：西汉初"太X"格式 few-shot（太公→刘太公，太后→吕雉）
+- **T-P2-009 升级候选**：架构师 inline 裁决局限性 → formal protocol
+
+---
+
 ### [feat+docs] Sprint I — state_prefix_guard (ADR-025 §5.3)
 
 - **角色**：管线工程师（执行，Sonnet 4.6）+ 首席架构师（ADR-025 §5.3 addendum 签字）
