@@ -34,6 +34,7 @@
 | [ADR-023](ADR-023-v8-prefix-containment-invariant.md) | V8 Invariant 引入：Prefix-Containment 检测（length=1 名 + 跨 person 前缀包含 → 违反；α evidence-backed 或 β alias-typed → 豁免） | 2026-04-21 | 架构师 + 管线工程师 |
 | [ADR-025](ADR-025-r-rule-pair-guards.md) | R Rule Pair Guards：通用 pair-level guard 接口（evaluate_pair_guards rule-aware；R1=200yr / R6=500yr cross_dynasty_guard 阈值；deprecated wrapper 保留至 Sprint I） | 2026-04-26 | 架构师 + 管线工程师 |
 | [ADR-026](ADR-026-entity-split-protocol.md) | Entity Split Protocol：mention-level redirect 例外授权（ADR-014 supplement；person_names UPDATE/INSERT 双授权；entity_split_log migration 0013；split_for_safety 子场景；双签 + 4 闸门 + dry-run + pg_dump anchor + 单事务） | 2026-04-27 | 架构师 + 管线工程师 + 历史专家 |
+| [ADR-027](ADR-027-pending-triage-ui-workflow-protocol.md) | Pending Triage UI Workflow Protocol（triage_decisions 表 migration 0014 + GraphQL interface TriageItem + 2 implements + 4 queries + 1 mutation；URL token + cookie auth；inbox V1 必须；historical markdown backfill V1 必须；merge 铁律继承条款明文授权范围） | 2026-04-29 | 架构师 + Backend / Frontend / Pipeline / Historian 工程师 |
 
 ### 已提议（待签字）
 
