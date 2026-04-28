@@ -7,7 +7,9 @@ This file implements the test matrix specified in **ADR-025 §2.6**:
   Test 3 — R6 vs R1 阈值差异（500yr R6 pass / 200yr R1 block，gap 在中间）
   Test 4 — dynasty 字段缺映射时 fallback（unregistered dynasty → None）
   Test 5 — V11 invariant 依赖回归（BlockedMerge pair-order 满足 DB CHECK）
-  Test 6 — R6 既有路径回归（evaluate_guards → evaluate_pair_guards(R6) 等价）
+  Test 6 — R6 路由正确性（evaluate_pair_guards(rule="R6") 使用 500yr 阈值）
+            [Updated Sprint J: evaluate_guards wrapper removed per ADR-025 §2.4;
+             coverage preserved via direct evaluate_pair_guards calls]
 
 Each test method docstring tags the corresponding ADR-025 §2.6 item number
 ("ADR-025 §2.6 #N") so review can be reconciled one-to-one against the ADR.
@@ -15,15 +17,12 @@ Each test method docstring tags the corresponding ADR-025 §2.6 item number
 
 from __future__ import annotations
 
-import warnings
-
 import pytest
 
 from huadian_pipeline.r6_seed_match import R6Status
 from huadian_pipeline.r6_temporal_guards import (
     GUARD_THRESHOLDS,
     cross_dynasty_guard,
-    evaluate_guards,
     evaluate_pair_guards,
     reset_dynasty_cache,
 )
@@ -275,59 +274,42 @@ class TestBlockedMergePairOrderInvariant:
 
 
 # ---------------------------------------------------------------------------
-# ADR-025 §2.6 #6 — R6 既有路径回归 (deprecated wrapper equivalence)
+# ADR-025 §2.6 #6 — R6 路由正确性 (evaluate_pair_guards direct)
 # ---------------------------------------------------------------------------
 
 
-class TestR6DeprecatedWrapperEquivalence:
-    """ADR-025 §2.6 #6 — evaluate_guards == evaluate_pair_guards(rule="R6")."""
+class TestR6RouterDispatch:
+    """ADR-025 §2.6 #6 — evaluate_pair_guards(rule="R6") uses 500yr threshold.
+
+    Updated Sprint J: evaluate_guards deprecated wrapper removed per ADR-025 §2.4.
+    Coverage intent preserved: verify R6 rule routes to cross_dynasty_guard
+    with the correct 500yr threshold, both block and pass paths.
+    """
 
     def setup_method(self) -> None:
         reset_dynasty_cache()
 
-    def test_wrapper_emits_deprecation_warning(self) -> None:
-        """ADR-025 §2.6 #6 — evaluate_guards emits DeprecationWarning.
-
-        Per ADR-025 §2.4 the wrapper must signal removal-by-Sprint-I to
-        any third-party caller still using the legacy signature.
-        """
-        a = _snap(id="aaaa", name="启", dynasty="夏")
-        b = _snap(id="bbbb", name="刘邦", dynasty="西汉")
-        with pytest.warns(DeprecationWarning, match="evaluate_guards"):
-            evaluate_guards(a, b)
-
-    def test_wrapper_blocks_same_as_r6_dispatch(self) -> None:
-        """ADR-025 §2.6 #6 — Block path equivalence (legacy ↔ new API).
-
-        For a pair that R6 (500yr) blocks, both call sites must return a
-        GuardResult with identical guard_type + payload.
-        """
+    def test_r6_blocks_with_500yr_threshold(self) -> None:
+        """ADR-025 §2.6 #6 — R6 blocks pairs with dynasty gap > 500yr."""
         a = _snap(id="aaaa", name="禹", dynasty="夏")
         b = _snap(id="bbbb", name="刘邦", dynasty="西汉")
+        result = evaluate_pair_guards(a, b, rule="R6")
+        assert result is not None
+        assert result.blocked is True
+        assert result.guard_type == "cross_dynasty"
+        assert result.payload["gap_years"] > GUARD_THRESHOLDS["R6"]
 
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", DeprecationWarning)
-            legacy = evaluate_guards(a, b)
-        new = evaluate_pair_guards(a, b, rule="R6")
-
-        assert legacy is not None
-        assert new is not None
-        assert legacy.guard_type == new.guard_type
-        assert legacy.payload == new.payload
-        assert legacy.blocked == new.blocked is True
-
-    def test_wrapper_passes_same_as_r6_dispatch(self) -> None:
-        """ADR-025 §2.6 #6 — Pass path equivalence (legacy ↔ new API)."""
+    def test_r6_passes_same_dynasty(self) -> None:
+        """ADR-025 §2.6 #6 — R6 does not block same-dynasty pairs."""
         a = _snap(id="aaaa", name="周公", dynasty="西周")
         b = _snap(id="bbbb", name="召公", dynasty="西周")
+        result = evaluate_pair_guards(a, b, rule="R6")
+        assert result is None
 
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", DeprecationWarning)
-            legacy = evaluate_guards(a, b)
-        new = evaluate_pair_guards(a, b, rule="R6")
-
-        assert legacy is None
-        assert new is None
+    def test_r6_threshold_is_500yr(self) -> None:
+        """ADR-025 §2.6 #6 — R6 threshold constant is 500yr (not R1's 200yr)."""
+        assert GUARD_THRESHOLDS["R6"] == 500
+        assert GUARD_THRESHOLDS["R1"] == 200
 
 
 # ---------------------------------------------------------------------------

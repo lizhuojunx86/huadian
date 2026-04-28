@@ -940,10 +940,24 @@ def generate_dry_run_report(result: ResolveResult) -> str:
         for err in result.errors:
             lines.append(f"  - {err}")
 
-    # T-P0-029: guard-blocked merges
+    # T-P0-029 / T-P2-006: guard-blocked merges with guard_type subgroup breakdown
     if result.blocked_merges:
         lines.append("")
-        lines.append(f"R6 guard 拦截: {len(result.blocked_merges)} 对")
+        lines.append(f"Guard 拦截: {len(result.blocked_merges)} 对")
+        guard_type_counts: dict[str, int] = {}
+        for item in result.blocked_merges:
+            guard_type_counts[item.guard_type] = guard_type_counts.get(item.guard_type, 0) + 1
+        for gt in ("cross_dynasty", "state_prefix"):
+            if gt in guard_type_counts:
+                lines.append(f"  {gt}: {guard_type_counts[gt]} 对")
+        known_types = {"cross_dynasty", "state_prefix"}
+        unknown_count = sum(v for k, v in guard_type_counts.items() if k not in known_types)
+        if unknown_count > 0:
+            logger.warning(
+                "Guard 拦截出现未知 guard_type: %s — 请检查 GUARD_CHAINS 注册",
+                {k: v for k, v in guard_type_counts.items() if k not in known_types},
+            )
+            lines.append(f"  unknown: {unknown_count} 对  ⚠️")
         for idx, item in enumerate(result.blocked_merges, start=1):
             payload = item.guard_payload
             dynasty_a = payload.get("dynasty_a", "?")

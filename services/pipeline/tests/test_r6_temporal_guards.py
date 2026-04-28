@@ -3,7 +3,7 @@
 Tests:
   - DynastyPeriod loading from YAML
   - cross_dynasty_guard: blocking and pass-through scenarios
-  - evaluate_guards: chain execution
+  - evaluate_pair_guards(rule="R6"): chain execution
   - _detect_r6_merges integration: guard-blocked pairs vs proposals
   - BlockedMerge pair ordering (DB CHECK constraint)
 """
@@ -19,7 +19,7 @@ from huadian_pipeline.r6_temporal_guards import (
     _get_dynasty_periods,
     _load_dynasty_periods,
     cross_dynasty_guard,
-    evaluate_guards,
+    evaluate_pair_guards,
     reset_dynasty_cache,
 )
 from huadian_pipeline.resolve import R6PrePassResult, _detect_r6_merges
@@ -196,8 +196,12 @@ class TestCrossDynastyGuard:
 # ---------------------------------------------------------------------------
 
 
-class TestEvaluateGuards:
-    """Tests for evaluate_guards chain."""
+class TestEvaluatePairGuardsR6Route:
+    """Tests for evaluate_pair_guards(rule='R6') chain — replaces removed evaluate_guards wrapper.
+
+    Updated per ADR-025 §2.4 removal at Sprint J closeout; coverage intent preserved
+    at higher abstraction level (evaluate_pair_guards direct call).
+    """
 
     def setup_method(self) -> None:
         reset_dynasty_cache()
@@ -205,14 +209,14 @@ class TestEvaluateGuards:
     def test_returns_first_blocking_result(self) -> None:
         a = _snap(id="aaaa", name="启", dynasty="夏")
         b = _snap(id="bbbb", name="刘邦", dynasty="西汉")
-        result = evaluate_guards(a, b)
+        result = evaluate_pair_guards(a, b, rule="R6")
         assert result is not None
         assert result.guard_type == "cross_dynasty"
 
     def test_returns_none_when_all_pass(self) -> None:
         a = _snap(id="aaaa", name="周公", dynasty="西周")
         b = _snap(id="bbbb", name="召公", dynasty="西周")
-        result = evaluate_guards(a, b)
+        result = evaluate_pair_guards(a, b, rule="R6")
         assert result is None
 
 

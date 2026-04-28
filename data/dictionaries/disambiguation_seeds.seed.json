@@ -6,8 +6,8 @@
     "draftedAt": "2026-04-16",
     "status": "draft_pending_review",
     "schemaTable": "disambiguation_seeds",
-    "surfaceGroupCount": 32,
-    "rowCount": 70,
+    "surfaceGroupCount": 37,
+    "rowCount": 81,
     "defaultSources": [
       "《史记》", "《汉书》", "《后汉书》", "《资治通鉴》",
       "钱穆《史记地名考》", "王伯祥《史记选》",
@@ -731,6 +731,97 @@
       "_notes": "项羽（BC 232–BC 202），斩宋义后被楚将共立为假上将军，后怀王正式命为上将军。『上将军』在项羽本纪中先后指宋义（BC 208 被杀前）和项羽（之后），是典型的职衔继承歧义。",
       "_sources": ["《史记·项羽本纪》"],
       "_taskRef": "T-P0-006-δ"
+    },
+
+    {
+      "name": "怀王",
+      "personSlug": "u718a-u69d0",
+      "dynastyHint": "战国",
+      "contextHint": "楚怀王、熊槐、入秦不反、秦扣押、屈原放逐、战国楚、丹阳蓝田之战",
+      "priority": 100,
+      "_notes": "楚怀王·熊槐（?–BC 296），战国楚国君主，被秦昭王诱入武关扣押，死于秦。《史记·秦本纪》中『楚怀王』主要指此人。与秦末楚怀王·熊心同号，是典型跨时代同号异人歧义（T-P0-031 entity-split 已处理）。",
+      "_sources": ["《史记·秦本纪》", "《史记·楚世家》"],
+      "_taskRef": "T-P0-006-ε Stage 0",
+      "_historianRef": "historian-review-2026-04-25.md §4.3"
+    },
+    {
+      "name": "怀王",
+      "personSlug": "u718a-u5fc3",
+      "dynastyHint": "秦末",
+      "contextHint": "楚怀王、熊心、项梁所立、义帝、怀王约入关者王之、怀王不肯令项羽西入关",
+      "priority": 80,
+      "_notes": "楚怀王·熊心（?–BC 206），秦末项梁从民间找到的战国楚怀王孙，立为楚怀王以号召反秦，后被项羽尊为义帝遣杀于江南。《史记·项羽本纪》《高祖本纪》中『怀王』主要指此人。T-P0-031 entity-split 根源人物。",
+      "_sources": ["《史记·项羽本纪》", "《史记·高祖本纪》"],
+      "_taskRef": "T-P0-006-ε Stage 0",
+      "_historianRef": "historian-review-2026-04-25.md §4.3"
+    },
+    {
+      "name": "怀王",
+      "personSlug": "u592a-u5b50-u5709",
+      "dynastyHint": "春秋",
+      "contextHint": "晋怀公、太子圉、子圉、质秦逃归、被晋文公杀、春秋晋国",
+      "priority": 50,
+      "_notes": "晋怀公·姬圉（?–BC 636），即太子圉/子圉，晋惠公之子，质秦后逃归即位，为晋文公重耳所杀。与楚怀王(熊槐/熊心)构成跨代跨国歧义。亦见 disambig_seeds『怀公』条。",
+      "_sources": ["《史记·晋世家》"],
+      "_taskRef": "T-P0-006-ε Stage 0",
+      "_historianRef": "historian-review-2026-04-25.md §4.3"
+    },
+
+    {
+      "name": "楚王",
+      "personSlug": "u718a-u69d0",
+      "dynastyHint": "战国",
+      "contextHint": "楚怀王、熊槐、战国楚、屈原、入秦不反、《史记·秦本纪》语境",
+      "priority": 40,
+      "_notes": "楚怀王·熊槐（?–BC 296），战国楚国君主。《史记·秦本纪》中以『楚王』泛称时可指此人。与秦末熊心、西楚霸王项羽并列为『楚王』三大歧义源。现有『楚王』条已含项羽(priority 100)/刘交(priority 80)/刘戊(priority 30)；本条补充战国楚怀王。",
+      "_sources": ["《史记·秦本纪》", "《史记·楚世家》"],
+      "_taskRef": "T-P0-006-ε Stage 0",
+      "_historianRef": "historian-review-2026-04-25.md §4.3"
+    },
+    {
+      "name": "楚王",
+      "personSlug": "u718a-u5fc3",
+      "dynastyHint": "秦末",
+      "contextHint": "楚怀王、熊心、项梁所立、义帝、秦末楚王、怀王约、项羽本纪/高祖本纪语境",
+      "priority": 60,
+      "_notes": "楚怀王·熊心（?–BC 206），秦末被立为楚怀王，项羽尊为义帝后遣杀。《史记·项羽本纪》《高祖本纪》中『楚王』在西楚霸王项羽立国前常指熊心（楚方阵营领袖）。T-P0-031 entity-split 根源人物；本条与项羽(priority 100)条共存，依 dynastyHint/contextHint 消歧。",
+      "_sources": ["《史记·项羽本纪》", "《史记·高祖本纪》"],
+      "_taskRef": "T-P0-006-ε Stage 0",
+      "_historianRef": "historian-review-2026-04-25.md §4.3"
+    },
+
+    {
+      "name": "齐王",
+      "personSlug": null,
+      "dynastyHint": "秦末 / 楚汉",
+      "contextHint": "田荣、自立为齐王、杀田都、予彭越将军印、反楚、城阳、平原民杀之",
+      "priority": 70,
+      "_notes": "田荣（?–BC 205），齐国田氏贵族，秦末自立为齐王，杀项羽所立田都，反楚。汉二年兵败走平原，被平原民杀。是《史记·高祖本纪》楚汉战争前期的关键齐王人物，与韩信(齐王)构成前后时序歧义。",
+      "_sources": ["《史记·高祖本纪》", "《史记·田儋列传》"],
+      "_taskRef": "T-P0-006-ε Stage 0",
+      "_historianRef": "historian-review-2026-04-25.md §4.3"
+    },
+    {
+      "name": "齐王",
+      "personSlug": "han-xin-huai-yin-hou",
+      "dynastyHint": "楚汉",
+      "contextHint": "韩信、汉四年立为假王、张良劝汉王立之、垓下战前、淮阴侯",
+      "priority": 55,
+      "_notes": "淮阴侯韩信（?–BC 196），汉四年被立为齐王（假王），后改封楚王。《史记·高祖本纪》中『齐王信』即指此人。与田荣/田广/田横等『齐王』构成前后时序歧义；与韩王信(韩王)另行消歧（见『韩信』条）。",
+      "_sources": ["《史记·高祖本纪》", "《史记·淮阴侯列传》"],
+      "_taskRef": "T-P0-006-ε Stage 0",
+      "_historianRef": "historian-review-2026-04-25.md §4.3"
+    },
+    {
+      "name": "齐王",
+      "personSlug": null,
+      "dynastyHint": "楚汉",
+      "contextHint": "田横、田荣弟、立田荣子广为齐王后自立、项羽破田荣、汉灭齐后走海岛",
+      "priority": 45,
+      "_notes": "田横（?–BC 202），田荣之弟，楚汉末期自立为齐王，汉军灭齐后走海岛，高祖召其入京，自杀于途中。《史记·高祖本纪》后期出现的齐王人物之一。",
+      "_sources": ["《史记·高祖本纪》", "《史记·田儋列传》"],
+      "_taskRef": "T-P0-006-ε Stage 0",
+      "_historianRef": "historian-review-2026-04-25.md §4.3"
     }
 
   ]
