@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import logging
 import warnings
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -41,6 +42,8 @@ try:
     _HAS_YAML = True
 except ImportError:
     _HAS_YAML = False
+
+from .state_prefix_guard import state_prefix_guard  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
@@ -159,10 +162,24 @@ class GuardResult:
 # the R6 threshold for historical compatibility.
 CROSS_DYNASTY_THRESHOLD_YEARS = 500
 
-# ADR-025 §2.2 — rule-aware guard thresholds
+# ADR-025 §2.2 — rule-aware guard thresholds (used by GUARD_CHAINS lambdas below)
 GUARD_THRESHOLDS: dict[str, int] = {
     "R1": 200,  # T-P1-028: surface match, weak evidence → stricter guard
     "R6": 500,  # T-P0-029: QID anchor, strong evidence → looser guard
+}
+
+# ADR-025 §5.3.3 — ordered guard chain per rule; short-circuits on first block.
+# dynasty (O(1) yaml dict) is always first; state_prefix (regex) second for R1 only.
+# R6 does not include state_prefix (ADR-025 §5.3.7 — data-driven decision).
+GuardFn = Callable[["PersonSnapshot", "PersonSnapshot"], "GuardResult | None"]
+GUARD_CHAINS: dict[str, list[GuardFn]] = {
+    "R1": [
+        lambda a, b: cross_dynasty_guard(a, b, threshold_years=GUARD_THRESHOLDS["R1"]),
+        state_prefix_guard,
+    ],
+    "R6": [
+        lambda a, b: cross_dynasty_guard(a, b, threshold_years=GUARD_THRESHOLDS["R6"]),
+    ],
 }
 
 
@@ -237,11 +254,11 @@ def evaluate_pair_guards(
     *,
     rule: str,
 ) -> GuardResult | None:
-    """Rule-aware guard chain dispatch (ADR-025 §2.1).
+    """Rule-aware guard chain dispatch (ADR-025 §2.1 / §5.3.3).
 
-    Looks up GUARD_THRESHOLDS[rule] and runs cross_dynasty_guard with that
-    threshold. Rules not in GUARD_THRESHOLDS receive no guard (returns
-    None — guard is opt-in per rule).
+    Iterates GUARD_CHAINS[rule] in order and returns the first blocking
+    GuardResult. Rules not in GUARD_CHAINS receive no guard (returns None
+    — guard is opt-in per rule). resolve.py call sites are unchanged.
 
     Args:
         person_a, person_b: candidate merge pair
@@ -249,15 +266,12 @@ def evaluate_pair_guards(
 
     Returns:
         GuardResult with blocked=True if any guard blocks the merge;
-        None if no guard fires or the rule has no registered threshold.
+        None if no guard fires or the rule has no registered chain.
     """
-    threshold = GUARD_THRESHOLDS.get(rule)
-    if threshold is None:
-        return None
-
-    result = cross_dynasty_guard(person_a, person_b, threshold_years=threshold)
-    if result is not None and result.blocked:
-        return result
+    for guard_fn in GUARD_CHAINS.get(rule, []):
+        result = guard_fn(person_a, person_b)
+        if result is not None and result.blocked:
+            return result
     return None
 
 

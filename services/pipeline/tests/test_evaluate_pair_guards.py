@@ -106,17 +106,18 @@ class TestR1GuardPass:
     def setup_method(self) -> None:
         reset_dynasty_cache()
 
-    def test_r1_passes_same_dynasty(self) -> None:
-        """ADR-025 §2.6 #2 — 春秋 vs 春秋: gap 0 → pass (no guard).
+    def test_r1_passes_same_dynasty_same_state(self) -> None:
+        """ADR-025 §2.6 #2 — 同朝代同国: cross_dynasty(gap=0→None) + state_prefix(same→None).
 
-        Known limitation (ADR-025 §4.2): same-dynasty different-state cases
-        like 鲁桓公↔秦桓公 cannot be blocked by dynasty distance alone.
-        Test asserts the guard correctly returns None (does NOT block).
+        Uses 秦穆公↔秦桓公 (same state 秦): all guards in R1 GUARD_CHAIN pass.
+        Sprint I update: 鲁桓公↔秦桓公 is now correctly blocked by state_prefix_guard
+        (ADR-025 §5.3 — gap=0 cross-state FP resolution). The §2.6 #2 intent is
+        preserved by using a same-state pair that should proceed to MergeProposal.
         """
-        a = _snap(id="aaaa", name="鲁桓公", dynasty="春秋")
+        a = _snap(id="aaaa", name="秦穆公", dynasty="春秋")
         b = _snap(id="bbbb", name="秦桓公", dynasty="春秋")
         result = evaluate_pair_guards(a, b, rule="R1")
-        assert result is None  # gap=0, guard does not fire
+        assert result is None  # same dynasty + same state → no guard fires
 
     def test_r1_passes_within_threshold(self) -> None:
         """ADR-025 §2.6 #2 — 战国 vs 秦末: gap 140yr < 200yr → pass.
