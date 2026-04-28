@@ -147,3 +147,36 @@
 Sprint J Stage 3 通过。R1 跨国 FP 治理率达 **100%**，超过 ≥90% 目标。
 state_prefix_guard (ADR-025 §5.3) 在全链路（五帝→高祖本纪）验证完毕。
 Stage 4/5 待 historian 仲裁完成后推进。
+
+---
+
+## §correction-2026-04-28 — Guard 拦截表 rows 11/18 dynasty 列修正
+
+> **架构师 ACK**: Sprint J S4.3' inline 裁决（本 session，commit 见下文）
+> **修正人**: 管线工程师（Stage 4 pre-flight SELECT verify 触发）
+
+### 修正内容
+
+Stage 4 pre-flight SELECT 发现 Guard 拦截明细表中 rows 11/18 的 Dynasty A/B 列顺序与 DB 实际值相反。
+
+**实际 DB 值（正确）**：
+
+| 拦截 # | Person A 实际 | Dynasty A 实际 | Person B 实际 | Dynasty B 实际 | gap |
+|--------|--------------|--------------|--------------|--------------|-----|
+| 11 | 秦穆公夫人 | **春秋** | 吕后 | **西汉** | 526yr |
+| 18 | 秦惠文王 | **战国** | 刘盈 | **西汉** | 251yr |
+
+> 报告原文顺序（错误）: `吕后(春秋) ↔ 秦穆公夫人(西汉)` / `刘盈(战国) ↔ 秦惠文王(西汉)`
+
+### 影响评估
+
+- **Guard 计算正确**：gap = |midpoint_A − midpoint_B|，绝对值与 A/B 列顺序无关。两对实际 gap 仍为 526yr 和 251yr，均 > 200yr 阈值，拦截结果有效。
+- **Historian 裁决不受影响**：两对均为不同人（guard 正确拦截），historian 独立确认两对为跨人 FP，结论不变。
+- **DB 无需修复**：吕后 dynasty=西汉 / 刘盈 dynasty=西汉 / 秦穆公夫人 dynasty=春秋 / 秦惠文王 dynasty=战国，四者均正确，S4.3 UPDATE 跳过。
+- **T-P1-031 候选不创建**：误判来自报告格式而非 DB 数据，不存在需修复的 dynasty bug。
+
+### 根因
+
+`resolve.py` pair-order normalization：当 `a.id > b.id` 触发 swap 时，人名被互换但 `guard_result.payload` 的 `dynasty_a`/`dynasty_b` 未同步互换，导致报告展示层列位错位。
+
+**修复**：Sprint J S4.3' commit（`fix(pipeline): dry_run_report Dynasty A/B column ordering`）引入 `_swap_ab_payload()` 辅助函数，在 swap 分支同步互换所有 `*_a`/`*_b` payload 键。5 个 regression tests 全绿。
