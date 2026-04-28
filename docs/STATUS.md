@@ -2,15 +2,17 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-27
-- **更新人**：管线工程师（Claude Opus 4.7 / 1M）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅ + Sprint C Resolver Orchestration ✅ + Sprint D R6 Cross-Dynasty Guard ✅ + Sprint E 秦本纪 ✅ + Sprint G 项羽本纪 ✅ + Sprint H R1 Pair Guards + 楚怀王 Entity-Split ✅**
+- **最近更新**：2026-04-28
+- **更新人**：管线工程师（Claude Sonnet 4.6）
+- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅ + Sprint C Resolver Orchestration ✅ + Sprint D R6 Cross-Dynasty Guard ✅ + Sprint E 秦本纪 ✅ + Sprint G 项羽本纪 ✅ + Sprint H R1 Pair Guards + 楚怀王 Entity-Split ✅ + Sprint I state_prefix_guard ✅**
 
 ---
 
 ## 当前在哪
 
-**Sprint H 完成（2026-04-27）。T-P1-028 R1 dynasty 前置过滤上线（ADR-025 evaluate_pair_guards rule-aware 接口；R1=200yr / R6=500yr）+ T-P0-031 楚怀王 entity-split 数据校正（ADR-026 Entity Split Protocol 首应用；2 split_for_safety person_names INSERTs）。ADR-014 §2.1 footnote 引入 ADR-026 例外。dynasty-periods.yaml 9 mappings 合流 Hist Track B 学术复核（春秋战国 -442 / 秦末汉初 -206 / 战国国别 future-risk）。Active persons 663 / V1-V11 全绿 / entity_split_log +2 行 / migration 0013。V12 评估为 backlog（T-P2-008，需 schema 变更）。**
+**Sprint I 完成（2026-04-28）。state_prefix_guard 上线（ADR-025 §5.3）：data/states.yaml 17 国 / 4 alias，GUARD_CHAINS 替换单 guard dispatch，R1 chain=[cross_dynasty(200), state_prefix]。干跑 663 active persons：16 总拦截（9 cross_dynasty + 7 state_prefix）。新增 54 测试全绿（Sprint H 28 + Sprint I 17 state_prefix + 9 其他）。ADR-025 §5.3 addendum accepted（架构师签字 2026-04-28）。$0 LLM / 无 schema 变更 / 无 migration。**
+
+Sprint H 完成（2026-04-27）。T-P1-028 R1 dynasty 前置过滤上线（ADR-025 evaluate_pair_guards rule-aware 接口；R1=200yr / R6=500yr）+ T-P0-031 楚怀王 entity-split 数据校正（ADR-026 Entity Split Protocol 首应用；2 split_for_safety person_names INSERTs）。ADR-014 §2.1 footnote 引入 ADR-026 例外。dynasty-periods.yaml 9 mappings 合流 Hist Track B 学术复核（春秋战国 -442 / 秦末汉初 -206 / 战国国别 future-risk）。Active persons 663 / V1-V11 全绿 / entity_split_log +2 行 / migration 0013。V12 评估为 backlog（T-P2-008，需 schema 变更）。
 
 Sprint G 完成（2026-04-26）。T-P0-006-δ 项羽本纪完整 ingest（45 段 / +117 NER persons / $0.60）+ Stage 4 apply（9 merges）。textbook-fact precedent 2/3（G15 项籍→项羽）。
 
@@ -25,11 +27,23 @@ Sprint B 全 Stage 完成：
 - **Stage 4（✅）**：V10 invariant 三子规则（orphan target / orphan entry / active evidence）+ 6 self-tests
 - **Stage 5（✅）**：migration 0011 unique index 对齐 + ADR-021 final + Sprint 收口
 
-**下一步候选**：T-P0-028（pending_review triage UI）/ T-P0-025b（TIER-4 自建 seed）/ Sprint I 新章 pilot（高祖本纪候选）/ T-P1-029 候选（惠公 entity 数据修复）/ T-P2-007 mention 段内位置切分
+**下一步候选**：Sprint J 新章 pilot（高祖本纪候选）/ T-P0-028（pending_review triage UI，含 state_prefix 维度）/ evaluate_guards deprecated 包装 Sprint I 收口删除 / T-P2-006（dry_run_report R6 标签泛化）/ T-P1-029（惠公 entity 数据修复）
 
 ---
 
 ## 已完成
+
+### Sprint I — state_prefix_guard（2026-04-28）
+
+- [x] **ADR-025 §5.3 addendum accepted**：架构师签字 2026-04-28；6 checkbox 全填 + 额外裁决 A（周不纳入）/B（邾/莒/巴不纳入）
+- [x] **data/states.yaml**：17 国 + 4 alias（晋/唐、楚/荆、吴/句吴攻吴、越/於越）；周/邾/莒/巴 per 裁决排除
+- [x] **state_prefix_guard.py**：blocks R1 merges when both names match (state)(shihao)(title) with different canonical states；alias 归一；裸谥号单方 fall-through；lazily imports GuardResult 避免循环依赖
+- [x] **GUARD_CHAINS 重构**：evaluate_pair_guards 从 single-guard dispatch → chain iteration；R1=[cross_dynasty(200), state_prefix]；R6=[cross_dynasty(500)]；resolve.py:480 零改动
+- [x] **测试**：17 state_prefix 测试（ADR §5.3.9 #1-7 全覆盖）+ Sprint H 28 回归 = **54 全绿**；test_evaluate_pair_guards §2.6 #2 更新为同国对
+- [x] **Stage 3 dry-run**：663 persons → 16 总拦截（9 cross_dynasty + 7 state_prefix）；7 state_prefix 全为"春秋同朝代不同国"gap=0 case；预测 ~10，实际 7（70%，Stop Rule #3 不触发）
+- 结果：Active persons 663（不变）/ merge_log 92（不变）/ guard 拦截 8→16 / V1-V11 全绿（干跑验证）
+- 衍生债：T-P2-006（dry_run_report R6 label 泛化）/ evaluate_guards deprecated 包装 Sprint J 收口删除 / T-P2-010（NER prompt 国名前缀识别质量提升）
+- 累计：4 commits（C1=ADR §5.3 sign-off / C2=Stage 2 impl / C3=S3 dry-run / C4=closeout）/ 0 migrations / 26 new tests / $0 LLM
 
 ### Sprint H — R1 Pair Guards + 楚怀王 Entity-Split（2026-04-26 ~ 2026-04-27）
 

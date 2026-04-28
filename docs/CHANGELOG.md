@@ -5,6 +5,54 @@
 
 ---
 
+## 2026-04-28
+
+### [feat+docs] Sprint I — state_prefix_guard (ADR-025 §5.3)
+
+- **角色**：管线工程师（执行，Sonnet 4.6）+ 首席架构师（ADR-025 §5.3 addendum 签字）
+- **性质**：架构扩展 sprint — evaluate_pair_guards GUARD_CHAIN 扩展（gap=0 cross-state FP 覆盖）
+- **关联**：Sprint H T-P1-028 follow-up / ADR-025 §6.2 显式承诺落地 / Sprint G 暴露 R1 跨国 FP 38%
+
+#### Stage 1 — ADR-025 §5.3 architect sign-off（commit `548e24f`）
+
+- ADR-025 §5.3 addendum status: proposed → accepted（架构师签字 2026-04-28）
+- §5.4 6 checkbox 全填（states.yaml schema / GUARD_CHAIN 顺序 / R6 不挂 / 已知局限 / 测试集 / Stage 2 进入条件）
+- 额外裁决 A："周" 不纳入（dynasty_guard gap≥286 兜底）；裁决 B：邾/莒/巴 不纳入（DB 0 surface）
+
+#### Stage 2 — Implementation（commit `edd8de2`）
+
+- **data/states.yaml**：17 春秋战国诸侯国 + 4 alias（晋/唐、楚/荆、吴/句吴攻吴、越/於越）；周/邾/莒/巴 per architect rulings 排除
+- **state_prefix_guard.py**：新文件；lazy GuardResult import 破循环依赖；alias→canonical 归一；裸谥号单方 fall-through
+- **r6_temporal_guards.py**：GUARD_CHAINS dict 替换单 guard dispatch；evaluate_pair_guards 迭代 chain 短路；resolve.py 零改动
+- **test_state_prefix_guard.py**：17 tests 覆盖 ADR §5.3.9 #1-7（命中 / 同国 / 裸谥号 / dynasty 短路 / 缺映射兜底 / alias 等价 / R6 回归）
+- **test_evaluate_pair_guards.py §2.6 #2**：鲁桓公↔秦桓公 更新为同国对（秦穆公↔秦桓公），因 state_prefix 现正确拦截跨国 gap=0 case
+
+#### Stage 3 — Dry-Run（commit `0db21b8`）
+
+- 663 active persons re-run：**16 总拦截**（9 cross_dynasty + 7 state_prefix）
+- 7 state_prefix blocks：鲁桓公↔秦桓公 / 齐悼公↔晋悼公 / 齐襄公↔秦襄公 / 晋襄公↔秦襄公 / 齐襄公↔晋襄公 / 晋灵公↔秦灵公 / 齐平公↔晋平公（全为 gap=0 春秋跨国 case）
+- 预测 ~10 对，实际 7（70%）；Stop Rule #3 不触发（<2× 预测）
+- 54 tests 全绿（17 state_prefix + Sprint H 28 回归 + 其余）
+
+#### Numbers
+
+- Active persons: 663 → **663**（dry-run only，无写操作）
+- merge_log: 92（不变）
+- guard 拦截: 8 → **16**（+8，其中 +7 state_prefix + +1 cross_dynasty）
+- migration: 0013（不变）
+- ADR: ADR-025 §5.3 addendum accepted（不开新 ADR）
+- New tests: **17**（state_prefix）+ 1 更新（§2.6 #2）
+- LLM cost: **$0**（纯架构扩展 + data yaml）
+- Commits: **4**（C1=ADR sign-off / C2=impl / C3=dry-run / C4=closeout）
+
+#### Derivative Debt
+
+- **T-P2-006**：dry_run_report "R6 guard 拦截" label → "Guard 拦截"（现在含 state_prefix 对，标签过时）
+- **T-P2-010**（新）：NER prompt 国名前缀识别质量提升（`桓公` 不含国名前缀 = 现有 state_prefix 裸谥号局限的根因）
+- **evaluate_guards deprecated 包装**：Sprint I 收口删除（per ADR-025 §2.4；Sprint J 操作）
+
+---
+
 ## 2026-04-27
 
 ### [feat+data+docs] Sprint H — R1 Pair Guards + 楚怀王 Entity-Split
