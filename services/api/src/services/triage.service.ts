@@ -18,16 +18,16 @@ import {
 } from "@huadian/db-schema";
 import { and, desc, eq, sql } from "drizzle-orm";
 
-import type { DrizzleClient } from "../context.js";
 import type {
+  ProvenanceTier,
+  RecordTriageDecisionInput,
+  RecordTriageDecisionPayload,
   TriageDecision as GqlTriageDecision,
   TriageDecisionType,
-  TriageItemTypeFilter,
-  ProvenanceTier,
-  RecordTriageDecisionPayload,
-  RecordTriageDecisionInput,
   TriageItemConnection,
+  TriageItemTypeFilter,
 } from "../__generated__/graphql.js";
+import type { DrizzleClient } from "../context.js";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -119,23 +119,33 @@ function mapDecisionRow(row: TriageDecisionRow): GqlTriageDecision {
 }
 
 function dbDecisionToGql(value: string): TriageDecisionType {
-  // GraphQL TriageDecisionType uses UPPER_CASE; DB stores lower-case (CHECK
-  // constraint enforces 'approve' | 'reject' | 'defer'). Generated TS enum
-  // values are PascalCase strings ('Approve' | 'Reject' | 'Defer').
+  // GraphQL TriageDecisionType uses UPPER_CASE values per SDL ('APPROVE' |
+  // 'REJECT' | 'DEFER'); DB stores lower-case per migration 0014 CHECK.
   switch (value) {
     case "approve":
-      return "Approve" as TriageDecisionType;
+      return "APPROVE" as TriageDecisionType;
     case "reject":
-      return "Reject" as TriageDecisionType;
+      return "REJECT" as TriageDecisionType;
     case "defer":
-      return "Defer" as TriageDecisionType;
+      return "DEFER" as TriageDecisionType;
     default:
       throw new Error(`Unrecognized DB decision value: ${value}`);
   }
 }
 
 function gqlDecisionToDb(value: TriageDecisionType): string {
-  return String(value).toLowerCase();
+  // String() handles both raw 'APPROVE' string and enum object form.
+  const upper = String(value).toUpperCase();
+  switch (upper) {
+    case "APPROVE":
+      return "approve";
+    case "REJECT":
+      return "reject";
+    case "DEFER":
+      return "defer";
+    default:
+      throw new Error(`Unrecognized GQL decision value: ${value}`);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -220,14 +230,15 @@ export async function listPendingItemRows(
   offset: number,
   filter: ListFilter,
 ): Promise<{ items: PendingItemRow[]; total: number }> {
+  // GraphQL enum runtime values are UPPER_CASE per SDL; the generated TS
+  // enum exposes PascalCase keys (TriageItemTypeFilter.All = 'ALL').
+  // Match against the raw runtime value here for resilience to enum
+  // transport (string vs object identity).
+  const filterValue = filter.filterByType ? String(filter.filterByType) : null;
   const includeSeed =
-    !filter.filterByType ||
-    filter.filterByType === ("All" as TriageItemTypeFilter) ||
-    filter.filterByType === ("SeedMapping" as TriageItemTypeFilter);
+    !filterValue || filterValue === "ALL" || filterValue === "SEED_MAPPING";
   const includeGuard =
-    !filter.filterByType ||
-    filter.filterByType === ("All" as TriageItemTypeFilter) ||
-    filter.filterByType === ("GuardBlockedMerge" as TriageItemTypeFilter);
+    !filterValue || filterValue === "ALL" || filterValue === "GUARD_BLOCKED_MERGE";
 
   // We assemble with raw SQL because Drizzle's typed query builder does not
   // express UNION ALL with mixed schemas cleanly (different column counts).
