@@ -254,7 +254,7 @@ ADR-025 与 ADR-022/023 共同延续"客观信号驱动 + 规则精化优先"路
 - **首应用结果**：bootstrap=0（截止 Sprint D 收口无 R6 跨代 case）
 - **本 ADR 兼容**：通过 `evaluate_pair_guards(a, b, rule="R6")` 调用，行为不变
 
-### 5.3 Sprint I 扩展：state_prefix_guard for R1（addendum status: **proposed**, pending architect）
+### 5.3 Sprint I 扩展：state_prefix_guard for R1（addendum status: **accepted** 2026-04-28）
 
 > 本 §5.3 是 ADR-025 §6.2 显式承诺的中期 follow-up 落地，**不开新 ADR**。
 > 整 ADR-025 status 保持 **accepted**；本 §5.3 单节状态 **proposed**，等架构师签字后转 accepted。
@@ -456,18 +456,23 @@ per Sprint I brief §2 必做 #5：
 
 ---
 
-## 5.4 Architect Sign-off for §5.3 (pending)
+## 5.4 Architect Sign-off for §5.3（2026-04-28）
 
-- [ ] **§5.3.4 states.yaml schema** 设计采纳
-- [ ] **§5.3.3 GUARD_CHAIN 顺序**：dynasty → state_prefix 短路（与 R6 既有路径同语义）
-- [ ] **§5.3.7 R6 不挂 state_prefix** 数据驱动结论采纳
-- [ ] **§5.3.8 已知局限** 列举完整
-- [ ] **§5.3.9 单元测试** 最小集 ≥6 涵盖
-- [ ] **§5.3 整体落地**：Stage 2 进入条件
+- [x] **§5.3.4 states.yaml schema** 设计采纳（格式与 dynasty-periods.yaml 一致；17 国 + 4 alias 覆盖足够；SHIHAO_CHARS / RULER_TITLES inline at code 职责分离正确）
+- [x] **§5.3.3 GUARD_CHAIN 顺序**：dynasty (O(1)) → state_prefix (regex) 短路顺序正确；resolve.py:480 零改动展示 evaluate_pair_guards 抽象价值；与 R6 既有 single-guard 路径同语义
+- [x] **§5.3.7 R6 不挂 state_prefix** 数据驱动结论采纳（1 例 V11-bordering case 周公↔周公旦同 state 足够支撑决策；backlog trigger 条件登记为动态阈值治理）
+- [x] **§5.3.8 已知局限** 列举完整（5 项覆盖裸谥号 / NER prompt 改进路径 / 双字国名 / alias 缺失 / 极端长 surface；与 §4.2 写法对齐）
+- [x] **§5.3.9 单元测试** 最小集 ≥6 涵盖（实际 7 项；第 6 项 alias 等价测试唐叔X公↔晋X公 是亮点；第 7 项 R6 回归守 Sprint H 既有 28 测试）
+- [x] **§5.3 整体落地**：Stage 2 进入条件 met
 
-签字日期：`待填`
+**额外裁决（inventory §2.3）**
+
+- [x] **裁决 A："周" 不纳入 states.yaml**（PE 推荐成立）— dynasty_guard gap≥286 已 100% 兜底周天子 / 春秋诸侯跨代 case；"周"进 yaml 反易触发"周王 vs 楚王"等 over-block；未来如 dynasty_guard 漏拦周相关 case → 重评估
+- [x] **裁决 B：邾/莒/巴 不纳入**（PE 推荐成立）— DB 0 surface 数据驱动决策正确；backlog 登记到位
+
+签字日期：2026-04-28
 签字人：架构师
-单节 status: **proposed → accepted**（签字后转）
+单节 status: **accepted**（2026-04-28 签字）
 
 ---
 
