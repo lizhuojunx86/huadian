@@ -6,20 +6,18 @@ on temporal distance between the two persons involved.
 Architecture (T-P0-029 + T-P1-028 / ADR-025):
   evaluate_pair_guards(person_a, person_b, *, rule) -> GuardResult | None
     Rule-aware dispatch: looks up GUARD_THRESHOLDS[rule] and runs the
-    cross_dynasty_guard with that threshold. Future guards (state_prefix,
-    wikidata_attr) can be registered per-rule.
-
-  evaluate_guards(person_a, person_b)  [DEPRECATED]
-    Backward-compat wrapper for T-P0-029 callers; defaults to rule="R6".
-    Retained until Sprint I closeout (ADR-025 §2.4).
+    guard chain for that rule. Rules not in GUARD_CHAINS receive no guard.
 
 Threshold rationale (ADR-025 §2.2):
   R1 (surface match, conf=0.95) → 200yr  (weak evidence, stricter guard)
   R6 (QID anchor,    conf=1.00) → 500yr  (strong evidence, looser guard)
 
+Guard chains (ADR-025 §5.3.3):
+  R1: [cross_dynasty(200yr), state_prefix_guard]
+  R6: [cross_dynasty(500yr)]
+
 Extension point:
-  Add new guard functions and register per-rule thresholds. Future:
-    - state_prefix_guard (Sprint I — covers gap=0 cross-state cases)
+  Register new guard functions per-rule in GUARD_CHAINS. Future:
     - events-based temporal distance
     - dateOfBirth distance from Wikidata attributes
 """
@@ -273,22 +271,3 @@ def evaluate_pair_guards(
         if result is not None and result.blocked:
             return result
     return None
-
-
-def evaluate_guards(
-    person_a: PersonSnapshot,
-    person_b: PersonSnapshot,
-) -> GuardResult | None:
-    """[DEPRECATED — Sprint I removal] Run guards for R6 (legacy callers).
-
-    Use evaluate_pair_guards(a, b, rule='R6') instead. Retained per
-    ADR-025 §2.4 until Sprint I closeout to give third-party callers
-    time to migrate.
-    """
-    warnings.warn(
-        "evaluate_guards() is deprecated; use evaluate_pair_guards(a, b, rule='R6'). "
-        "Will be removed at Sprint I closeout (ADR-025 §2.4).",
-        DeprecationWarning,
-        stacklevel=2,
-    )
-    return evaluate_pair_guards(person_a, person_b, rule="R6")

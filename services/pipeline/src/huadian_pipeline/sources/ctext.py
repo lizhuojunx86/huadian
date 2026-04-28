@@ -34,6 +34,7 @@ _CHAPTER_REGISTRY: dict[tuple[str, str], str] = {
     ("shiji", "zhou-ben-ji"): "shiji/zhou_ben_ji.txt",
     ("shiji", "qin-ben-ji"): "shiji/qin_ben_ji.txt",
     ("shiji", "xiang-yu-ben-ji"): "shiji/xiang_yu_ben_ji.txt",
+    ("shiji", "gao-zu-ben-ji"): "shiji/gao_zu_ben_ji.txt",
     # ── 尚书（伪古文尚书分篇本，T-P0-006-β） ──
     ("shangshu", "yao-dian"): "shangshu/yao_dian.txt",
     ("shangshu", "shun-dian"): "shangshu/shun_dian.txt",
@@ -89,6 +90,11 @@ _CHAPTER_META: dict[str, dict[str, str]] = {
         "title_zh": "项羽本纪",
         "title_en": "Basic Annals of Xiang Yu",
         "volume": "卷七",
+    },
+    "gao-zu-ben-ji": {
+        "title_zh": "高祖本纪",
+        "title_en": "Basic Annals of Gao Zu",
+        "volume": "卷八",
     },
     # ── 尚书 ──
     "yao-dian": {
