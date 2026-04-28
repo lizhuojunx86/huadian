@@ -254,6 +254,221 @@ ADR-025 与 ADR-022/023 共同延续"客观信号驱动 + 规则精化优先"路
 - **首应用结果**：bootstrap=0（截止 Sprint D 收口无 R6 跨代 case）
 - **本 ADR 兼容**：通过 `evaluate_pair_guards(a, b, rule="R6")` 调用，行为不变
 
+### 5.3 Sprint I 扩展：state_prefix_guard for R1（addendum status: **proposed**, pending architect）
+
+> 本 §5.3 是 ADR-025 §6.2 显式承诺的中期 follow-up 落地，**不开新 ADR**。
+> 整 ADR-025 status 保持 **accepted**；本 §5.3 单节状态 **proposed**，等架构师签字后转 accepted。
+> 与 §5.1 / §5.2 平级，不改 §5.1 原文（ADR 不可变 convention）。
+> 关联：Sprint I brief `docs/sprint-logs/sprint-i/stage-0-brief-2026-04-27.md` / Stage 0 inventory `docs/sprint-logs/sprint-i/inventory-2026-04-28.md`
+
+#### 5.3.1 触发原因
+
+Sprint H Stage 2 dry-run（commit `8501ab9`）验证 R1 dynasty_guard 拦截 8 对，落在原预测内（1.14× 单章上限）。但 §3 列举剩余未拦 R1 proposals 中 ~38% 是"春秋同朝代不同国"（gap=0）：
+
+| 类型 | 示例 | gap | dynasty_guard | state_prefix_guard 设计目标 |
+|------|------|----:|---------------|---------------------------|
+| 跨朝代 | 周成王↔楚成王 | 286 | ✅ 拦 | ✅ 也拦（state≠） |
+| 同朝代不同国 | 鲁桓公↔秦桓公 | 0 | ❌ 不拦 | **✅ 拦（state≠，核心目标）** |
+| 同朝代不同国 | 晋悼公↔齐悼公 | 0 | ❌ 不拦 | **✅ 拦** |
+| 同朝代不同国 | 晋平公↔齐平公 | 0 | ❌ 不拦 | **✅ 拦** |
+| 同朝代同国 | 秦桓公↔秦桓公 | 0 | ❌ 不拦 | ❌ 不拦（state==，进 R1）✅ |
+
+R1 跨国 FP 经 Sprint G→H→I 累计降至 ≤10%（架构师 Sprint J 跑后验证）— 是本 sprint 收口判定（brief §7）。
+
+#### 5.3.2 guard 设计
+
+**对象**：双方 surface 都匹配 `(state)(shihao)(ruler_title)` 模式且 state 不同时，blocked。
+
+**guard 类型**：`state_prefix`（写入 `pending_merge_reviews.guard_type`，schema 已支持）。
+
+**无年代阈值**：不同于 cross_dynasty_guard 的 200/500yr 数值阈值，state_prefix 是布尔识别（state==state 通过 / state≠state 拦截），**不引入新 threshold 配置项**。
+
+**单方守护语义**：仅当**双方都匹配**时拦截；任一方不匹配模式（裸谥号 / 单字 surface / 无前缀）→ fall through 不阻 R1。理由：避免"鲁桓公↔桓公"被错拦，后者裸谥号无国名信息应进 historian review。
+
+#### 5.3.3 GUARD_CHAIN 顺序
+
+| Rule | Chain |
+|------|-------|
+| R1 | `cross_dynasty_guard(threshold=200)` → `state_prefix_guard` |
+| R6 | `cross_dynasty_guard(threshold=500)`（**state_prefix 不挂**，详 §5.3.7） |
+
+伪代码：
+
+```python
+GUARD_CHAINS: dict[str, list[Callable]] = {
+    "R1": [
+        lambda a, b: cross_dynasty_guard(a, b, threshold_years=200),
+        lambda a, b: state_prefix_guard(a, b),
+    ],
+    "R6": [
+        lambda a, b: cross_dynasty_guard(a, b, threshold_years=500),
+    ],
+}
+
+def evaluate_pair_guards(a, b, *, rule):
+    for guard in GUARD_CHAINS.get(rule, []):
+        result = guard(a, b)
+        if result is not None and result.blocked:
+            return result    # 短路返回首个 blocking
+    return None
+```
+
+**短路语义**：与既有 R6 路径一致，每 pair 只产生 1 行 `pending_merge_reviews`（首个 blocking guard）。triage UI 维护单一 `guard_type` 维度。**`resolve.py:480` R1 集成点零改动**——chain 实现完全封装在 `evaluate_pair_guards` 内部。
+
+**顺序选定**：dynasty 在前（O(1) yaml dict lookup）+ state_prefix 在后（regex compile + match）。性能与 audit 都更友好。
+
+#### 5.3.4 states.yaml schema 设计稿
+
+新文件 `data/states.yaml`（仿 `dynasty-periods.yaml` 格式）：
+
+```yaml
+# Spring-Autumn / Warring-States 诸侯国名单 + 别名 / 异称。
+# Used by: services/pipeline/src/huadian_pipeline/state_prefix_guard.py
+# Task: T-P1-028 follow-up (Sprint I, ADR-025 §5.3)
+#
+# Convention:
+#   - name: 主名（人名前缀使用的字符）
+#   - aliases: 同国异称 / 古称（前缀 regex 字符集中视为等价）
+#   - era: 春秋 / 战国 / 春秋战国（覆盖期，仅文档用，不参与 guard 判定）
+#   - notes: 学术注解 / 来源
+#
+# Maintenance:
+#   - 新国添加需要 historian ACK
+#   - 双字国名（中山/鲜虞）暂不支持，待 backlog
+#
+# 17 国（per Sprint I Stage 0 inventory §2.2）：
+
+states:
+  - name: "秦"
+    era: "春秋战国"
+    aliases: []
+    notes: "嬴姓·伯爵→公→王（战国）"
+
+  - name: "晋"
+    era: "春秋"
+    aliases: ["唐"]   # 唐叔虞封地早期称呼
+    notes: "姬姓·侯爵→公；战国后被韩/魏/赵三家分晋"
+
+  - name: "齐"
+    era: "春秋战国"
+    aliases: []
+    notes: "姜姓→田姓·侯爵→公→王"
+
+  - name: "楚"
+    era: "春秋战国"
+    aliases: ["荆"]   # 楚国早期他称
+    notes: "芈姓·子爵→王（春秋僭越称王）"
+
+  # ... (其余 13 国 / 4 国带 alias 详 inventory §2.2)
+```
+
+**字符集 inline at code（不进 yaml）**：
+
+```python
+SHIHAO_CHARS = "庄桓昭襄惠成穆悼平孝景灵献文武康简怀厉宣幽思敬考定哀殇烈"  # 25 chars
+RULER_TITLES = ("王", "公", "侯")
+```
+
+**理由**：
+- states.yaml 是"国名字典"语义（数据 + 学术 metadata），更新走 historian
+- 谥号字符集是"regex 字符类"语义（代码常量），更新走 PE + 单元测试 — 两者职责分离
+
+#### 5.3.5 国名 alias 等价性
+
+regex 编译时合并主名 + 全部 aliases：
+
+```python
+all_states = []
+for state in load_states_yaml():
+    all_states.append(state.name)
+    all_states.extend(state.aliases)
+# all_states = ["秦", "晋", "唐", "齐", "楚", "荆", ...]
+
+STATE_PATTERN = re.compile(
+    r"^(?P<state>" + "|".join(map(re.escape, all_states)) + r")"
+    r"(?P<shihao>[" + SHIHAO_CHARS + r"]+)"
+    r"(?P<title>王|公|侯)$"
+)
+```
+
+**alias 解析**：捕获后归一到主名比较（`唐叔X公` 与 `晋X公` 视为同 state="晋"，**不 blocked**）。
+
+**冲突预防**：alias 必须不与其他 state 主名冲突。inventory §2.2 4 个 alias（唐/荆/句吴/於越）已检查无冲突，未来添加 alias 需 historian ACK + grep 检查。
+
+#### 5.3.6 与 dynasty_guard 的关系
+
+| 场景 | dynasty_guard | state_prefix_guard | 联合行为 |
+|------|--------------|-------------------|---------|
+| 跨朝代 + 跨国 | ✅ blocked | ✅ blocked | dynasty 先短路（首个 blocked） |
+| 跨朝代 + 同国 | ✅ blocked | ❌ 不拦 | dynasty 短路 |
+| 同朝代 + 跨国 | ❌ 不拦 | ✅ **blocked** | state_prefix 命中（**核心目标**） |
+| 同朝代 + 同国 | ❌ 不拦 | ❌ 不拦 | 正常进 R1 / merge |
+| 任一方 dynasty 缺映射 | None | regex 仍可独立判定 | state_prefix 兜底（**新增防御**） |
+| 任一方 surface 不匹配 regex | dynasty 判定 | 不拦（fall through）| 仅靠 dynasty |
+
+**关键互补点**：dynasty 缺映射的 ~15% persons（韩信↔田荣等楚汉时期 case，§4.2 已知局限）现可被 state_prefix 部分覆盖（如双方都是"X王"模式）。
+
+#### 5.3.7 R6 不挂 state_prefix（数据驱动结论）
+
+per Stage 0 inventory §6 + Sprint I brief §3 调研项 #6：
+
+- 当前 663 active persons 中**仅 1 例 V11-bordering case**（Q468747 周公旦 → 周公 / 周公旦，同国同 dynasty，state==）
+- R6 强证据（QID anchor, conf=1.0），dynasty_guard(500yr) 已是松约束
+- state_prefix 加 R6 反易引入 over-blocking（同 QID 标注国不同 → 应回归数据修复，非 guard 拦截）
+- **触发条件登记 backlog**：未来 ≥1 例"R6 同 QID 跨国 active person" → 重评估并报架构师
+
+#### 5.3.8 已知局限（仿 §4.2 写法）
+
+- ⚠️ **裸谥号 case**（无国名前缀的 surface，如`桓公`/`武王`/`灵公`/`怀王` 等 14 surface 跨实体，详 inventory §3.4）—— state_prefix 不命中，依赖 dynasty_guard 兜底或 historian review
+- ⚠️ **NER 抽出"X公"丢失国名前缀** —— 改进 NER prompt 是更根本路径（候选 T-P2-005 / T-P2-010）
+- ⚠️ **双字国名**（中山 / 鲜虞）—— 本 sprint regex 仅单字 state；登记 backlog（**Future Work**）
+- ⚠️ **同 state 但写作不同字面**（如"晋"vs"唐"alias）—— states.yaml alias 处理；未列入 alias 的同国异称（如未列"姬周"=周王朝）会被误判为 state≠
+- ⚠️ **NER 极端长度 surface**（如"周王孙满"、"周公黑肩"等含国名前缀但非"X公/王"模式）—— regex 不命中，fall through，不影响
+
+#### 5.3.9 单元测试要求（最小集 ≥ 6，仿 §2.6 写法）
+
+per Sprint I brief §2 必做 #5：
+
+1. **state_prefix 命中（核心目标）**：`鲁桓公(春秋) ↔ 秦桓公(春秋)` — gap=0，state≠ → blocked
+2. **state_prefix 不命中（同 state）**：`秦穆公 ↔ 秦桓公` — state==，**guard 不拦**，进 R1 → MergeProposal
+3. **裸谥号 fall through**：`桓公 ↔ 鲁桓公` — 单方匹配 regex，**不 blocked**（避免错拦）
+4. **dynasty + state 双 guard 协同（dynasty 短路）**：`周成王(西周) ↔ 楚成王(春秋)` — dynasty(286>200) 先短路，state_prefix 不被调用
+5. **dynasty 缺映射 + state 拦截**：构造一对 dynasty 缺映射的诸侯（如 dynasty=None 但都有 state 前缀）— state_prefix 独立兜底
+6. **alias 等价**：`唐叔X公 ↔ 晋X公` — alias 归一后 state==晋 → 不拦（如果数据有 surface 含"唐"前缀）
+7. **R6 路径回归（Sprint H 既有测试 28 全部不破）**：R6 chain 不挂 state_prefix，行为与 Sprint H 一致
+
+#### 5.3.10 实施 Stages（per brief §3）
+
+- **Stage 0**：inventory（commit `05cf818`）— 本 §5.3 起草前置
+- **Stage 1**：本 §5.3 + states.yaml schema（不写 yaml 文件）— 等架构师签字
+- **Stage 2**：states.yaml 落盘 + state_prefix_guard 函数 + GUARD_CHAINS 重构 + ≥6 单元测试 + R6 路径回归
+- **Stage 3**：当前 DB 663 active persons re-run dry-run + 拦截数对比 §5.3.1 预测 ~38%（项羽δ+秦γ ~10 对）
+- **Stage 4**：closeout
+
+#### 5.3.11 收口判定（per brief §7）
+
+- ✅ states.yaml ≥12 国（本设计 17 国）
+- ✅ state_prefix_guard 函数 + ≥6 单元测试 + R6 路径无回归
+- ✅ ADR-025 §5.3 addendum 落地（**本节签字**）
+- ✅ 当前 DB dry-run state_prefix 单独拦截数 ≈ 项羽δ+秦γ 残余 38%（~10 对）
+- ✅ V1-V11 全绿不回归
+- ✅ Sprint G 暴露的 R1 跨国 FP Sprint G→H→I 累计降至 ≤10%（架构师 Sprint J 跑后验证）
+
+---
+
+## 5.4 Architect Sign-off for §5.3 (pending)
+
+- [ ] **§5.3.4 states.yaml schema** 设计采纳
+- [ ] **§5.3.3 GUARD_CHAIN 顺序**：dynasty → state_prefix 短路（与 R6 既有路径同语义）
+- [ ] **§5.3.7 R6 不挂 state_prefix** 数据驱动结论采纳
+- [ ] **§5.3.8 已知局限** 列举完整
+- [ ] **§5.3.9 单元测试** 最小集 ≥6 涵盖
+- [ ] **§5.3 整体落地**：Stage 2 进入条件
+
+签字日期：`待填`
+签字人：架构师
+单节 status: **proposed → accepted**（签字后转）
+
 ---
 
 ## 6. Known Follow-ups
