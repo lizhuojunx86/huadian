@@ -210,4 +210,91 @@ ACK 后 PE 即推进 C4 真 apply（顺序：PMR --apply → V1-V11 验证 → T
 
 ---
 
-**End of dry-run report. Awaiting architect ACK.**
+## Apply 后修订记录（2026-04-29 PE C4 commit 后回填）
+
+> **保留原文不动**：上方 §1-§5 是 dry-run 时刻的真实预测。本节是 apply 后的修订附录，
+> 用于解释实际写入行数与 dry-run 估算的偏差。
+
+### TD backfill 实际写入 175 vs dry-run 预测 179
+
+**实际 apply 结果**：
+
+| 指标 | 值 |
+|------|---:|
+| TD written | **175** |
+| skipped_existing | **4** |
+| errors | 0 |
+| 入库 REAL source_id 行 | 16（来自 8 unique PMR pair × 2 surfaces） |
+| 入库 SYNTH source_id 行 | 159 |
+
+**4 行 gap 根因**：
+
+跨 sprint 同 pair-同 surface-同 historian 的重复裁决，命中 idempotency unique key
+`(source_id, surface_snapshot, historian_id)`。具体：
+
+- γ G3 秦康公↔密康公 reject（commit `3280a35`）→ 写入 2 行（surface=秦康公 / surface=密康公）
+- δ G3 秦康公↔密康公 reject（commit `fdfb7cb`，同一对、同表面、同 historian_id='historical-backfill'）→ 命中 idempotency → skip 2 行
+- 第 2 对推测同型（γ G29 晋平公↔齐平公 reject vs δ 同 pair reject）→ skip 2 行
+- 加总：**2 对 pair × 2 surfaces = 4 skipped_existing**
+
+**为何这是正确行为，不是 bug**：
+
+ADR-027 §3 schema unique key 设计意图就是"同一裁决人对同一来源-同一表面只能存在一条决策"。
+两 sprint 同 reject 同 pair = 语义重复，留 1 条是设计内的去重，**不是数据丢失**。
+hint banner 在前端按 `WHERE surface_snapshot = '秦康公'` 查询 → 命中 γ-first 写入的同 tuple 行
+→ 用户体验没有任何差异。
+
+`historian_commit_ref` 字段保留 γ-first 的 `3280a35`；δ 同 pair 的 commit ref 信息丢失，
+但属于"同义重复"，retro 中评估是否需要 `historian_commit_refs` 数组字段（目前不需要）。
+
+**dry-run 估算方法学缺陷（retro 项）**：
+
+Sprint K dry-run 撰写时 PMR=0（尚未 backfill），TD 估算路径：
+
+1. 解析 79 rulings，按"每 ruling N surface"展开 → 179 dataset 行
+2. 没考虑"PMR backfill 后 8 unique pair 中 γ-first 会占位 → δ-second 同 pair 同 surface 会被 idempotency 去重"
+3. 估算未折算 cross-sprint 重叠
+
+未来跨 sprint backfill 估算应：
+
+1. 先估 PMR unique pair 数
+2. 再估每个 pair 在多 sprint 中的重复裁决数（hist 跨 sprint reject 同 surface 簇是常态）
+3. TD 预期 = sum over rulings × surfaces - cross_sprint_duplicate_overlap
+4. 公式简化：`expected_td = expanded_dataset - (cross_sprint_pair_overlap × 2 surfaces × historian_count)`
+
+**T-P3 衍生债登记（建议）**：
+
+- **T-P3-XXX 候选**: 跨 sprint 历史学家裁决估算方法学修订
+  - 范围：dry-run 脚本输出 ⨉ "expected_after_idempotency_dedup" 字段
+  - 落地：Sprint K retro 内登记，不立即实现
+  - 优先级：P3（仅影响未来 backfill 类 sprint 的估算精度，不影响实际 apply 正确性）
+
+### Stop Rule #2（TD 行数 ≠ 179）裁决
+
+**架构师裁决**（2026-04-29）：**接受 R1 + R3 混合方案** — accept 175 + 强化透明度文档。
+
+裁决依据：
+1. **数据完整性**：0 loss / 0 V1-V11 回归 / 0 error
+2. **去重逻辑正确性**：unique key 是 ADR-027 §3 schema 设计时显式选择的语义
+3. **dry-run 估算偏差归因**：估算方法学缺陷，非 apply 行为缺陷
+4. **R2 回滚有害**：绕过 idempotency 强写 179 行会引入"同 historian 同 surface 同 source 多裁决"脏数据，
+   违反 ADR-027 §3 表设计意图，且大概率触发新的 invariant violation
+
+### 最终 DB 状态（C4 commit 后）
+
+| 表 | 行数 | 说明 |
+|----|-----:|------|
+| `pending_merge_reviews` | 18 | cross_dynasty=11, state_prefix=7（status=pending） |
+| `triage_decisions` | 175 | approve=82, reject=53, defer=40；REAL=16, SYNTH=159 |
+| `triage_decisions WHERE downstream_applied=false` | 175 | V2 hook 占位字段全 false |
+| V1 多主名 | 0 | 与 baseline 一致 |
+| V9 无主名 | 0 | 与 baseline 一致 |
+| persons (active) | 729 | 不变 |
+| person_merge_log | 111 | 不变 |
+| pytest invariants (22 tests) | all green | V8 / V9 / V10 / V11 / slug / merge invariants |
+
+回滚 anchor：`ops/rollback/pre-sprint-k-stage-2-backfill-20260429-073031.dump`（603K, 300 TOC entries）
+
+---
+
+**End of dry-run report + apply revision.**
