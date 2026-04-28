@@ -9,6 +9,8 @@ import {
 } from "../services/person.service.js";
 import { validateSlug } from "../utils/slug.js";
 
+import { triageQueryFragment } from "./triage.js";
+
 /**
  * Query resolvers. person/persons are real implementations backed by
  * Drizzle (T-P0-007). Remaining entity lookups remain NOT_IMPLEMENTED
@@ -63,4 +65,10 @@ export const queryResolvers: QueryResolvers = {
       booksCount: booksResult[0]?.count ?? 0,
     };
   },
+
+  // Triage queries — implementation in resolvers/triage.ts
+  pendingTriageItems: triageQueryFragment.pendingTriageItems,
+  triageItem: triageQueryFragment.triageItem,
+  triageDecisionsForSurface: triageQueryFragment.triageDecisionsForSurface,
+  personById: triageQueryFragment.personById,
 };
