@@ -1,0 +1,105 @@
+# Spring-Autumn / Warring-States 诸侯国名单 + 别名 / 异称。
+#
+# Used by: services/pipeline/src/huadian_pipeline/state_prefix_guard.py
+# Task: T-P1-028 follow-up (Sprint I / ADR-025 §5.3)
+#
+# Convention:
+#   - name: 主名（人名前缀使用的字符）
+#   - aliases: 同国异称 / 古称（前缀 regex 字符集中视为等价，alias→canonical 归一）
+#   - era: 春秋 / 战国 / 春秋战国（覆盖期，仅文档用，不参与 guard 判定）
+#   - notes: 学术注解 / 来源
+#
+# Maintenance:
+#   - 新国添加需要 historian ACK
+#   - alias 必须不与其他 state 主名冲突（添加前 grep 检查）
+#   - 双字国名（中山/鲜虞）暂不支持，待 backlog（争议项 C）
+#
+# 17 国（Sprint I Stage 0 inventory §2.2 / ADR-025 §5.3.4）：
+#   不含"周"（裁决 A）/ 不含邾/莒/巴（裁决 B）
+#   周 → dynasty_guard gap≥286 已 100% 兜底; 邾/莒/巴 → DB 0 surface
+
+states:
+  - name: "秦"
+    era: "春秋战国"
+    aliases: []
+    notes: "嬴姓·伯爵→公→王（战国）"
+
+  - name: "晋"
+    era: "春秋"
+    aliases: ["唐"]
+    notes: "姬姓·侯爵→公；战国后被韩/魏/赵三家分晋。唐=唐叔虞封地早期称呼"
+
+  - name: "齐"
+    era: "春秋战国"
+    aliases: []
+    notes: "姜姓→田姓·侯爵→公→王"
+
+  - name: "楚"
+    era: "春秋战国"
+    aliases: ["荆"]
+    notes: "芈姓·子爵→王（春秋僭越称王）。荆=楚国早期他称"
+
+  - name: "鲁"
+    era: "春秋"
+    aliases: []
+    notes: "姬姓·侯爵→公"
+
+  - name: "卫"
+    era: "春秋战国"
+    aliases: []
+    notes: "姬姓·伯爵→公"
+
+  - name: "宋"
+    era: "春秋战国"
+    aliases: []
+    notes: "子姓·公爵"
+
+  - name: "吴"
+    era: "春秋"
+    aliases: ["句吴", "攻吴"]
+    notes: "姬姓·子爵→王。句吴/攻吴=金文异写"
+
+  - name: "越"
+    era: "春秋战国"
+    aliases: ["於越"]
+    notes: "姒姓·子爵→王。於越=先秦异称"
+
+  - name: "魏"
+    era: "战国"
+    aliases: []
+    notes: "姬姓·战国诸侯王"
+
+  - name: "韩"
+    era: "战国"
+    aliases: []
+    notes: "姬姓·战国诸侯王"
+
+  - name: "赵"
+    era: "战国"
+    aliases: []
+    notes: "嬴姓·战国诸侯王"
+
+  - name: "郑"
+    era: "春秋"
+    aliases: []
+    notes: "姬姓·伯爵→公"
+
+  - name: "燕"
+    era: "春秋战国"
+    aliases: []
+    notes: "姬姓·伯爵→战国王"
+
+  - name: "陈"
+    era: "春秋"
+    aliases: []
+    notes: "妫姓·侯爵"
+
+  - name: "蔡"
+    era: "春秋"
+    aliases: []
+    notes: "姬姓·侯爵"
+
+  - name: "蜀"
+    era: "春秋战国"
+    aliases: []
+    notes: "古蜀国（非周封）"
