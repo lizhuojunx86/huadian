@@ -404,13 +404,25 @@ Day 8: 收档
 - [x] 本 design doc §2 实施约束（SDL 路径、service 路径）接受（codegen 路径 typo 已纠正）
 - [x] 工时 3.5d 估计准确
 
-**【FE】签字**：
-- [ ] ADR-027 §2.2 interface + __typename type guard 实施清晰
-- [ ] ADR-027 §2.3 inbox V1 必须实现接受
-- [ ] ADR-027 §2.4 Auth middleware 实施 spec 接受
-- [ ] 本 design doc §3 wireframes 落地清晰
-- [ ] 本 design doc §4 middleware 代码 spec 可直接用
-- [ ] 工时 3.7d 估计准确
+**【FE】签字**（2026-04-29 FE Stage 3 启动时回填，commit pending — 见 C1 / C6）：
+- [x] ADR-027 §2.2 interface + __typename type guard 实施清晰
+- [x] ADR-027 §2.3 inbox V1 必须实现接受
+- [x] ADR-027 §2.4 Auth middleware 实施 spec 接受
+- [x] 本 design doc §3 wireframes 落地清晰
+- [x] 本 design doc §4 middleware 代码 spec 可直接用
+- [x] 工时 3.7d 估计准确
+
+**FE 实施期 2 处 deviation**（架构师 Stage 3 prompt 已 ACK）：
+
+1. **路径以 FE 实际项目结构为准（非 `src/app/`）**：
+   - 项目实际结构（Stage 0 FE inventory commit `a7b2aaf` §1 已确认）：路由用 `apps/web/app/triage/` 而非 `apps/web/src/app/triage/`；utils/middleware 在 `apps/web/lib/*.ts` + `apps/web/middleware.ts`。
+   - 与现有 `/persons` 路由模式同构，零结构重组。§2 codegen 路径 typo 已由 BE Stage 2 纠正；§3 wireframes 是文字描述无具体路径，按实际结构落地。
+
+2. **middleware 不直接 `import yaml`，改用 `.ts` mirror**：
+   - 本 design doc §4.1 spec 写 `import historianAllowlist from '@/lib/historian-allowlist.yaml'`，但 Next.js 14 middleware 默认 edge runtime **不支持** YAML 直接 import（无 fs / 无 yaml loader without webpack rewrite）。
+   - 实施路径：保留 `apps/web/lib/historian-allowlist.yaml` 作为人类可读 source of truth + V2 SSO 注释；新增 `apps/web/lib/historian-allowlist.ts` 作为 runtime mirror（middleware 实际 import 这个）。
+   - `.ts` 文件头注释明示"⚠️ Mirrored from historian-allowlist.yaml; if updating, edit yaml first then sync .ts"。
+   - V2 SSO 升级时两文件一并退役，middleware 直接接 SSO 校验。
 
 **【PE】签字**：
 - [ ] ADR-027 §5 merge 铁律继承条款接受

@@ -1,0 +1,22 @@
+# Historian sign-off allowlist for /triage UI access (V1).
+# Each id corresponds to a historian agent role / human reviewer.
+# V2 will replace this file with SSO integration; once SSO is live,
+# this file is retired and the .ts mirror is deleted.
+#
+# Source of truth: this YAML file (human-readable + git-blamable).
+# Runtime: apps/web/lib/historian-allowlist.ts (mirror — edge runtime
+#   middleware cannot import .yaml directly, so .ts is consulted at request
+#   time). When updating, edit this YAML first, then sync the .ts mirror.
+#
+# Constraints:
+# - keep total entries ≤ 10 (V1 single-historian-mostly model)
+# - id must be URL-safe (used as ?historian=<id> query param)
+# - id is not a secret; URL token is V1 stand-in for auth, not a credential
+
+historians:
+  - id: chief-historian
+    display_name: Chief Historian (default)
+  - id: backfill-script
+    display_name: Historical Backfill Script (system)
+  - id: e2e-test
+    display_name: E2E Test Account (Playwright smoke)
