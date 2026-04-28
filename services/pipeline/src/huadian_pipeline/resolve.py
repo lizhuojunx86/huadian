@@ -296,6 +296,24 @@ async def _r6_prepass(conn: Any, snapshots: list[PersonSnapshot]) -> dict[str, i
     return distribution
 
 
+def _swap_ab_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    """Swap *_a/*_b suffixed keys in a guard payload dict.
+
+    Called when pair order is normalized (higher-UUID person moved to the B slot)
+    to keep report columns aligned with the post-swap person order.
+    Keys without _a/_b suffix (e.g. gap_years, threshold) are copied unchanged.
+    """
+    result: dict[str, Any] = {}
+    for k, v in payload.items():
+        if k.endswith("_a"):
+            result[k[:-2] + "_b"] = v
+        elif k.endswith("_b"):
+            result[k[:-2] + "_a"] = v
+        else:
+            result[k] = v
+    return result
+
+
 def _detect_r6_merges(
     snapshots: list[PersonSnapshot],
 ) -> tuple[list[MergeProposal], list[BlockedMerge]]:
@@ -345,11 +363,15 @@ def _detect_r6_merges(
                 # T-P0-029 + T-P1-028 (ADR-025): rule-aware temporal guard check
                 guard_result = evaluate_pair_guards(a, b, rule="R6")
                 if guard_result is not None and guard_result.blocked:
-                    # Enforce pair order: person_a_id < person_b_id (DB CHECK)
+                    # Enforce pair order: person_a_id < person_b_id (DB CHECK).
+                    # When swapping, also swap *_a/*_b payload keys so report
+                    # columns stay aligned with the normalized person order.
                     if a.id < b.id:
                         aid, bid, aname, bname = a.id, b.id, a.name, b.name
+                        guard_payload = guard_result.payload
                     else:
                         aid, bid, aname, bname = b.id, a.id, b.name, a.name
+                        guard_payload = _swap_ab_payload(guard_result.payload)
 
                     blocked.append(
                         BlockedMerge(
@@ -359,7 +381,7 @@ def _detect_r6_merges(
                             person_b_name=bname,
                             proposed_rule="R6",
                             guard_type=guard_result.guard_type,
-                            guard_payload=guard_result.payload,
+                            guard_payload=guard_payload,
                             evidence=r6_evidence,
                         )
                     )
@@ -479,11 +501,15 @@ async def resolve_identities(pool: asyncpg.Pool) -> ResolveResult:
                 # Unregistered rules (R2/R3/R5) get None and proceed unchanged.
                 guard_result = evaluate_pair_guards(a, b, rule=match.rule)
                 if guard_result is not None and guard_result.blocked:
-                    # Pair-order normalize per pending_merge_reviews CHECK
+                    # Pair-order normalize per pending_merge_reviews CHECK.
+                    # When swapping, also swap *_a/*_b payload keys so report
+                    # columns stay aligned with the normalized person order.
                     if a.id < b.id:
                         aid, bid, aname, bname = a.id, b.id, a.name, b.name
+                        guard_payload = guard_result.payload
                     else:
                         aid, bid, aname, bname = b.id, a.id, b.name, a.name
+                        guard_payload = _swap_ab_payload(guard_result.payload)
 
                     result.blocked_merges.append(
                         BlockedMerge(
@@ -493,7 +519,7 @@ async def resolve_identities(pool: asyncpg.Pool) -> ResolveResult:
                             person_b_name=bname,
                             proposed_rule=match.rule,
                             guard_type=guard_result.guard_type,
-                            guard_payload=guard_result.payload,
+                            guard_payload=guard_payload,
                             evidence=match.evidence,
                         )
                     )
