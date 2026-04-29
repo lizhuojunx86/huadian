@@ -9,7 +9,7 @@
 - **Brief 日期**：YYYY-MM-DD
 - **Sprint 形态**：⚠️FILL `单 track` / `多 track 并行` （多 track 需说明各 track 主题）
 - **预估工时**：⚠️FILL `N 天 / 周`
-- **PE 模型**：⚠️FILL `Sonnet 4.X` / `Opus 4.X`（理由：执行类用 Sonnet / 创设类用 Opus）
+- **PE 模型**：⚠️FILL `Sonnet 4.X` / `Opus 4.X` / `N/A (single-actor sprint)`（理由：执行类用 Sonnet / 创设类用 Opus / 单 actor sprint 填 N/A）
 - **Architect 模型**：⚠️FILL `Opus 4.X`（架构师 session 通常用 Opus）
 - **触发事件**：⚠️FILL `前置 sprint 的什么发现 / 衍生债驱动 / 战略转型 / etc`
 
@@ -133,6 +133,10 @@
 | 后端 / 前端 / QA / DevOps / PM / Designer / Analyst | 🟢/🟡/⚪ | ⚠️FILL |
 
 🟢 高 / 🟡 维护 / ⚪ 暂停。
+
+> ⚠️ **Single-actor sprint 简化**（适用于纯文档抽象 / framework abstraction 类 sprint）：
+> 如本 sprint 仅 Architect 主导，可仅列 1 行（Architect 🟢）并加注脚 "其余 9 角色全 ⚪ 暂停（不参与本 sprint）"，无需逐行填全。
+> 实证：Sprint L / Sprint M 都是 single-actor sprint，整表 1 行 + 注脚足以。
 
 ---
 

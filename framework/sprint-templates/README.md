@@ -146,6 +146,7 @@ cp sprint-templates/brief-template.md \
 | Version | Date | Source | Change |
 |---------|------|--------|--------|
 | v0.1 | 2026-04-29 | Sprint L Stage 1 (first abstraction) | 初版抽出 |
+| v0.1.1 | 2026-04-29 | Sprint M Stage 4 follow-up patch | DGF-M-02 / DGF-M-03 落地：brief-template §0 PE 模型字段加 N/A 占位；brief-template §5 角色边界表加 single-actor 简化注脚 |
 
 ---
 

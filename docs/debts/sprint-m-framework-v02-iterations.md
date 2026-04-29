@@ -1,9 +1,21 @@
 # Sprint M 衍生债 — framework/sprint-templates/ + framework/role-templates/ v0.1 → v0.2 迭代清单
 
-> Status: registered
+> Status: **partial-resolved** (DGF-M-02~07 已落地为 v0.1.1 patch / 2026-04-29)
 > 来源 sprint: Sprint M brief 起草 + Stage 1 dogfood (2026-04-29)
-> 优先级: 全部 P3（不主动启动；遇到机会 batch 处理）
+> 优先级: 剩余 5 项 P3（不主动启动；遇到机会 batch 处理）
 > 触发条件: Sprint N+ 启动时如顺手即处理；或外部反馈批量驱动；或 framework v0.2 release 前批量收尾
+>
+> **v0.1.1 patch 已处理项（2026-04-29 当日）**：
+> - DGF-M-02 ✅ brief-template §0 PE 模型字段加 N/A 占位
+> - DGF-M-03 ✅ brief-template §5 角色边界表加 single-actor 简化注脚
+> - DGF-M-04 ✅ domain-expert §核心职责加 Triage Decision 单独条目
+> - DGF-M-05 ✅ chief-architect §核心职责加 Stop Rule Arbitration 单独条目
+> - DGF-M-06 ✅ tagged-sessions-protocol §2.3 加协调模式区分注脚
+> - DGF-M-07 ✅ tagged-sessions-protocol §4.5 加 handoff_to: 模式区分注脚
+>
+> **v0.2 仍待项**（剩 5 项）：
+> - DGF-M-01（brief-template §3 加纯文档 sprint 适配 alt 段 — 结构性改动，留 v0.2）
+> - T-P3-FW-001 ~ T-P3-FW-004（Sprint L 4 项，全部留 v0.2）
 
 ---
 

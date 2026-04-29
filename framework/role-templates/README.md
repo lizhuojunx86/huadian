@@ -194,6 +194,7 @@ LLM context window 有限。一个 session 装入"角色定义 + 任务卡 + 项
 | Version | Date | Source | Change |
 |---------|------|--------|--------|
 | v0.1 | 2026-04-29 | Sprint M Stage 1 (first abstraction) | 初版抽出（10 角色模板 + tagged-sessions-protocol + cross-domain-mapping）|
+| v0.1.1 | 2026-04-29 | Sprint M Stage 4 follow-up patch | DGF-M-04 / DGF-M-05 / DGF-M-06 / DGF-M-07 落地：domain-expert + chief-architect §核心职责加单独条目；tagged-sessions-protocol §2.3 / §4.5 加协调模式区分注脚 |
 
 ---
 

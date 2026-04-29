@@ -96,6 +96,11 @@
 - **Architect ACK**: ⚠️FILL (yes/no/pending)
 ```
 
+> ⚠️ **协调模式区别**（v0.1.1 注脚 / Sprint M dogfood 发现）：
+> - **主 Architect 集中协调模式**（默认 / Sprint K 实证）：Architect 主 session 在场协调，本 §2.3 格式是 nice-to-have；任务卡评论 + commit message + STATUS 更新已足够
+> - **多 Architect 并行模式**（罕见 / 多个 sub-team 各有自己的协调者）：本 §2.3 格式是必需，让跨 Architect handoff 可识别 + audit
+>
+
 ---
 
 ## 3. 协议元素 3 — Session 启动模板（领域无关 6 步）
@@ -133,6 +138,11 @@
 4. 若产生新决策（ADR / RFC / contract 级变更）→ 落盘 + 关联引用
 5. 若影响其他角色 → 任务卡 handoff_to: [role] 标注 + 触发 §2 handoff 信号
 ```
+
+> ⚠️ **协调模式区别**（v0.1.1 注脚 / Sprint M dogfood 发现）：
+> - **主 Architect 集中协调模式**（默认）：第 5 步的 `handoff_to: [role]` 标注可由 commit message + Architect 协调 + STATUS 更新替代；任务卡 `handoff_to:` 字段是 nice-to-have
+> - **多 Architect 并行模式**（罕见）：第 5 步的 `handoff_to: [role]` 标注必需，让跨 Architect handoff 可 grep + audit
+>
 
 **为什么强制 5 步**：
 
