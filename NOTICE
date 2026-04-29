@@ -1,0 +1,97 @@
+HuaDian (华典智谱) — Agentic Knowledge Engineering Framework
+                       + Reference Implementation on Sima Qian's Shiji
+Copyright 2026 The HuaDian Project Contributors
+
+================================================================================
+
+This product is dual-licensed:
+
+  - Code (apps/, services/{api,pipeline}/src/, packages/, scripts/, build
+    configuration files):
+        Apache License, Version 2.0 (see LICENSE)
+
+  - Data and documentation (docs/, data/, services/pipeline/fixtures/,
+    services/pipeline/data/, repo-root *.md):
+        Creative Commons Attribution 4.0 International (see LICENSE-DATA)
+
+When You distribute this Work or any Derivative Work, You must retain
+this NOTICE file (Apache 2.0 §4(d)) and provide attribution per the
+respective license.
+
+================================================================================
+
+THIRD-PARTY SOURCE TEXTS
+
+This project ingests and structures historical source texts. The texts
+themselves are in the public domain by virtue of their age, but the
+specific digitizations were obtained from the platforms below; we
+acknowledge them out of academic courtesy and to allow downstream users
+to verify our derivations.
+
+  Source Text:    史记 (Records of the Grand Historian)
+  Author:         司马迁 (Sima Qian)
+  Composition:    ~104 — ~91 BCE (Western Han Dynasty)
+  Status:         Public Domain (worldwide, by age)
+  Digitization:   Chinese Text Project (CTP) — https://ctext.org/shiji/
+  Files:          services/pipeline/fixtures/sources/shiji/*.txt
+                  (each file's header records the specific ctext.org URL)
+  Acknowledgment: We thank the Chinese Text Project for providing
+                  open-access digitized editions of classical Chinese
+                  texts. Per CTP's expressed wishes, academic uses are
+                  encouraged to cite ctext.org as the digitization source.
+
+================================================================================
+
+THIRD-PARTY DICTIONARY DATA
+
+  Source:        Wikidata (https://www.wikidata.org)
+  License:       CC0 1.0 Universal (Public Domain Dedication)
+  Use:           Person entity seeding, QID anchoring, biographical
+                 metadata cross-reference (services/pipeline/src/...)
+  Acknowledgment: Wikidata's CC0 dedication enables our open framework.
+                  Although CC0 imposes no attribution requirement, we
+                  acknowledge Wikidata as a primary upstream data source.
+
+================================================================================
+
+THIRD-PARTY CODE DEPENDENCIES
+
+This project depends on numerous open-source libraries, each licensed
+under its own terms. Per Apache 2.0 §4(c) and standard practice, we do
+not enumerate them in this NOTICE; consult the following for full
+dependency manifests:
+
+  - Node.js / TypeScript: see pnpm-lock.yaml + package.json files
+  - Python: see uv.lock + pyproject.toml files
+
+The NOTICE file accompanying each dependency, where present, is preserved
+in the dependency's installation directory and should be consulted by
+downstream redistributors.
+
+================================================================================
+
+ATTRIBUTION REQUEST FOR DOWNSTREAM USERS
+
+When citing or building upon HuaDian's framework, methodology, or data,
+the preferred attribution is:
+
+  HuaDian (华典智谱) Project Contributors. "Agentic Knowledge Engineering
+  Framework with Shiji Reference Implementation." 2026—.
+  https://github.com/lizhuojunx86/huadian
+
+For methodology articles or academic papers derived from our docs/methodology/
+content, please additionally cite the specific document filename and its
+last commit SHA at the time of derivation, to ensure reproducibility.
+
+================================================================================
+
+The HuaDian project is released in the spirit of contributing back to
+the open knowledge engineering commons. We encourage commercial,
+academic, and personal derivative work, subject only to the attribution
+requirements of the applicable licenses.
+
+For questions about licensing, attribution, or commercial use, open an
+issue on the project repository.
+
+— The HuaDian Project Contributors
+  2026-04-29
