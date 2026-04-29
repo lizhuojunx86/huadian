@@ -87,6 +87,21 @@ pnpm dev
 
 ---
 
+## Quick demo (5 minutes)
+
+> 已经 setup 完毕？想快速看 AKE 框架"真的 work"的活体证明？
+
+按 [`docs/runbook/RB-002-demo-walkthrough.md`](docs/runbook/RB-002-demo-walkthrough.md) 5 分钟走通：
+
+1. **Triage UI** — 浏览 `http://localhost:3000/triage?historian=chief-historian`，看 Sprint A-K 累积的 63 条真实 pending decisions + 跨 sprint 决策回查（Hint Banner）
+2. **V1-V11 Invariants** — `pytest tests/test_invariants_*.py` → 22/22 全绿
+3. **Identity Resolver Dry-Run** — `python scripts/dry_run_resolve.py` 看 R1-R6 + GUARD_CHAINS 实时拦截
+4. **数据基线** — SQL 直查 729 active persons + 111 merge_log + 177 triage_decisions
+
+Demo 不展示：C 端阅读器 / 移动端 / 完整史记 130 篇 / 公开 URL — 这些不在 D-route 范围（参见 [`docs/strategy/D-route-positioning.md §7`](docs/strategy/D-route-positioning.md) Negative Space）。如果你想要其中某项，请考虑 [shiji-kb](https://github.com/baojie/shiji-kb) 等近邻项目。
+
+---
+
 ## 项目结构
 
 ```
