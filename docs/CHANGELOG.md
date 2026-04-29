@@ -5,6 +5,34 @@
 
 ---
 
+## 2026-04-29 (Sprint M)
+
+### [feat] Sprint M Stage 1 — Multi-Role Coordination 抽象 + 关档
+
+- **角色**：首席架构师（自驱执行 / 单 actor sprint，与 Sprint L 同形态）
+- **性质**：D-route Layer 1 **第二刀**；framework/ 治理类双模块完成（sprint-templates + role-templates）
+- **关键产出**：
+  - `framework/role-templates/` v0.1（13 files / ~2200 lines）：领域无关的 10 角色 KE 团队协作模板
+    - 10 角色模板：chief-architect / pipeline-engineer / backend-engineer / frontend-engineer / **domain-expert**（重命名自 historian.md + 大段重写 + 6 跨领域 instantiation 范例）/ product-manager / ui-ux-designer / qa-engineer / devops-engineer / data-analyst
+    - `tagged-sessions-protocol.md`（multi-session 协调实操协议 / 5 类 handoff 信号 / 3 级冲突升级 / 5 反模式 / Sprint K 实证案例段）
+    - `cross-domain-mapping.md`（6 领域 instantiation 速查表：古籍 / 佛经 / 法律 / 医疗 / 专利 / 地方志 / 含字典 + 黄金集 example）
+    - README.md（8 段，与 sprint-templates README 同款）
+  - dogfood 验证：用 framework/role-templates/ 回审 Sprint K 5 角色 6-stage 协同实战，**总覆盖度 99.2%**（远超 brief ≥80% 目标）
+  - docs/methodology/01-role-design-pattern.md v0.1 → v0.1.1（§9 Framework Implementation 段加 / 修订历史更新）
+- **D-route Layer 进度**：
+  - L1: 🟢 第一刀（Sprint L sprint-templates）→ 🟢 **第一+二刀**（治理类双模块完整 / +13 files / +~2200 lines）
+  - L2: methodology/01 v0.1.1（cross-reference 紧密化 / 草案内容仍 v0.1）
+  - L3: +1 dogfood 案例（Sprint K 是 framework/role-templates/ 第一完整实证）
+- **commits**: 待 push（Sprint M Stage 0 + 1 + 4）
+- **衍生债**: 7 项 v0.2 候选登记（DGF-M-01~07，全部 P3 / [docs/debts/sprint-m-framework-v02-iterations.md](debts/sprint-m-framework-v02-iterations.md)）
+- **押后**: Stage 2-3 外部审（朋友/用户走 framework/role-templates）等外部反馈触发
+- **Stop Rule 触发**: 0 次（low-risk sprint，与 Sprint L 同形态）
+- **dogfood 节奏**: framework/sprint-templates/ 第二次外部使用 + framework/role-templates/ 第一次自审 dogfood = 共 5 次 dogfood 实例验证 "dogfood-on-template" 元 pattern 稳定
+- **下一 sprint 候选**: Sprint N Identity Resolver R1-R6 抽象（推荐 / 切代码层 / Sonnet 4.6）/ V1-V11 Invariant Scaffold（候选）/ Audit + Triage Workflow（候选）；启动时机无紧急 timeline（自然停顿点 / 可休息 1-2 周）
+- **framework v0.2 release**: 候选条件已达成（≥ 2 抽象资产稳定），但留给 Sprint N 完成 / 跨领域案例反馈触发再 release（不强求当前 release）
+
+---
+
 ## 2026-04-29 (Sprint L)
 
 ### [feat] Sprint L Stage 1 — 框架抽象第一刀 + 产品化 demo 双 track + 关档
