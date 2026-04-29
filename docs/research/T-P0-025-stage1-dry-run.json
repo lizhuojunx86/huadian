@@ -1,0 +1,5352 @@
+[
+  {
+    "person_id": "7022b479-f8fa-4be2-ba14-7c396849a160",
+    "slug": "bai-qi",
+    "canonical_name": "白起",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r1_exact_multi",
+    "hits": [
+      {
+        "qid": "Q701746",
+        "label_zh": "白起",
+        "description_zh": "戰國四名將之一"
+      },
+      {
+        "qid": "Q65820802",
+        "label_zh": "白起",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "白起",
+    "error": ""
+  },
+  {
+    "person_id": "599b25fb-44d7-47d9-96c0-03f5aca26d28",
+    "slug": "bao-si",
+    "canonical_name": "褒姒",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1069735",
+        "label_zh": "褒姒",
+        "description_zh": "周幽王王后"
+      }
+    ],
+    "matched_name": "褒姒",
+    "error": ""
+  },
+  {
+    "person_id": "c74a2aac-841b-4816-89c8-26c8063abde7",
+    "slug": "bi-gan",
+    "canonical_name": "比干",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r1_exact_multi",
+    "hits": [
+      {
+        "qid": "Q1051287",
+        "label_zh": "比干",
+        "description_zh": "商朝贵族"
+      },
+      {
+        "qid": "Q45519000",
+        "label_zh": "比干",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "比干",
+    "error": ""
+  },
+  {
+    "person_id": "ec440301-5a6f-4d5b-86bf-1f1dabcaf5ff",
+    "slug": "bo-yi",
+    "canonical_name": "伯夷",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r1_exact_multi",
+    "hits": [
+      {
+        "qid": "Q61314449",
+        "label_zh": "伯夷",
+        "description_zh": "商朝末年孤竹国王子"
+      },
+      {
+        "qid": "Q10787522",
+        "label_zh": "伯夷",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "伯夷",
+    "error": ""
+  },
+  {
+    "person_id": "b1a6ecae-5d13-476f-b8e5-3541b689921b",
+    "slug": "chang-pu",
+    "canonical_name": "昌仆",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "5c131454-8f7e-4b63-8f0f-cf49c4ec6159",
+    "slug": "chang-xian",
+    "canonical_name": "常先",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q11060279",
+        "label_zh": "常先",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "常先",
+    "error": ""
+  },
+  {
+    "person_id": "1c404625-59ff-47a9-a239-097e432ad822",
+    "slug": "chang-yi",
+    "canonical_name": "昌意",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q6377648",
+        "label_zh": "昌意",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "昌意",
+    "error": ""
+  },
+  {
+    "person_id": "abf65a85-0faf-4ad3-a3dc-c7d04e5aceda",
+    "slug": "chi-you",
+    "canonical_name": "蚩尤",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q17370568",
+        "label_zh": "蚩尤",
+        "description_zh": "台灣插畫家"
+      }
+    ],
+    "matched_name": "蚩尤",
+    "error": ""
+  },
+  {
+    "person_id": "2595b9c9-b30f-4701-a553-a1d2a83895e4",
+    "slug": "chui",
+    "canonical_name": "倕",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "b703a0a6-7a59-4c2d-917a-5e7925285a9d",
+    "slug": "chu-zhuang-wang",
+    "canonical_name": "楚庄王",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q198154",
+        "label_zh": "楚庄王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "楚庄王",
+    "error": ""
+  },
+  {
+    "person_id": "1d6cd4d4-e9c8-4d14-8d48-cc4c5714e87d",
+    "slug": "da-hong",
+    "canonical_name": "大鸿",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q9970261",
+        "label_zh": "大鸿",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "大鸿",
+    "error": ""
+  },
+  {
+    "person_id": "309c1421-c0b5-4cb7-8d55-aaecd5a532e0",
+    "slug": "da-ji",
+    "canonical_name": "妲己",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1377681",
+        "label_zh": "妲己",
+        "description_zh": "商纣王妃子"
+      }
+    ],
+    "matched_name": "妲己",
+    "error": ""
+  },
+  {
+    "person_id": "46add4d2-e583-449a-8ad4-2732b43b9618",
+    "slug": "dan-zhu",
+    "canonical_name": "丹朱",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q5221466",
+        "label_zh": "丹朱",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "丹朱",
+    "error": ""
+  },
+  {
+    "person_id": "fa14f49f-8dbc-4f3f-a04c-b67df9a5b4e7",
+    "slug": "di-ku",
+    "canonical_name": "高辛",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "9f8e4f38-6c25-47a6-9a2b-72fb9f068f64",
+    "slug": "fang-qi",
+    "canonical_name": "放齐",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10297711",
+        "label_zh": "放齐",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "放齐",
+    "error": ""
+  },
+  {
+    "person_id": "981f922d-5697-4b1b-b427-e8f66bd8de9d",
+    "slug": "feng-hou",
+    "canonical_name": "风后",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "39081f94-bd83-4196-87cc-2f766cc31830",
+    "slug": "fu-yue",
+    "canonical_name": "傅说",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "041aef60-51bd-4509-88b2-d41969f80805",
+    "slug": "gao-yao",
+    "canonical_name": "皋陶",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q3659487",
+        "label_zh": "皋陶",
+        "description_zh": "中国传说时代人物"
+      }
+    ],
+    "matched_name": "皋陶",
+    "error": ""
+  },
+  {
+    "person_id": "0fa67188-558b-4622-8d67-2205c3f6ef72",
+    "slug": "gong-gong",
+    "canonical_name": "共工",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "3f93f19e-b6c9-4d22-9a55-01c091b7f23b",
+    "slug": "gou-wang",
+    "canonical_name": "句望",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q9569181",
+        "label_zh": "句望",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "句望",
+    "error": ""
+  },
+  {
+    "person_id": "01561739-d388-49b8-925b-d2f0558aff62",
+    "slug": "guan-zhong",
+    "canonical_name": "管仲",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q457972",
+        "label_zh": "管仲",
+        "description_zh": "春秋時期齊國丞相"
+      }
+    ],
+    "matched_name": "管仲",
+    "error": ""
+  },
+  {
+    "person_id": "174458b8-eb08-4bb2-bbb4-3a1a27785e86",
+    "slug": "gu-gong-dan-fu",
+    "canonical_name": "古公亶父",
+    "dynasty": "先周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "2654bbc9-aa0e-4f85-b99b-2f593d08bc84",
+    "slug": "gun",
+    "canonical_name": "鲧",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1157063",
+        "label_zh": "鲧",
+        "description_zh": "上古时期邦国首领"
+      }
+    ],
+    "matched_name": "鲧",
+    "error": ""
+  },
+  {
+    "person_id": "ed16177a-3f8d-49d0-89d8-aad52d591dc1",
+    "slug": "gu-sou",
+    "canonical_name": "瞽叟",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10438384",
+        "label_zh": "瞽叟",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "瞽叟",
+    "error": ""
+  },
+  {
+    "person_id": "62f42495-d83e-4c58-a905-e43e655c8465",
+    "slug": "he-shu",
+    "canonical_name": "和叔",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10921376",
+        "label_zh": "和叔",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "和叔",
+    "error": ""
+  },
+  {
+    "person_id": "5cf16973-6ab3-4df3-a493-57a1b19f0632",
+    "slug": "he-zhong",
+    "canonical_name": "和仲",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10921349",
+        "label_zh": "和仲",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "和仲",
+    "error": ""
+  },
+  {
+    "person_id": "709a5ab7-7bb3-4091-a80f-d209caaf5a48",
+    "slug": "hou-ji",
+    "canonical_name": "弃",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1207613",
+        "label_zh": "弃",
+        "description_zh": "周人始祖"
+      }
+    ],
+    "matched_name": "弃",
+    "error": ""
+  },
+  {
+    "person_id": "3197e202-55e0-4eca-aa91-098d9de33bc9",
+    "slug": "huang-di",
+    "canonical_name": "轩辕",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "340d8d24-c305-4f0e-b517-3f8460dc0b28",
+    "slug": "jian-di",
+    "canonical_name": "简狄",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "6dc49a58-ae29-4938-92bf-15cc8fb705a2",
+    "slug": "jiao-ji",
+    "canonical_name": "蟜极",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "48cdbfcf-f96b-4623-b5b4-1de19f342fd5",
+    "slug": "jie",
+    "canonical_name": "帝履癸",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "r3",
+    "confidence": 0.7,
+    "mapping_method": "r3_name_scan",
+    "hits": [
+      {
+        "qid": "Q465081",
+        "label_zh": "桀",
+        "description_zh": "夏朝末代君主"
+      }
+    ],
+    "matched_name": "夏桀",
+    "error": ""
+  },
+  {
+    "person_id": "c8862c58-9eb8-49f4-9792-86ab89eaaadd",
+    "slug": "ji-li",
+    "canonical_name": "季历",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "1a2a3fba-061f-4bf4-adba-4bd3eb16a861",
+    "slug": "jing-kang",
+    "canonical_name": "敬康",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10299225",
+        "label_zh": "敬康",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "敬康",
+    "error": ""
+  },
+  {
+    "person_id": "022b3f84-4289-475f-a809-c94b892e8be9",
+    "slug": "jin-wen-gong",
+    "canonical_name": "晋文公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q561973",
+        "label_zh": "晋文公",
+        "description_zh": "春秋時期諸侯國君"
+      }
+    ],
+    "matched_name": "晋文公",
+    "error": ""
+  },
+  {
+    "person_id": "28804aff-e388-4025-951e-ea5bfac7380f",
+    "slug": "ji-zi",
+    "canonical_name": "箕子",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q125218765",
+        "label_zh": "箕子",
+        "description_zh": "中国艺术家"
+      }
+    ],
+    "matched_name": "箕子",
+    "error": ""
+  },
+  {
+    "person_id": "17dcc539-9089-4a1c-adac-d652bdb1cf16",
+    "slug": "kong-jia",
+    "canonical_name": "孔甲",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1193337",
+        "label_zh": "孔甲",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "孔甲",
+    "error": ""
+  },
+  {
+    "person_id": "66f1ad60-8174-4ed9-b780-102df2a0609d",
+    "slug": "kui",
+    "canonical_name": "夔",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "b4e47b19-2fa1-46c2-8fb7-3945c9564c3c",
+    "slug": "lei-zu",
+    "canonical_name": "嫘祖",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "86b04ce2-b0d2-4729-9aea-d38c492f840e",
+    "slug": "li-mu",
+    "canonical_name": "力牧",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10900662",
+        "label_zh": "力牧",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "力牧",
+    "error": ""
+  },
+  {
+    "person_id": "8c656cb3-3e73-4c5a-b75a-d8bb825496d2",
+    "slug": "liu-lei",
+    "canonical_name": "刘累",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "91dca574-3049-437a-b777-bfed43d78ae8",
+    "slug": "long",
+    "canonical_name": "龙",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q706911",
+        "label_zh": "龙",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "龙",
+    "error": ""
+  },
+  {
+    "person_id": "d01e3221-22c5-40fb-a74a-a38d0ffc69c9",
+    "slug": "pan-geng",
+    "canonical_name": "盘庚",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q736654",
+        "label_zh": "盘庚",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "盘庚",
+    "error": ""
+  },
+  {
+    "person_id": "cdae4ce6-714d-4ffc-8c53-2823ca74af69",
+    "slug": "peng-zu",
+    "canonical_name": "彭祖",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q2194386",
+        "label_zh": "彭祖",
+        "description_zh": "传说中的彭姓始祖"
+      }
+    ],
+    "matched_name": "彭祖",
+    "error": ""
+  },
+  {
+    "person_id": "aaa3998f-cad8-4054-9ae4-6d9f5dc40486",
+    "slug": "qi",
+    "canonical_name": "启",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q186544",
+        "label_zh": "启",
+        "description_zh": "夏朝君主"
+      }
+    ],
+    "matched_name": "启",
+    "error": ""
+  },
+  {
+    "person_id": "e330634f-161c-4084-902c-a6e1e1a9b33a",
+    "slug": "qiao-niu",
+    "canonical_name": "桥牛",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "1e74495b-7648-4afb-8779-47fe67a52e6c",
+    "slug": "qi-huan-gong",
+    "canonical_name": "齐桓公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q470108",
+        "label_zh": "齐桓公",
+        "description_zh": "春秋時代齊國國君、春秋五霸之一"
+      }
+    ],
+    "matched_name": "齐桓公",
+    "error": ""
+  },
+  {
+    "person_id": "144a7a2c-4330-480c-a2cb-4cf09245de8f",
+    "slug": "qin-mu-gong",
+    "canonical_name": "秦穆公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1146646",
+        "label_zh": "秦穆公",
+        "description_zh": "春秋时期秦国国君"
+      }
+    ],
+    "matched_name": "秦穆公",
+    "error": ""
+  },
+  {
+    "person_id": "2b170470-d8a2-4ebd-a166-cdbd5b913003",
+    "slug": "qiong-chan",
+    "canonical_name": "穷蝉",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "34b568ad-7280-41fa-bd84-83a4d25f29f1",
+    "slug": "shang-jun",
+    "canonical_name": "商均",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q6380869",
+        "label_zh": "商均",
+        "description_zh": "舜的儿子"
+      }
+    ],
+    "matched_name": "商均",
+    "error": ""
+  },
+  {
+    "person_id": "c9177893-35ad-48f5-887b-c48d38d6031d",
+    "slug": "shao-dian",
+    "canonical_name": "少典",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q4302144",
+        "label_zh": "少典",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "少典",
+    "error": ""
+  },
+  {
+    "person_id": "26d68429-421d-4695-99b7-995150cb77aa",
+    "slug": "shao-kang",
+    "canonical_name": "少康",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1195072",
+        "label_zh": "少康",
+        "description_zh": "夏朝君主"
+      }
+    ],
+    "matched_name": "少康",
+    "error": ""
+  },
+  {
+    "person_id": "5187db9f-1864-49f0-97d2-d6cc60b5fd2a",
+    "slug": "shen-nong-shi",
+    "canonical_name": "神农氏",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "f1a7e4d2-41fa-400c-881b-dfb4919e8200",
+    "slug": "shun",
+    "canonical_name": "舜",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q28409920",
+        "label_zh": "舜",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "舜",
+    "error": ""
+  },
+  {
+    "person_id": "2d90798a-563c-4b13-8826-48fb6e2c7640",
+    "slug": "shu-qi",
+    "canonical_name": "叔齐",
+    "dynasty": "先周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "da24cfb1-a188-4b56-a441-2a481f1f242d",
+    "slug": "tai-bo",
+    "canonical_name": "太伯",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "c01208ae-99a0-4445-8284-6aff6a1703ce",
+    "slug": "tai-jia",
+    "canonical_name": "太甲",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878465",
+        "label_zh": "太甲",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "太甲",
+    "error": ""
+  },
+  {
+    "person_id": "7a21bebe-cb2f-470f-a9a4-7d54876e51e4",
+    "slug": "tai-kang",
+    "canonical_name": "太康",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1155744",
+        "label_zh": "太康",
+        "description_zh": "夏朝君主"
+      }
+    ],
+    "matched_name": "太康",
+    "error": ""
+  },
+  {
+    "person_id": "578b71f6-e9aa-4fc3-b8c8-1a7c20a3c910",
+    "slug": "tang",
+    "canonical_name": "汤",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r2",
+    "confidence": 0.85,
+    "mapping_method": "r2_alias",
+    "hits": [
+      {
+        "qid": "Q471820",
+        "label_zh": "商汤",
+        "description_zh": "商朝的第一任君王"
+      }
+    ],
+    "matched_name": "成汤",
+    "error": ""
+  },
+  {
+    "person_id": "0bc8f019-378d-40ac-9ed5-6da0cb57d253",
+    "slug": "u4e0d-u7a8b",
+    "canonical_name": "不窋",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q5003460",
+        "label_zh": "不窋",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "不窋",
+    "error": ""
+  },
+  {
+    "person_id": "417e76b8-64e2-4837-8013-ca95b75d6830",
+    "slug": "u4e1c-u5468-u60e0-u516c",
+    "canonical_name": "东周惠公",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "b7f3b550-95c1-4dd0-aba7-a2ba1634bed2",
+    "slug": "u4e2d-u4e01",
+    "canonical_name": "中丁",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q197807",
+        "label_zh": "中丁",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "中丁",
+    "error": ""
+  },
+  {
+    "person_id": "6fc7f1f3-ad30-4f50-b54d-50442be3adde",
+    "slug": "u4e2d-u58ec",
+    "canonical_name": "中壬",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "7e488b33-62f5-4969-b453-3987fc1634f5",
+    "slug": "u4e3b-u58ec",
+    "canonical_name": "主壬",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10877438",
+        "label_zh": "主壬",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "主壬",
+    "error": ""
+  },
+  {
+    "person_id": "a8279874-a200-49a7-8e4e-c468219ef32d",
+    "slug": "u4e3b-u7678",
+    "canonical_name": "主癸",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10877461",
+        "label_zh": "主癸",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "主癸",
+    "error": ""
+  },
+  {
+    "person_id": "1e584772-09ba-4d15-bdff-dfb5c4ad34b2",
+    "slug": "u4e49-u4f2f",
+    "canonical_name": "义伯",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "8f82fd72-bf8c-4c9a-b920-1e2c721a531c",
+    "slug": "u4e5d-u4faf",
+    "canonical_name": "九侯",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "48abfa8c-6e65-4508-b86c-363ba3794621",
+    "slug": "u4e5d-u4faf-u5973",
+    "canonical_name": "九侯女",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q120698892",
+        "label_zh": "九侯女",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "九侯女",
+    "error": ""
+  },
+  {
+    "person_id": "426bc5b9-b846-4c99-a82a-3dc4d5ad9d93",
+    "slug": "u4e9a-u5709",
+    "canonical_name": "亚圉",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10882572",
+        "label_zh": "亚圉",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "亚圉",
+    "error": ""
+  },
+  {
+    "person_id": "20850745-a1af-49d1-bb0f-7bec11e0a342",
+    "slug": "u4ef2-u4f2f",
+    "canonical_name": "仲伯",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "d3a7a7ff-1263-40d6-95ce-f1b219281ae6",
+    "slug": "u4ef2-u5c71-u752b",
+    "canonical_name": "仲山甫",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10884578",
+        "label_zh": "仲山甫",
+        "description_zh": "西周時期卿士"
+      }
+    ],
+    "matched_name": "仲山甫",
+    "error": ""
+  },
+  {
+    "person_id": "1ed80e86-c057-4d2b-977f-1f499c6ad2e4",
+    "slug": "u4f0a-u965f",
+    "canonical_name": "伊陟",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10885169",
+        "label_zh": "伊陟",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "伊陟",
+    "error": ""
+  },
+  {
+    "person_id": "88b58309-e730-4e12-9be8-06646b876308",
+    "slug": "u4f2f-u4e0e",
+    "canonical_name": "伯与",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "b88b8afc-3dbf-4e2c-8194-6d9fc7af458c",
+    "slug": "u4f2f-u58eb",
+    "canonical_name": "伯士",
+    "dynasty": "西周",
+    "reality_status": "uncertain",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "601401f6-cb13-429f-b74d-cef7132bd45d",
+    "slug": "u4f2f-u670d",
+    "canonical_name": "伯服",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q4937301",
+        "label_zh": "伯服",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "伯服",
+    "error": ""
+  },
+  {
+    "person_id": "04315466-58af-4a52-89dd-fa0d6af076e6",
+    "slug": "u4f2f-u81e9",
+    "canonical_name": "伯臩",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "13b74d99-7f3d-4603-a048-91c1f2ea97aa",
+    "slug": "u4f2f-u9633",
+    "canonical_name": "伯阳",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "f1f1d224-c8d2-4383-aac9-4b5f305ccbfb",
+    "slug": "u4f2f-u9633-u752b",
+    "canonical_name": "伯阳甫",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "c5a918e2-2022-440f-bdeb-4293c7995dcc",
+    "slug": "u516c-u5218",
+    "canonical_name": "公刘",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1022885",
+        "label_zh": "公刘",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "公刘",
+    "error": ""
+  },
+  {
+    "person_id": "9da3b0c4-8d15-4100-b553-0eb99a81f9f8",
+    "slug": "u516c-u53d4-u7956-u7c7b",
+    "canonical_name": "公叔祖类",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q16475859",
+        "label_zh": "公叔祖类",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "公叔祖类",
+    "error": ""
+  },
+  {
+    "person_id": "25dab0d1-1165-45ca-840d-a36acee38c44",
+    "slug": "u516c-u5b50-u548e",
+    "canonical_name": "公子咎",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "babb1c2f-7688-490a-8390-956c07ed74cc",
+    "slug": "u516c-u975e",
+    "canonical_name": "公非",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q16904640",
+        "label_zh": "公非",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "公非",
+    "error": ""
+  },
+  {
+    "person_id": "80d1a3a7-ae26-4fd7-8e96-d008ec33fb76",
+    "slug": "u5171-u738b",
+    "canonical_name": "共王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "91ec3bfa-e886-4fa8-ab70-7f6b6c5dc7a6",
+    "slug": "u517b-u7531-u57fa",
+    "canonical_name": "养由基",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "5990ba1c-5b30-4c41-a759-349afbbe343a",
+    "slug": "u51a5",
+    "canonical_name": "冥",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "4807c065-52c2-4206-8008-177b28e45f8b",
+    "slug": "u5357-u5bab-u62ec",
+    "canonical_name": "南宫括",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "89961cef-fb71-4cf0-906d-8e062272b716",
+    "slug": "u5357-u5e9a",
+    "canonical_name": "南庚",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878426",
+        "label_zh": "南庚",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "南庚",
+    "error": ""
+  },
+  {
+    "person_id": "df3b0ed4-a1b3-4258-8ca0-7699fefcde4c",
+    "slug": "u536b-u5eb7-u53d4",
+    "canonical_name": "卫康叔",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "f400d227-9909-407b-a2fc-945aec96b334",
+    "slug": "u536b-u5eb7-u53d4-u5c01",
+    "canonical_name": "卫康叔封",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "a3f85a2d-d93b-498a-9142-9852970fb289",
+    "slug": "u5389-u738b",
+    "canonical_name": "厉王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r2_alias_multi",
+    "hits": [
+      {
+        "qid": "Q11832842",
+        "label_zh": "祇園行剛",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45380943",
+        "label_zh": "胡",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45430566",
+        "label_zh": "釋應如",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45508524",
+        "label_zh": "齊子",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45657022",
+        "label_zh": "釋妙善",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "胡",
+    "error": ""
+  },
+  {
+    "person_id": "93598628-fd40-44d5-81fd-337c0d696117",
+    "slug": "u5398-u738b",
+    "canonical_name": "厘王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "74c589ed-6ffe-4741-9997-bc471a29d4aa",
+    "slug": "u53bb-u75be",
+    "canonical_name": "去疾",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "37d94958-4a57-4437-a2e7-be1a9a692c17",
+    "slug": "u53d4",
+    "canonical_name": "叔",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r3",
+    "confidence": 0.7,
+    "mapping_method": "r3_name_scan",
+    "hits": [
+      {
+        "qid": "Q45567107",
+        "label_zh": "吳麟瑞",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "思王",
+    "error": ""
+  },
+  {
+    "person_id": "66a1c45b-23d6-4808-8fc8-1da956e17a04",
+    "slug": "u53d4-u632f-u94ce",
+    "canonical_name": "叔振铎",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "b93e26ca-a089-4cdf-82c7-b22057884c37",
+    "slug": "u53ec-u516c",
+    "canonical_name": "召公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "abe3c70f-0d13-4d1f-b780-f6e6edb8f839",
+    "slug": "u53f2-u4f5a",
+    "canonical_name": "史佚",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "1f4e0897-9e8f-44cc-92f4-b6d837e6860c",
+    "slug": "u53f2-u538c",
+    "canonical_name": "史厌",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "8eb6c44a-c80c-4a57-bcb2-c848c4e0a085",
+    "slug": "u53f8-u9a6c-u7fe6",
+    "canonical_name": "司马翦",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "7128aa48-c9a1-43a1-a338-383370cd01c2",
+    "slug": "u53f8-u9a6c-u8fc1",
+    "canonical_name": "司马迁",
+    "dynasty": "西汉",
+    "reality_status": "historical",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r3_name_scan_multi",
+    "hits": [
+      {
+        "qid": "Q713013",
+        "label_zh": "宋濂",
+        "description_zh": "中国明朝初年思想家、文学家"
+      },
+      {
+        "qid": "Q15898236",
+        "label_zh": "林偕春",
+        "description_zh": "明朝政治人物"
+      },
+      {
+        "qid": "Q9372",
+        "label_zh": "司馬遷",
+        "description_zh": "西漢史學家、文學家"
+      }
+    ],
+    "matched_name": "太史公",
+    "error": ""
+  },
+  {
+    "person_id": "075a775f-c44f-4b9a-847a-6e48fb731a1a",
+    "slug": "u5468-u5143-u738b",
+    "canonical_name": "周元王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1207443",
+        "label_zh": "周元王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "周元王",
+    "error": ""
+  },
+  {
+    "person_id": "be21116e-6b67-4df9-b3e6-3edab8c7eca6",
+    "slug": "u5468-u516c",
+    "canonical_name": "周公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r3",
+    "confidence": 0.7,
+    "mapping_method": "r3_name_scan",
+    "hits": [
+      {
+        "qid": "Q468747",
+        "label_zh": "周公旦",
+        "description_zh": "周朝的公爵"
+      }
+    ],
+    "matched_name": "周文公",
+    "error": ""
+  },
+  {
+    "person_id": "18513390-791f-44c5-8261-634fa9a62ba8",
+    "slug": "u5468-u516c-u65e6",
+    "canonical_name": "周公旦",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q468747",
+        "label_zh": "周公旦",
+        "description_zh": "周朝的公爵"
+      }
+    ],
+    "matched_name": "周公旦",
+    "error": ""
+  },
+  {
+    "person_id": "10aa9fd0-5e57-4e5b-b5b5-cdc228dcfd3f",
+    "slug": "u5468-u516c-u9ed1-u80a9",
+    "canonical_name": "周公黑肩",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "931a167e-1367-4e21-be8f-cd3af627ae36",
+    "slug": "u5468-u5321-u738b",
+    "canonical_name": "周匡王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1157087",
+        "label_zh": "周匡王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "周匡王",
+    "error": ""
+  },
+  {
+    "person_id": "e9dd5635-452d-4661-a7b3-67668e4f6f5a",
+    "slug": "u5468-u5b9a-u738b",
+    "canonical_name": "周定王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1157075",
+        "label_zh": "周定王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "周定王",
+    "error": ""
+  },
+  {
+    "person_id": "2f7a3782-f560-4af5-be5c-0047f71506cb",
+    "slug": "u5468-u5ba3-u738b",
+    "canonical_name": "周宣王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q55247",
+        "label_zh": "周宣王",
+        "description_zh": "西周第十一代君主"
+      }
+    ],
+    "matched_name": "周宣王",
+    "error": ""
+  },
+  {
+    "person_id": "95764d6b-d7fc-475f-b939-afdfcddc826a",
+    "slug": "u5468-u5e73-u738b",
+    "canonical_name": "周平王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1193546",
+        "label_zh": "周平王",
+        "description_zh": "東周第一位天子"
+      }
+    ],
+    "matched_name": "周平王",
+    "error": ""
+  },
+  {
+    "person_id": "b63a5ca9-4ac4-4120-9f28-1b0310347745",
+    "slug": "u5468-u5e84-u738b",
+    "canonical_name": "周庄王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "c940e469-3d24-4ba0-b68e-97e68693ce9a",
+    "slug": "u5468-u5eb7-u738b",
+    "canonical_name": "周康王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q929178",
+        "label_zh": "周康王",
+        "description_zh": "周朝天子"
+      }
+    ],
+    "matched_name": "周康王",
+    "error": ""
+  },
+  {
+    "person_id": "2d788ceb-e577-479d-8f02-0dc45ca87507",
+    "slug": "u5468-u60bc-u738b",
+    "canonical_name": "周悼王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1185205",
+        "label_zh": "周悼王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "周悼王",
+    "error": ""
+  },
+  {
+    "person_id": "6608abd7-5a51-4f3c-9d78-61e710257fbc",
+    "slug": "u5468-u60e0-u738b",
+    "canonical_name": "周惠王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1156951",
+        "label_zh": "周惠王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "周惠王",
+    "error": ""
+  },
+  {
+    "person_id": "4f53bf47-41ac-44dc-b0e5-517afd4f6d2b",
+    "slug": "u5468-u6210-u738b",
+    "canonical_name": "周成王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q388766",
+        "label_zh": "周成王",
+        "description_zh": "周朝第二代君主"
+      }
+    ],
+    "matched_name": "周成王",
+    "error": ""
+  },
+  {
+    "person_id": "7d77c554-a099-4715-8735-58aa042326b5",
+    "slug": "u5468-u656c-u738b",
+    "canonical_name": "周敬王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878483",
+        "label_zh": "周敬王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "周敬王",
+    "error": ""
+  },
+  {
+    "person_id": "7d5df00d-600e-4bca-8ded-2c5b6be279b0",
+    "slug": "u5468-u666f-u738b",
+    "canonical_name": "周景王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1184856",
+        "label_zh": "周景王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "周景王",
+    "error": ""
+  },
+  {
+    "person_id": "ccebe8f3-2d91-4e4b-9778-1ec692b95edf",
+    "slug": "u5468-u6853-u738b",
+    "canonical_name": "周桓王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1202938",
+        "label_zh": "周桓王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "周桓王",
+    "error": ""
+  },
+  {
+    "person_id": "e87fbc15-0b9d-4916-9d23-919ca3bdada7",
+    "slug": "u5468-u6b66-u738b",
+    "canonical_name": "发",
+    "dynasty": "周",
+    "reality_status": "historical",
+    "match_round": "r3",
+    "confidence": 0.7,
+    "mapping_method": "r3_name_scan",
+    "hits": [
+      {
+        "qid": "Q1061289",
+        "label_zh": "周武王",
+        "description_zh": "周朝君主"
+      }
+    ],
+    "matched_name": "周武王",
+    "error": ""
+  },
+  {
+    "person_id": "e65483a9-32a2-4f53-a7a9-c7395f29b67b",
+    "slug": "u5468-u76f8-u56fd",
+    "canonical_name": "周相国",
+    "dynasty": "战国",
+    "reality_status": "uncertain",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "96d7192d-ef9f-41a1-989c-623044058ee6",
+    "slug": "u5468-u7b80-u738b",
+    "canonical_name": "周简王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1157071",
+        "label_zh": "周简王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "周简王",
+    "error": ""
+  },
+  {
+    "person_id": "9d558416-3c7c-405d-b286-67db50820392",
+    "slug": "u5468-u805a",
+    "canonical_name": "周聚",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q65855819",
+        "label_zh": "周聚",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "周聚",
+    "error": ""
+  },
+  {
+    "person_id": "82088dd0-3092-44ff-84e8-87c2942e3104",
+    "slug": "u5468-u9877-u738b",
+    "canonical_name": "周顷王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1157084",
+        "label_zh": "周顷王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "周顷王",
+    "error": ""
+  },
+  {
+    "person_id": "085afa0a-27c9-4034-87e9-434343bad7f3",
+    "slug": "u548e-u5355",
+    "canonical_name": "咎单",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "2fad187e-d800-4681-9475-610725fa502e",
+    "slug": "u5546-u5bb9",
+    "canonical_name": "商容",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q7488355",
+        "label_zh": "商容",
+        "description_zh": "商朝官员"
+      }
+    ],
+    "matched_name": "商容",
+    "error": ""
+  },
+  {
+    "person_id": "8873cecc-3c8f-4330-95c9-6f9c46421964",
+    "slug": "u5609",
+    "canonical_name": "嘉",
+    "dynasty": "西汉",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q3244590",
+        "label_zh": "嘉",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "嘉",
+    "error": ""
+  },
+  {
+    "person_id": "bbfb70fe-0e15-4509-8c47-0ddf373fd9bf",
+    "slug": "u5916-u4e19",
+    "canonical_name": "外丙",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q536732",
+        "label_zh": "外丙",
+        "description_zh": "商朝的一位君王"
+      }
+    ],
+    "matched_name": "外丙",
+    "error": ""
+  },
+  {
+    "person_id": "7d64a92a-1659-4ecf-b3cf-a41d42f9288a",
+    "slug": "u5927-u6bd5",
+    "canonical_name": "大毕",
+    "dynasty": "西周",
+    "reality_status": "uncertain",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "4fe29020-b3da-41aa-8812-c045474e34b5",
+    "slug": "u592a-u4e01",
+    "canonical_name": "太丁",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q888231",
+        "label_zh": "太丁",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "太丁",
+    "error": ""
+  },
+  {
+    "person_id": "41394482-c6b9-47e7-87d4-eeed3ea334ba",
+    "slug": "u592a-u4efb",
+    "canonical_name": "太任",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10940999",
+        "label_zh": "太任",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "太任",
+    "error": ""
+  },
+  {
+    "person_id": "d3cb56c4-7ae9-484e-8a03-0b0ad2a83384",
+    "slug": "u592a-u53f2-u510b",
+    "canonical_name": "太史儋",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "ec8a326b-a4e9-4d64-9118-32b861113b18",
+    "slug": "u592a-u59dc",
+    "canonical_name": "太姜",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10941153",
+        "label_zh": "太姜",
+        "description_zh": "周文王祖母"
+      }
+    ],
+    "matched_name": "太姜",
+    "error": ""
+  },
+  {
+    "person_id": "8da2df10-2abe-4d81-828a-2b3bd4dcad0d",
+    "slug": "u592a-u5e9a",
+    "canonical_name": "太庚",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "d8bf838d-daad-4282-97ae-49f671909d28",
+    "slug": "u592a-u620a",
+    "canonical_name": "太戊",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878479",
+        "label_zh": "太戊",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "太戊",
+    "error": ""
+  },
+  {
+    "person_id": "c227043f-8ca0-43bb-9cbf-b818c03c6348",
+    "slug": "u592a-u98a0",
+    "canonical_name": "太颠",
+    "dynasty": "先周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10941862",
+        "label_zh": "太颠",
+        "description_zh": "西周大臣"
+      }
+    ],
+    "matched_name": "太颠",
+    "error": ""
+  },
+  {
+    "person_id": "7a572542-02d9-435d-a6c5-3bf8a378aeaf",
+    "slug": "u5937-u738b",
+    "canonical_name": "夷王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "a2e28a22-9375-4e29-a295-969035563da3",
+    "slug": "u5973-u623f",
+    "canonical_name": "女房",
+    "dynasty": "商",
+    "reality_status": "uncertain",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "eca161d1-ebc5-484e-b5c3-6b3a3e43375c",
+    "slug": "u5973-u9e20",
+    "canonical_name": "女鸠",
+    "dynasty": "商",
+    "reality_status": "uncertain",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "38dd7ce0-c96f-4b92-9fa8-b9cc2536d92a",
+    "slug": "u59da",
+    "canonical_name": "姚",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r1_exact_multi",
+    "hits": [
+      {
+        "qid": "Q65801317",
+        "label_zh": "姚",
+        "description_zh": "王+軖"
+      },
+      {
+        "qid": "Q45469590",
+        "label_zh": "姚",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "姚",
+    "error": ""
+  },
+  {
+    "person_id": "b29ae21b-f95d-4176-86cd-29d5f8880b06",
+    "slug": "u59dc-u539f",
+    "canonical_name": "姜原",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "aa831571-ec89-4f9d-8568-87ab12965e91",
+    "slug": "u59dc-u5c1a",
+    "canonical_name": "姜尚",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r3",
+    "confidence": 0.7,
+    "mapping_method": "r3_name_scan",
+    "hits": [
+      {
+        "qid": "Q701488",
+        "label_zh": "太公望",
+        "description_zh": "周朝政治人物"
+      }
+    ],
+    "matched_name": "太公望",
+    "error": ""
+  },
+  {
+    "person_id": "1de71063-d8fe-4bcb-8644-9b48d9ef836c",
+    "slug": "u5a01-u516c",
+    "canonical_name": "威公",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "9a536139-f9bc-40db-941d-51c91a0aebab",
+    "slug": "u5a01-u70c8-u738b",
+    "canonical_name": "威烈王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "d17c5cec-e575-4440-a8c2-517faeed9290",
+    "slug": "u5b50-u9893",
+    "canonical_name": "子颓",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "a387e3b7-5ae1-4869-84ef-6d4f6cb61947",
+    "slug": "u5b54-u5b50",
+    "canonical_name": "孔子",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q4604",
+        "label_zh": "孔子",
+        "description_zh": "中国古代思想家，儒家学派创始人"
+      }
+    ],
+    "matched_name": "孔子",
+    "error": ""
+  },
+  {
+    "person_id": "4ffdaa98-c914-417c-92f7-82c10338455e",
+    "slug": "u5b5d-u738b",
+    "canonical_name": "孝王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "fb71f9fd-03aa-4785-b2c4-a984187edb60",
+    "slug": "u5b89-u738b",
+    "canonical_name": "安王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q27891772",
+        "label_zh": "安王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "安王",
+    "error": ""
+  },
+  {
+    "person_id": "b8ce9615-c7fc-45c9-b5fc-269100b37710",
+    "slug": "u5bb0-u4e88",
+    "canonical_name": "宰予",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q837573",
+        "label_zh": "宰予",
+        "description_zh": "孔子弟子"
+      }
+    ],
+    "matched_name": "宰予",
+    "error": ""
+  },
+  {
+    "person_id": "a43a483a-7af9-447c-b98e-40b3bd425403",
+    "slug": "u5bc6-u5eb7-u516c",
+    "canonical_name": "密康公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q65047992",
+        "label_zh": "密康公",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "密康公",
+    "error": ""
+  },
+  {
+    "person_id": "050d8ebf-86e7-4ccb-8028-284a8d41ba5b",
+    "slug": "u5bc6-u5eb7-u516c-u4e4b-u6bcd",
+    "canonical_name": "密康公之母",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "1217c9e0-a951-4d71-91bc-41c0d8891438",
+    "slug": "u5bcc-u8fb0",
+    "canonical_name": "富辰",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q45383149",
+        "label_zh": "富辰",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "富辰",
+    "error": ""
+  },
+  {
+    "person_id": "f701d782-874d-4756-8cce-486d700e2925",
+    "slug": "u5c0f-u4e59",
+    "canonical_name": "小乙",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878463",
+        "label_zh": "小乙",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "小乙",
+    "error": ""
+  },
+  {
+    "person_id": "4f06d7b1-2ff4-4063-b69a-7fee28dea28e",
+    "slug": "u5c0f-u7532",
+    "canonical_name": "小甲",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878459",
+        "label_zh": "小甲",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "小甲",
+    "error": ""
+  },
+  {
+    "person_id": "f44b4d81-fa93-4f42-a646-c1f76cd107fb",
+    "slug": "u5c0f-u8f9b",
+    "canonical_name": "小辛",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q887641",
+        "label_zh": "小辛",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "小辛",
+    "error": ""
+  },
+  {
+    "person_id": "2e9ab3c3-7bc7-48e3-a700-47b237c5eb37",
+    "slug": "u5c11-u66a4-u6c0f",
+    "canonical_name": "少暤氏",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "9ce6d4e4-5f2b-45d2-830a-ad96b81775b8",
+    "slug": "u5c39-u4f5a",
+    "canonical_name": "尹佚",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q11040216",
+        "label_zh": "尹佚",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "尹佚",
+    "error": ""
+  },
+  {
+    "person_id": "a54abbd1-05b1-4ab7-b2ce-b8519fcd1078",
+    "slug": "u5d07-u4faf-u864e",
+    "canonical_name": "崇侯虎",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q5104597",
+        "label_zh": "崇侯虎",
+        "description_zh": "商朝诸侯"
+      }
+    ],
+    "matched_name": "崇侯虎",
+    "error": ""
+  },
+  {
+    "person_id": "75b2076f-ec26-4df9-9707-b33ae9f4105e",
+    "slug": "u5d14-u677c",
+    "canonical_name": "崔杼",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q8010040",
+        "label_zh": "崔杼",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "崔杼",
+    "error": ""
+  },
+  {
+    "person_id": "44a70bc3-9cc8-4440-a8ad-695423fa705a",
+    "slug": "u5d6c",
+    "canonical_name": "嵬",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "10d167de-87a9-49e9-84b9-db6760b9d6f8",
+    "slug": "u5de6-u6210",
+    "canonical_name": "左成",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q114691798",
+        "label_zh": "左成",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "左成",
+    "error": ""
+  },
+  {
+    "person_id": "62092322-6254-48e2-9467-9e65a5e41d87",
+    "slug": "u5deb-u54b8",
+    "canonical_name": "巫咸",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q843880",
+        "label_zh": "巫咸",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "巫咸",
+    "error": ""
+  },
+  {
+    "person_id": "314c2e92-b8be-444a-8cad-34e2627c091d",
+    "slug": "u5deb-u8d24",
+    "canonical_name": "巫贤",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "1e8fe82f-14b1-4cd6-854b-f803db3f021c",
+    "slug": "u5dee-u5f17",
+    "canonical_name": "差弗",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q16904959",
+        "label_zh": "差弗",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "差弗",
+    "error": ""
+  },
+  {
+    "person_id": "98b4db47-2118-46be-b077-3cd44b067219",
+    "slug": "u5e08-u6b66",
+    "canonical_name": "师武",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "6ac54d78-abbd-4e78-b417-06fe22811f8b",
+    "slug": "u5e08-u6d93",
+    "canonical_name": "师涓",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q11059822",
+        "label_zh": "师涓",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "师涓",
+    "error": ""
+  },
+  {
+    "person_id": "0e30735f-6d22-4574-9920-171bce1eae14",
+    "slug": "u5e1d-u4e0d-u964d",
+    "canonical_name": "帝不降",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "cb277c3d-41ea-40ec-961f-8713034371d9",
+    "slug": "u5e1d-u4e59",
+    "canonical_name": "帝乙",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q735420",
+        "label_zh": "帝乙",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "帝乙",
+    "error": ""
+  },
+  {
+    "person_id": "2c0c3aa9-3803-4e09-a7cd-be98306e5d34",
+    "slug": "u5e1d-u4e88",
+    "canonical_name": "帝予",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "9d04cdda-0f60-4073-ae80-44b6311c49b8",
+    "slug": "u5e1d-u53d1",
+    "canonical_name": "帝发",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "7a29a307-6bb1-4c04-b2be-34ce1d10f6b1",
+    "slug": "u5e1d-u5916-u58ec",
+    "canonical_name": "外壬",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q888264",
+        "label_zh": "外壬",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "外壬",
+    "error": ""
+  },
+  {
+    "person_id": "b1b69239-f9f4-4d3c-af0a-d8ecd54ffcb3",
+    "slug": "u5e1d-u5e9a-u4e01",
+    "canonical_name": "庚丁",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878469",
+        "label_zh": "庚丁",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "庚丁",
+    "error": ""
+  },
+  {
+    "person_id": "b1a062a0-1dc2-42f7-b8e9-c67496f6bac2",
+    "slug": "u5e1d-u5ed1",
+    "canonical_name": "帝廑",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "f9e7ee84-007f-434e-95e3-bcc94184211e",
+    "slug": "u5e1d-u5eea-u8f9b",
+    "canonical_name": "帝廪辛",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "31c34676-b8ea-492f-a8ce-7650e8363e5e",
+    "slug": "u5e1d-u6243",
+    "canonical_name": "帝扃",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "a8d7695f-c9a6-42a6-a01f-527daeb3f191",
+    "slug": "u5e1d-u631a",
+    "canonical_name": "挚",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "d2a6fcfa-ce08-4400-9797-6f10a99e4963",
+    "slug": "u5e1d-u69d0",
+    "canonical_name": "帝槐",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "2cca90ac-fc2b-470d-857d-1e61641276ac",
+    "slug": "u5e1d-u6cc4",
+    "canonical_name": "帝泄",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "5d148846-8cd5-40fc-b831-f100d2255387",
+    "slug": "u5e1d-u768b",
+    "canonical_name": "帝皋",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "408b9a55-0afd-4c91-8d31-4e85b2727319",
+    "slug": "u5e1d-u76f8",
+    "canonical_name": "相",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1195067",
+        "label_zh": "相",
+        "description_zh": "夏朝君主"
+      }
+    ],
+    "matched_name": "相",
+    "error": ""
+  },
+  {
+    "person_id": "bebe0656-0ad7-4347-b43b-41dec4d02be8",
+    "slug": "u5e1d-u8292",
+    "canonical_name": "帝芒",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "2fbbe30a-6a5a-44f6-b3f4-35b2ef532e97",
+    "slug": "u5e84-u738b",
+    "canonical_name": "庄王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "413d2238-8ce7-44da-b5d1-525049d9a577",
+    "slug": "u5e86-u8282",
+    "canonical_name": "庆节",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q7234080",
+        "label_zh": "庆节",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "庆节",
+    "error": ""
+  },
+  {
+    "person_id": "18cece48-6285-46b3-864b-3a8f9d5fb00b",
+    "slug": "u5eb7-u738b",
+    "canonical_name": "康王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q27891488",
+        "label_zh": "康王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "康王",
+    "error": ""
+  },
+  {
+    "person_id": "8922b82b-3dad-4efa-87a1-fd465a984e52",
+    "slug": "u5f3a",
+    "canonical_name": "强",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "436bf856-818a-43fb-b567-4dbafa582cf6",
+    "slug": "u5fae",
+    "canonical_name": "微",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "d641964e-5b22-4335-87b2-b008a355e2b9",
+    "slug": "u5fae-u5b50-u5f00",
+    "canonical_name": "微子开",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "cf3bad71-102d-4ce9-8c00-35d2dc1af0d7",
+    "slug": "u6076-u6765",
+    "canonical_name": "恶来",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "f42c18dd-2d16-4206-98cb-082f104d416c",
+    "slug": "u60e0-u516c",
+    "canonical_name": "惠公",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "b054c171-d9f5-41b4-b72f-fbab37f7f9d2",
+    "slug": "u60e0-u540e",
+    "canonical_name": "惠后",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "1f9cf15d-ccf7-4097-8cf1-11fb3446e660",
+    "slug": "u60e0-u738b",
+    "canonical_name": "惠王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r1_exact_multi",
+    "hits": [
+      {
+        "qid": "Q497959",
+        "label_zh": "惠王",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q27892394",
+        "label_zh": "惠王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "惠王",
+    "error": ""
+  },
+  {
+    "person_id": "91593f9f-b141-4663-8ec4-ad304e835f30",
+    "slug": "u614e-u9753-u738b",
+    "canonical_name": "慎靓王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r2_alias_multi",
+    "hits": [
+      {
+        "qid": "Q838433",
+        "label_zh": "朱橚",
+        "description_zh": "明朝藩王"
+      },
+      {
+        "qid": "Q1017968",
+        "label_zh": "于志寧",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q4939946",
+        "label_zh": "博洛",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q11070799",
+        "label_zh": "徐浩",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q11094073",
+        "label_zh": "朱惟焯",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "定",
+    "error": ""
+  },
+  {
+    "person_id": "1bdc5c56-4d22-488f-8d6e-ae2fd5993ffc",
+    "slug": "u61ff-u738b",
+    "canonical_name": "懿王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "ed3b3b19-bad9-4f2a-93e8-5920dde6fcc3",
+    "slug": "u62a5-u4e01",
+    "canonical_name": "报丁",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "8c725d8e-2dd1-4830-a179-02f3e69051c5",
+    "slug": "u62a5-u4e19",
+    "canonical_name": "报丙",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "e5eacaaa-6910-461e-99a9-13a876eef70a",
+    "slug": "u62a5-u4e59",
+    "canonical_name": "报乙",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "4f47836e-dc17-49e6-9ff0-5cc10d484c20",
+    "slug": "u632f",
+    "canonical_name": "振",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "b2464f7e-db1c-4061-a21b-33cad5d7f19a",
+    "slug": "u644e",
+    "canonical_name": "摎",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10297274",
+        "label_zh": "摎",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "摎",
+    "error": ""
+  },
+  {
+    "person_id": "1042374f-1a56-459a-9e76-3c256d4fe4e9",
+    "slug": "u6563-u5b9c-u751f",
+    "canonical_name": "散宜生",
+    "dynasty": "先周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q11079273",
+        "label_zh": "散宜生",
+        "description_zh": "周朝官员"
+      }
+    ],
+    "matched_name": "散宜生",
+    "error": ""
+  },
+  {
+    "person_id": "dc8083af-064f-490d-bad2-2d9960213458",
+    "slug": "u660c-u82e5",
+    "canonical_name": "昌若",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q11087645",
+        "label_zh": "昌若",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "昌若",
+    "error": ""
+  },
+  {
+    "person_id": "f71793a2-6ce3-4fd6-af8c-e331cc0505db",
+    "slug": "u662d-u660e",
+    "canonical_name": "昭明",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q11088970",
+        "label_zh": "昭明",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "昭明",
+    "error": ""
+  },
+  {
+    "person_id": "138c6b9c-21f2-4ac1-871f-8a2f0ff4420d",
+    "slug": "u662d-u738b",
+    "canonical_name": "昭王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "16eb05e7-7f10-48ae-975e-fbe00bfcccf0",
+    "slug": "u663e-u738b",
+    "canonical_name": "显王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "2c63b966-e4d6-4693-994b-be9468dc3c64",
+    "slug": "u664b-u5389-u516c",
+    "canonical_name": "晋厉公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "ca33fcb5-9162-407a-b63c-fea4cad6b7f5",
+    "slug": "u664b-u5510-u53d4",
+    "canonical_name": "晋唐叔",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "b313dfe8-173e-4413-bd08-67399e1a5236",
+    "slug": "u664b-u5b9a-u516c",
+    "canonical_name": "晋定公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "9318f515-2b0d-4200-9e50-0656e7e6c041",
+    "slug": "u664b-u60bc-u516c",
+    "canonical_name": "晋悼公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q985696",
+        "label_zh": "晋悼公",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "晋悼公",
+    "error": ""
+  },
+  {
+    "person_id": "cb68a112-4f43-4308-8cdc-e43afa5aa3bb",
+    "slug": "u667a-u4f2f",
+    "canonical_name": "智伯",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q45690836",
+        "label_zh": "智伯",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "智伯",
+    "error": ""
+  },
+  {
+    "person_id": "2e1f9ec6-7463-4efa-8ecd-d7a28e609cfe",
+    "slug": "u66f9-u5709",
+    "canonical_name": "曹圉",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q11090990",
+        "label_zh": "曹圉",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "曹圉",
+    "error": ""
+  },
+  {
+    "person_id": "c02c2701-7bab-4e22-9437-39e2ccb0ce90",
+    "slug": "u6731-u864e",
+    "canonical_name": "朱虎",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r1_exact_multi",
+    "hits": [
+      {
+        "qid": "Q45424403",
+        "label_zh": "朱虎",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45554133",
+        "label_zh": "朱虎",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "朱虎",
+    "error": ""
+  },
+  {
+    "person_id": "0042a55c-7c03-49c3-b261-1144350f5b93",
+    "slug": "u6853-u516c",
+    "canonical_name": "桓公",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "766444fc-144c-4373-9cae-bb54dc9777b6",
+    "slug": "u6881-u738b",
+    "canonical_name": "梁王",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "673368d9-1523-4a7b-a105-2c7ed6367318",
+    "slug": "u68bc-u674c",
+    "canonical_name": "梼杌",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "2e37c5c3-04ff-4309-a1f9-6a54225ea785",
+    "slug": "u695a-u58f0-u738b",
+    "canonical_name": "楚声王",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "b45f2e48-f669-4b36-93ed-213e3b36a0eb",
+    "slug": "u6b66-u4e59",
+    "canonical_name": "武乙",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878473",
+        "label_zh": "武乙",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "武乙",
+    "error": ""
+  },
+  {
+    "person_id": "dc392c18-ed6d-440b-9e2f-75ee6b04cab8",
+    "slug": "u6b66-u516c",
+    "canonical_name": "武公",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "70e67046-bba3-491e-8f41-64c8b46af1ea",
+    "slug": "u6b66-u5e9a",
+    "canonical_name": "武庚",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1049457",
+        "label_zh": "武庚",
+        "description_zh": "商代宗室及周代諸侯"
+      }
+    ],
+    "matched_name": "武庚",
+    "error": ""
+  },
+  {
+    "person_id": "ede0056d-29a5-45a5-999c-904cc6eb0e82",
+    "slug": "u6bb3-u65a8",
+    "canonical_name": "殳斨",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "07f5e40a-0ff4-42e0-8f84-a0e5b33f0fe8",
+    "slug": "u6bc1-u9683",
+    "canonical_name": "毁隃",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q16905577",
+        "label_zh": "毁隃",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "毁隃",
+    "error": ""
+  },
+  {
+    "person_id": "53fc8b30-2303-4339-b3db-045e3f0b8b38",
+    "slug": "u6bd5-u516c",
+    "canonical_name": "毕公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "827364d8-c7fb-4322-8084-e537cc8eac56",
+    "slug": "u6bdb-u53d4-u90d1",
+    "canonical_name": "毛叔郑",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "c65680a5-8e79-41c8-ad07-7f7fdaffc0e2",
+    "slug": "u6c83-u4e01",
+    "canonical_name": "沃丁",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q888017",
+        "label_zh": "沃丁",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "沃丁",
+    "error": ""
+  },
+  {
+    "person_id": "479b1fd2-d739-43d2-a7c6-75284b6eaa82",
+    "slug": "u6c83-u7532",
+    "canonical_name": "沃甲",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q887633",
+        "label_zh": "沃甲",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "沃甲",
+    "error": ""
+  },
+  {
+    "person_id": "85531e86-3424-4048-a90a-ef090fe9f336",
+    "slug": "u6cb3-u4eb6-u7532",
+    "canonical_name": "河亶甲",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878414",
+        "label_zh": "河亶甲",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "河亶甲",
+    "error": ""
+  },
+  {
+    "person_id": "1dbe91cd-5506-4bd5-8e40-3643a931370e",
+    "slug": "u6cc4-u7236",
+    "canonical_name": "泄父",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "8f15868e-a5b6-4003-ab74-87a8df633206",
+    "slug": "u6d51-u6c8c",
+    "canonical_name": "浑沌",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "0aff7cb5-0ffd-4097-a2d0-9539c44856d6",
+    "slug": "u6d82-u5c71-u6c0f",
+    "canonical_name": "涂山氏",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "111de572-6811-4416-a4ae-59d51c3aa997",
+    "slug": "u6e38-u5b59",
+    "canonical_name": "游孙",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "f6e2f921-1f10-48c3-b982-63c4eb1f5586",
+    "slug": "u7075-u738b",
+    "canonical_name": "灵王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "81148632-939a-4900-a410-68740062209c",
+    "slug": "u70c8-u738b",
+    "canonical_name": "烈王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r2_alias_multi",
+    "hits": [
+      {
+        "qid": "Q10944799",
+        "label_zh": "孙星衍",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q65051674",
+        "label_zh": "喜",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "喜",
+    "error": ""
+  },
+  {
+    "person_id": "e15a3a4b-5cae-4015-9a11-01d6f39e98f8",
+    "slug": "u718a-u7f74",
+    "canonical_name": "熊罴",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "5558d845-95eb-4043-92a4-ed26c57805ba",
+    "slug": "u738b-u5b50-u514b",
+    "canonical_name": "王子克",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q17026392",
+        "label_zh": "王子克",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "王子克",
+    "error": ""
+  },
+  {
+    "person_id": "7c34a692-0caf-4919-b027-04f08d5314dd",
+    "slug": "u738b-u5b50-u5e26",
+    "canonical_name": "王子带",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q3178385",
+        "label_zh": "王子带",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "王子带",
+    "error": ""
+  },
+  {
+    "person_id": "31bbceec-f626-4986-b832-1b0d4844067a",
+    "slug": "u738b-u5b50-u671d",
+    "canonical_name": "王子朝",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q3178377",
+        "label_zh": "王子朝",
+        "description_zh": "东周春秋时期周景王的庶长子"
+      }
+    ],
+    "matched_name": "王子朝",
+    "error": ""
+  },
+  {
+    "person_id": "896d6b73-62d1-4a0b-9a20-966b39bd6be7",
+    "slug": "u738b-u5b59-u6ee1",
+    "canonical_name": "王孙满",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q15951842",
+        "label_zh": "王孙满",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "王孙满",
+    "error": ""
+  },
+  {
+    "person_id": "a8430d03-ac7f-4a96-be08-221f2368df88",
+    "slug": "u738b-u9893",
+    "canonical_name": "王颓",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "b72647cb-3802-408f-9975-d93d91eee027",
+    "slug": "u752b-u4faf",
+    "canonical_name": "甫侯",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "f7155b07-cd14-4cca-91cb-2a8338ced753",
+    "slug": "u7530-u5e38",
+    "canonical_name": "田常",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "c7de1699-5d38-4f62-8206-590008278f70",
+    "slug": "u7533-u4faf",
+    "canonical_name": "申侯",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r1_exact_multi",
+    "hits": [
+      {
+        "qid": "Q6772561",
+        "label_zh": "申侯",
+        "description_zh": "周幽王时期西申国君主"
+      },
+      {
+        "qid": "Q15939420",
+        "label_zh": "申侯",
+        "description_zh": "周孝王时期西申国君主"
+      },
+      {
+        "qid": "Q16077042",
+        "label_zh": "申侯",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "申侯",
+    "error": ""
+  },
+  {
+    "person_id": "417d113d-108f-42f2-b23d-3e23dc52a9a9",
+    "slug": "u7533-u540e",
+    "canonical_name": "申后",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q16077053",
+        "label_zh": "申后",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "申后",
+    "error": ""
+  },
+  {
+    "person_id": "4b737d50-b77b-48ef-8e8d-8808005139ad",
+    "slug": "u75b5",
+    "canonical_name": "疵",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "ca1f6e3f-7e21-4a75-ae16-0fd4433714f8",
+    "slug": "u7687-u4ec6",
+    "canonical_name": "皇仆",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q16906325",
+        "label_zh": "皇仆",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "皇仆",
+    "error": ""
+  },
+  {
+    "person_id": "6e851a98-5b2d-4d3f-93da-9d1794d5d600",
+    "slug": "u76f8-u571f",
+    "canonical_name": "相土",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q5098875",
+        "label_zh": "相土",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "相土",
+    "error": ""
+  },
+  {
+    "person_id": "d153de2d-51be-4672-9831-840891edf6a8",
+    "slug": "u7956-u4e01",
+    "canonical_name": "祖丁",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878455",
+        "label_zh": "祖丁",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "祖丁",
+    "error": ""
+  },
+  {
+    "person_id": "cc710738-64ef-418f-9895-fe256ea4c9df",
+    "slug": "u7956-u4e59",
+    "canonical_name": "祖乙",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878487",
+        "label_zh": "祖乙",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "祖乙",
+    "error": ""
+  },
+  {
+    "person_id": "ed76029d-aab1-4a46-9f4c-eafaea8be9de",
+    "slug": "u7956-u4f0a",
+    "canonical_name": "祖伊",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q30950832",
+        "label_zh": "祖伊",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "祖伊",
+    "error": ""
+  },
+  {
+    "person_id": "840736ab-900f-4ebd-b7a9-b3475ab89d5f",
+    "slug": "u7956-u5df1",
+    "canonical_name": "祖己",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q886708",
+        "label_zh": "祖己",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "祖己",
+    "error": ""
+  },
+  {
+    "person_id": "179a1a4f-6409-4315-8418-67266a664858",
+    "slug": "u7956-u5e9a",
+    "canonical_name": "祖庚",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q291267",
+        "label_zh": "祖庚",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "祖庚",
+    "error": ""
+  },
+  {
+    "person_id": "3f3ec17b-d7ae-434e-a919-fe3ade0af69f",
+    "slug": "u7956-u7532",
+    "canonical_name": "祖甲",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878444",
+        "label_zh": "祖甲",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "祖甲",
+    "error": ""
+  },
+  {
+    "person_id": "ed306319-a294-43af-bdb7-184d1c1c4f56",
+    "slug": "u7956-u8f9b",
+    "canonical_name": "祖辛",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r1_exact_multi",
+    "hits": [
+      {
+        "qid": "Q878449",
+        "label_zh": "祖辛",
+        "description_zh": "商朝君主"
+      },
+      {
+        "qid": "Q2042552",
+        "label_zh": "祖辛",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "祖辛",
+    "error": ""
+  },
+  {
+    "person_id": "51248eed-0768-410a-934e-c5631f0c4a86",
+    "slug": "u796d-u516c-u8c0b-u7236",
+    "canonical_name": "祭公谋父",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q15927399",
+        "label_zh": "祭公谋父",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "祭公谋父",
+    "error": ""
+  },
+  {
+    "person_id": "4624bb13-45fc-4b26-92da-aaac3bf14ca9",
+    "slug": "u79e6-u5b5d-u516c",
+    "canonical_name": "秦孝公",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q553245",
+        "label_zh": "秦孝公",
+        "description_zh": "戰國中期秦國君主"
+      }
+    ],
+    "matched_name": "秦孝公",
+    "error": ""
+  },
+  {
+    "person_id": "75baf2b8-5af3-4210-b122-59cac87682e8",
+    "slug": "u79e6-u5e84-u8944-u738b",
+    "canonical_name": "秦庄襄王",
+    "dynasty": "秦",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "9e121cb9-fd9e-4b37-9137-47fe13ead716",
+    "slug": "u79e6-u60e0-u738b",
+    "canonical_name": "秦惠王",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "f25ff1dc-53b7-40b4-adec-a96529d8c0ac",
+    "slug": "u79e6-u662d-u738b",
+    "canonical_name": "秦昭王",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "caa24f9d-5cea-4743-8690-e4b1a47b06a5",
+    "slug": "u79e6-u732e-u516c",
+    "canonical_name": "秦献公",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q553840",
+        "label_zh": "秦献公",
+        "description_zh": "戰國初期秦國君主"
+      }
+    ],
+    "matched_name": "秦献公",
+    "error": ""
+  },
+  {
+    "person_id": "c5f0f89b-0a98-4419-84f3-4c2ae7853c41",
+    "slug": "u79e6-u738b",
+    "canonical_name": "秦王",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "2eba9b3e-b6e0-4a83-b355-0404342198ac",
+    "slug": "u7a46-u738b",
+    "canonical_name": "穆王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "923f754d-2767-4698-9ef6-4c2b0f9701fc",
+    "slug": "u7a77-u5947",
+    "canonical_name": "穷奇",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "6371d326-0731-4488-bf85-243ea3fcc5e1",
+    "slug": "u7ba1-u53d4",
+    "canonical_name": "管叔",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r2",
+    "confidence": 0.85,
+    "mapping_method": "r2_alias",
+    "hits": [
+      {
+        "qid": "Q65828168",
+        "label_zh": "管",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "管",
+    "error": ""
+  },
+  {
+    "person_id": "f2911b94-414d-43e2-9ce8-b3eef81e3b76",
+    "slug": "u7ba1-u53d4-u9c9c",
+    "canonical_name": "管叔鲜",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "ae47eddd-804b-4715-974a-d1eb99a19509",
+    "slug": "u7f19-u4e91-u6c0f",
+    "canonical_name": "缙云氏",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "bcc268f7-cdb8-45f6-bc1c-b713335c158a",
+    "slug": "u80e4",
+    "canonical_name": "胤",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q109343386",
+        "label_zh": "胤",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "胤",
+    "error": ""
+  },
+  {
+    "person_id": "7b9e7074-eb0f-4417-85e1-d08e4d025c38",
+    "slug": "u82ae-u826f-u592b",
+    "canonical_name": "芮良夫",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q15896030",
+        "label_zh": "芮良夫",
+        "description_zh": "芮国国君，周厉王大臣"
+      }
+    ],
+    "matched_name": "芮良夫",
+    "error": ""
+  },
+  {
+    "person_id": "98c7b6fe-1eb2-45cf-b1f5-b5ee035f5ce9",
+    "slug": "u82cf-u4ee3",
+    "canonical_name": "苏代",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10500844",
+        "label_zh": "苏代",
+        "description_zh": "东周洛阳人，战国时纵横家"
+      }
+    ],
+    "matched_name": "苏代",
+    "error": ""
+  },
+  {
+    "person_id": "bc219c2b-0855-4c80-9717-73d837edca9d",
+    "slug": "u82cf-u5389",
+    "canonical_name": "苏厉",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "ac17502b-e21e-4b6f-8e3c-b2a683bed0cc",
+    "slug": "u8363-u4f2f",
+    "canonical_name": "荣伯",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "35339d44-9255-426b-97a8-71fb2de7878f",
+    "slug": "u8363-u5937-u516c",
+    "canonical_name": "荣夷公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "15525c10-3e44-4885-a386-37bfb92f02da",
+    "slug": "u845b-u4f2f",
+    "canonical_name": "葛伯",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "749ac677-2ff0-4dc4-a2e2-1580f163988e",
+    "slug": "u8521-u53d4",
+    "canonical_name": "蔡叔",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r2_alias_multi",
+    "hits": [
+      {
+        "qid": "Q45436619",
+        "label_zh": "釋如照",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45678172",
+        "label_zh": "釋憨山",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "蔡",
+    "error": ""
+  },
+  {
+    "person_id": "435565e5-f8f4-4d41-9223-a568458f6a48",
+    "slug": "u8521-u53d4-u5ea6",
+    "canonical_name": "蔡叔度",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q159173",
+        "label_zh": "蔡叔度",
+        "description_zh": "周文王之子"
+      }
+    ],
+    "matched_name": "蔡叔度",
+    "error": ""
+  },
+  {
+    "person_id": "5b508025-03f8-4be4-8e95-d62dedae88df",
+    "slug": "u865e-u4ef2",
+    "canonical_name": "虞仲",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q7420129",
+        "label_zh": "虞仲",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "虞仲",
+    "error": ""
+  },
+  {
+    "person_id": "2aa261cf-b43a-4e61-be0f-0daeccbc8519",
+    "slug": "u8662-u6587-u516c",
+    "canonical_name": "虢文公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q17059941",
+        "label_zh": "虢文公",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "虢文公",
+    "error": ""
+  },
+  {
+    "person_id": "5409e935-d2bf-4f81-b185-d8a7642d208b",
+    "slug": "u8662-u77f3-u7236",
+    "canonical_name": "虢石父",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q11294001",
+        "label_zh": "虢石父",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "虢石父",
+    "error": ""
+  },
+  {
+    "person_id": "ce5a2daf-8aa8-42a9-9c07-90d92f986b25",
+    "slug": "u8944-u738b",
+    "canonical_name": "襄王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "7ee3e4c8-08c2-48b0-92aa-88e5fa070a6f",
+    "slug": "u897f-u5468-u516c",
+    "canonical_name": "西周公",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "632d35ad-7c7f-4e32-b138-aafc458f0cee",
+    "slug": "u897f-u5468-u541b",
+    "canonical_name": "西周君",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q6418676",
+        "label_zh": "西周君",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "西周君",
+    "error": ""
+  },
+  {
+    "person_id": "655092c4-7033-4ed2-8108-89bb23d7dc96",
+    "slug": "u8c2d-u4f2f",
+    "canonical_name": "谭伯",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "501f609e-c754-49f6-abcd-b9eb414fa1e3",
+    "slug": "u8d39-u4e2d",
+    "canonical_name": "费中",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "77f70097-a549-4940-a71e-a959c1e2131d",
+    "slug": "u8d39-u4ef2",
+    "canonical_name": "费仲",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "dbbdeb41-047c-4810-93f0-708ecfebba85",
+    "slug": "u8d67-u738b",
+    "canonical_name": "赧王",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r2_alias_multi",
+    "hits": [
+      {
+        "qid": "Q19825596",
+        "label_zh": "延",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45445320",
+        "label_zh": "釋祥邁",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45481125",
+        "label_zh": "呼華國",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "延",
+    "error": ""
+  },
+  {
+    "person_id": "c278ff99-bd0f-4b1f-bd72-ca7bd6c051fc",
+    "slug": "u8f9b-u4f2f",
+    "canonical_name": "辛伯",
+    "dynasty": "东周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "cfb53d56-8f54-49f7-baee-03a851a1c4bb",
+    "slug": "u8f9b-u7532",
+    "canonical_name": "辛甲",
+    "dynasty": "先周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q10546077",
+        "label_zh": "辛甲",
+        "description_zh": "西周官员"
+      }
+    ],
+    "matched_name": "辛甲",
+    "error": ""
+  },
+  {
+    "person_id": "2e72f058-5386-450d-b1ee-f11cdaf0017e",
+    "slug": "u8fb9-u4f2f",
+    "canonical_name": "边伯",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "2e4c014c-3559-42c5-8565-c0494ea36940",
+    "slug": "u90d1-u4f2f",
+    "canonical_name": "郑伯",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "1b159872-8960-453d-bc80-c588766fb61f",
+    "slug": "u90d1-u5e84-u516c",
+    "canonical_name": "郑庄公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "e2164b35-e993-49ca-af83-3e630080d674",
+    "slug": "u90d1-u6587-u516c",
+    "canonical_name": "郑文公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "ffa19925-910a-4a0e-b4b0-4bc79a4e1956",
+    "slug": "u9102-u4faf",
+    "canonical_name": "鄂侯",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "12f8f815-d9ac-46e6-ab39-d0ba778bd0d6",
+    "slug": "u95f3-u592d",
+    "canonical_name": "闳夭",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q17031441",
+        "label_zh": "闳夭",
+        "description_zh": "西周大臣"
+      }
+    ],
+    "matched_name": "闳夭",
+    "error": ""
+  },
+  {
+    "person_id": "0abe51f4-21b6-4c4f-9200-0bfc8996712c",
+    "slug": "u9633-u7532",
+    "canonical_name": "阳甲",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q878422",
+        "label_zh": "阳甲",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "阳甲",
+    "error": ""
+  },
+  {
+    "person_id": "90588659-57dc-4cb5-afe8-ccd2f82a14aa",
+    "slug": "u96b0-u670b",
+    "canonical_name": "隰朋",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q17035322",
+        "label_zh": "隰朋",
+        "description_zh": "春秋時期齊國大夫"
+      }
+    ],
+    "matched_name": "隰朋",
+    "error": ""
+  },
+  {
+    "person_id": "bbb04292-6c55-4710-9599-7d2bc9773e00",
+    "slug": "u96cd-u5df1",
+    "canonical_name": "雍己",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q665910",
+        "label_zh": "雍己",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "雍己",
+    "error": ""
+  },
+  {
+    "person_id": "a7e8b909-90bc-4157-a20b-a5bc0f16dbc7",
+    "slug": "u97a0",
+    "canonical_name": "鞠",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q13403508",
+        "label_zh": "鞠",
+        "description_zh": "夏朝末周部落首领"
+      }
+    ],
+    "matched_name": "鞠",
+    "error": ""
+  },
+  {
+    "person_id": "a034027f-03b3-495d-ab6d-05945a12941f",
+    "slug": "u97e9-u516c-u53d4",
+    "canonical_name": "韩公叔",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q120699360",
+        "label_zh": "韩公叔",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "韩公叔",
+    "error": ""
+  },
+  {
+    "person_id": "450ba16b-7216-4469-939f-7f65ee1abf45",
+    "slug": "u97e9-u738b",
+    "canonical_name": "韩王",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "4496625d-0c60-4e14-8452-96ab0aadb88e",
+    "slug": "u97e9-u76f8-u56fd",
+    "canonical_name": "韩相国",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q110105059",
+        "label_zh": "韩相国",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "韩相国",
+    "error": ""
+  },
+  {
+    "person_id": "0cc1ea00-0a98-4c3a-b7af-c021d69ac6aa",
+    "slug": "u9955-u992e",
+    "canonical_name": "饕餮",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "73d7a713-158d-4b92-8de0-f130c267297e",
+    "slug": "u9a69-u515c",
+    "canonical_name": "驩兜",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "7b9d062d-5d9a-4726-886a-2e52a86e694c",
+    "slug": "u9a6c-u72af",
+    "canonical_name": "马犯",
+    "dynasty": "战国",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "d99d0563-1e02-4ba5-a381-f64ca360dacc",
+    "slug": "u9ad8-u5709",
+    "canonical_name": "高圉",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q15940718",
+        "label_zh": "高圉",
+        "description_zh": "中国先秦历史人物"
+      }
+    ],
+    "matched_name": "高圉",
+    "error": ""
+  },
+  {
+    "person_id": "14f0cab1-808e-4a6d-b3e3-7c34fcaf3074",
+    "slug": "u9b3b-u5b50",
+    "canonical_name": "鬻子",
+    "dynasty": "先周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "8480eaa3-4a83-4c92-b8ec-2d28a02efd43",
+    "slug": "u9c81-u6853-u516c",
+    "canonical_name": "鲁桓公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1044443",
+        "label_zh": "鲁桓公",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "鲁桓公",
+    "error": ""
+  },
+  {
+    "person_id": "6e75b2d2-1bb4-4df6-90e9-9024adcb760d",
+    "slug": "u9c81-u6b66-u516c",
+    "canonical_name": "鲁武公",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "eb23cc65-2371-46e1-9820-77982dfd5bb5",
+    "slug": "u9c81-u9690-u516c",
+    "canonical_name": "鲁隐公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q626901",
+        "label_zh": "鲁隐公",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "鲁隐公",
+    "error": ""
+  },
+  {
+    "person_id": "87b297bf-7373-47fa-9a00-3dfc1e7baab7",
+    "slug": "u9f50-u5e84-u516c",
+    "canonical_name": "齐庄公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "a51201ed-88f6-44c7-997e-27aa19e8e948",
+    "slug": "u9f50-u7b80-u516c",
+    "canonical_name": "齐简公",
+    "dynasty": "春秋",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "89ce41bc-f9d2-4ebb-aa9c-de3e4e18abb0",
+    "slug": "wei-zi-qi",
+    "canonical_name": "微子启",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r2",
+    "confidence": 0.85,
+    "mapping_method": "r2_alias",
+    "hits": [
+      {
+        "qid": "Q186544",
+        "label_zh": "启",
+        "description_zh": "夏朝君主"
+      }
+    ],
+    "matched_name": "启",
+    "error": ""
+  },
+  {
+    "person_id": "28626579-1c80-4789-b14b-7b9369885397",
+    "slug": "wu-ding",
+    "canonical_name": "武丁",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q369159",
+        "label_zh": "武丁",
+        "description_zh": "商朝君主"
+      }
+    ],
+    "matched_name": "武丁",
+    "error": ""
+  },
+  {
+    "person_id": "205b5203-ace4-49d9-80ec-c7c693f914e0",
+    "slug": "wu-wang",
+    "canonical_name": "武王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q498007",
+        "label_zh": "武王",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "武王",
+    "error": ""
+  },
+  {
+    "person_id": "0cdfa4af-4767-484f-a678-426a035a781c",
+    "slug": "xiang",
+    "canonical_name": "象",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q4499078",
+        "label_zh": "象",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "象",
+    "error": ""
+  },
+  {
+    "person_id": "cc6fe4f8-3f8c-4620-ade4-61ec6cd672a1",
+    "slug": "xi-bo-chang",
+    "canonical_name": "西伯昌",
+    "dynasty": "商",
+    "reality_status": "historical",
+    "match_round": "r3",
+    "confidence": 0.7,
+    "mapping_method": "r3_name_scan",
+    "hits": [
+      {
+        "qid": "Q698909",
+        "label_zh": "周文王",
+        "description_zh": "中國商末周氏族首領"
+      }
+    ],
+    "matched_name": "西伯",
+    "error": ""
+  },
+  {
+    "person_id": "10ccab31-8acf-4d89-9e85-accc4eda7787",
+    "slug": "xie",
+    "canonical_name": "契",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "64e7b89d-b0c6-4e8b-8d67-5ebde716b623",
+    "slug": "xi-shu",
+    "canonical_name": "羲叔",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q15902268",
+        "label_zh": "羲叔",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "羲叔",
+    "error": ""
+  },
+  {
+    "person_id": "bd91336a-400f-43c8-a430-0835a9607aa7",
+    "slug": "xi-zhong",
+    "canonical_name": "羲仲",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q17034070",
+        "label_zh": "羲仲",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "羲仲",
+    "error": ""
+  },
+  {
+    "person_id": "d946e274-3979-40b5-a01d-e044ff05660c",
+    "slug": "xuan-xiao",
+    "canonical_name": "玄嚣",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "5f41c43c-db30-44c5-a6b0-3608b70e2438",
+    "slug": "yan-di",
+    "canonical_name": "炎帝",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "2da772b8-3c0b-4e13-9452-5e85ae34bf26",
+    "slug": "yao",
+    "canonical_name": "尧",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "r2",
+    "confidence": 0.85,
+    "mapping_method": "r2_alias",
+    "hits": [
+      {
+        "qid": "Q45477488",
+        "label_zh": "陶唐",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "陶唐",
+    "error": ""
+  },
+  {
+    "person_id": "ea880e29-01ac-40ed-b4f3-5f1f9da8814a",
+    "slug": "yi",
+    "canonical_name": "益",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "02ee394b-9b9c-442c-ba7e-a8c7d2b1c05e",
+    "slug": "yi-yin",
+    "canonical_name": "伊尹",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q981363",
+        "label_zh": "伊尹",
+        "description_zh": "中国商朝名臣、名厨"
+      }
+    ],
+    "matched_name": "伊尹",
+    "error": ""
+  },
+  {
+    "person_id": "56b3770d-997e-4d1f-92c2-d865e1114b42",
+    "slug": "you-wang",
+    "canonical_name": "幽王",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "none",
+    "confidence": 0.0,
+    "mapping_method": "",
+    "hits": [],
+    "matched_name": "",
+    "error": ""
+  },
+  {
+    "person_id": "95638bf0-ec39-42c0-a74b-f101d1d22f58",
+    "slug": "yu",
+    "canonical_name": "禹",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r2_alias_multi",
+    "hits": [
+      {
+        "qid": "Q45468955",
+        "label_zh": "文命",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q45623600",
+        "label_zh": "饒廷錫",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "文命",
+    "error": ""
+  },
+  {
+    "person_id": "d5d7e8d5-3fb8-4d06-a06f-dd3a79bbcf1c",
+    "slug": "zhao-gong-shi",
+    "canonical_name": "召公奭",
+    "dynasty": "西周",
+    "reality_status": "historical",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q5928108",
+        "label_zh": "召公奭",
+        "description_zh": "西周宗室，燕國和召國始祖"
+      }
+    ],
+    "matched_name": "召公奭",
+    "error": ""
+  },
+  {
+    "person_id": "3dad64e2-c955-4d0f-b845-cdbc21ce84df",
+    "slug": "zhong-kang",
+    "canonical_name": "中康",
+    "dynasty": "夏",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q1195050",
+        "label_zh": "中康",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "中康",
+    "error": ""
+  },
+  {
+    "person_id": "9d46a8fd-ae53-4b95-ace4-0892e92c94ec",
+    "slug": "zhou-xin",
+    "canonical_name": "辛",
+    "dynasty": "商",
+    "reality_status": "legendary",
+    "match_round": "r1",
+    "confidence": 1.0,
+    "mapping_method": "r1_exact",
+    "hits": [
+      {
+        "qid": "Q65862783",
+        "label_zh": "辛",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "辛",
+    "error": ""
+  },
+  {
+    "person_id": "c26a5df8-35d3-4339-a520-c56f3fe26b11",
+    "slug": "zhuan-xu",
+    "canonical_name": "颛顼",
+    "dynasty": "上古",
+    "reality_status": "legendary",
+    "match_round": "multi_hit",
+    "confidence": 0.0,
+    "mapping_method": "r2_alias_multi",
+    "hits": [
+      {
+        "qid": "Q198180",
+        "label_zh": "顓頊",
+        "description_zh": "中国传说时代君主"
+      },
+      {
+        "qid": "Q9265850",
+        "label_zh": "高阳",
+        "description_zh": "中國铅球運動員"
+      },
+      {
+        "qid": "Q15913176",
+        "label_zh": "高陽",
+        "description_zh": "台灣作家(1922-1992)"
+      },
+      {
+        "qid": "Q16076014",
+        "label_zh": "高阳",
+        "description_zh": ""
+      },
+      {
+        "qid": "Q96418444",
+        "label_zh": "高阳",
+        "description_zh": ""
+      }
+    ],
+    "matched_name": "高阳",
+    "error": ""
+  }
+]

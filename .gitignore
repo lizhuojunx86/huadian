@@ -73,6 +73,7 @@ env/
 logs/
 node_modules/
 npm-debug.log*
+ops/rollback/*.dump
 ops/snapshots/*.dump
 out/
 pgdata/
@@ -85,3 +86,7 @@ traceguard-data/
 traceguard-local/
 venv/
 yarn-debug.log*
+
+# Test artifacts (Playwright / Vitest results)
+apps/web/playwright-report/
+apps/web/test-results/
