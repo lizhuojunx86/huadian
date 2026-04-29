@@ -70,6 +70,9 @@ model: opus
 - **黄金集标注**：⚠️FILL `data/golden/*.json`
 - **抽样审核**：每个新文档入库后 ⚠️FILL（例：5%）段落人工审核
 - ⚠️FILL **争议导航的"默认叙述"判定**（华典实例：多说并存时哪个为默认显示）
+- **Triage / Audit Decision Submission**（华典实例：Sprint K Triage UI workflow — pending_merge_reviews 上的 approve / reject 决策 / 含 reason_text + reason_source_type）
+  - 跨 sprint idempotency 行为：相同 (source_id, surface_snapshot, historian_id, decision) 视为单一决策
+  - 参见 `docs/methodology/05-audit-trail-pattern.md` §3 Triage UI Workflow
 
 ## 输入
 

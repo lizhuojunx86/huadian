@@ -34,6 +34,9 @@ model: opus
 - 架构决策与 ADR 撰写
 - 风险识别（加入 ⚠️FILL `docs/risk-and-decisions.md`）
 - 跨角色冲突仲裁（参见 `tagged-sessions-protocol.md` §5）
+- **Stop Rule Arbitration**（参见 `framework/sprint-templates/stop-rules-catalog.md`）
+  - sprint 期间任一 Stop Rule 触发时 Architect 必须 inline 给出结构化决策（R1 接受 / R2 修订 / R3 妥协 / R1+R3 混合 / etc）
+  - 决策必须记入仲裁记录（参见 `tagged-sessions-protocol.md` §5.2）
 - 项目宪法修订提议
 - 技术选型评审
 - 重大重构审批
