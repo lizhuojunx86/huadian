@@ -2,13 +2,116 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-28
-- **更新人**：管线工程师（Claude Sonnet 4.6）
-- **当前阶段**：Phase 0 — **DB Schema ✅ + 字典批次 1 ✅ + TraceGuard Adapter ✅ + GraphQL 骨架 ✅ + LLM Gateway ✅ + API Person Query ✅ + Web MVP Person Card ✅ + Web Person Search/List ✅ + Pipeline 基础设施 + 真书 Pilot ✅ + 跨 chunk 身份消歧 ✅ + Web 首页 + 全局导航 ✅ + 非人实体清理 ✅ + 帝鸿氏归并 ✅ + β 尚书摄入 ✅ + F10 残留 demote ✅ + persons CHECK 约束 ✅ + is_primary 同步 ✅ + 证据链 Stage 1 ✅ + α 周本纪扩量跑 ✅ + α 证据链主回填 ✅ + Sprint A 尾巴清零 ✅ + Sprint B Wikidata Seed Loader ✅ + Sprint C Resolver Orchestration ✅ + Sprint D R6 Cross-Dynasty Guard ✅ + Sprint E 秦本纪 ✅ + Sprint G 项羽本纪 ✅ + Sprint H R1 Pair Guards + 楚怀王 Entity-Split ✅ + Sprint I state_prefix_guard ✅ + Sprint J 高祖本纪 ✅**
+- **最近更新**：2026-04-29（D-route 战略转型 + Stage B 进行中）
+- **更新人**：首席架构师（Claude Opus 4.7）
+- **战略方向**：**D-route — Agentic Knowledge Engineering 框架 + 史记参考实现**（详见 [ADR-028](decisions/ADR-028-strategic-pivot-to-methodology.md) + [strategy/D-route-positioning.md](strategy/D-route-positioning.md)）
+- **当前阶段**：Phase 0 收尾 / D-route 文档体系对齐进行中 / 准备 Sprint L
 
 ---
 
-## 当前在哪
+## 1. 战略快照（D-route，2026-04-29 落地）
+
+| 维度 | 当前状态 |
+|------|---------|
+| 项目身份 | Agentic KE 工程框架 + 华典智谱史记参考实现（**不是** C 端古籍 App）|
+| 仓库形态 | GitHub public（https://github.com/lizhuojunx86/huadian）|
+| 许可证 | 代码 Apache 2.0 / 数据·文档·方法论 CC BY 4.0（详见 [ADR-029](decisions/ADR-029-licensing-policy.md)）|
+| 4-Layer 路线 | L1 框架抽象（6-12mo）/ L2 方法论文档（12-18mo）/ L3 案例库（持续）/ L4 社区机会主义 |
+
+### 1.1 D-route Layer 进度
+
+| Layer | 状态 | 当前焦点 |
+|-------|------|---------|
+| L1 框架代码抽象 | 🟡 启动准备中 | Sprint L 双 track 之一：从 Sprint A-K 代码抽出领域无关核心 |
+| L2 方法论文档 | 🟡 草案待起草 | Stage C 起草 docs/methodology/ 7 份草案 |
+| L3 案例库 | 🟢 主案例进行 | 华典智谱史记到延伸级（5-10 篇典型章节）；目前 3-4 篇本纪深度结构化已完成 |
+| L4 社区 / 商业 | ⚪ 未启动 | 视 L1-L3 反响逐步打开 |
+
+---
+
+## 2. 当前焦点（这周）
+
+### 2.1 文档体系对齐 — Stage A → D（D-route 转型后所有文档与新方向对齐）
+
+| Stage | 状态 | 产出 |
+|-------|------|------|
+| Stage A — 战略锚点 | ✅ 完成 (2026-04-29) | ADR-028 + docs/strategy/D-route-positioning.md |
+| Stage A.5 — 许可证 + public-facing | ✅ 完成 (2026-04-29) | LICENSE / LICENSE-DATA / NOTICE / README / CONTRIBUTING / ADR-029 + ADR-028 §6 + CLAUDE.md §1 |
+| Stage B — 核心身份文档 | 🟡 进行中 | CLAUDE.md ✅ / 项目宪法 ✅（新增 §六 D-route 原则 C-22~C-25）/ STATUS.md ✅（本文件）/ 架构 v2.0 待办 |
+| Stage C — 操作文档 + methodology 草案 | ⚪ 待开始 | 03/04/05 系列加框架视角 + docs/methodology/ 7 份草案 + 角色定义元描述 |
+| Stage D — Sprint 规划重置 | ⚪ 待开始 | Sprint K 收档 + Sprint L brief + 任务卡积压三分类 + 衍生债重整 + roadmap |
+
+### 2.2 阻塞 / 风险 / 等待项
+
+- 无阻塞。Stage B-D 顺序推进。
+- Sprint L 不会启动直到 Stage A-D 全部完成 + 用户做"假装新协作者"5 分钟测试通过。
+
+---
+
+## 3. 当前数据 / 工程基线（Sprint K 完成时刻）
+
+### 3.1 DB 数据状态
+
+| 维度 | 数值 | 备注 |
+|------|------|------|
+| Active persons | **729** | Sprint J 收口数 |
+| merge_log entries | **111** | Sprint A-J 累计 9+9+...+19 merges |
+| pending_merge_reviews | **18** rows | Sprint K Stage 2 PE backfill 写入；2 行已被 Hist Stage 5 决策（reject）|
+| triage_decisions | **177** rows | 175 backfill + 2 Hist E2E 真决策（1 reject + 1 approve）|
+| seed_mappings (pending_review) | **45** | Sprint G/H/I/J 累积，等 Hist 处理 |
+| entity_split_log | **2 rows** | 楚怀王 entity-split (Sprint H) |
+| V1-V11 invariants | **22 / 22 全绿** | 0 回归 |
+
+---
+
+## 4. Sunset / 降级 方向（D-route 不再做的事）
+
+依据 D-route §7 Negative Space：
+
+| 方向 | 状态 |
+|------|------|
+| C 端古籍阅读 App（核心产品形态）| ⚪ Sunset |
+| 移动端（iOS / Android）| ⚪ Sunset |
+| 与字节识典古籍同等数据完整度 | ⚪ Sunset |
+| 古人模拟器 / 断案游戏 / 跨时空群聊 | ⚪ Sunset（永不主动启动）|
+| 自建 frontend 组件库 / UI design system | ⚪ Sunset |
+| 大规模数据 ingest（>20 篇章节）| ⚪ Sunset |
+| DAU 增长 / 用户留存指标 | ⚪ Sunset |
+| 抢首发"首个 X 框架"叙事 | ⚪ Sunset |
+| 完成史记 130 篇 | ⚪ Sunset（5-10 篇典型即停）|
+
+---
+
+## 5. 下一步（Sprint L 候选议程）
+
+Sprint L brief 待 Stage D 起草。预期主题（per ADR-028 §2.3 Q3 ACK）：
+
+> **Sprint L = 框架抽象第一刀 + 产品化 demo 双 track**
+
+候选议程项：
+
+- **Track 1 — 框架抽象第一刀**：识别 Sprint A-K 代码里 P0 抽象优先级（Sprint workflow / multi-role / ADR / V1-V11 / identity resolver / triage UI）中**最成熟的 1-2 个**做第一次抽象 spike，写到 docs/methodology/ + framework/ 草目录
+- **Track 2 — 产品化 demo**：把现有 729 active persons + 几篇本纪 + identity merge 案例 + triage UI workflow 接出一个对外可看的极简 demo，作为"框架真的 work"的活体证明
+- 候选**不**走的方向：
+  - ❌ 不再启动新 ingest sprint（违反 ADR-028 Q1 + C-22）
+  - ❌ T-P1-030 ADR-014 addendum 不是 D-route 优先（虽然 textbook-fact 已 4 例触发；可降级到 P3 backlog）
+
+---
+
+## 6. 历史档案 — Phase 0 完整阶段标签（保留作为方法论案例库素材）
+
+> 以下是 Sprint A-K 完成时的"phase 标签"，保留作为框架抽象验证素材（C-22 / C-23）。
+> 详细 sprint 内容见 `docs/sprint-logs/sprint-{a..k}/`。
+
+**Phase 0 (2026-04-15 ~ 2026-04-29) 完成清单**：DB Schema ✅ / 字典批次 1 ✅ / TraceGuard Adapter ✅ / GraphQL 骨架 ✅ / LLM Gateway ✅ / API Person Query ✅ / Web MVP Person Card ✅ / Web Person Search/List ✅ / Pipeline 基础设施 ✅ / 真书 Pilot ✅ / 跨 chunk 身份消歧 ✅ / Web 首页 + 全局导航 ✅ / 非人实体清理 ✅ / 帝鸿氏归并 ✅ / β 尚书摄入 ✅ / F10 残留 demote ✅ / persons CHECK 约束 ✅ / is_primary 同步 ✅ / 证据链 Stage 1 ✅ / α 周本纪扩量跑 ✅ / α 证据链主回填 ✅ / Sprint A 尾巴清零 ✅ / Sprint B Wikidata Seed Loader ✅ / Sprint C Resolver Orchestration ✅ / Sprint D R6 Cross-Dynasty Guard ✅ / Sprint E 秦本纪 ✅ / Sprint G 项羽本纪 ✅ / Sprint H R1 Pair Guards + 楚怀王 Entity-Split ✅ / Sprint I state_prefix_guard ✅ / Sprint J 高祖本纪 ✅ / Sprint K T-P0-028 Triage UI V1 ✅
+
+---
+
+## 7. 归档：Sprint K 之前的"当前在哪"快照（D-route 转型前视角）
+
+> 以下为 D-route 战略转型（2026-04-29）之前的"当前在哪"内容，保留为历史快照。
+> 真正的"当前焦点"以 §2 + §5 为准。
+> §下一步候选 行已被 §5（Sprint L 候选议程）替代，请勿据此规划新工作。
 
 **Sprint J 完成（2026-04-28）。T-P0-006-ε 高祖本纪 ingest + identity resolution：+85 NER persons（663→748→729 active）/ 19 soft-deletes（9 confirm + 2 textbook-fact + 6 slug-dedup + 2 G7 sub-merges）/ merge_log 92→111 / R1 FP 治理率 100%（state_prefix_guard 7/7）/ V1=0 V9=0 V10=0 V11=0 全绿。S4.3' 新增 _swap_ab_payload() bug fix（guard_payload dynasty/state 列位 transpose）+ 5 regression tests。textbook-fact 累计 4 例 → T-P1-030 ADR-014 addendum 触发。0.79 LLM / 0 migrations / 5 new tests。**
 
@@ -29,7 +132,9 @@ Sprint B 全 Stage 完成：
 - **Stage 4（✅）**：V10 invariant 三子规则（orphan target / orphan entry / active evidence）+ 6 self-tests
 - **Stage 5（✅）**：migration 0011 unique index 对齐 + ADR-021 final + Sprint 收口
 
-**下一步候选**：高后本纪 ingest（Sprint K 候选）/ T-P1-030（ADR-014 addendum textbook-fact 规范）/ T-P0-028（pending_review triage UI）/ T-P2-006（dry_run_report R6 标签泛化）/ T-P1-027 增项（塞王欣 surface + 齐王 5 候选）
+~~**下一步候选**：高后本纪 ingest（Sprint K 候选）/ T-P1-030（ADR-014 addendum textbook-fact 规范）/ T-P0-028（pending_review triage UI）/ T-P2-006（dry_run_report R6 标签泛化）/ T-P1-027 增项（塞王欣 surface + 齐王 5 候选）~~
+
+**注（2026-04-29）**：此"下一步候选"列表已**作废**。其中 T-P0-028 已在 Sprint K 完成；其余项已被 D-route 战略转型重排：高后本纪 ingest 不再启动（违反 C-22 案例服务于框架），T-P1-030 / T-P2-006 / T-P1-027 降级到 P3 backlog。当前真正的"下一步"以 §5 为准。
 
 ---
 
