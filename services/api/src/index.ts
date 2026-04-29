@@ -33,13 +33,30 @@ const typeDefs = mergeTypeDefs(
 
 const schema = createSchema<GraphQLContext>({ typeDefs, resolvers });
 
-// Phase 0 DB handle. Resolvers throw NOT_IMPLEMENTED before touching
-// this, so postgres.js only opens a pool lazily on first query; an
-// invalid DATABASE_URL does not prevent the server from starting.
-const sql = postgres(
-  process.env.DATABASE_URL ?? "postgres://stub@127.0.0.1:5433/stub",
-  { max: 1, onnotice: () => undefined },
-);
+// DB handle. postgres.js opens the pool lazily on first query, so an
+// invalid DATABASE_URL does not prevent the server from starting; the
+// failure surfaces only when a resolver issues a query.
+//
+// The fallback URL points at the local docker-compose Postgres with the
+// project-wide dev credentials (mirrors services/api/tests/* and
+// services/api/scripts/* defaults). Earlier this fallback was the
+// `stub@stub` placeholder from T-P0-003 (when every resolver threw
+// NOT_IMPLEMENTED). After T-P0-007 (person query) and T-P0-028 (triage
+// queries) wired real DB reads, that placeholder caused
+// 'role "stub" does not exist' on every request when DATABASE_URL was
+// not exported by the dev shell — surfaced by Sprint K Stage 3 FE e2e.
+const FALLBACK_DEV_DATABASE_URL =
+  "postgres://huadian:huadian_dev@127.0.0.1:5433/huadian";
+
+const databaseUrl = process.env.DATABASE_URL ?? FALLBACK_DEV_DATABASE_URL;
+if (!process.env.DATABASE_URL) {
+  console.warn(
+    `[api] DATABASE_URL not set; using dev fallback ${FALLBACK_DEV_DATABASE_URL}. ` +
+      "Export DATABASE_URL for non-dev environments.",
+  );
+}
+
+const sql = postgres(databaseUrl, { max: 1, onnotice: () => undefined });
 const db = drizzle(sql);
 
 const yoga = createYoga({
