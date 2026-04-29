@@ -339,11 +339,35 @@ cp -r .claude/agents/ /path/to/new-case/.claude/agents/
 
 ---
 
-## 9. 修订历史
+## 9. Framework Implementation（v0.1.1 新增）
+
+本模式的 v0.1 框架实现位于 `framework/role-templates/`（Sprint M Stage 1 首次抽象）：
+
+- **10 角色模板**（chief-architect / domain-expert / pipeline-engineer / backend-engineer / frontend-engineer / product-manager / ui-ux-designer / qa-engineer / devops-engineer / data-analyst）→ 复制即可使用
+- **`tagged-sessions-protocol.md`** → 多 session 协调实操协议（含 Sprint K 5 角色 6-stage 实证案例段）
+- **`cross-domain-mapping.md`** → 6 领域 instantiation 速查表（古籍 / 佛经 / 法律 / 医疗 / 专利 / 地方志）
+- **`README.md`** → 5 分钟上手指南
+
+跨领域案例方应**先复制 framework/role-templates/ 改填**，再回过头读本文件理解设计哲学。
+
+| 本文件章节 | framework/role-templates/ 对应实现 |
+|---------|--------------------------------|
+| §2.1 角色定义模板（8 段）| 10 份 \*.md 文件结构（Mission / Authority / Responsibility / No-fly Zone / Handoff Contract / Escalation / Bootstrap / Closeout）|
+| §3 Tagged Sessions 协议 | tagged-sessions-protocol.md §1-§2 |
+| §4 冲突升级机制 | tagged-sessions-protocol.md §5 |
+| §5 启动 / 收尾标准化 | tagged-sessions-protocol.md §3-§4 |
+| §6 角色活跃度调整 | 各角色模板"D-route 阶段调整"段（可选）|
+| §7 反模式 5 项 | README.md §6 + tagged-sessions-protocol.md §7 |
+| §8 跨领域使用指南 | cross-domain-mapping.md + README.md §3-§4 |
+
+---
+
+## 10. 修订历史
 
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
 | Draft v0.1 | 2026-04-29 | 首席架构师 | 初稿（Stage C-5 of D-route doc realignment）|
+| Draft v0.1.1 | 2026-04-29 | 首席架构师 | Sprint M Stage 1 cross-reference §9 加（紧密化 framework/role-templates/）|
 
 ---
 
