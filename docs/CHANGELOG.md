@@ -5,6 +5,104 @@
 
 ---
 
+## 2026-04-29
+
+### [decision+constitution+docs] D-route 战略转型 + 文档体系全对齐 + 项目转 public
+
+**性质**：项目最大的战略事件。同日完成 Sprint K（首个完整跨角色 5-stage sprint）+ 战略方向转向 D-route（Agentic Knowledge Engineering 工程框架 + 史记参考实现）+ 仓库转 public 开源。
+
+**角色**：首席架构师（战略 + 全部文档落地）
+
+#### Sprint K — T-P0-028 Triage UI V1（commit a01cd9 ~ 5e32d52 ~ 12a1318 ~ 等 20+ commits）
+
+- 5 角色协同（PE/BE/FE/Hist/Architect）+ 4-stage workflow（dry-run/review/apply/verify）
+- ADR-027 落地（pending_merge_reviews + triage_decisions + merge_log 三表协作）
+- migration 0014 + 18 PMR backfill + 175 TD backfill + 真实 Hist E2E（1 reject + 1 approve）
+- V1-V11 invariants 22/22 全绿
+- 详见 [docs/sprint-logs/sprint-k/stage-6-closeout-2026-04-29.md](sprint-logs/sprint-k/stage-6-closeout-2026-04-29.md)
+
+#### [decision] ADR-028 战略转型决策
+
+- **从 C-route（C 端古籍知识平台）→ D-route（Agentic KE 工程框架 + 史记参考实现）**
+- 触发：第三方调研（shiji-kb / 字节识典古籍 / chinese-poetry / 永乐大典）+ Sprint A-K 工程资产盘点
+- 5 个不可逆决策点 ACK（Q1: 案例延伸级 / Q2: 单仓策略 / Q3: 双 track / Q4: 角色活跃度调整 / Q5: 写作软节律）
+- 4-Layer 路线：L1 框架代码（6-12mo）/ L2 方法论文档（12-18mo）/ L3 案例库（持续）/ L4 社区机会主义
+- 文件：[docs/decisions/ADR-028-strategic-pivot-to-methodology.md](decisions/ADR-028-strategic-pivot-to-methodology.md) + [docs/strategy/D-route-positioning.md](strategy/D-route-positioning.md)
+
+#### [chore] 项目转 public + 双许可证
+
+- GitHub repo 转 public：https://github.com/lizhuojunx86/huadian
+- ADR-029 许可证策略：代码 Apache 2.0 / 数据·文档·方法论 CC BY 4.0
+- 落盘：LICENSE / LICENSE-DATA / NOTICE / README.md（重写）/ CONTRIBUTING.md
+- 文件：[docs/decisions/ADR-029-licensing-policy.md](decisions/ADR-029-licensing-policy.md)
+
+#### [constitution] 项目宪法修订（C-22 ~ C-25）
+
+- 新增 §六 D-route 战略原则：
+  - **C-22 案例服务于框架** — sprint 必须先回答"对框架抽象的价值"
+  - **C-23 工程模式必须可抽象** — invariant / guard / pattern 设计时标注 domain-specific 参数
+  - **C-24 写作低频但有节律** — 月度决策日记 + 季度方法论文章
+  - **C-25 互补不竞争** — 与 shiji-kb / 字节识典古籍 / Anthropic 工具等公开互补关系
+- 原 §六 修宪程序顺移到 §七
+- 文件：[docs/00_项目宪法.md](00_项目宪法.md)
+
+#### [docs] 核心身份文档对齐（Stage B）
+
+- **CLAUDE.md** — 完整重写（D-route 入口 + 角色活跃度 + 工作纪律 + 9 段）
+- **STATUS.md** — 完整重写（D-route 战略快照 + Stage 进度 + 数据基线 + Sunset 清单 + Sprint L 候选 + 历史档案）
+- **架构设计文档** — v1.0 归档至 `docs/archive/`，新建 v2.0 双轴架构（框架层 + 案例实现层）
+
+#### [docs] 操作文档加框架视角（Stage C-1/2/3）
+
+- `docs/03_多角色协作框架.md` — +§九 D-route 阶段调整 / 10 角色活跃度调整 / 跨领域 mapping
+- `docs/04_工作流与进度机制.md` — +§十一 Sprint 节奏与目标 / brief & retro 模板增量 / 跨领域可复用清单
+- `docs/05_质检与监控体系.md` — +§十一/十二 V1-V11 实战清单 / 5 大 invariant pattern / cross-domain 设计指南
+
+#### [docs] Methodology 7 份草案 v0.1 起草（Stage C-4 ~ C-10）
+
+约 4 万字，全部 Status: Draft v0.1：
+
+- `docs/methodology/00-framework-overview.md` — 框架入口 / 6 大核心抽象 / 4 类读者上手路径
+- `docs/methodology/01-role-design-pattern.md` — 10 角色 + tagged sessions + 跨领域 mapping
+- `docs/methodology/02-sprint-governance-pattern.md` — Sprint/Stage/Gate/Stop Rule + 4-stage workflow
+- `docs/methodology/03-identity-resolver-pattern.md` — R1-R6 + GUARD_CHAINS + Sprint G→I 治理实证
+- `docs/methodology/04-invariant-pattern.md` — 5 大 invariant pattern + V1=94→0 修复实证
+- `docs/methodology/05-audit-trail-pattern.md` — 三表协作 + Triage UI + idempotency 设计
+- `docs/methodology/06-adr-pattern-for-ke.md` — KE-specific ADR + 6 特有字段 + addendum vs supersede
+
+#### [docs] 10 角色定义加框架抽象段（Stage C-11）
+
+10 个 `.claude/agents/*.md` 文件每份末尾加"D-route 框架抽象的元描述"段，含：
+
+- 在 AKE 框架中的领域无关定义
+- D-route 阶段调整（活跃度 + 具体职责变化）
+- 跨领域 instantiation 指南
+
+#### [docs] Sprint 规划重置（Stage D）
+
+- **Sprint K closeout** — 含战略转型衔接 + D-route 资产盘点 + 衍生债登记
+- **Sprint L brief** — "框架抽象第一刀 + 产品化 demo 双 track"主题（待用户 ACK 后启动）
+- **任务卡积压三分类** — `docs/tasks/T-000a-d-route-classification-2026-04-29.md`（继续/降级/sunset）
+- **Sprint roadmap D-route** — `docs/strategy/sprint-roadmap-D-route.md`（Sprint L → R 候选议程 + 触发条件）
+
+#### 累计统计
+
+- 新增 ADR：2（ADR-028 战略转型 + ADR-029 许可证）
+- 修订 ADR：1（ADR-028 §6 编号顺移）
+- 修宪：1 次（C-22 ~ C-25 新增）
+- 新建文件：约 17 个（含许可证 / methodology / Sprint K closeout / Sprint L brief / etc）
+- 重写文件：4 个（README / CLAUDE.md / 00 宪法 / STATUS）
+- 大改文件：3 个（03/04/05 操作文档）+ 10 个 agent 文档
+- 新增字数：约 8 万字（含 LICENSE 等长文件）
+
+#### 后续
+
+- 用户做"假装新协作者"5 分钟测试（按"开工三步"读 CLAUDE.md → STATUS → CHANGELOG）
+- 测试通过 → Sprint L Stage 0 启动
+- 用户 push commits 到 GitHub + 设置 About 段（detail 见 README "Quick start" + 启动消息）
+
+---
+
 ## 2026-04-28
 
 ### [feat+fix+docs] Sprint J — T-P0-006-ε 高祖本纪 ingest + identity resolution

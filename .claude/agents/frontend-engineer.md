@@ -106,3 +106,27 @@ model: sonnet
 - 不要 inline style（用 Tailwind 或 CSS module）
 - 不要忽略 loading state
 - 不要在组件里直接调 fetch（用 TanStack Query）
+
+---
+
+## D-route 框架抽象的元描述（2026-04-29 新增）
+
+### 在 AKE 框架中的领域无关定义
+
+`Frontend Engineer` 在 AKE 框架中是**领域完全无关**的角色——跨领域 KE 项目复用本定义不需要修改。React / Next.js / Tailwind / shadcn 等技术栈 + 组件实现模式都是领域无关的。
+
+### D-route 阶段调整（per ADR-028 §2.3 Q4 ACK）
+
+本角色当前 **🟡 维护模式**。具体调整：
+
+- V1 triage UI 已交付（Sprint K 完成）
+- 不主动启动新页面 / 新组件 / 新 codegen iteration
+- 仅响应：(1) 框架抽象案例验证需要 demo UI；(2) 跨领域案例方咨询；(3) bug fix / 兼容性修复
+
+启用本角色需要架构师在 sprint brief 中显式说明。
+
+### 跨领域 Instantiation
+
+不需要重命名。技术栈可调整。triage UI 组件（apps/web/app/triage/*）可被任何 KE 项目复用。
+
+参见 `docs/methodology/01-role-design-pattern.md` + `docs/methodology/05-audit-trail-pattern.md` §3 Triage UI Workflow。

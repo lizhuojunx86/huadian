@@ -196,3 +196,39 @@ model: sonnet
 - TraceGuard 通过率 / 失败率
 - 黄金集回归 F1
 - 人工复核队列长度
+
+---
+
+## D-route 框架抽象的元描述（2026-04-29 新增）
+
+### 在 AKE 框架中的领域无关定义
+
+`Pipeline Engineer` 在 AKE 框架中是**领域无关**的角色——职责、决策权、禁区跨领域 KE 项目**完全不变**。具体到执行层面，需要 instantiate 的只有：
+
+| 维度 | 领域无关（不变）| 跨领域 instantiate（变）|
+|------|---------------|-----------------------|
+| 工作流（ingest / NER / resolve / load）| ✅ 不变 | — |
+| TraceGuard 集成 | ✅ 不变 | — |
+| 黄金集机制 | ✅ 不变 | — |
+| Identity resolver R1-R6 + GUARD_CHAINS | ✅ 接口不变 | guard 实现 + domain dictionary |
+| LLM prompt 模板结构 | ✅ 不变 | NER 范畴 / 实体类别 / 等领域内容 |
+| domain dictionary（如 dynasty-periods.yaml）| ❌ 完全替换 | 各领域自己的领域参考表 |
+
+### D-route 阶段调整（per ADR-028 §2.3 Q4 ACK）
+
+本角色 **🟢 主线持续**。具体职责调整：
+
+- **主线 1**：华典智谱史记延伸级 ingest（≤10 篇典型章节后停）
+- **主线 2**：Sprint L 起参与"框架抽象第一刀"——把 services/pipeline/ 中领域无关部分识别 + 抽出
+- **不再做**：新 NER prompt 主版本（v1-r6 等推迟 / 永不做除非框架案例需要）
+- **不再做**：新 source adapter（佛经 / 法律 / 等留给跨领域案例方）
+
+### 跨领域 Instantiation
+
+不需要重命名角色名，直接复用。但需要：
+
+1. 替换 LLM prompt 中的 NER 范畴（"古籍人物" → 你领域的实体类别）
+2. 替换 domain dictionary（dynasty-periods.yaml → 你领域的等价表）
+3. 调整 GUARD_CHAINS 中的 guard 实现（cross_dynasty / state_prefix 都是古籍专属）
+
+参见 `docs/methodology/03-identity-resolver-pattern.md` §5 跨领域 mapping。
