@@ -2,10 +2,10 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-29（D-route 战略转型 + Stage B 进行中）
+- **最近更新**：2026-04-29（Sprint L Stage 1 完成 + 关档；Layer 1 第一刀落地）
 - **更新人**：首席架构师（Claude Opus 4.7）
 - **战略方向**：**D-route — Agentic Knowledge Engineering 框架 + 史记参考实现**（详见 [ADR-028](decisions/ADR-028-strategic-pivot-to-methodology.md) + [strategy/D-route-positioning.md](strategy/D-route-positioning.md)）
-- **当前阶段**：Phase 0 收尾 / D-route 文档体系对齐进行中 / 准备 Sprint L
+- **当前阶段**：Phase 0 已收尾 / D-route 文档体系全对齐 / **Sprint L Stage 1 完成（Layer 1 第一刀）** / Sprint M 候选准备
 
 ---
 
@@ -22,29 +22,43 @@
 
 | Layer | 状态 | 当前焦点 |
 |-------|------|---------|
-| L1 框架代码抽象 | 🟡 启动准备中 | Sprint L 双 track 之一：从 Sprint A-K 代码抽出领域无关核心 |
-| L2 方法论文档 | 🟡 草案待起草 | Stage C 起草 docs/methodology/ 7 份草案 |
-| L3 案例库 | 🟢 主案例进行 | 华典智谱史记到延伸级（5-10 篇典型章节）；目前 3-4 篇本纪深度结构化已完成 |
+| L1 框架代码抽象 | **🟢 第一刀落地**（Sprint L 完成）| `framework/sprint-templates/` v0.1（11 files / ~1500 lines）；下一步 Sprint M 候选 multi-role coordination 抽象 |
+| L2 方法论文档 | 🟡 草案 v0.1 完整 | Stage C 起草 docs/methodology/ 7 份草案（约 4 万字）；Sprint L cross-reference 紧密化；下次迭代等 Sprint M 反馈 |
+| L3 案例库 | 🟢 主案例进行 + demo 落地 | 华典智谱史记 3-4 篇本纪深度结构化已完成；RB-002 demo walkthrough + README Quick demo 段已落地 |
 | L4 社区 / 商业 | ⚪ 未启动 | 视 L1-L3 反响逐步打开 |
 
 ---
 
 ## 2. 当前焦点（这周）
 
-### 2.1 文档体系对齐 — Stage A → D（D-route 转型后所有文档与新方向对齐）
+### 2.1 文档体系对齐 — Stage A → D（已全部完成）
 
 | Stage | 状态 | 产出 |
 |-------|------|------|
-| Stage A — 战略锚点 | ✅ 完成 (2026-04-29) | ADR-028 + docs/strategy/D-route-positioning.md |
-| Stage A.5 — 许可证 + public-facing | ✅ 完成 (2026-04-29) | LICENSE / LICENSE-DATA / NOTICE / README / CONTRIBUTING / ADR-029 + ADR-028 §6 + CLAUDE.md §1 |
-| Stage B — 核心身份文档 | 🟡 进行中 | CLAUDE.md ✅ / 项目宪法 ✅（新增 §六 D-route 原则 C-22~C-25）/ STATUS.md ✅（本文件）/ 架构 v2.0 待办 |
-| Stage C — 操作文档 + methodology 草案 | ⚪ 待开始 | 03/04/05 系列加框架视角 + docs/methodology/ 7 份草案 + 角色定义元描述 |
-| Stage D — Sprint 规划重置 | ⚪ 待开始 | Sprint K 收档 + Sprint L brief + 任务卡积压三分类 + 衍生债重整 + roadmap |
+| Stage A — 战略锚点 | ✅ 完成 | ADR-028 + docs/strategy/D-route-positioning.md |
+| Stage A.5 — 许可证 + public-facing | ✅ 完成 | LICENSE / LICENSE-DATA / NOTICE / README / CONTRIBUTING / ADR-029 + ADR-028 §6 + CLAUDE.md §1 |
+| Stage B — 核心身份文档 | ✅ 完成 | CLAUDE.md / 项目宪法（C-22~C-25）/ STATUS.md / 架构 v2.0（v1.0 归档）|
+| Stage C — 操作文档 + methodology 草案 | ✅ 完成 | 03/04/05 加框架视角 + docs/methodology/ 7 份草案（约 4 万字）+ 10 角色加框架抽象段 |
+| Stage D — Sprint 规划重置 | ✅ 完成 | Sprint K closeout + Sprint L brief + 任务卡三分类 + sprint-roadmap-D-route + CHANGELOG |
 
-### 2.2 阻塞 / 风险 / 等待项
+### 2.2 Sprint L 进度（Layer 1 第一刀，已完成 Stage 1 + 4，关档）
 
-- 无阻塞。Stage B-D 顺序推进。
-- Sprint L 不会启动直到 Stage A-D 全部完成 + 用户做"假装新协作者"5 分钟测试通过。
+| Stage | 状态 | 产出 |
+|-------|------|------|
+| Stage 0.1 用户测试 | ✅ | "假装新协作者"5 分钟测试通过 |
+| Stage 0.2 架构师 inventory | ✅ | stage-0-inventory（抽象优先级排序 + 案例耦合点）|
+| Stage 0.3 demo 形态 ACK | ✅ | 选 B（本地 dev + README Quick demo）|
+| Stage 1 Track 1 sprint-templates v0.1 | ✅ | framework/sprint-templates/ 11 files / 1500 lines |
+| Stage 1 Track 1 dogfood | ✅ | 模板覆盖度 90% / 4 项 v0.2 迭代登记 |
+| Stage 1 Track 2 demo walkthrough | ✅ | RB-002 + README Quick demo 段 |
+| Stage 2-3 外部审 | ⚪ 押后 | 等外部反馈触发（无紧急 timeline）|
+| Stage 4 Closeout + Retro | ✅ | stage-4-closeout + sprint-l-retro + 衍生债登记 |
+
+### 2.3 阻塞 / 风险 / 等待项
+
+- 无阻塞。Sprint L 关档。
+- Sprint M 启动**无紧急 timeline**——可等用户准备好（休息几天 / 一周后再启动均可）。
+- Sprint M 候选主题：**Multi-role coordination 抽象**（详见 docs/sprint-logs/sprint-l/stage-4-closeout-2026-04-29.md §2.4）。
 
 ---
 

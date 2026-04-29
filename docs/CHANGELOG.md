@@ -5,6 +5,31 @@
 
 ---
 
+## 2026-04-29 (Sprint L)
+
+### [feat] Sprint L Stage 1 — 框架抽象第一刀 + 产品化 demo 双 track + 关档
+
+- **角色**：首席架构师（自驱执行）
+- **性质**：D-route 转型后第一个真正按新方向推进的 sprint；Layer 1 第一刀落地
+- **关键产出**：
+  - `framework/sprint-templates/` v0.1（11 files / ~1500 lines）：领域无关 Sprint 治理模板首次抽出
+    - README + brief-template + 6 stage-templates + retro-template + stop-rules-catalog + gate-checklist-template
+  - dogfood 验证：用模板回审 Sprint K brief，覆盖度 90%（gap 是有意的领域分层）
+  - RB-002 demo walkthrough（5 分钟带访客走通 Triage UI / V1-V11 / dry-run / SQL）
+  - README "Quick demo (5 min)" 段
+  - Sprint L closeout doc + retro doc（dogfood：Sprint L 用自己产物给自己收档）
+- **D-route Layer 进度**：
+  - L1: 🟡 → **🟢（第一刀落地，~1500 lines 抽象代码 / 3 个抽象资产：workflow templates + stop-rules + gate-checklist）**
+  - L2: docs/methodology/02 引用 framework/sprint-templates/（cross-reference 紧密化）
+  - L3: +RB-002 demo walkthrough + README Quick demo（活体证明就位）
+- **commits**: 待 push（Sprint L Stage 1 + 4）
+- **衍生债**: 4 项 v0.2 迭代候选登记（[docs/debts/sprint-l-framework-v02-iterations.md](debts/sprint-l-framework-v02-iterations.md)，全部 P3）
+- **押后**: Stage 2-3 外部审（朋友/用户走 framework + demo）等外部反馈触发
+- **Stop Rule 触发**: 0 次（low-risk sprint）
+- **下一 sprint 候选**: Sprint M Multi-role coordination 抽象（推荐）；启动时机无紧急 timeline
+
+---
+
 ## 2026-04-29
 
 ### [decision+constitution+docs] D-route 战略转型 + 文档体系全对齐 + 项目转 public
