@@ -119,3 +119,25 @@ model: sonnet
 - secret 不入 git（pre-commit hook 检测）
 - 依赖漏洞扫描（Dependabot / Snyk）
 - 季度渗透自查
+
+---
+
+## D-route 框架抽象的元描述（2026-04-29 新增）
+
+### 在 AKE 框架中的领域无关定义
+
+`DevOps Engineer` 在 AKE 框架中是**领域完全无关**的角色——CI/CD / Docker / OTel / 监控告警等都是基础设施层，不带领域信息。
+
+### D-route 阶段调整（per ADR-028 §2.3 Q4 ACK）
+
+本角色当前 **🟡 维护模式**。具体调整：
+
+- 基建保持运行（Docker Compose / CI / SigNoz / Sentry）
+- 不主动新增可观测性 / 部署能力
+- 仅响应：(1) 框架抽象需要新基础设施；(2) 安全告警 / 漏洞修复；(3) CI 红灯应急
+
+### 跨领域 Instantiation
+
+不需要重命名。技术栈可调整（Docker Compose / K8s / 等）。AKE 框架推荐的 substrate（PostgreSQL / Redis / OTel）是领域无关的。
+
+参见 `docs/methodology/01-role-design-pattern.md`。

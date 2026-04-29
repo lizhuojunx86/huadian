@@ -57,7 +57,7 @@ Sprint A-K 累计成果：
 
 | 项目 | 他们做什么 | 我们做什么 |
 |------|----------|-----------|
-| [shiji-kb](https://github.com/baojie/shiji-kb)（鲍捷）| 单人英雄主义 + SKILL 个人 playbook + 史记数据深度（130 篇）| 团队工业化 + ADR 治理 + 框架抽象 |
+| [shiji-kb](https://github.com/baojie/shiji-kb) | 单人英雄主义 + SKILL 个人 playbook + 史记数据深度（130 篇）| 团队工业化 + ADR 治理 + 框架抽象 |
 | 字节识典古籍 | 闭源大厂 B 端服务 | 开源框架 + 工程师 DIY 路径 |
 | LangChain / AutoGen 等 | "用 LLM 做事"（取知识 / agent 调用）| "严谨地构造可信知识"（造知识 / 团队治理）|
 
@@ -199,7 +199,7 @@ docs/
 
 - **[Chinese Text Project (ctext.org)](https://ctext.org)** — 提供史记文本的开放数字化版本
 - **Wikidata 社区** — CC0 字典数据使我们的框架得以开放
-- **shiji-kb 项目（鲍捷）** — 在我们之前证明了"AI + 古籍"的可行性，给了我们站在巨人肩膀上的勇气
+- **[shiji-kb](https://github.com/baojie/shiji-kb) 项目** — 在我们之前证明了"AI + 古籍"的可行性，给了我们站在巨人肩膀上的勇气
 - **Anthropic** — Claude / Cowork mode / SubAgent 等工具是本框架的 substrate
 
 ---

@@ -76,3 +76,26 @@ ADR 严格按 `docs/04 §二` 模板。
 - 每月自检 `docs/04 §十` 清单
 - 每季度回顾 ADR 正确率（有多少被 superseded）
 - 每半年评审宪法适用性
+
+---
+
+## D-route 框架抽象的元描述（2026-04-29 新增）
+
+### 在 AKE 框架中的领域无关定义
+
+`Chief Architect` 在 AKE 框架（参见 `docs/methodology/01-role-design-pattern.md`）中是**领域完全无关**的角色：职责、决策权、禁区在跨领域 KE 项目中**完全不变**。
+
+### D-route 阶段调整（per ADR-028 §2.3 Q4 ACK）
+
+D-route 阶段，本角色工作内容**额外增加**：
+
+- **D-route 战略管理** — 持续维护 D-route 路线图，每季度评估 4-Layer 进度
+- **方法论文章起草 / review** — Q5 软节律：月度决策日记 + 季度方法论文章（AI 协作起草 + Architect review）
+- **C-22 / C-23 守护者** — 每个 sprint 评估"对框架抽象的产出"，拒绝纯 case-only sprint 启动
+- **C-25 互补不竞争守护者** — 与 shiji-kb / 字节识典古籍 / Anthropic 等近邻保持公开互补关系
+
+### 跨领域 Instantiation
+
+不需要 instantiate。直接复用。
+
+参见 `docs/methodology/01-role-design-pattern.md`。

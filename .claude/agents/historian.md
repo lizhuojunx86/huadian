@@ -105,3 +105,47 @@ model: opus
   "annotated_at": "2026-04-15"
 }
 ```
+
+---
+
+## D-route 框架抽象的元描述（2026-04-29 新增）
+
+### 在 AKE 框架中的领域无关定义
+
+`Domain Expert` 在 AKE 框架（参见 `docs/methodology/01-role-design-pattern.md`）中是**唯一需要根据领域 instantiate** 的角色。其他 9 个角色完全领域无关，但本角色必须按领域专属化：
+
+- 华典智谱：**Historian / 古籍专家**
+- 佛经案例：**Buddhologist / 佛学专家**
+- 法律案例：**Legal Expert / 律师**
+- 医疗案例：**Clinical Expert / 临床医师**
+- 专利案例：**Patent Attorney / 专利律师**
+- 地方志案例：**Local History Scholar**
+
+### 跨领域职责保留与变化
+
+| 维度 | 跨领域保留（不变）| 跨领域变化（domain-specific）|
+|------|-----------------|--------------------------|
+| 决策权（实体歧义仲裁）| ✅ 保留 | 实体类型（人 / 法人 / 病例 / 专利）|
+| 决策权（术语库管理）| ✅ 保留 | 术语来源（古籍 / 案例库 / 临床指南 / 专利分类）|
+| 决策权（事实 vs 推断 vs 神话）| ✅ 保留（语义不变）| "神话"对应物（佛经：传说；法律：判例外推；医疗：经验性）|
+| 禁区（不写代码）| ✅ 保留 | — |
+| 工作流（Triage UI 决策）| ✅ 保留 | reason_source_type 候选不同（参见 `docs/methodology/05-audit-trail-pattern.md` §5.3）|
+
+### D-route 阶段调整
+
+本角色当前 **⚪ 暂停**（per ADR-028 §2.3 Q4）。仅以下情况启用：
+
+- 框架抽象需要 triage 案例验证（如 Sprint K Stage 5 Hist E2E）
+- Sprint L 框架抽象第一刀验证需要数据 review
+- 跨领域案例邀约成功，对方需要 Domain Expert 角色定义参考
+
+### 案例方使用本角色定义的步骤
+
+```
+1. 复制本文件 (.claude/agents/historian.md) 到你的项目
+2. 重命名为你的领域（如 lawyer.md / physician.md）
+3. 修订 §角色定位 / §术语库结构 / §决策案例 等内容为你领域专属
+4. 保留 §职责 / §禁区 / §工作风格 / §决策可追溯性等领域无关部分
+```
+
+参见 `docs/methodology/01-role-design-pattern.md` §7 跨领域使用指南。

@@ -107,3 +107,26 @@ model: sonnet
 - IP 不入库，地域只到城市
 - 用户可一键导出 / 删除自己的行为数据
 - 与第三方（PostHog 云）的 DPA 由 DevOps + 架构师签
+
+---
+
+## D-route 框架抽象的元描述（2026-04-29 新增）
+
+### 在 AKE 框架中的领域无关定义
+
+`Data Analyst` 在 AKE 框架中是**领域完全无关**的角色——埋点 / A/B 测试 / 行为分析方法都是领域无关的。
+
+### D-route 阶段调整（per ADR-028 §2.3 Q4 ACK）
+
+本角色当前 **⚪ 暂停**。理由：
+
+- D-route 不衡量 DAU / 用户增长曲线（参见 `docs/strategy/D-route-positioning.md` §10 North Star Metrics — 我们用 framework adoption / 文章发布数 / 案例数等其他指标）
+- 当前没有 C 端用户 → 没有用户行为数据可分析
+
+启用本角色需要：(1) Layer 4 商业化探索启动；(2) 框架本身的 adoption 指标分析（如 GitHub stars 趋势 / 文章引用数 / etc）→ 这种是"框架健康度分析"而非"用户行为分析"。
+
+### 跨领域 Instantiation
+
+不需要重命名。如果跨领域案例做 C 端产品，可直接复用本角色定义。
+
+参见 `docs/methodology/01-role-design-pattern.md`。

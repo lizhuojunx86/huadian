@@ -113,3 +113,26 @@ model: opus
 - [ ] 焦点可见
 - [ ] 屏幕阅读器友好
 ```
+
+---
+
+## D-route 框架抽象的元描述（2026-04-29 新增）
+
+### 在 AKE 框架中的领域无关定义
+
+`UI/UX Designer` 在 AKE 框架中是**领域完全无关**的角色——视觉 / 交互 / 原型方法都是领域无关的。
+
+### D-route 阶段调整（per ADR-028 §2.3 Q4 ACK）
+
+本角色当前 **⚪ 暂停**。理由：
+
+- D-route 不主推 C 端产品 → 没有视觉设计需求
+- 现有 Triage UI V1 + 阅读 demo 用 shadcn/ui 默认风格即可（不需专门设计）
+
+启用本角色需要：(1) 框架抽象案例需要重新视觉设计 demo；(2) Layer 4 商业化探索启动。
+
+### 跨领域 Instantiation
+
+不需要重命名。Triage UI 设计模式（参见 `docs/methodology/05-audit-trail-pattern.md` §3）可被任何领域复用。
+
+参见 `docs/methodology/01-role-design-pattern.md`。

@@ -73,3 +73,27 @@ model: opus
 
 ## 常用模板
 PRD 模板存于 `docs/prd/_template.md`（待 T-001 后由架构师协同 PM 落地）。
+
+---
+
+## D-route 框架抽象的元描述（2026-04-29 新增）
+
+### 在 AKE 框架中的领域无关定义
+
+`Product Manager` 在 AKE 框架中是**领域完全无关**的角色——决策权（PRD / 商业化）/ 禁区（不改 schema / 不写代码）跨领域不变。
+
+### D-route 阶段调整（per ADR-028 §2.3 Q4 ACK）
+
+本角色当前 **⚪ 暂停**。理由：
+
+- D-route 不主推 C 端产品 → 没有 PRD 需求
+- D-route 4-Layer 路线由架构师直接管理（不经 PM）
+- L4 商业化 explore 是机会主义，未启动
+
+启用本角色需要：(1) 跨领域案例方需要 PM 角色定义参考；(2) Layer 4 商业化探索启动 → 新 ADR 决策。
+
+### 跨领域 Instantiation
+
+不需要重命名。如果跨领域案例做 C 端产品，可直接复用本角色定义。
+
+参见 `docs/methodology/01-role-design-pattern.md`。

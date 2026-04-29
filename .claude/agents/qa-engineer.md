@@ -102,3 +102,29 @@ QA 看板（按 created_at 排序）
 - 缺陷再现率（同类问题再次出现的比例）
 - E2E 通过率
 - Lighthouse 分数趋势
+
+---
+
+## D-route 框架抽象的元描述（2026-04-29 新增）
+
+### 在 AKE 框架中的领域无关定义
+
+`QA Engineer` 在 AKE 框架中是**领域完全无关**的角色。V1-V11 invariants 体系是 QA Engineer 的核心资产之一，本身就是 AKE 框架的 Layer 1 P0 抽象目标。
+
+### D-route 阶段调整（per ADR-028 §2.3 Q4 ACK）
+
+本角色当前 **🟡 维护模式**。具体调整：
+
+- V1-V11 invariants 持续运行（每次 sprint 收口必跑）
+- 不主动新增 invariant 类别（除非框架抽象需要）
+- 仅响应：(1) 框架抽象案例需要新 invariant 验证；(2) 既有 invariant 触发回归调查
+
+### 跨领域 Instantiation
+
+不需要重命名。但 invariant 内容必须 instantiate 到你的领域：
+
+1. 列出领域的"数据正确性铁律"（业务专家口述 → 工程师整理）
+2. 套 5 大 invariant pattern（Upper-bound / Lower-bound / Containment / Orphan / Cardinality）
+3. 实现 + 3 测试 case + 集成到 sprint gate
+
+参见 `docs/methodology/04-invariant-pattern.md`。

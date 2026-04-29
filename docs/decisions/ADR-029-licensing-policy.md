@@ -204,7 +204,7 @@ export const licenseEnum = z.enum([
 
 1. 法务专业意见认为 Apache 2.0 / CC BY 4.0 不适合本项目场景 → 暂停 + 重评
 2. 第三方源数据被发现 license 不兼容（如某 fixture 来自我们以为 PD 但实际有版权的源）→ 暂停相关数据，不影响代码部分
-3. shiji-kb 鲍捷或 ctext.org 团队明确反对我们的 attribution 方式 → 修订 NOTICE / CONTRIBUTING
+3. shiji-kb 团队或 ctext.org 团队明确反对我们的 attribution 方式 → 修订 NOTICE / CONTRIBUTING
 
 ---
 
