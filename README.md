@@ -7,7 +7,7 @@
 
 [![License: Apache 2.0 (code)](https://img.shields.io/badge/License--Code-Apache%202.0-blue.svg)](LICENSE)
 [![License: CC BY 4.0 (data/docs)](https://img.shields.io/badge/License--Data%20%26%20Docs-CC%20BY%204.0-lightgrey.svg)](LICENSE-DATA)
-[![Status: Phase 0 / Sprint K complete](https://img.shields.io/badge/Status-Phase%200%20%2F%20Sprint%20K-orange.svg)](docs/STATUS.md)
+[![Status: Sprint M / framework v0.1](https://img.shields.io/badge/Status-Sprint%20M%20%2F%20framework%20v0.1-brightgreen.svg)](docs/STATUS.md)
 
 ---
 
@@ -34,20 +34,49 @@
 
 ## 当前状态
 
-**Phase 0 — Sprint K 完成（2026-04-29）**
+**Sprint M 完成（2026-04-29） — D-route Layer 1 治理类双模块就位**
 
-Sprint A-K 累计成果：
-- 27 ADRs（架构决策记录）
+Sprint A-M 累计成果：
+- 29 ADRs（架构决策记录）
 - 729 active persons in DB
 - Identity resolver R1-R6 + GUARD_CHAINS（cross_dynasty + state_prefix guards）
-- V1-V11 invariants 全绿
+- V1-V11 invariants 全绿（22/22）
 - Triage UI V1（pending_merge_reviews + triage_decisions audit）
 - 3-4 篇本纪深度结构化（项羽 / 秦 / 高祖）
+- **`framework/` 双模块就位** — sprint-templates v0.1 + role-templates v0.1（24 files / ~3700 lines / 详见下节）
 
 战略方向：2026-04-29 经 [ADR-028](docs/decisions/ADR-028-strategic-pivot-to-methodology.md) 决定从「C 端古籍知识平台」转向「方法论框架 + 史记参考实现」(D-route)。
 
 实时状态板：[`docs/STATUS.md`](docs/STATUS.md)
 变更日志：[`docs/CHANGELOG.md`](docs/CHANGELOG.md)
+
+---
+
+## 框架抽象成果（Layer 1 / `framework/`）
+
+D-route Layer 1 的核心产出 — **领域无关的 KE 项目工程模板**，跨领域 KE 项目（佛经 / 法律 / 医疗 / 专利 / 地方志 / etc）可以直接复制 + 改填即用。
+
+### 已抽象资产（v0.1）
+
+| 模块 | 内容 | 来源 |
+|------|-----|-----|
+| [`framework/sprint-templates/`](framework/sprint-templates/) | Sprint 治理模板 — brief / 6 stage 模板 / retro / closeout / stop-rules-catalog / gate-checklist（11 files / ~1500 lines）| Sprint A-K 11 个真实 sprint 实证 + `docs/methodology/02` |
+| [`framework/role-templates/`](framework/role-templates/) | 多角色协作模板 — 10 角色定义（chief-architect / pipeline-engineer / domain-expert / etc）+ tagged-sessions-protocol（multi-session 协调）+ cross-domain-mapping（6 领域 instantiation 速查）（13 files / ~2200 lines）| Sprint K 5 角色 6-stage 协同实战 + `docs/methodology/01` + 10 份 `.claude/agents/*.md` |
+
+### 跨领域使用门槛
+
+10 个 AKE 角色中**只有 1 个**（Domain Expert）需要 instantiate（重命名 + 大段重写为你领域的等价 — 古籍 → Historian / 法律 → Lawyer / 医疗 → Physician / etc）。其他 9 个角色（Architect / PE / BE / FE / QA / DevOps / PM / Designer / Analyst）跨领域**完全不变**，复制即用。
+
+### 自审 dogfood 验证
+
+- Sprint L 用 framework/sprint-templates/ 给自己收档：覆盖度 90%
+- Sprint M 用 framework/role-templates/ 回审 Sprint K 5 角色协同实战：覆盖度 **99.2%**
+
+详见 [`docs/sprint-logs/sprint-l/stage-1-dogfood-2026-04-29.md`](docs/sprint-logs/sprint-l/stage-1-dogfood-2026-04-29.md) + [`docs/sprint-logs/sprint-m/stage-1-dogfood-2026-04-29.md`](docs/sprint-logs/sprint-m/stage-1-dogfood-2026-04-29.md)。
+
+### 下一刀候选
+
+framework/ 治理类双模块完整后，Sprint N 候选切代码层抽象（Identity Resolver R1-R6 / V1-V11 Invariant Scaffold / Audit + Triage Workflow，详见 [`docs/sprint-logs/sprint-m/stage-4-closeout-2026-04-29.md` §2.4](docs/sprint-logs/sprint-m/stage-4-closeout-2026-04-29.md)）。
 
 ---
 
@@ -105,6 +134,9 @@ Demo 不展示：C 端阅读器 / 移动端 / 完整史记 130 篇 / 公开 URL 
 ## 项目结构
 
 ```
+framework/             → **Layer 1 框架抽象产出**（跨领域 KE 项目复用）
+  ├── sprint-templates/        → Sprint 治理模板 v0.1 (11 files)
+  └── role-templates/          → 多角色协作模板 v0.1 (13 files)
 apps/web/              → Next.js 14 frontend (含 triage UI + 阅读 demo)
 services/api/          → GraphQL API (Yoga + Drizzle)
 services/pipeline/     → Python data pipeline (uv + Anthropic SDK)
@@ -114,14 +146,15 @@ data/                  → Curated reference data (historian-owned)
 docs/
   ├── 00_项目宪法.md            → 不可变原则
   ├── 03_多角色协作框架.md       → 角色 + 协作模式
-  ├── decisions/                → 27+ ADRs
+  ├── decisions/                → 29 ADRs
   ├── methodology/              → 方法论草案 (Layer 2 sources)
   ├── strategy/                 → 战略文档 (含 D-route 定位)
-  ├── sprint-logs/              → Sprint A-K 完整执行记录
+  ├── sprint-logs/              → Sprint A-M 完整执行记录
   ├── tasks/                    → 任务卡 (T-NNN-*.md)
   ├── retros/                   → 各 sprint 复盘
+  ├── debts/                    → 衍生债 / framework v0.2 候选清单
   └── STATUS.md                 → 实时状态板
-.claude/agents/        → 10 个 agent 角色定义 (Multi-role coordination)
+.claude/agents/        → 10 个 agent 角色定义（华典智谱实例 / framework/role-templates 的具体 instantiation）
 ```
 
 ---
@@ -168,8 +201,12 @@ docs/
 - [ADR-028 战略转型决策](docs/decisions/ADR-028-strategic-pivot-to-methodology.md)
 - [项目宪法](docs/00_项目宪法.md)
 
+**框架抽象（Layer 1，可立即复用）**：
+- [framework/sprint-templates/](framework/sprint-templates/) — Sprint 治理模板 v0.1
+- [framework/role-templates/](framework/role-templates/) — 多角色协作模板 v0.1
+
 **方法论（Layer 2，持续起草）**：
-- [docs/methodology/](docs/methodology/) — 7 份草案（待起草）
+- [docs/methodology/](docs/methodology/) — 7 份草案 v0.1
 
 **架构 / 实现**：
 - [架构设计文档](华典智谱_架构设计文档_v1.0.md)（v1.0 待 Stage B 升级 v2.0）
