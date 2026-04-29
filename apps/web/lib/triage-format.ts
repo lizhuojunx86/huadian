@@ -1,6 +1,45 @@
 // Shared formatting helpers for triage UI (list + detail).
 
-import type { TriageDecisionType } from "./graphql/generated/graphql";
+import type {
+  ProvenanceTier,
+  TriageDecisionType,
+} from "./graphql/generated/graphql";
+
+// ProvenanceTier enum mapping. Keys mirror the 5 enum values declared in
+// services/api/src/schema/enums.graphql + apps/web/components/person/
+// PersonCard.tsx (T-P1-032 will unify into a single source-of-truth
+// module; until then triage UI consumes via these helpers and PersonCard
+// keeps its own inline copy intentionally — see Sprint K Stage 4b
+// architect ruling on Option A "状态描述符 vs 行动指令" semantics).
+
+const PROVENANCE_TIER_LABEL: Record<ProvenanceTier, string> = {
+  primary_text: "原始文献",
+  scholarly_consensus: "学术共识",
+  ai_inferred: "AI 推断",
+  crowdsourced: "众包",
+  unverified: "未验证",
+};
+
+const PROVENANCE_TIER_VARIANT: Record<
+  ProvenanceTier,
+  "default" | "secondary" | "destructive" | "outline"
+> = {
+  primary_text: "default",
+  scholarly_consensus: "secondary",
+  ai_inferred: "outline",
+  crowdsourced: "outline",
+  unverified: "destructive",
+};
+
+export function provenanceTierLabel(tier: ProvenanceTier): string {
+  return PROVENANCE_TIER_LABEL[tier] ?? tier;
+}
+
+export function provenanceTierVariant(
+  tier: ProvenanceTier,
+): "default" | "secondary" | "destructive" | "outline" {
+  return PROVENANCE_TIER_VARIANT[tier] ?? "outline";
+}
 
 const DECISION_LABEL: Record<TriageDecisionType, string> = {
   APPROVE: "approve",

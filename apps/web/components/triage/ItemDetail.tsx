@@ -1,5 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 import type { TriageItemQuery } from "@/lib/graphql/generated/graphql";
+import {
+  provenanceTierLabel,
+  provenanceTierVariant,
+} from "@/lib/triage-format";
 
 import { HighlightText } from "./HighlightText";
 
@@ -23,8 +27,11 @@ export function ItemDetail({ item }: ItemDetailProps) {
         ) : (
           <Badge variant="outline">Unknown</Badge>
         )}
-        <Badge variant="outline" className="text-xs">
-          {item.provenanceTier}
+        <Badge
+          variant={provenanceTierVariant(item.provenanceTier)}
+          className="text-xs"
+        >
+          {provenanceTierLabel(item.provenanceTier)}
         </Badge>
         <span className="text-xs text-muted-foreground">
           surface=<span className="font-mono">{item.surface}</span>
