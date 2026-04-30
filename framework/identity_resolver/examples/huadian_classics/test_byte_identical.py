@@ -131,17 +131,26 @@ def normalize_for_compare(result: Any) -> dict:
 
 
 def compare(prod: dict, fw: dict) -> tuple[bool, list[str]]:
-    """Compare two normalized result dicts. Returns (is_identical, diff_messages)."""
+    """Compare two normalized result dicts. Returns (is_identical, diff_messages).
+
+    Field aliases (Sprint N abstraction): the framework renamed `person` →
+    `entity` for cross-domain reasons. The following keys are treated as
+    equivalent across prod/fw:
+        total_persons (prod) ↔ total_entities (fw)
+    """
     diffs: list[str] = []
 
-    # Compare scalars
-    for key in ("total_persons", "total_entities", "r6_distribution"):
-        if key in prod and key in fw and prod[key] != fw[key]:
-            diffs.append(f"{key}: prod={prod[key]} fw={fw[key]}")
-        elif key in prod and key not in fw:
-            diffs.append(f"{key}: prod has, fw missing")
-        elif key in fw and key not in prod:
-            diffs.append(f"{key}: fw has, prod missing")
+    # Total count — accept either naming
+    prod_total = prod.get("total_persons", prod.get("total_entities"))
+    fw_total = fw.get("total_entities", fw.get("total_persons"))
+    if prod_total != fw_total:
+        diffs.append(f"total count: prod={prod_total} fw={fw_total}")
+
+    # R6 distribution — same key in both
+    if prod.get("r6_distribution") != fw.get("r6_distribution"):
+        diffs.append(
+            f"r6_distribution: prod={prod.get('r6_distribution')} fw={fw.get('r6_distribution')}"
+        )
 
     # Compare merge_groups
     pg = prod.get("merge_groups", [])

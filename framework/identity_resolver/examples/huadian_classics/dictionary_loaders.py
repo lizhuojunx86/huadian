@@ -34,9 +34,11 @@ def _default_dict_dir() -> Path:
 
     This file lives at:
         framework/identity_resolver/examples/huadian_classics/dictionary_loaders.py
-    so the project root is 5 levels up.
+    so the project root is 4 levels up:
+        parents[0]=huadian_classics, [1]=examples, [2]=identity_resolver,
+        [3]=framework, [4]=<project_root>
     """
-    return Path(__file__).resolve().parents[5] / "data" / "dictionaries"
+    return Path(__file__).resolve().parents[4] / "data" / "dictionaries"
 
 
 def _load_yaml_safe(path: Path) -> Any:

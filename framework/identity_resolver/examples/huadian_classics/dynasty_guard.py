@@ -31,8 +31,12 @@ logger = logging.getLogger(__name__)
 
 
 def _default_periods_path() -> Path:
-    """Locate `data/dynasty-periods.yaml` relative to the HuaDian project root."""
-    return Path(__file__).resolve().parents[5] / "data" / "dynasty-periods.yaml"
+    """Locate `data/dynasty-periods.yaml` relative to the HuaDian project root.
+
+    parents[0]=huadian_classics, [1]=examples, [2]=identity_resolver,
+    [3]=framework, [4]=<project_root>
+    """
+    return Path(__file__).resolve().parents[4] / "data" / "dynasty-periods.yaml"
 
 
 @dataclass(frozen=True, slots=True)
