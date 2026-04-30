@@ -5,6 +5,43 @@
 
 ---
 
+## 2026-04-30 (Sprint N)
+
+### [feat] Sprint N — identity_resolver framework + byte-identical dogfood PASSED
+
+- **角色**：首席架构师（主导 / Opus 4.7）+ PE 子 session（Stage 1.13 byte-identical 跑 / Sonnet 4.6 / role-templates tagged-sessions-protocol 第一次"非 Sprint K"实战）
+- **性质**：D-route Layer 1 **第三刀**；代码层抽象**第一刀**
+- **关键产出**：
+  - `framework/identity_resolver/` v0.1（28 files / ~3996 lines + 3 docs）
+    - Framework core（13 files）：types / entity / union_find / utils / guards /
+      rules_protocols / r6_seed_match / rules / canonical / dry_run_report /
+      resolve / apply_merges / __init__
+    - examples/huadian_classics/（14 files / ~1440 lines）：完整 reference impl
+    - Documentation（README / CONCEPTS / cross-domain-mapping）
+  - **9 Plugin Protocol** 全部跑通：EntityLoader / R6PrePassRunner / DictionaryLoader /
+    StopWordPlugin / IdentityNotesPatterns / CanonicalHint / SeedMatchAdapter /
+    MergeApplier / ReasonBuilder
+  - **byte-identical dogfood PASSED** — 729 person production data 100% 等价
+    （除合理的 person→entity 命名 alias）；17 guard 拦截一一对应
+  - docs/methodology/03 v0.1 → v0.1.1（§Framework Implementation cross-reference 段）
+- **D-route Layer 进度**：
+  - L1: 🟢 治理类双模块（Sprint L+M）→ 🟢 **治理 + 代码层第一刀**（+identity_resolver / +28 files / +~3996 lines）
+  - L2: methodology/03 v0.1 → v0.1.1
+  - L3: +1 严格 dogfood 案例（vs L+M covered/structural dogfood，N 是 byte-identical 严格等价）
+- **commits**: 89cb668 (Stage 0+1 batches 1-3) + 75571ba (batches 4-5 + docs) +
+  待 push (Stage 1.13 dogfood + Stage 4 closeout)
+- **衍生债**: 5 项新 v0.2 候选（DGF-N-01~05）/ 累计 16 项（L+M+N）/ Sprint M 6 项已 patch / 10 项待 v0.2 release 前
+- **Stop Rule 触发**: #1 临时触发 2 次（路径深度 bug + alias 命名 test bug），全部当场修复
+- **dogfood 元 pattern**: framework/sprint-templates 第 3 次外部使用 + framework/role-templates Architect+PE 协调首次"非 Sprint K"实战 + framework/identity_resolver 严格 byte-identical 自审 = 9 次累计 dogfood 实例
+- **下一 sprint 候选**: Sprint O V1-V11 Invariant Scaffold 抽象（推荐）/ framework v0.2 release 准备
+- **framework v0.2 release**: 候选条件**已全面达成**（≥ 3 抽象资产稳定 + byte-identical dogfood PASSED + 16 v0.2 候选）；留给 Sprint O 完成或跨领域案例反馈触发
+- **关键设计赢**:
+  - GuardChain 不是 Plugin 是参数（让案例方更灵活 / framework 无 module-level globals）
+  - person → entity 命名通用化 + alias 兼容（处理"案例 vs 通用"命名冲突的范本）
+  - byte-identical dogfood gate（代码层抽象 must-have / vs 文档层 covered/structural dogfood）
+
+---
+
 ## 2026-04-29 (Sprint M)
 
 ### [feat] Sprint M Stage 1 — Multi-Role Coordination 抽象 + 关档
