@@ -36,8 +36,12 @@ logger = logging.getLogger(__name__)
 
 
 def _default_states_path() -> Path:
-    """Locate `data/states.yaml` relative to the HuaDian project root."""
-    return Path(__file__).resolve().parents[5] / "data" / "states.yaml"
+    """Locate `data/states.yaml` relative to the HuaDian project root.
+
+    parents[0]=huadian_classics, [1]=examples, [2]=identity_resolver,
+    [3]=framework, [4]=<project_root>
+    """
+    return Path(__file__).resolve().parents[4] / "data" / "states.yaml"
 
 
 # ADR-025 §5.3.4 — inline at code (not in yaml); governed by PE + unit tests.
