@@ -400,15 +400,81 @@ V9 invariant 的**新增**防止反向问题（修了 Bug 1+2 后可能反方向
 
 ---
 
-## 8. 修订历史
+## 8. 与 methodology/02 跨 stack 抽象 pattern 的关系（v0.1.2 新增 / Sprint S 批 4）
+
+methodology/02-sprint-governance-pattern.md v0.1.1 (Sprint R) §13 提出"跨 stack 抽象 pattern"。本文件描述的 invariant_scaffold 是该 pattern 的**首批实证**之一（Sprint O 同 stack soft-equivalent / 与 Sprint Q audit_triage 跨 stack soft-equivalent 形成对比）。
+
+### 8.1 跨 stack 抽象 pattern 在 invariant_scaffold 的实证（Sprint O）
+
+Sprint O 把 services/pipeline/tests/test_invariants_*.py + qc/* 的 11 invariants 抽象到 framework/invariant_scaffold/（Python → Python，**同 stack**）。但与 Sprint N identity_resolver 的 byte-identical 不同，invariant_scaffold 走 **soft-equivalent + self-test 注入** 双 dogfood：
+
+- production query: 11 invariants 直接跑 services/pipeline 实现 → 0 violations
+- framework path: 11 invariants 跑 framework/invariant_scaffold + examples/huadian_classics adapter → 0 violations
+- self-test 注入: 4 SelfTest impl 通过 SelfTestRunner 在 transaction 中注入违反 → 4/4 catch + auto-rollback
+
+**与 §02 §13 的关系**：
+- methodology/02 §13.3 Step 1 (SQL 逐字 port) → invariant_scaffold **完全采用**：5 pattern subclass 内的 SQL 模板与 production 一一对应
+- methodology/02 §13.3 Step 2 (业务逻辑分层) → invariant_scaffold **简化**：Invariant ABC + 5 pattern subclass + DBPort Protocol + Runner / SelfTestRunner / 4 Plugin Protocol（vs identity_resolver 9 Protocol）
+- methodology/02 §13.3 Step 3 (dogfood 走 soft-equivalent) → invariant_scaffold **采用**：业务逻辑可能因数据状态变化而 violations 数变（例如 V9 在新 person 加入时短暂触发），所以不强求 byte-identical
+
+→ invariant_scaffold 是 methodology/02 §13 的 **soft-equivalent 同 stack 变体**（vs Sprint N 的 byte-identical 同 stack vs Sprint Q 的 soft-equivalent 跨 stack）。3 种组合都实证可行。
+
+### 8.2 vs Sprint N + Sprint Q 跨 stack 抽象对比
+
+| 维度 | identity_resolver (N) | invariant_scaffold (O) | audit_triage (Q) |
+|------|----------------------|------------------------|------------------|
+| 生产 stack | Python | Python | TypeScript |
+| framework stack | Python | Python | Python |
+| stack 关系 | 同 stack | 同 stack | **跨 stack** |
+| 等价性测试 | byte-identical | soft-equivalent + self-test 注入 | soft-equivalent |
+| dogfood 强度 | 729 persons / 17 guards / 0 字段差异 | 11 invariants × 729 persons / 0 violations + 4 self-tests catch | 64 pending / 7 historical / 字段一致 |
+| Plugin Protocol 数 | 9 | **4**（DBPort + 3 SelfTest 协议）| 6 |
+| 案例耦合点 | 9 dictionary / dynasty / etc | **5 SQL 模板**（领域 schema specific）+ 4 self-test scenario | source_table / reason_source_type vocabulary |
+
+→ 3 种组合对应 3 种 dogfood 等级：byte-identical（最强 / 同 stack 才可行）→ soft-equivalent（同 stack 但数据状态可变）→ soft-equivalent（跨 stack）。
+
+### 8.3 self-test pattern 是 invariant_scaffold 独有的强化措施
+
+Sprint O 在 framework 中加了 SelfTest + SelfTestRunner（per §4 Self-test 模式）—— 在 transaction 中**主动注入违反**，验证 invariant 真的会 catch。这是 invariant 类 framework 特有的 **dogfood 强化模式**：
+
+- 与 byte-identical / soft-equivalent 等"被动等价性"测试互补
+- 防止 invariant 因 SQL 写错 / 阈值改错 而 false-pass（"绿但其实没在 check"）
+- transaction auto-rollback 保证 production data 安全
+
+跨 stack 抽象 pattern (per §02 §13) 在 invariant 类 framework 中可以**额外加 SelfTest**（identity_resolver / audit_triage 没有同等 pattern）。
+
+### 8.4 跨域 fork 案例方启示（同 §02 §13.4 反模式）
+
+本文件（invariant_scaffold）跨域 fork 时：
+
+- ✅ 改 examples/your_domain/ — 实现 5 pattern subclass 的 SQL 模板（必要的 DBPort + SelfTest impl）
+- ✅ 写你的领域的 V1-Vn invariants（每个用相应 pattern）
+- ✅ 写 ≥ 1 SelfTest per critical invariant（self-test 是 invariant 类 framework 的"质保")
+- ❌ 不要复用 huadian_classics 的 SQL（schema 不同 / 必须 rewrite）
+- ❌ 不要跳过 self-test（特别是 critical 严重度的 invariant）
+
+### 8.5 实证锚点（Sprint O + 跨 sprint 数据）
+
+| Sprint | 实证 | 数据点 |
+|--------|------|--------|
+| O (soft-equivalent + self-test) | 11 invariants × 729 persons / 0 violations + 4 self-tests / 4/4 catch | `docs/sprint-logs/sprint-o/stage-1-dogfood-2026-04-30.md` |
+| Q (audit_triage soft-equivalent / 跨 stack) | 64 pending / 字段一致 | `framework/audit_triage/examples/huadian_classics/test_soft_equivalent.py` |
+
+→ 与 methodology/03 §9.2 表对比 / 跨 stack 抽象 pattern (per §02 §13) 在 identity + invariant + audit_triage 三个 framework 各自实证。
+
+---
+
+## 9. 修订历史
 
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
 | Draft v0.1 | 2026-04-29 | 首席架构师 | 初稿（Stage C-8 of D-route doc realignment）|
 | Draft v0.1.1 | 2026-04-30 | 首席架构师 | Sprint O Stage 1 cross-reference §7 加（紧密化 framework/invariant_scaffold/）|
+| **v0.1.2** | **2026-04-30** | **首席架构师** | **Sprint S 批 4 polish：加 §8 与 methodology/02 跨 stack 抽象 pattern 的关系（5 段 cross-ref + 3 种 dogfood 组合对比 + self-test 强化模式 + 跨域 fork 启示）** |
 
 ---
 
 > 本文档描述的 Invariant Pattern 是 AKE 框架的 Layer 1 核心资产之一。
 > V1-V11 实证细节见 `services/pipeline/tests/test_invariants_*.py`。
 > Sprint O 是其首次框架抽象 + dogfood PASSED（11/11 + 4/4）。
+> Sprint S §8 把它链接回 methodology/02 §13 跨 stack 抽象 pattern + 与 identity / audit_triage 形成 3 种 dogfood 组合对比。
