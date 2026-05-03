@@ -102,6 +102,10 @@ model: opus
 
 - **debt 文档登记 file count 用 grep 实数，不写"~N"** — 避免 brief 落地时 mismatch（华典智谱 Sprint P retro §3.1 实证：DGF-O-01 brief 写 "~5 处" 实际 4 处）。
 
+- **commit message 应反映实际 staged 改动 file 集合**（v0.3.1 / Sprint V T-V04-FW-001 加段）— pre-commit hook 失败重试 + restore stash 后，重新 `git add` 时**确认 `git status` 中的 staged 列表**，避免 commit message 与实际 diff 不匹配。
+  来源：华典智谱 Sprint R commit `35f371d` 实际包含 6 files（hooks + 4 framework polish）但 message 仅说 hooks → Sprint S retro §3.2 沉淀 → Sprint V 批 2 落地。
+  执行：`git status` 查 staged → 与 commit message subject + body 对应核 → 不一致则改 message 或重新 stage。
+
 ## 交付物格式
 
 ADR 严格按 ⚠️FILL `docs/04_workflow.md §ADR模板`（华典智谱实例：`docs/04 §二`）。

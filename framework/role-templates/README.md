@@ -200,6 +200,7 @@ LLM context window 有限。一个 session 装入"角色定义 + 任务卡 + 项
 | **v0.2.0** | **2026-04-30** | **Sprint P v0.2 release** | 内容无独立 patch；与 framework v0.2 release 同步发布（统一版本号便于跨模块引用）|
 | v0.2.1 | 2026-04-30 | Sprint R 批 2 patch | chief-architect.md §工作风格 加"工程小细节"段（dataclass shape test 起草前先 grep target 字段 / "P3 复发升级 P2" 暗规则 / debt 文档 file count 用 grep 实数）— 来自华典智谱 Sprint P+Q retro 沉淀 (T-V03-FW-004) |
 | **v0.3.0** | **2026-04-30** | **Sprint T v0.3 release** | 内容无独立 patch；与 framework v0.3 release 同步发布（统一版本号策略 / 与 v0.2 同模式）|
+| v0.3.1 | 2026-04-30 | Sprint V 批 2 patch | chief-architect.md §工程小细节 加第 4 条 "commit message 应反映实际 staged 改动 file 集合"（commit message hygiene / 来源 Sprint R commit `35f371d` 残留教训）— T-V04-FW-001 |
 
 ---
 
