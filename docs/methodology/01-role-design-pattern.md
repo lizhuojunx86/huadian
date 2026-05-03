@@ -362,12 +362,50 @@ cp -r .claude/agents/ /path/to/new-case/.claude/agents/
 
 ---
 
-## 10. 修订历史
+## 10. 与 methodology/02 元 pattern 的关系（v0.1.2 新增 / Sprint S 批 2）
+
+methodology/02-sprint-governance-pattern.md v0.1.1 (Sprint R) 沉淀了 4 段元 pattern。本文件 §1-§9 描述的是"角色 + 协作"层；§10 给出与 §02 元 pattern 的双向引用关系，让读者理解"角色设计 vs sprint 治理"的耦合点。
+
+### 10.1 跨 doc 引用速查
+
+| methodology/02 §X | 对本文件的影响 |
+|-------------------|--------------|
+| §10 Maintenance Sprint Pattern (5-batch 清债 sprint) | 本文件 §6.2 D-route 阶段调整 + §6.3 跨域活跃度调整 — maintenance sprint 通常 single-actor / 9 角色全 ⚪，与 §5.3 抽象到框架的"role 状态机"一致 |
+| §11 P3 复发升级 P2 暗规则 | 本文件 §4 冲突升级机制 — debt 跨 sprint 复发是 §4.1 三级升级中的"系统性升级"特例（vs case-level 升级）|
+| §12 5 模块齐备阈值 | 本文件 §6.2 当 framework 抽象阶段终点到达，活跃度配置进入"维护态"（除 Architect 全程 🟢，其余 9 角色全 ⚪），不再追求"完整 sprint 团队配置"|
+| §13 跨 stack 抽象 pattern | 本文件 §3 Tagged Sessions 协议 — 跨 stack 抽象的 sync 责任落在 Architect 主 session（per role-templates/chief-architect §工程小细节 v0.2.1）|
+
+### 10.2 实证锚点（Sprint M-R 角色活跃度演化）
+
+| Sprint | 主导角色 | 其余 9 角色活跃度 | 元 pattern 类型 |
+|--------|--------|-----------------|---------------|
+| L | Architect Opus 全程 | ⚪ 全暂停 | 抽象 + maintenance |
+| M | Architect | ⚪ 全暂停 | 抽象 |
+| N | Architect | ⚪ 全暂停 | 抽象 + byte-identical dogfood |
+| O | Architect | ⚪ 全暂停 | 抽象 + soft-equivalent dogfood |
+| P | Architect | ⚪ 全暂停 | maintenance (5-batch / §10) |
+| Q | Architect | ⚪ 全暂停 | 抽象 + 跨 stack (§13) + pytest 套件首发 |
+| R | Architect | ⚪ 全暂停 | maintenance (§10) + methodology v0.x iter |
+
+**模式**：framework 抽象阶段（Sprint L-Q）和 maintenance 阶段（P / R）都是 single-actor 主导。这与 §6.2 "D-route 框架角色 vs 案例角色"的设计一致：framework 抽象天然不需要"完整团队"。
+
+### 10.3 跨域 fork 案例方启示
+
+如果你 fork framework/role-templates/ 做你的项目：
+
+- **数据 sprint** 走 methodology/02 §2 的 5-stage 模板 → 用本文件 §6.3 的"跨域案例 sprint 团队配置"启动 ≥ 5 角色
+- **抽象 / maintenance sprint** 走 methodology/02 §3.B 精简模板（per brief-template v0.1.3）→ 用本文件 §6.2 的"single-actor 简化"
+- 当跨 sprint 同 bug 复发 ≥ 2 次 → 触发 methodology/02 §11 P3 复发升级 P2 + 在角色 escalation chain 中（本文件 §4.1）记录系统性根因
+
+---
+
+## 11. 修订历史
 
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
 | Draft v0.1 | 2026-04-29 | 首席架构师 | 初稿（Stage C-5 of D-route doc realignment）|
 | Draft v0.1.1 | 2026-04-29 | 首席架构师 | Sprint M Stage 1 cross-reference §9 加（紧密化 framework/role-templates/）|
+| **v0.1.2** | **2026-04-30** | **首席架构师** | **Sprint S 批 2 polish：加 §10 与 methodology/02 元 pattern 的关系（4 段 cross-ref + Sprint M-R 角色活跃度实证锚点 + 跨域 fork 启示）** |
 
 ---
 
