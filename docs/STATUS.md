@@ -2,10 +2,10 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-30（Sprint P 完成 + 关档；framework v0.2.0 release 准备就位 / L4 第一刀触发 / 8 项 patch 全 land / 14 → 6 v0.2 待办）
+- **最近更新**：2026-04-30（Sprint Q 完成 + 关档；framework **5 模块齐备**里程碑 / Layer 1 第 5 刀 audit_triage v0.1 / 60 pytest tests 首发 / 18/20 v0.2 patch / methodology/05 v0.1.1）
 - **更新人**：首席架构师（Claude Opus 4.7）
 - **战略方向**：**D-route — Agentic Knowledge Engineering 框架 + 史记参考实现**（详见 [ADR-028](decisions/ADR-028-strategic-pivot-to-methodology.md) + [strategy/D-route-positioning.md](strategy/D-route-positioning.md)）
-- **当前阶段**：Phase 0 已收尾 / D-route 文档体系全对齐 / **Sprint P 完成（v0.2 patch + framework v0.2.0 release prep / 4 模块统一版本号 / L4 第一刀触发 / git tag v0.2.0 待用户 push）** / Sprint Q 候选议程激活（推荐 audit_triage 抽象 + 合并 pytest tests）
+- **当前阶段**：Phase 0 已收尾 / D-route 文档体系全对齐 / **Sprint Q 完成（Layer 1 第 5 刀 audit_triage v0.1 / framework 抽象首次完整 / 60 pytest 首发 / 0 Stop Rule 触发 / 工时 2 会话准确）** / Sprint R 候选议程激活（推荐 v0.3 patch sprint + methodology v0.2 polish 合并）
 
 ---
 
@@ -22,10 +22,10 @@
 
 | Layer | 状态 | 当前焦点 |
 |-------|------|---------|
-| L1 框架代码抽象 | **🟢 4 模块统一 v0.2.0 release 准备就位**（Sprint L+M+N+O+P 完成）| sprint-templates **v0.2.0** + role-templates **v0.2.0** + identity_resolver **v0.2.0** + invariant_scaffold **v0.2.0**（共 87 files / ~10800 lines + RELEASE_NOTES_v0.2.md）；Sprint P 收 8 项 v0.2 patch / 6 项押后 Sprint Q+；待用户 push tag v0.2.0 |
-| L2 方法论文档 | 🟡 草案 v0.1 完整 + 4 份 cross-reference 紧密化（Sprint P 不产 methodology）| docs/methodology/ 7 份草案（约 4 万字）；methodology/01+02+03+04 v0.1.1；下次迭代候选 Sprint Q+ 加 "Maintenance Sprint Pattern" + "P3 复发升级 P2" |
-| L3 案例库 | 🟢 主案例 + demo + 4 sprint dogfood + Sprint P 1 sprint 4-模块 sanity 回归 | 不变（Sprint P 是 patch sprint，不动 case 数据）|
-| L4 社区 / 商业 | **🟢 第一刀触发**（v0.2.0 GitHub release tag 待 push）| Sprint P release prep 就位；待用户在 local Terminal `git tag -a v0.2.0 + git push --tags`；后续若有跨领域案例方接触 → fork v0.2.0 baseline |
+| L1 框架代码抽象 | **🟢 5 模块齐备 / 抽象首次完整**（Sprint L+M+N+O+P+Q 完成）| sprint-templates v0.2.0 + role-templates v0.2.0 + identity_resolver v0.2.0 + invariant_scaffold v0.2.0 + **audit_triage v0.1**（共 ~125 files / ~16200 lines + RELEASE_NOTES_v0.2.md + **60 pytest tests 首发**）；Sprint Q 收 audit_triage 抽象 + N+O pytest 补完 / 18/20 v0.2 patch / 2 项押后 Sprint Q+ |
+| L2 方法论文档 | 🟡 草案 v0.1 完整 + **methodology/05 v0.1.1**（+ §Framework Implementation 段）| docs/methodology/ 7 份草案（约 4 万字）；methodology/01+02+03+04+05 v0.1.1；下次迭代候选 Sprint R+ 加 "Maintenance Sprint Pattern" + "P3 复发升级 P2" + "5 模块齐备阈值" + "跨 stack 抽象" |
+| L3 案例库 | 🟢 主案例 + demo + 5 sprint dogfood（M+N+O+Q soft-equiv + P sanity）| Sprint Q audit_triage soft-equivalent script 就位（待 user local 跑确认）|
+| L4 社区 / 商业 | 🟢 第一刀触发（v0.2.0 GitHub release tag 已 push）| Sprint R 视主题考虑 v0.3 release 触发条件评估；后续若有跨领域案例方接触 → fork v0.2.0 baseline + audit_triage v0.1 |
 
 ---
 
@@ -104,15 +104,28 @@
 | Stage 1 批 5 — 4 模块 sanity 回归 | ✅ | 8/8 sanity 通过 / ruff check + format 全 clean |
 | Stage 4 Closeout + Retro | ✅ | stage-4-closeout + sprint-p-retro + sprint-p-residual-v02-debts + STATUS/CHANGELOG |
 
+### 2.2.5 Sprint Q 进度（Layer 1 第 5 刀 audit_triage 抽象 + 合并补 N+O pytest / 2 会话 / 关档）
+
+| Stage | 状态 | 产出 |
+|-------|------|------|
+| Stage 0 inventory + brief 起草 | ✅ | brief-template v0.1.2 第 1 次外部 dogfood / 14-file 设计 / 6 Plugin Protocol |
+| Stage 1 批 1 — audit_triage framework core | ✅ | 6 files / 995 行 / 7 sanity ✓（含 6 record_decision 错误分支）|
+| Stage 1 批 2 — examples/huadian_classics asyncpg adapter | ✅ | 4 .py + schema.sql + README / 7 sanity ✓ |
+| Stage 1 批 3 — 3 framework docs | ✅ | README + CONCEPTS + cross-domain-mapping (854 行 / 7 领域 fork 指南) |
+| **Stage 1 批 4 — 60 pytest tests (DGF-N-03 + DGF-O-02 合并)** | ✅ **PASSED** | 33 (identity) + 27 (invariant) = **60/60 in 0.08s** |
+| Stage 1 批 5 — methodology/05 v0.1 → v0.1.1 | ✅ | §7 Framework Implementation 段（5 Protocol map / 6 tags / 测试范本 / V0.2 路径）|
+| **Stage 1.13 dogfood + 60 pytest 全跑** | ✅ partial | dogfood script 就位 / sandbox 不可达 DB / 60 pytest 全绿 / 5 模块 import sanity / **0 Stop Rule 触发** |
+| Stage 4 Closeout + Retro | ✅ | stage-4-closeout + sprint-q-retro + sprint-q-residual-debts + STATUS/CHANGELOG |
+
 ### 2.3 阻塞 / 风险 / 等待项
 
-- 无阻塞。Sprint P 关档。
-- 待用户在 local Terminal 执行：`git commit + git tag -a v0.2.0 + git push --tags`（详见 `docs/sprint-logs/sprint-p/stage-4-closeout-2026-04-30.md` §7）
-- Sprint Q 候选议程（per Sprint P retro §8）：
-  - **A. audit_triage 抽象**（推荐 / Layer 1 第 5 刀 / 完成 framework 5 模块）
-  - B. 合并到候选 A：补 identity_resolver + invariant_scaffold pytest tests（DGF-N-03 + DGF-O-02）
+- 无阻塞。Sprint Q 关档。
+- 待用户在 local Terminal 执行：`git commit + push`（4 commits 详见 `docs/sprint-logs/sprint-q/stage-4-closeout-2026-04-30.md` §7）+ 跑 `python3 -m framework.audit_triage.examples.huadian_classics.test_soft_equivalent` dogfood
+- Sprint R 候选议程（per Sprint Q retro §8）：
+  - **A. v0.3 patch sprint**（推荐 / 清 6 项 v0.3 候选 + framework v0.3 release 候选条件评估）
+  - B. methodology v0.2 polish 合并到 A（Stage 1 加批 / +0.5-1 会话）
   - C. 跨领域 reference impl（legal）— 等触发条件，不主动启动
-- v0.3 release 触发条件预估：Sprint Q + 3-5 sprint 后（约 2026-06 ~ 2026-08）。
+- v0.3 release 触发条件预估：Sprint R + 2-3 sprint 后（约 2026-06）。
 
 ---
 
