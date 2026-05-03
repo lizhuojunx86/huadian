@@ -56,9 +56,13 @@
 
 ## 4. Stop Rule 触发回顾（如有）
 
-| Rule | 触发原因 | 架构师裁决 | 路径 |
-|------|---------|-----------|------|
-| ⚠️FILL | ⚠️FILL | ⚠️FILL | ⚠️FILL |
+> 触发处理协议见 `framework/sprint-templates/stop-rules-catalog.md` §7。
+> 每行的"路径"列须填 §7 第 3 步给出的 4 个选项之一（A 接受 / B 修因 retry / C rollback / D abort）。
+> 触发详情应另存 `docs/sprint-logs/{id}/stop-rule-trigger-N.md`（路径列填该文件）。
+
+| Rule | 类别 (catalog §2-§6) | 触发原因 | 架构师裁决 (A/B/C/D) | trigger 文件路径 |
+|------|---------------------|---------|--------------------|----------------|
+| ⚠️FILL | ⚠️ §X | ⚠️FILL | ⚠️ A/B/C/D + 1 句理由 | ⚠️FILL |
 
 如本 sprint 无 Stop Rule 触发，写"无触发"。
 

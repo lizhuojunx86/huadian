@@ -70,6 +70,31 @@ _IGNORE_FIELDS = {
     "run_id",  # UUID, random per call
 }
 
+# Field aliases — bridges domain-specific naming (production) ↔ framework
+# naming. Each entry is (canonical, alternate_names_in_either_side). The
+# alternate names list is searched in order; first hit wins.
+#
+# Sprint N intro: huadian production used `total_persons`; framework abstraction
+# renamed to `total_entities` for cross-domain re-use. Same for per-row
+# `entity_a_id` / `person_a_id` in proposals.
+#
+# Sprint P DGF-N-01 generalisation: extend FIELD_ALIASES instead of writing
+# ad-hoc `d.get("a", d.get("b"))` inline; downstream forks (legal / medical
+# examples) may add their own aliases without touching `compare()` body.
+FIELD_ALIASES: dict[str, tuple[str, ...]] = {
+    "total_entities": ("total_entities", "total_persons"),
+    "entity_a_id": ("entity_a_id", "person_a_id"),
+    "entity_b_id": ("entity_b_id", "person_b_id"),
+}
+
+
+def _get_aliased(d: dict, canonical: str) -> Any:
+    """Return d[canonical] or first alias hit, else None."""
+    for key in FIELD_ALIASES.get(canonical, (canonical,)):
+        if key in d:
+            return d[key]
+    return None
+
 
 def normalize_for_compare(result: Any) -> dict:
     """Convert a ResolveResult to a comparable dict with run_id stripped + sorted lists."""
@@ -98,12 +123,12 @@ def normalize_for_compare(result: Any) -> dict:
                     )
                 else:
                     g["merged_ids"] = g["merged_names"] = g["merged_slugs"] = []
-            # Sort proposals by (a_id, b_id, rule)
+            # Sort proposals by (a_id, b_id, rule) — alias-aware
             if "proposals" in g:
                 g["proposals"].sort(
                     key=lambda p: (
-                        p.get("entity_a_id") or p.get("person_a_id", ""),
-                        p.get("entity_b_id") or p.get("person_b_id", ""),
+                        _get_aliased(p, "entity_a_id") or "",
+                        _get_aliased(p, "entity_b_id") or "",
                         p["match"]["rule"],
                     )
                 )
@@ -112,16 +137,16 @@ def normalize_for_compare(result: Any) -> dict:
     if "hypotheses" in data:
         data["hypotheses"].sort(
             key=lambda h: (
-                h.get("entity_a_id") or h.get("person_a_id", ""),
-                h.get("entity_b_id") or h.get("person_b_id", ""),
+                _get_aliased(h, "entity_a_id") or "",
+                _get_aliased(h, "entity_b_id") or "",
             )
         )
 
     if "blocked_merges" in data:
         data["blocked_merges"].sort(
             key=lambda b: (
-                b.get("entity_a_id") or b.get("person_a_id", ""),
-                b.get("entity_b_id") or b.get("person_b_id", ""),
+                _get_aliased(b, "entity_a_id") or "",
+                _get_aliased(b, "entity_b_id") or "",
                 b["proposed_rule"],
                 b["guard_type"],
             )
@@ -133,16 +158,20 @@ def normalize_for_compare(result: Any) -> dict:
 def compare(prod: dict, fw: dict) -> tuple[bool, list[str]]:
     """Compare two normalized result dicts. Returns (is_identical, diff_messages).
 
-    Field aliases (Sprint N abstraction): the framework renamed `person` →
-    `entity` for cross-domain reasons. The following keys are treated as
-    equivalent across prod/fw:
-        total_persons (prod) ↔ total_entities (fw)
+    Field aliases: framework renamed domain-specific names (`person`) →
+    cross-domain names (`entity`). All such aliases live in module-level
+    ``FIELD_ALIASES``; this function uses ``_get_aliased`` to look up
+    canonical fields without hard-coding the alternate names here.
+
+    To extend for other domains (legal / medical / etc): add entries to
+    ``FIELD_ALIASES`` rather than editing this function. See Sprint P
+    DGF-N-01 patch rationale.
     """
     diffs: list[str] = []
 
-    # Total count — accept either naming
-    prod_total = prod.get("total_persons", prod.get("total_entities"))
-    fw_total = fw.get("total_entities", fw.get("total_persons"))
+    # Total count — alias-aware lookup
+    prod_total = _get_aliased(prod, "total_entities")
+    fw_total = _get_aliased(fw, "total_entities")
     if prod_total != fw_total:
         diffs.append(f"total count: prod={prod_total} fw={fw_total}")
 
@@ -257,10 +286,8 @@ async def main() -> int:
     print("=" * 72)
     print("Sprint N Stage 1.13 — byte-identical dogfood verification")
     print("=" * 72)
-    print(
-        f"Production path total_persons:   {prod_norm.get('total_persons') or prod_norm.get('total_entities')}"
-    )
-    print(f"Framework path total_entities:   {fw_norm.get('total_entities')}")
+    print(f"Production path total_entities: {_get_aliased(prod_norm, 'total_entities')}")
+    print(f"Framework path total_entities:   {_get_aliased(fw_norm, 'total_entities')}")
     print(f"Production merge_groups:         {len(prod_norm.get('merge_groups', []))}")
     print(f"Framework merge_groups:          {len(fw_norm.get('merge_groups', []))}")
     print(f"Production blocked_merges:       {len(prod_norm.get('blocked_merges', []))}")

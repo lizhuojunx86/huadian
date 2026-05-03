@@ -15,6 +15,7 @@ Source: extracted from `services/pipeline/src/huadian_pipeline/resolve_rules.py`
 from __future__ import annotations
 
 import logging
+import os
 import warnings
 from pathlib import Path
 from typing import Any
@@ -30,14 +31,24 @@ logger = logging.getLogger(__name__)
 
 
 def _default_dict_dir() -> Path:
-    """Locate `data/dictionaries/` relative to the HuaDian project root.
+    """Locate `data/dictionaries/` for HuaDian classics example.
 
-    This file lives at:
-        framework/identity_resolver/examples/huadian_classics/dictionary_loaders.py
-    so the project root is 4 levels up:
-        parents[0]=huadian_classics, [1]=examples, [2]=identity_resolver,
-        [3]=framework, [4]=<project_root>
+    Resolution priority (per Sprint P DGF-O-01 P2 patch):
+        1. ``HUADIAN_DATA_DIR`` environment variable (if set)
+           → returns ``$HUADIAN_DATA_DIR/dictionaries``
+        2. Fallback: walk up from this file location.
+           This file lives at
+               framework/identity_resolver/examples/huadian_classics/dictionary_loaders.py
+           so the project root is 4 levels up:
+               parents[0]=huadian_classics, [1]=examples, [2]=identity_resolver,
+               [3]=framework, [4]=<project_root>
+
+    Cross-domain re-use note: callers may also pass ``dict_dir`` directly to
+    :class:`HuaDianDictionaryLoader` to override entirely.
     """
+    env = os.environ.get("HUADIAN_DATA_DIR")
+    if env:
+        return Path(env) / "dictionaries"
     return Path(__file__).resolve().parents[4] / "data" / "dictionaries"
 
 

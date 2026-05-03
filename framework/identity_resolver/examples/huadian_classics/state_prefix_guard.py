@@ -18,6 +18,7 @@ Source: lifted from `services/pipeline/src/huadian_pipeline/state_prefix_guard.p
 from __future__ import annotations
 
 import logging
+import os
 import re
 import warnings
 from dataclasses import dataclass, field
@@ -36,11 +37,21 @@ logger = logging.getLogger(__name__)
 
 
 def _default_states_path() -> Path:
-    """Locate `data/states.yaml` relative to the HuaDian project root.
+    """Locate `data/states.yaml` for HuaDian classics example.
 
-    parents[0]=huadian_classics, [1]=examples, [2]=identity_resolver,
-    [3]=framework, [4]=<project_root>
+    Resolution priority (per Sprint P DGF-O-01 P2 patch):
+        1. ``HUADIAN_DATA_DIR`` environment variable (if set)
+           → ``$HUADIAN_DATA_DIR/states.yaml``
+        2. Fallback: walk up from this file
+           parents[0]=huadian_classics, [1]=examples, [2]=identity_resolver,
+           [3]=framework, [4]=<project_root>
+
+    Cross-domain re-use note: callers may also pass ``path`` directly to
+    :func:`_load_states` to override entirely.
     """
+    env = os.environ.get("HUADIAN_DATA_DIR")
+    if env:
+        return Path(env) / "states.yaml"
     return Path(__file__).resolve().parents[4] / "data" / "states.yaml"
 
 

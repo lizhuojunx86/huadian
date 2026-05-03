@@ -32,6 +32,7 @@ Source: HuaDian Sprint O.
 
 from __future__ import annotations
 
+import inspect
 from collections.abc import Awaitable, Callable
 from typing import Any
 
@@ -91,7 +92,12 @@ class ContainmentInvariant(Invariant):
         violations: list[Violation] = []
         for row in rows:
             result = self._predicate(row)
-            if hasattr(result, "__await__"):
+            # Sprint P DGF-O-04 patch: prefer stdlib inspect.isawaitable() over
+            # hasattr(result, "__await__") — the former is the official
+            # awaitable check (covers coroutines, futures, generator-based
+            # coroutines) and avoids false-positives from custom objects that
+            # happen to define __await__ without being truly awaitable.
+            if inspect.isawaitable(result):
                 result = await result
             if not result:
                 violations.append(self._row_to_violation(row))
