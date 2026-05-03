@@ -5,6 +5,45 @@
 
 ---
 
+## 2026-04-30 (Sprint P)
+
+### [release] framework v0.2.0 — Sprint P v0.2 patch + ceremonial release
+
+- **角色**：首席架构师（single-actor / Opus 4.7 全程）
+- **性质**：D-route Layer 1 **统一 v0.2.0 release**（4 模块同步打 v0.2 标记）；**L4 第一刀触发**（公开 GitHub release tag）
+- **关键产出**：
+  - `framework/` 4 模块 v0.2.0：sprint-templates / role-templates / identity_resolver / invariant_scaffold
+  - `framework/RELEASE_NOTES_v0.2.md` 顶层 release notes（8 项 patch + breaking changes 0 + 升级指南 + 4 模块 dogfood 状态汇总）
+  - **8 项 v0.2 patch 全 land**（1 P2 + 7 P3）：
+    - **P2** DGF-O-01: examples 4 处路径硬编码改 `HUADIAN_DATA_DIR` env var 优先 + `parents[4]` fallback（升级自 Sprint N DGF-N-02 P3 漏修 / 跨 sprint 复发）
+    - P3 T-P3-FW-001: brief-template §1.2 表格灵活列数说明
+    - P3 T-P3-FW-002: retro-template §4 与 stop-rules-catalog §7 双向 cross-ref
+    - P3 T-P3-FW-003: stage-3-review-template §2.0 review 形式选择指南
+    - P3 T-P3-FW-004: brief-template §8 D-route 措辞解耦 C-22 项目宪法专属性
+    - P3 DGF-M-01: brief-template §3 拆分 §3.A 5-stage 与 §3.B 精简模板 + §3.0 选择指南
+    - P3 DGF-N-01: test_byte_identical compare() 引入 `FIELD_ALIASES` 通用机制
+    - P3 DGF-O-04: ContainmentInvariant 用 `inspect.isawaitable()` 替代 `hasattr`
+  - 2 模块 `__version__` bump 0.1.0 → 0.2.0（identity_resolver / invariant_scaffold）
+  - brief-template footer 升 v0.1.2 + 变更日志
+  - sanity 8/8 通过 + ruff check + format 全 clean
+- **D-route Layer 进度**:
+  - L1: 4 模块 v0.1 → **统一 v0.2.0 公开 release 准备就位**（待用户 push tag）
+  - L2: 不变（patch sprint 不产 methodology / 2 项 v0.3 候选记录）
+  - L3: 不变（Sprint P 是 patch sprint，不动 case 数据）
+  - L4: **第一刀触发**（v0.2.0 GitHub release tag → 项目对外可见性升级）
+- **debt 状态**: Sprint L+M+N+O+P 累计 **20 项 v0.2 候选 / 14 已 patch / 6 押后 Sprint Q+**（详见 `docs/debts/sprint-p-residual-v02-debts.md`）
+- **Stop Rule 触发**: **零触发**（vs Sprint M-O 各触发 1）— 第一个 zero-trigger sprint
+- **commits 待 push**:
+  - `feat(framework): v0.2.0 release — 8 v0.2 patches landed (Sprint P)` + `git tag -a v0.2.0` + push
+  - `docs(sprint-p): closeout + retro + status + changelog`
+- **下一 sprint 候选**: Sprint Q audit_triage 抽象（Layer 1 第 5 刀 / 完成 framework 5 模块）+ 合并补 N+O 模块 pytest tests
+- **关键设计赢**:
+  - "5-batch 清债 sprint" pattern — 1 会话内完成 8 patch + release prep + closeout + retro
+  - "P3 复发升级 P2" 暗规则首次 explicit 兑现（DGF-N-02 → DGF-O-01）
+  - 4 模块统一版本号策略（vs 模块独立演进）— v0.2 ~ v1.0 期内坚持
+
+---
+
 ## 2026-04-30 (Sprint O)
 
 ### [feat] Sprint O — invariant_scaffold framework + dogfood PASSED
