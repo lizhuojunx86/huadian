@@ -5,6 +5,43 @@
 
 ---
 
+## 2026-04-30 (Sprint R)
+
+### [feat] Sprint R — v0.3 patch + methodology/02 v0.1.1 (5 段元 pattern) / 1 会话 ~95 min / 连续第 3 个 zero-trigger sprint
+
+- **角色**：首席架构师（single-actor / Opus 4.7 全程）
+- **性质**：v0.3 patch sprint + methodology v0.2 polish 合并；Sprint Q retro §8 候选 A + B 合并落地
+- **关键产出**：
+  - **5 项 v0.3 候选 land**（押后 1 项 T-V03-FW-005 Docker compose 大工作）：
+    - T-V03-FW-001: identity_resolver/README §2.5 加 "公共 API 速查"段（38 个 export 按 7 类分组 + fork 决策树）
+    - T-V03-FW-002: methodology/02 v0.1 → v0.1.1（+5 段元 pattern：§9 总览 / §10 Maintenance Sprint / §11 P3 复发升级 P2 / §12 5 模块齐备阈值 / §13 跨 stack 抽象）
+    - T-V03-FW-003: brief-template v0.1.2 → v0.1.3（§2.1 加 Code/Docs/Closeout-Retro 3 类估时表）
+    - T-V03-FW-004: role-templates/chief-architect §工程小细节（dataclass-grep / P3 复发升级 P2 / debt grep 实数）+ role-templates v0.2.0 → v0.2.1
+    - T-V03-FW-006: scripts/check-audit-triage-sync.sh + .pre-commit-config.yaml hook（services↔framework/audit_triage sync warning）
+  - methodology/02 v0.1.1（+ 315 行 / 4 段元 pattern 全来自 Sprint P+Q 实证锚点）
+  - 5 test scenarios 全验证 hook 行为（warning 仅 case 1 触发；2-5 silent + exit 0）
+- **D-route Layer 进度**:
+  - L1: 5 模块齐备 不变 + 微 polish（identity_resolver §2.5 + role-templates v0.2.1）
+  - L2: **methodology/02 v0.1 → v0.1.1**（4 段元 pattern + 1 总览段 + §修订历史）⭐ 元 pattern 沉淀里程碑
+  - L3: 不变（patch sprint 不动 case 数据）
+  - L4: + 1 pre-commit hook 跨 stack sync 提示（小 robustness 增益）
+- **debt 状态**: Sprint L→R 累计 **20 v0.2 候选 / 18 已 patch / 2 押后** + **6 v0.3 候选 / 5 已 land / 1 押后**（T-V03-FW-005）= **23/26 = 88.5%** 累计 patch 落地率
+- **Stop Rule 触发**: **0 触发**（连续第 3 个 zero-trigger sprint：P → Q → R）
+- **commits 待 push** (5 commits):
+  - `feat(framework): v0.3 patch — 4 docs polish (Sprint R 批 1+2 / T-V03-FW-001 + -003 + -004)`
+  - `feat(hooks): pre-commit services↔framework/audit_triage sync warning (Sprint R 批 4 / T-V03-FW-006)`
+  - `docs(methodology): 02-sprint-governance-pattern.md v0.1 → v0.1.1 (Sprint R 批 3 / T-V03-FW-002)`
+  - `docs(sprint-r): closeout + retro + status + changelog + residual debts`
+- **下一 sprint 候选**: Sprint S **v0.3 release prep 评估 + methodology v0.2 持续 polish 合并**（推荐 1.5-2 会话）
+- **关键设计赢**:
+  - 5-batch 清债 sprint pattern 第 2 次实战 — 1 会话内紧凑完成 + zero-trigger
+  - "元 pattern 必须有 ≥ 1 实证锚点" 写作约定 default 实践
+  - 跨 stack sync hook pattern — 可复制到任何"生产 stack ≠ framework stack"场景
+  - brief 内即 polish 即 dogfood 全周期（v0.1.2 → v0.1.3 + closeout 立即用新表回填）
+  - 连续 3 个 zero-trigger sprint = framework v0.2 + 5 模块齐备稳定信号确认
+
+---
+
 ## 2026-04-30 (Sprint Q)
 
 ### [feat] Sprint Q — audit_triage abstraction + 60 pytest tests / Layer 1 第 5 刀 / framework 抽象首次完整
