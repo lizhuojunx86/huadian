@@ -1,7 +1,8 @@
 # framework/identity_resolver — Identity Resolution Framework
 
-> Status: **v0.2.0 (Sprint P release / 2026-04-30)**
+> Status: **v0.3.0 (Sprint T release / 2026-04-30)**
 > First abstraction: Sprint N Stage 1, 2026-04-30
+> Latest patch: Sprint R T-V03-FW-001 (README §2.5 公共 API 速查 / 38 export 7 类)
 > Date: 2026-04-30
 > License: Apache 2.0 (代码) / CC BY 4.0 (文档)
 > Source: 华典智谱 `services/pipeline/src/huadian_pipeline/resolve*.py` 抽象 (Sprint N)
@@ -378,6 +379,7 @@ framework abstraction 的正确性证明 = 与原 services/pipeline 输出 byte-
 |---------|------|--------|--------|
 | v0.1 | 2026-04-30 | Sprint N Stage 1 (first abstraction) | 初版抽出（13 framework core + 14 huadian_classics examples）|
 | **v0.2.0** | **2026-04-30** | **Sprint P v0.2 release** | DGF-O-01 (P2): examples 4 处路径硬编码改 `HUADIAN_DATA_DIR` 环境变量优先 + `parents[4]` fallback；DGF-N-01: `test_byte_identical.compare()` 引入 `FIELD_ALIASES` 通用机制（替换 inline `dict.get` 链，便于跨 domain fork 扩展）；与 framework v0.2 release 同步发布 |
+| **v0.3.0** | **2026-04-30** | **Sprint T v0.3 release** | T-V03-FW-001 (Sprint R): README §2.5 加"公共 API 速查"段（38 个 export 按 7 类分组 + fork 决策树）；与 framework v0.3 release 同步发布 |
 
 ---
 

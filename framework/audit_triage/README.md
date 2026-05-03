@@ -1,6 +1,7 @@
 # framework/audit_triage — Audit Trail + Triage Workflow Framework
 
-> Status: **v0.1 (Sprint Q Stage 1 first abstraction)**
+> Status: **v0.3.0 (Sprint T release / 2026-04-30)**
+> First abstraction: Sprint Q Stage 1, 2026-04-30
 > Date: 2026-04-30
 > License: Apache 2.0 (代码) / CC BY 4.0 (文档)
 > Layer: AKE 框架 Layer 1 第 5 刀（与 sprint-templates / role-templates / identity_resolver / invariant_scaffold 同层）
@@ -176,6 +177,7 @@ async def main():
 | Version | Date | Source | Change |
 |---------|------|--------|--------|
 | v0.1 | 2026-04-30 | Sprint Q Stage 1 (first abstraction) | 初版抽出（6 framework core + 4 huadian_classics examples + 3 docs）|
+| **v0.3.0** | **2026-04-30** | **Sprint T v0.3 release** | 跳跃式 bump 0.1.0 → 0.3.0 对齐统一版本号（per Sprint P RELEASE_NOTES_v0.2.md §1 + Sprint Q closeout §3.7）；内容自 v0.1 起无 ABI 变化 / 仅 `__version__` 同步；T-V03-FW-005 Docker compose dogfood ✅ user local PASSED（list_pending 6/6 + decisions_for_surface 4 surfaces 全一致 / Sprint T 批 1 实证）|
 
 ---
 

@@ -142,4 +142,4 @@ __all__ = [
     "filter_groups_by_skip_rules",
 ]
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"

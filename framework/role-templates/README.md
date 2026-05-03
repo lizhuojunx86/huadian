@@ -1,7 +1,8 @@
 # framework/role-templates — Multi-Role Coordination Templates
 
-> Status: **v0.2.0 (Sprint P release / 2026-04-30)**
+> Status: **v0.3.0 (Sprint T release / 2026-04-30)**
 > First abstraction: Sprint M Stage 1, 2026-04-29
+> Latest patch: Sprint R T-V03-FW-004 (chief-architect §工程小细节 + role-templates v0.2.1)
 > Date: 2026-04-30
 > License: Apache 2.0 (代码/模板) / CC BY 4.0 (文档)
 > Source: 华典智谱 `.claude/agents/*.md` 10 份角色定义 + `docs/methodology/01-role-design-pattern.md` + Sprint K (T-P0-028 Triage UI V1) 5 角色协同实战
@@ -198,6 +199,7 @@ LLM context window 有限。一个 session 装入"角色定义 + 任务卡 + 项
 | v0.1.1 | 2026-04-29 | Sprint M Stage 4 follow-up patch | DGF-M-04 / DGF-M-05 / DGF-M-06 / DGF-M-07 落地：domain-expert + chief-architect §核心职责加单独条目；tagged-sessions-protocol §2.3 / §4.5 加协调模式区分注脚 |
 | **v0.2.0** | **2026-04-30** | **Sprint P v0.2 release** | 内容无独立 patch；与 framework v0.2 release 同步发布（统一版本号便于跨模块引用）|
 | v0.2.1 | 2026-04-30 | Sprint R 批 2 patch | chief-architect.md §工作风格 加"工程小细节"段（dataclass shape test 起草前先 grep target 字段 / "P3 复发升级 P2" 暗规则 / debt 文档 file count 用 grep 实数）— 来自华典智谱 Sprint P+Q retro 沉淀 (T-V03-FW-004) |
+| **v0.3.0** | **2026-04-30** | **Sprint T v0.3 release** | 内容无独立 patch；与 framework v0.3 release 同步发布（统一版本号策略 / 与 v0.2 同模式）|
 
 ---
 
