@@ -1,0 +1,63 @@
+# ============================================================
+# Sprint T T-V03-FW-005 — framework dogfood Postgres (Docker)
+# ============================================================
+#
+# Purpose:
+#   Stand up an isolated Postgres container loaded with a minimal
+#   schema + seed fixtures so that framework dogfood scripts can
+#   run in sandbox / CI without depending on the production DB
+#   (which only the user's local Terminal can reach).
+#
+# Usage:
+#   cd scripts
+#   docker compose -f dogfood-postgres-compose.yml up -d
+#
+#   # then from project root:
+#   PYTHONPATH=$(pwd) \
+#     DATABASE_URL=postgresql://huadian:huadian_dev@localhost:5434/huadian_dogfood \
+#     python3 -m framework.audit_triage.examples.huadian_classics.test_soft_equivalent
+#
+#   # tear down:
+#   docker compose -f dogfood-postgres-compose.yml down -v
+#
+# Port choice:
+#   5434 (NOT 5433) to avoid conflicting with production DB on 5433.
+#
+# Volumes:
+#   /docker-entrypoint-initdb.d/ runs *.sql files alphabetically on
+#   first container init. We mount:
+#     01-bootstrap.sql  — schema (~7 tables / minimum dogfood subset)
+#     02-seed.sql       — minimal seed fixtures (5 persons + 3 dict + ...)
+#
+# Schema scope (per Sprint T brief §1.3 Approach B):
+#   Only the ~7 tables referenced by framework dogfood scripts are
+#   created. The full 36+ table production schema is NOT replicated.
+#   Sufficient for `test_soft_equivalent.py` (audit_triage); insufficient
+#   for `test_byte_identical.py` (identity_resolver) which needs realistic
+#   production-scale data.
+# ============================================================
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: huadian-dogfood-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: huadian
+      POSTGRES_PASSWORD: huadian_dev
+      POSTGRES_DB: huadian_dogfood
+      # Locale for proper Chinese (UTF-8) handling
+      LANG: zh_CN.UTF-8
+      LC_ALL: zh_CN.UTF-8
+    ports:
+      # 5434 — distinct from production 5433 so both can run side-by-side
+      - "5434:5432"
+    volumes:
+      - ./dogfood-bootstrap.sql:/docker-entrypoint-initdb.d/01-bootstrap.sql:ro
+      - ./dogfood-seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U huadian -d huadian_dogfood"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
