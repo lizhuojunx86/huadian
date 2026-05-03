@@ -5,6 +5,38 @@
 
 ---
 
+## 2026-04-30 (Sprint O)
+
+### [feat] Sprint O — invariant_scaffold framework + dogfood PASSED
+
+- **角色**：首席架构师（single-actor / Opus 4.7 全程）
+- **性质**：D-route Layer 1 **第四刀**；代码层抽象**第二刀**；framework **4 模块完整**里程碑
+- **关键产出**：
+  - `framework/invariant_scaffold/` v0.1（34 files / ~3040 lines + 3 docs）
+    - Framework core: types / port / invariant + 5 pattern subclass + runner + self_test + __init__（18 files / ~1335 lines）
+    - examples/huadian_classics/（13 files / ~946 lines）：11 invariants + 4 self-tests + asyncpg adapter
+    - Documentation（README + CONCEPTS + cross-domain-mapping / ~759 lines）
+  - **5 pattern subclass** 全实证：UpperBound / LowerBound / Containment / OrphanDetection / CardinalityBound
+  - **4 Plugin Protocol**（vs Sprint N 9 个 / 简单 ~55%）：DBPort / Invariant ABC / SelfTest / SelfTestRunner
+  - **dogfood PASSED**: 11/11 invariants pass (production state) + 4/4 self-tests caught (injection)
+  - methodology/04 v0.1 → v0.1.1（§Framework Implementation cross-reference 段）
+- **D-route Layer 进度**:
+  - L1: 3 模块 → **4 模块完整**（治理类双 + 代码层双 / +~3040 行 / +34 files）
+  - L2: methodology/04 v0.1 → v0.1.1
+  - L3: +1 dogfood 案例（11 invariants + 4 self-tests / 软等价模式）
+- **commits**: 19f879b (Stage 0+1 batches 1-3) + edf31ad (batches 4-5) + 待 push (1.13 dogfood + Stage 4 closeout + slug path fix)
+- **衍生债**: 4 项新（DGF-O-01~04）/ 1 项 P3→P2 升级（DGF-O-01 = DGF-N-02 复发）/ 累计 20 项（L+M+N+O / 6 已 patch / 14 待 v0.2）
+- **Stop Rule 触发**: #1 临时触发 1 次（slug path bug — DGF-N-02 复发），当场修复
+- **dogfood 元 pattern**: 4 sprint / 4 形态都通过 — sprint-templates 自审 / role-templates+brief/closeout/retro / identity_resolver byte-identical / **invariant_scaffold 11+4 实证**
+- **下一 sprint 候选**: Sprint P **v0.2 patch sprint**（推荐 / 清 14 待办 + 优先 P2 path bug）→ 然后 framework v0.2 release → Sprint Q audit_triage
+- **framework v0.2 release**: **完全成熟** — 4 抽象资产稳定 + 双 dogfood pass + 20 候选；推迟到 Sprint P 清债后 release
+- **关键设计赢**:
+  - 5 pattern 是 invariant universal set（11 个真实 invariants 100% fit）
+  - 4 Plugin Protocol（vs Sprint N 9 个）证明 simpler abstractions 可以更通用
+  - SelfTestRunner._RollbackSentinel 优雅实现 transactional self-test
+
+---
+
 ## 2026-04-30 (Sprint N)
 
 ### [feat] Sprint N — identity_resolver framework + byte-identical dogfood PASSED

@@ -375,13 +375,40 @@ V9 invariant 的**新增**防止反向问题（修了 Bug 1+2 后可能反方向
 
 ---
 
-## 7. 修订历史
+## 7. Framework Implementation（v0.1.1 新增）
+
+本模式的 v0.1 框架实现位于 `framework/invariant_scaffold/`（Sprint O Stage 1 首次抽象 / dogfood PASSED 11/11 + 4/4）：
+
+- **Framework core**（18 files / ~1335 lines）：types / port / invariant + 5 pattern subclass + runner + self_test + __init__
+- **examples/huadian_classics/**（13 files / ~946 lines）：11 invariants + 4 self-tests + asyncpg adapter
+- **4 Plugin Protocol**：DBPort / Invariant ABC / SelfTest / SelfTestRunner
+- **3 份文档**：README / CONCEPTS / cross-domain-mapping（5 pattern × 6 领域）
+
+跨领域案例方应**先复制 framework/invariant_scaffold/ 改填**，再回过头读本文件理解设计哲学。
+
+| 本文件章节 | framework/invariant_scaffold/ 对应实现 |
+|---------|--------------------------------|
+| §2.1 Upper-bound | patterns/upper_bound.py + V1 (huadian implicit) |
+| §2.2 Lower-bound | patterns/lower_bound.py + V4 / V9 (huadian) |
+| §2.3 Containment | patterns/containment.py + V8 / V10.c / active_merged / slug_format (huadian) |
+| §2.4 Orphan detection | patterns/orphan_detection.py + V10.a / V10.b (huadian) |
+| §2.5 Cardinality bound | patterns/cardinality_bound.py + V6 / V11 / slug_no_collision (huadian) |
+| §3 Bootstrap pattern | examples/huadian_classics/runner_setup.py |
+| §4 Self-test 模式 | self_test.py（SelfTest Protocol + SelfTestRunner）+ examples self_tests.py |
+
+**dogfood 实证**：11 huadian invariants 跑 production data 全 0 violations + 4 self-tests 注入违反全 catch。详见 `docs/sprint-logs/sprint-o/stage-1-dogfood-2026-04-30.md`。
+
+---
+
+## 8. 修订历史
 
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
 | Draft v0.1 | 2026-04-29 | 首席架构师 | 初稿（Stage C-8 of D-route doc realignment）|
+| Draft v0.1.1 | 2026-04-30 | 首席架构师 | Sprint O Stage 1 cross-reference §7 加（紧密化 framework/invariant_scaffold/）|
 
 ---
 
 > 本文档描述的 Invariant Pattern 是 AKE 框架的 Layer 1 核心资产之一。
-> V1-V11 实证细节见 `services/pipeline/tests/test_invariants_*.py`.
+> V1-V11 实证细节见 `services/pipeline/tests/test_invariants_*.py`。
+> Sprint O 是其首次框架抽象 + dogfood PASSED（11/11 + 4/4）。

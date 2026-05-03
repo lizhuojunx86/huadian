@@ -2,10 +2,10 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-30（Sprint N 完成 + 关档；Layer 1 第三刀落地 / 代码层抽象首刀 / byte-identical dogfood PASSED）
+- **最近更新**：2026-04-30（Sprint O 完成 + 关档；Layer 1 第四刀 / 治理 + 代码层 4 模块完整 / dogfood PASSED 11/11 + 4/4）
 - **更新人**：首席架构师（Claude Opus 4.7）
 - **战略方向**：**D-route — Agentic Knowledge Engineering 框架 + 史记参考实现**（详见 [ADR-028](decisions/ADR-028-strategic-pivot-to-methodology.md) + [strategy/D-route-positioning.md](strategy/D-route-positioning.md)）
-- **当前阶段**：Phase 0 已收尾 / D-route 文档体系全对齐 / **Sprint N 完成（Layer 1 第三刀 / 代码层第一刀 / byte-identical 严格等价证明）** / Sprint O 候选准备（自然停顿点）
+- **当前阶段**：Phase 0 已收尾 / D-route 文档体系全对齐 / **Sprint O 完成（Layer 1 第四刀 / framework 4 模块完整 / v0.2 release 候选条件成熟）** / Sprint P 候选准备（推荐 v0.2 patch sprint）
 
 ---
 
@@ -22,10 +22,10 @@
 
 | Layer | 状态 | 当前焦点 |
 |-------|------|---------|
-| L1 框架代码抽象 | **🟢 治理类双模块 + 代码层第一刀**（Sprint L+M+N 完成）| sprint-templates v0.1.1（11 files / ~1500 lines）+ role-templates v0.1.1（13 files / ~2200 lines）+ **identity_resolver v0.1**（28 files / ~3996 lines + 3 docs）= 52 files / ~7700 lines；下一步 Sprint O 候选 V1-V11 Invariant Scaffold 抽象 |
-| L2 方法论文档 | 🟡 草案 v0.1 完整 + 3 份 cross-reference 紧密化 | docs/methodology/ 7 份草案（约 4 万字）；methodology/01 + 02 + **03** v0.1 → v0.1.1 cross-reference；下次迭代等 Sprint O 反馈 |
-| L3 案例库 | 🟢 主案例 + demo + 严格 dogfood 实证 | 华典智谱史记 3-4 篇本纪结构化；RB-002 demo + README Quick demo；Sprint K 5 角色协同实战覆盖度 99.2%（role-templates）；**Sprint N byte-identical 严格等价证明（identity_resolver / 729 person production data 100% 等价）** |
-| L4 社区 / 商业 | ⚪ 未启动 | framework v0.2 release 候选条件**已全面达成**（≥ 3 抽象资产稳定 + byte-identical dogfood 通过 + 16 v0.2 候选）；留给 Sprint O 完成或跨领域案例反馈触发再 release |
+| L1 框架代码抽象 | **🟢 治理类双模块 + 代码层双刀 / 4 模块完整**（Sprint L+M+N+O 完成）| sprint-templates v0.1.1 + role-templates v0.1.1 + identity_resolver v0.1 + **invariant_scaffold v0.1**（共 86 files / ~10700 lines + docs）；下一步 Sprint P 推荐 v0.2 patch sprint（清债 + release）|
+| L2 方法论文档 | 🟡 草案 v0.1 完整 + 4 份 cross-reference 紧密化 | docs/methodology/ 7 份草案（约 4 万字）；methodology/01 + 02 + 03 + **04** v0.1 → v0.1.1 cross-reference；下次迭代等 Sprint P 反馈 |
+| L3 案例库 | 🟢 主案例 + demo + 4 sprint dogfood 实证 | 史记 3-4 篇本纪 + RB-002 demo + Sprint K 99.2% + Sprint N byte-identical + **Sprint O 11 invariants + 4 self-tests catch** |
+| L4 社区 / 商业 | ⚪ 未启动 | framework v0.2 release 候选条件**完全成熟**（4 抽象资产稳定 + byte-identical + soft-equivalent 双 dogfood + 20 v0.2 候选）；建议 Sprint P 清债后正式 release |
 
 ---
 
@@ -79,12 +79,27 @@
 | Stage 2-3 外部审 | ⚪ 押后 | 等外部反馈触发 |
 | Stage 4 Closeout + Retro | ✅ | stage-4-closeout + sprint-n-retro + 衍生债登记（5 项 P3）|
 
+### 2.2.3 Sprint O 进度（Layer 1 第四刀 / framework 4 模块完整，已完成 Stage 0+1+1.13+4，关档）
+
+| Stage | 状态 | 产出 |
+|-------|------|------|
+| Stage 0.1 brief | ✅ | stage-0-brief / brief-template 第 4 次 |
+| Stage 0.2 inventory | ✅ | stage-0-inventory — 7 测试文件 / 1031 行扫描 + 10 invariants → 5 pattern map |
+| Stage 1 第 1-3 批 framework core | ✅ | 18 files / ~1335 lines / 10 sanity tests pass |
+| Stage 1 第 4 批 examples | ✅ | 13 files / ~946 lines |
+| Stage 1 第 5 批 docs | ✅ | 3 files / ~759 lines |
+| **Stage 1.13 dogfood** | ✅ **PASSED** | 11/11 invariants + 4/4 self-tests / 修 1 path bug |
+| Stage 2-3 外部审 | ⚪ 押后 | 等外部反馈触发 |
+| Stage 4 Closeout + Retro | ✅ | stage-4-closeout + sprint-o-retro + 衍生债（4 项 / 1 P2 升级）|
+
 ### 2.3 阻塞 / 风险 / 等待项
 
-- 无阻塞。Sprint N 关档。
-- Sprint O 启动**无紧急 timeline**——framework/ 三模块完整 + byte-identical dogfood PASSED 是另一个自然停顿点；可休息 1-2 周再启动。
-- Sprint O 候选主题：**V1-V11 Invariant Scaffold 抽象**（推荐；详见 docs/sprint-logs/sprint-n/stage-4-closeout-2026-04-30.md §2.4 / docs/retros/sprint-n-retro-2026-04-30.md §7.4）。
-- 候选 B：Audit + Triage Workflow 抽象（Sprint P 候选）/ 候选 C：framework v0.2 公开 release（条件已达成）。
+- 无阻塞。Sprint O 关档。
+- Sprint P 候选主题（推荐顺序）：
+  - **A. v0.2 patch sprint**（推荐 / 清 14 项待办 + 优先 P2 DGF-O-01 path bug）
+  - B. framework v0.2 公开 release（在 A 完成后做）
+  - C. Sprint Q audit_triage 抽象（推迟到 v0.2 release 后）
+- framework v0.2 release 候选条件**完全成熟**（4 模块 + 双 dogfood + 20 候选），建议 Sprint P 清债后 release。
 
 ---
 
