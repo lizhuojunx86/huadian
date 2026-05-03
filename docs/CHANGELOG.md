@@ -5,6 +5,43 @@
 
 ---
 
+## 2026-04-30 (Sprint S)
+
+### [feat] Sprint S — ADR-030 v0.3 release timing 决策 + methodology/01+03+04 v0.1.2 cross-ref / 1.5 会话 / 连续第 4 个 zero-trigger sprint
+
+- **角色**：首席架构师（single-actor / Opus 4.7 全程）
+- **性质**：v0.3 release prep 评估 + methodology v0.2 持续 polish 合并；Sprint R retro §8 候选 A + B 合并落地
+- **关键产出**：
+  - **ADR-030 v0.3 release timing decision**（219 行 / 在 Stop Rule #4 阈值 300 内）
+    - 评估 5/6 已达成触发条件 + 缺第 5 项 "≥ 1 跨域 reference impl" 的影响
+    - 3 选项论证（A 等跨域 / B 调整触发条件 / C 等 T-V03-FW-005）
+    - **采用选项 B**：把第 5 项硬要求改为"≥ 1 跨域已规划 + cross-domain-mapping.md v0.2"，调整后 6/6 触发条件全达成
+    - **Sprint T = v0.3 release sprint** 锁定（约 2026-05 上旬）
+    - §5 Validation Criteria 6 条（待 v0.3 release sprint 完成后回填）
+  - **methodology/01 v0.1.1 → v0.1.2**（+ §10 与 /02 元 pattern 关系 / 4 段 cross-ref + Sprint M-R 角色活跃度实证锚点 + 跨域 fork 启示 3 条）
+  - **methodology/03 v0.1.1 → v0.1.2**（+ §9 与 /02 跨 stack 抽象 pattern 关系 / Sprint N vs Q 对比 + 跨域 fork 启示 4 条）
+  - **methodology/04 v0.1.1 → v0.1.2**（+ §8 与 /02 跨 stack 抽象 pattern 关系 / 3 种 dogfood 组合对比 + self-test 强化模式 + 跨域 fork 启示 5 条）
+  - **methodology 网状 cross-ref 结构成型**（5 doc 双向引用 /02 元 pattern + 实证锚点）
+- **D-route Layer 进度**:
+  - L1: 5 模块齐备 不变（评估 sprint 不动 code）
+  - L2: methodology/01 + 03 + 04 v0.1.1 → **v0.1.2**（3 doc cross-ref 形成网状结构）⭐
+  - L3: 不变
+  - L4: + ADR-030 v0.3 release timing 决策（明确 timeline / 对外可见性提升 / Sprint T 锁定）⭐
+- **debt 状态**: Sprint L→S 累计 v0.2 18/20 + v0.3 5/6 = **23/26 = 88.5%** patch 落地（不变 / 评估 sprint 不 land 新 patch）；新增 **1 项 v0.4 候选**（T-V04-FW-001 commit message hygiene 规则 / 来自 Sprint R commit `35f371d` 残留问题）
+- **Stop Rule 触发**: **0 触发**（连续第 4 个 zero-trigger sprint：P → Q → R → S）
+- **commits 待 push** (4 commits)：
+  - **会话 1 中场已 push**: `d0a3652` docs(adr): ADR-030 + `40aa14b` docs(methodology): /01 v0.1.2
+  - **会话 2 待 push**: `docs(methodology): 03 + 04 v0.1.1 → v0.1.2 (Sprint S 批 3+4)` + `docs(sprint-s): closeout + retro + status + changelog + residual debts`
+- **brief-template v0.1.3 §2.1 估时表 dogfood ✓**: 偏差 < 10%（vs v0.1.2 单一时长 1.4-1.5x 偏差 / 显著改善）
+- **下一 sprint**: **Sprint T = v0.3 release sprint**（不可降级 / per ADR-030 §2.2 锁定）
+- **关键设计赢**:
+  - "评估 sprint" 是 release prep 的 first-class 形态（vs 抽象 / maintenance / patch / release）
+  - ADR §3 "拆解条件背后价值 → 评估替代实现"论证模板可复用于 v0.4 / v1.0
+  - methodology 网状 cross-ref 结构（5 doc 双向引用）vs v0.1 星形单向
+  - 4 sprint zero-trigger 连续 = framework v0.2 + 5 模块齐备 + maintenance 节律稳定**强化信号**（vs Sprint R retro §5.1 期待"≥ 5 sprint zero-trigger 触发 v1.0 候选议程"）
+
+---
+
 ## 2026-04-30 (Sprint R)
 
 ### [feat] Sprint R — v0.3 patch + methodology/02 v0.1.1 (5 段元 pattern) / 1 会话 ~95 min / 连续第 3 个 zero-trigger sprint
