@@ -55,6 +55,21 @@
 **完成判据**：
 - ⚠️FILL（可量化的完成标准）
 
+#### 工作量估算（v0.1.3 新增 / Sprint R T-V03-FW-003）
+
+> Sprint Q retro §3.3 实证：把"代码 / 文档 / 收档"混算估时常常 1.4-1.5x 偏离实际。
+> v0.1.3 起按下表三类**分别**估时，让 closeout 时回填便于对比 + 触发 Stop Rule #4 输出量类阈值更准。
+
+| 类别 | 包含 | ⚠️估时 |
+|------|------|------|
+| **Code** | framework / examples / tests / scripts 等 .py / .ts / .sql 等机器可执行文件 | ⚠️FILL hours |
+| **Docs** | README / CONCEPTS / cross-domain-mapping / methodology 段 / ADR 等 markdown | ⚠️FILL hours |
+| **Closeout / Retro** | stage-4-closeout / retro / debt 登记 / STATUS / CHANGELOG | ⚠️FILL hours |
+| **小计** | — | **⚠️FILL hours** |
+
+> 注意：单一时长估算（如 "~85 min total"）依然可以保留作为整体粗估；但**回填判据**应该是 3 类分别 ≤ 1.5x 估算（vs Stop Rule #4 单一阈值）。
+> 单 batch 内不可分（如 "批 1：写一段 markdown 并加 1 行 import"）→ 归到主体类别（这里归 Docs）。
+
 ### 2.2 Track 2 — ⚠️FILL Track 主题（仅多 track 情况）
 
 （同上结构）
@@ -256,9 +271,10 @@ D-route 风格的项目（"框架抽象 + 参考实现"双轨）要求**每个 s
 
 ---
 
-**本 brief 模板版本**：framework/sprint-templates v0.1.2
+**本 brief 模板版本**：framework/sprint-templates v0.1.3
 
 变更日志：
 - v0.1 (Sprint L) — 初版
 - v0.1.1 (Sprint M DGF-M-02~07 patch) — §3 加 Stage 0 inventory / §5 single-actor 注脚 / §8 跨域 mapping checklist 等
-- **v0.1.2 (Sprint P 批 2 polish)** — §1.2 灵活列数说明 / §3 拆分 §3.A 5-stage 与 §3.B 精简模板 + §3.0 选择指南 / §8 措辞解耦 C-22 项目宪法专属性
+- v0.1.2 (Sprint P 批 2 polish) — §1.2 灵活列数说明 / §3 拆分 §3.A 5-stage 与 §3.B 精简模板 + §3.0 选择指南 / §8 措辞解耦 C-22 项目宪法专属性
+- **v0.1.3 (Sprint R 批 1 polish)** — §2.1 工作量估算按 Code / Docs / Closeout-Retro 3 类分别列（解决 Sprint Q retro §3.3 实证的"混算估时偏离 1.4-1.5x"问题 / T-V03-FW-003）

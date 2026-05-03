@@ -87,6 +87,21 @@ model: opus
 - 一切决策必须回到"30 年后回看这个决策是否还站得住脚"
 - 写作风格：结构化、带实例、提供反例、给出可度量的验收标准
 
+### 工程小细节（来自 sprint retro 沉淀 / v0.2.0 Sprint R 起加段）
+
+> 这些是 D-route 项目从 Sprint A-Q 实证沉淀的"小事但容易翻车"工程规则。跨领域 fork 时建议保留——它们都是 ≥ 1 次实战翻车的产物。
+
+- **写 dataclass / Protocol shape test 之前先 grep target 字段** — 不要凭记忆写测试。
+  来源：华典智谱 Sprint Q retro §3.1（test_blocked_merge_carries_guard_payload 凭记忆写了 `guard_reason` / `proposed_match_evidence`，实际字段是 `guard_payload` / `evidence` → 1 fail 单测）。
+  执行：`grep "^class\|^def" target.py` 或 Read 实际 dataclass 定义后再写 test。
+  例外：对 `__slots__` class 同样适用（`__slots__` 是字段权威清单）。
+
+- **"P3 复发升级 P2" 暗规则** — 跨 sprint 同类 bug 复发 ≥ 2 次 → 自动升级至 P2 优先处理。
+  来源：华典智谱 Sprint P 实证（DGF-N-02 P3 漏修 → Sprint O DGF-O-01 同 path bug 复发 → Sprint P 升级 P2 优先处理）。
+  详见 `docs/methodology/02-sprint-governance-pattern.md` v0.1.1 §11（待 Sprint R 批 3 落地）。
+
+- **debt 文档登记 file count 用 grep 实数，不写"~N"** — 避免 brief 落地时 mismatch（华典智谱 Sprint P retro §3.1 实证：DGF-O-01 brief 写 "~5 处" 实际 4 处）。
+
 ## 交付物格式
 
 ADR 严格按 ⚠️FILL `docs/04_workflow.md §ADR模板`（华典智谱实例：`docs/04 §二`）。

@@ -62,6 +62,105 @@ framework/identity_resolver/
 
 ---
 
+## 2.5 公共 API 速查（v0.3 patch / Sprint R T-V03-FW-001）
+
+下游 fork 或 import 本框架时，**只用 `from framework.identity_resolver import …`** 这一层；
+不要直接 import `framework.identity_resolver.rules` / `.guards` / `.resolve` 等子模块（除非你在写 framework 本身或 examples/）。
+
+`__all__` 共 **38 个** public 名字，按 7 类分组（与 `__init__.py` 顺序一致）：
+
+### 数据契约（types + entity，9 个）
+
+| 名字 | 类型 | 用途 |
+|------|------|------|
+| `MatchResult` | frozen dataclass | 单条规则的匹配结果（rule + confidence + evidence）|
+| `MergeProposal` | dataclass | 高于 merge_threshold 的 proposal（=> 走 Union-Find）|
+| `PersonProposal` | alias | 向后兼容 alias（HuaDian-pipeline 老代码用）|
+| `MergeGroup` | dataclass | Union-Find 输出的连通分量 |
+| `HypothesisProposal` | dataclass | 低于 merge_threshold 的弱信号（=> 走 hypotheses 队列）|
+| `BlockedMerge` | dataclass | 被 GuardChain 拦截的 candidate（=> 走 triage 表）|
+| `ResolveResult` | dataclass | `resolve_identities()` 的总输出 |
+| `EntitySnapshot` | class (`__slots__`) | 域无关的实体快照 — 必须的 plugin 数据 |
+| `PersonSnapshot` | alias | `EntitySnapshot` 的向后兼容 alias |
+
+### 算法基础（union_find + utils，2 个）
+
+| 名字 | 类型 | 用途 |
+|------|------|------|
+| `UnionFind` | class | 标准 disjoint-set + 路径压缩 + 按 rank 合并 |
+| `swap_ab_payload` | function | swap 形如 `*_a` ↔ `*_b` 的 guard payload key |
+
+### Guards（3 个）
+
+| 名字 | 类型 | 用途 |
+|------|------|------|
+| `GuardFn` | type alias | `Callable[[EntitySnapshot, EntitySnapshot], GuardResult \| None]` |
+| `GuardResult` | frozen dataclass | guard 评估结果（blocked + reason + payload）|
+| `evaluate_pair_guards` | function | rule-aware 链式 dispatcher（first-blocked-wins）|
+
+### Rules R1-R5（10 个）
+
+| 名字 | 类型 | 用途 |
+|------|------|------|
+| `MERGE_CONFIDENCE_THRESHOLD` | constant | `0.85` — 默认 merge 阈值 |
+| `DEFAULT_RULE_ORDER` | constant | `[rule_r1, rule_r3, rule_r5, rule_r4]` — first-match-wins 顺序 |
+| `RuleFn` | type alias | `Callable[[EntitySnapshot, EntitySnapshot, ScorePairContext], MatchResult \| None]` |
+| `ScorePairContext` | dataclass | 把所有 plugin 数据 + threshold + custom rules bundle 一起 |
+| `build_score_pair_context` | function | 推荐入口：从 plugin instances 构造 context |
+| `rule_r1` | function | surface form 交叉匹配 |
+| `rule_r3` | function | 通假字 / synonym 字典命中 |
+| `rule_r4` | function | identity_notes 交叉引用 |
+| `rule_r5` | function | alias 字典 + 跨朝代 guard |
+| `score_pair` | function | 跑 `DEFAULT_RULE_ORDER + custom_rules`，first-match-wins |
+
+### Plugin Protocols（4 个）
+
+| Protocol | 必要？ | 实现以注入… |
+|----------|------|-----------|
+| `DictionaryLoader` | ⚪ R3+R5 用 | synonym dict + alias dict |
+| `StopWordPlugin` | ⚪ R1 用 | 停用词集（避免无意义 surface 触发匹配）|
+| `IdentityNotesPatterns` | ⚪ R4 用 | regex 列表（识别 "原名 / 又名 / 本名" 等模式）|
+| `CanonicalHint` | ⚪ select_canonical 用 | 域专属的"应否被降级"判断 |
+
+### Canonical Selection + R6（6 个）
+
+| 名字 | 类型 | 用途 |
+|------|------|------|
+| `select_canonical` | function | 5-key 排序选 canonical（pinyin slug → not demoted → surface_forms 数 → created_at → id）|
+| `R6Status` | StrEnum | confirmed / candidate / unmatched 等 |
+| `R6Result` | dataclass | 单 entity R6 评估结果 |
+| `R6PrePassResult` | dataclass | R6 pre-pass 阶段输出（distribution + 每 entity 结果）|
+| `SeedMatchAdapter` | Protocol | 域插件：根据外部种子集（Wikidata / etc）匹配 |
+| `r6_seed_match` | function | R6 算法主体（用 SeedMatchAdapter 注入域）|
+
+### 报告 + 主流程（7 个）
+
+| 名字 | 类型 | 用途 |
+|------|------|------|
+| `ReasonBuilder` | Protocol | i18n 友好的 reason 文案构造（zh / en / 等）|
+| `DefaultReasonBuilder` | class | 英文默认实现 |
+| `build_reason_summary` | function | 把 MatchResult.evidence → 一句话摘要 |
+| `generate_dry_run_report` | function | ResolveResult → markdown 报告 |
+| `EntityLoader` | Protocol | **必须实现**：从你的 DB / API 加载 EntitySnapshot 列表 |
+| `R6PrePassRunner` | Protocol | ⚪ 可选：R6 pre-pass 异步执行器 |
+| `resolve_identities` | async function | **主入口**：跑完整 pipeline，返回 ResolveResult |
+
+### Apply（3 个）
+
+| 名字 | 类型 | 用途 |
+|------|------|------|
+| `MergeApplier` | Protocol | **必须实现**：把 MergeGroup 落到你的数据层（INSERT merge_log + soft-delete 等）|
+| `apply_merges` | async function | **主入口**：dry_run + skip_rules + applier 编排 |
+| `filter_groups_by_skip_rules` | function | 按 skip rule set 过滤 MergeGroup 列表 |
+
+> **小总结（fork 决策树）**：
+> - 最少必须实现：`EntityLoader` + `MergeApplier` + 至少 1 个 plugin（如 `DictionaryLoader`）
+> - 域有"被 demote 的 canonical"概念 → 实现 `CanonicalHint`
+> - 域用外部种子集（Wikidata / 法规库 / 等）→ 实现 `SeedMatchAdapter`
+> - 域有 i18n / 多语 reason 需求 → 实现 `ReasonBuilder`
+
+---
+
 ## 3. 5 分钟快速上手
 
 ### Step 1: 复制框架到你的项目

@@ -57,3 +57,17 @@ repos:
         types: [python]
         pass_filenames: true
         exclude: /generated/
+
+      # ── Cross-stack sync reminder (Sprint R T-V03-FW-006) ──────
+      # Warns (does NOT block) when services/api/.../triage.* changes
+      # but framework/audit_triage/examples/huadian_classics/ has no
+      # corresponding change. See scripts/check-audit-triage-sync.sh
+      # docstring + methodology/02-sprint-governance-pattern.md
+      # v0.1.1 §13 (跨 stack 抽象 pattern).
+      - id: services-framework-audit-triage-sync
+        name: services↔framework/audit_triage sync warning
+        entry: scripts/check-audit-triage-sync.sh
+        language: system
+        pass_filenames: true
+        files: ^(services/api/(src/(services|resolvers|schema)|tests)/triage\.|framework/audit_triage/)
+        verbose: true
