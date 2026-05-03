@@ -5,6 +5,46 @@
 
 ---
 
+## 2026-04-30 (Sprint Q)
+
+### [feat] Sprint Q — audit_triage abstraction + 60 pytest tests / Layer 1 第 5 刀 / framework 抽象首次完整
+
+- **角色**：首席架构师（single-actor / Opus 4.7 全程）
+- **性质**：D-route Layer 1 **第 5 刀**（framework 抽象**首次完整**：5 模块齐备 = governance×2 + code×3）；Sprint P retro §8 候选 A + B 合并落地
+- **关键产出**：
+  - `framework/audit_triage/` v0.1（14 files / ~2553 行）
+    - Framework core: types / store / service / authz / reasons / __init__（6 files / 995 行）
+    - **6 Plugin Protocol**: TriageStore / HistorianAllowlist / ReasonValidator / ItemKindRegistry / DecisionApplier (V0.2 hook stub) / + DefaultReasonValidator + StaticAllowlist
+    - examples/huadian_classics/（4 .py + schema.sql + README / 626 行）
+    - 3 framework docs: README + CONCEPTS（10 段 why-this-design）+ cross-domain-mapping（7 领域 fork 指南）
+  - **60 pytest tests 首发**（DGF-N-03 + DGF-O-02 合并 / 19 test files / 1273 行 / 0.08s）
+    - identity_resolver/tests/: 33 tests (types/entity/union_find/guards/rules/canonical/resolve/apply_merges)
+    - invariant_scaffold/tests/: 27 tests (types/invariant/5 patterns/runner/self_test)
+    - conftest + FakePort + factory pattern (跨域 fork 测试范本)
+  - methodology/05-audit-trail-pattern.md v0.1 → **v0.1.1**（加 §7 Framework Implementation 段：5 Protocol 映射 / 6 tags / 测试范本 / V0.2 Applier 路径）
+  - audit_triage soft-equivalent dogfood script（跨 stack TS prod ↔ Python framework；待 user local 跑确认）
+- **D-route Layer 进度**:
+  - L1: 4 模块 v0.2.0 → **5 模块齐备**（**framework 抽象首次完整**）⭐ 里程碑
+  - L2: methodology/05 v0.1 → v0.1.1（cross-reference framework/audit_triage/）
+  - L3: + Sprint Q audit_triage soft-equivalent script（待 user 跑）+ 60 pytest 套件首发
+  - L4: 不变（v0.2.0 GitHub release tag 持续 / v0.3 release 等触发）
+- **debt 状态**: Sprint L→Q 累计 **20 v0.2 候选 / 18 已 patch / 2 押后**（DGF-N-04 + DGF-N-05）；新增 **6 项 v0.3 候选**
+- **Stop Rule 触发**: **0 触发**（连续第 2 个 zero-trigger sprint）
+- **commits 待 push** (4 commits):
+  - `test(framework): add 60 pytest tests for identity_resolver + invariant_scaffold (Sprint Q DGF-N-03 + DGF-O-02)`
+  - `test(audit_triage): soft-equivalent dogfood script for Sprint Q Stage 1.13`
+  - `docs(methodology): 05-audit-trail-pattern.md v0.1 → v0.1.1 (Sprint Q 批 5)`
+  - `docs(sprint-q): closeout + retro + status + changelog + residual debts`
+- **下一 sprint 候选**: Sprint R **v0.3 patch sprint**（推荐 / 清 6 项 v0.3 候选 + 视情况 v0.3 release）
+- **关键设计赢**:
+  - 跨 stack 抽象 pattern (TS prod → Python framework) 顺利 — SQL 逐字 port + 业务逻辑分层 + soft-equivalent dogfood
+  - 6 Plugin Protocol 设计 — TriageStore + HistorianAllowlist 必须 / ReasonValidator + ItemKindRegistry + DecisionApplier 可选 / 适中抽象量
+  - V0.1 zero-downstream contract — `record_decision` 只 INSERT triage_decisions 不动数据层 (per ADR-027 §2.5)
+  - 60 pytest 测试范本 — conftest + FakePort + factory 模式可被跨域 fork 1:1 复用
+  - "5 模块齐备" 即 L1 里程碑 — covers governance(2) + code(3); 不必追求 "完美" 前发布
+
+---
+
 ## 2026-04-30 (Sprint P)
 
 ### [release] framework v0.2.0 — Sprint P v0.2 patch + ceremonial release
