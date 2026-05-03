@@ -5,6 +5,47 @@
 
 ---
 
+## 2026-04-30 (Sprint U)
+
+### [feat] Sprint U — ADR-031 v1.0 候选议程评估 + methodology 8 doc 完整 + 第 7 大核心抽象 (cross-stack abstraction pattern) / 1.5 会话 / 连续第 6 个 zero-trigger sprint
+
+- **角色**：首席架构师（single-actor / Opus 4.7 全程）
+- **性质**：v1.0 candidate evaluation + methodology v0.2 cycle 准备 sprint；Sprint T retro §8 候选 A + B 合并落地
+- **关键产出**：
+  - **ADR-031 v1.0 release candidate agenda evaluation**（196 行 / 在 Stop Rule #4 阈值 300 内）
+    - 评估 7 候选 v1.0 触发条件（vs ADR-030 v0.3 6 触发条件 / 模板对比）
+    - 当前状态：2/7 ✅（5 模块齐备 + 5 sprint zero-trigger / Sprint U 后 6 zero-trigger）+ 1/7 ⏳（API 6 个月稳定）+ 2/7 ❌（跨域 + 第三方 review）+ 2/7 ⏳（patch ≥ 95% + methodology v0.2）
+    - **采用决策**：不立即 release v1.0 / 锁定 7 触发条件 / 路径预测 **2026-10 (乐观) ~ 2027-04 (保守)**
+    - §5 路径预测 + §7 Validation Criteria（v1.0 release ADR 起草时回填）
+  - **methodology/06-adr-pattern-for-ke.md v0.1 → v0.1.1**（+ §8 4 段 cross-ref + Sprint A-U 累计 31 ADR 演化数据点 + 跨域 fork 启示 5 条 + ADR↔methodology 双向责任段）
+  - **methodology/07-cross-stack-abstraction-pattern.md v0.1 新起草** ⭐（301 行 / 9 段 / 第 7 大核心抽象）：
+    - §1 何时该用 / §2 标准三步做法 (SQL 逐字 port + 业务逻辑分层 + soft-equivalent dogfood)
+    - §3 3 种 dogfood 等价性等级（byte-identical / soft-equiv + self-test / soft-equiv 跨 stack）
+    - §4 3 种 stack 关系组合实证（Sprint N + O + Q）
+    - §5 dogfood infra 选项（user local DB vs Docker compose / per Sprint T 实证）
+    - §6 跨域 fork 启示 + §7 反模式 5 项 + §8 与其他 6 doc 关系
+  - **methodology/00 v0.1 → v0.1.1**（§2 6 大 → 7 大核心抽象 sync / +实证锚点列 / +§3.1 7→8 doc 数 / +footer）
+  - **methodology 8 doc 完整里程碑** ⭐（vs Sprint U 前 7 doc / 第 7 大核心抽象 cross-stack abstraction pattern 落地）
+- **D-route Layer 进度**:
+  - L1: 5 模块 v0.3.0 不变（评估 + methodology sprint 不动 code）
+  - L2: methodology 7 doc → **8 doc** ⭐ + /00 + /06 + /07 全部 ≥ v0.1.x（vs Sprint T 后 7 doc / 5 doc ≥ v0.1.1）
+  - L3: 不变
+  - L4: + ADR-031（release-eval ADR / 与 ADR-030 release-trigger 形成对比模板）
+- **debt 状态**: Sprint L→U 累计 **24/26 = 92.3% patch 落地**（不变 / Sprint U 不 land 新 patch）；新增 **2 项 v0.4 候选**（T-V04-FW-003 brief-template Docs 类拆分子类 + T-V04-FW-004 回填 audit_triage ADR-032）→ **累计 v0.4 候选 4 项**（接近触发 v0.4 maintenance sprint ≥ 5 阈值）
+- **Stop Rule 触发**: **0 触发**（连续第 6 个 zero-trigger sprint：P→Q→R→S→T→U）⭐
+- **commits 待 push** (2 commits)：
+  - **会话 1 中场已 push**: `345658d` docs(adr): ADR-031 + `bb05463` docs(methodology): /06 v0.1.1
+  - **会话 2 待 push**: `docs(methodology): 07 v0.1 起草 + /00 §2 6→7 sync (Sprint U 批 3+4)` + `docs(sprint-u): closeout + retro + status + changelog + residual debts`
+- **brief-template v0.1.3 §2.1 估时表第 3 次 dogfood ✓**: Docs 主导偏差 < 10%（vs Sprint S 第 1 次同模式 < 10% / Sprint T 第 2 次 Code 主导 47%）→ **模板对 Docs 主导稳定确认**
+- **下一 sprint**: Sprint V 推荐 **A + B 合并**（methodology v0.2 cycle 起步 + v0.4 maintenance fold / 1.5-2 会话）
+- **关键设计赢**:
+  - "评估 sprint" 形态成熟（Sprint S+U 累计 2 次实证 / typical 1.5 会话 / 主 ADR + N methodology cross-ref / Stage 4 closeout）
+  - methodology 文档群完整化（5 patterns 单射 framework 5 模块 + 2 patterns 跨 framework）
+  - release-trigger ADR vs release-eval ADR 对比模板沉淀（ADR-030 vs ADR-031）
+  - 6 sprint zero-trigger 持续 = framework v0.3 maintenance + eval 节律稳定信号
+
+---
+
 ## 2026-04-30 (Sprint T)
 
 ### [release] framework v0.3.0 — Sprint T release sprint / 5 模块齐备首次完整 release / Docker dogfood ✅ sandbox PASSED
