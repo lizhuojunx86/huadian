@@ -55,20 +55,27 @@
 **完成判据**：
 - ⚠️FILL（可量化的完成标准）
 
-#### 工作量估算（v0.1.3 新增 / Sprint R T-V03-FW-003）
+#### 工作量估算（v0.1.4 / Sprint V T-V04-FW-002 + -003 子类拆分）
 
-> Sprint Q retro §3.3 实证：把"代码 / 文档 / 收档"混算估时常常 1.4-1.5x 偏离实际。
-> v0.1.3 起按下表三类**分别**估时，让 closeout 时回填便于对比 + 触发 Stop Rule #4 输出量类阈值更准。
+> Sprint Q retro §3.3 实证：把"代码 / 文档 / 收档"混算估时常常 1.4-1.5x 偏离实际。v0.1.3 引入 3 大类分类。
+> Sprint S+T+U+V 累计 4 次 dogfood 暴露 Code 类 + Docs 类**子类化**需求（Sprint T Code 主导 47% 偏差 + Sprint U new doc 起草 ~20% 偏差）。
+> v0.1.4 起 Code 类 + Docs 类**进一步拆分子类**，让估算精度从 ≤ 10%（v0.1.3 大类）提升到 ≤ 5%（v0.1.4 子类）。
 
-| 类别 | 包含 | ⚠️估时 |
-|------|------|------|
-| **Code** | framework / examples / tests / scripts 等 .py / .ts / .sql 等机器可执行文件 | ⚠️FILL hours |
-| **Docs** | README / CONCEPTS / cross-domain-mapping / methodology 段 / ADR 等 markdown | ⚠️FILL hours |
-| **Closeout / Retro** | stage-4-closeout / retro / debt 登记 / STATUS / CHANGELOG | ⚠️FILL hours |
-| **小计** | — | **⚠️FILL hours** |
+| 类别 / 子类 | 包含 / 实证锚点 | typical 速率 | ⚠️估时 |
+|-----------|------------|-----------|------|
+| **Code: 框架 spike / 已有 pattern fold** | T-V03-FW-005 Docker compose 类型 / 实证偏快（Approach B 简化路径 + 工具加成）| ~25-50% 估算（Sprint T 实证）| ⚠️FILL hours |
+| **Code: 新模块抽象 / 全新 Plugin Protocol** | Sprint Q audit_triage 类型 / 实证较慢（design + Plugin Protocol 边界 + 业务逻辑）| ~80-100% 估算（Sprint Q 实证）| ⚠️FILL hours |
+| **Code: patch / version bump 等模板化改** | Sprint P 类型 / 实证模板化 / 偏差小 | ~80-100% 估算（Sprint P 实证）| ⚠️FILL hours |
+| **Docs: cross-ref polish** | Sprint S /01+/03+/04 + Sprint U /06 类型 / 实证精确（≤ 10%）| ~95-105% 估算（Sprint S+U 实证）| ⚠️FILL hours |
+| **Docs: new doc 起草** | Sprint U /07 + Sprint V /02 v0.2 类型 / 实证略偏 ~20%（综合多 doc cross-ref）| ~110-130% 估算（Sprint U 实证）| ⚠️FILL hours |
+| **Docs: ADR / 决策记录** | ADR-030 / ADR-031 / ADR-032 类型 / 实证精确（参考既有 ADR 模板）| ~90-100% 估算（Sprint S+U+V 实证）| ⚠️FILL hours |
+| **Closeout / Retro** | stage-4-closeout / retro / debt 登记 / STATUS / CHANGELOG | ~90-110%（小估常出现 5-15 min）| ⚠️FILL hours |
+| **小计** | — | — | **⚠️FILL hours** |
 
-> 注意：单一时长估算（如 "~85 min total"）依然可以保留作为整体粗估；但**回填判据**应该是 3 类分别 ≤ 1.5x 估算（vs Stop Rule #4 单一阈值）。
-> 单 batch 内不可分（如 "批 1：写一段 markdown 并加 1 行 import"）→ 归到主体类别（这里归 Docs）。
+> 注意：单一时长估算（如 "~85 min total"）依然可以保留作为整体粗估；但**回填判据**应该是 7 子类分别 ≤ 1.3x 估算（vs v0.1.3 的 3 大类 ≤ 1.5x / 子类化让阈值更紧）。
+> 单 batch 内不可分（如 "批 1：写一段 markdown 并加 1 行 import"）→ 归到主体子类（如 markdown 主导归 Docs cross-ref polish）。
+>
+> **未实证子类**（Sprint W+ 后填）：cross-stack rewrite（vs 抽象）/ 跨域 example 起草 / etc。如出现新场景且不属上述 7 子类，触发 brief-template v0.1.5+ polish。
 
 ### 2.2 Track 2 — ⚠️FILL Track 主题（仅多 track 情况）
 
@@ -271,10 +278,11 @@ D-route 风格的项目（"框架抽象 + 参考实现"双轨）要求**每个 s
 
 ---
 
-**本 brief 模板版本**：framework/sprint-templates v0.1.3
+**本 brief 模板版本**：framework/sprint-templates v0.1.4
 
 变更日志：
 - v0.1 (Sprint L) — 初版
 - v0.1.1 (Sprint M DGF-M-02~07 patch) — §3 加 Stage 0 inventory / §5 single-actor 注脚 / §8 跨域 mapping checklist 等
 - v0.1.2 (Sprint P 批 2 polish) — §1.2 灵活列数说明 / §3 拆分 §3.A 5-stage 与 §3.B 精简模板 + §3.0 选择指南 / §8 措辞解耦 C-22 项目宪法专属性
-- **v0.1.3 (Sprint R 批 1 polish)** — §2.1 工作量估算按 Code / Docs / Closeout-Retro 3 类分别列（解决 Sprint Q retro §3.3 实证的"混算估时偏离 1.4-1.5x"问题 / T-V03-FW-003）
+- v0.1.3 (Sprint R 批 1 polish) — §2.1 工作量估算按 Code / Docs / Closeout-Retro 3 类分别列（解决 Sprint Q retro §3.3 实证的"混算估时偏离 1.4-1.5x"问题 / T-V03-FW-003）
+- **v0.1.4 (Sprint V 批 3 polish)** — §2.1 Code 类拆分 3 子类（框架 spike / 新模块抽象 / patch）+ Docs 类拆分 3 子类（cross-ref polish / new doc 起草 / ADR）+ Closeout 类不拆 = 7 子类 / 让估算精度从 ≤ 10% 提升到 ≤ 5%（基于 Sprint S+T+U 累计 3 次 dogfood 实证 / T-V04-FW-002 + T-V04-FW-003 合并落地）
