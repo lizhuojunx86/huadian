@@ -45,14 +45,28 @@ uv run python scripts/dry_run_resolve.py > docs/sprint-logs/sprint-{id}/dry-run-
 
 ## 2. Domain Expert Review
 
-### 2.1 Review 形式
+### 2.0 Review 形式选择指南（Sprint P T-P3-FW-003 新增）
 
-可选 1：**Triage UI**（推荐，参见 `docs/methodology/05-audit-trail-pattern.md`）
+按以下顺序判断，选第一个 ✅ 的方案：
+
+| 条件 | 推荐形式 | 理由 |
+|------|---------|------|
+| candidates ≥ 30 **或** 跨 sprint 一致性必查 | **Triage UI（§2.1）** | 历史 hint banner / audit table 不可替代 |
+| 30 > candidates ≥ 10 **且** triage UI 已就绪 | Triage UI（§2.1） | 用就用，避免 markdown 流量回退 |
+| candidates < 10 **且** 三天内只 1 次 review | **Markdown Review（§2.2）** | 起 UI 服务 ROI 不划算 |
+| candidates < 10 **但** 涉及历史 reject 复检 | Triage UI（§2.1） | hint banner 必查 |
+| triage UI 临时不可用（CI / 离线 / 等） | Markdown Review（§2.2） | V1 fallback，retro §3 记衍生债 |
+
+> 选 Markdown Review 时必须在 retro §3 标注"用 V1 fallback 是 ⚪ 临时 / 🟡 持续，下 sprint 是否切回 Triage UI"。
+
+### 2.1 Triage UI（推荐主路径，参见 `docs/methodology/05-audit-trail-pattern.md`）
+
 - Hist 用 Web UI 决策（approve / reject / defer）
 - Hint Banner 显示历史决策（跨 sprint 一致性）
 - 决策写入 `triage_decisions` audit table
 
-可选 2：**Markdown Review**（V1 fallback）
+### 2.2 Markdown Review（V1 fallback）
+
 - Hist 直接编辑 dry-run 报告，加 decision column
 - 决策记录在 sprint-logs/{id}/historian-review-YYYY-MM-DD.md
 

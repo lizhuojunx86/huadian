@@ -168,8 +168,10 @@
 
 4. 架构师决策记录
    ├─ 写入 sprint-logs/{id}/stop-rule-trigger-X.md
-   └─ retro §4 引用本决策
+   └─ retro §4 引用本决策（retro-template.md §4 表格的"路径"列填本协议第 3 步选项 A/B/C/D）
 ```
+
+> **配套引用**：`framework/sprint-templates/retro-template.md` §4 的"Rule / 类别 / 触发原因 / 裁决 / trigger 文件路径"5 列表头与本协议一一对应。Retro 起草时一定要回填本协议第 3 步选定的 A/B/C/D 选项 + 触发文件链接，便于跨 sprint 检索同类触发模式。
 
 ---
 

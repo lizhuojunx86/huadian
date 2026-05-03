@@ -1,7 +1,8 @@
 # framework/role-templates — Multi-Role Coordination Templates
 
-> Status: **v0.1 (Sprint M Stage 1 first abstraction)**
-> Date: 2026-04-29
+> Status: **v0.2.0 (Sprint P release / 2026-04-30)**
+> First abstraction: Sprint M Stage 1, 2026-04-29
+> Date: 2026-04-30
 > License: Apache 2.0 (代码/模板) / CC BY 4.0 (文档)
 > Source: 华典智谱 `.claude/agents/*.md` 10 份角色定义 + `docs/methodology/01-role-design-pattern.md` + Sprint K (T-P0-028 Triage UI V1) 5 角色协同实战
 
@@ -195,6 +196,7 @@ LLM context window 有限。一个 session 装入"角色定义 + 任务卡 + 项
 |---------|------|--------|--------|
 | v0.1 | 2026-04-29 | Sprint M Stage 1 (first abstraction) | 初版抽出（10 角色模板 + tagged-sessions-protocol + cross-domain-mapping）|
 | v0.1.1 | 2026-04-29 | Sprint M Stage 4 follow-up patch | DGF-M-04 / DGF-M-05 / DGF-M-06 / DGF-M-07 落地：domain-expert + chief-architect §核心职责加单独条目；tagged-sessions-protocol §2.3 / §4.5 加协调模式区分注脚 |
+| **v0.2.0** | **2026-04-30** | **Sprint P v0.2 release** | 内容无独立 patch；与 framework v0.2 release 同步发布（统一版本号便于跨模块引用）|
 
 ---
 

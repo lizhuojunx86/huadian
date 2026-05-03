@@ -14,6 +14,7 @@ Source: extracted from `services/pipeline/src/huadian_pipeline/r6_temporal_guard
 from __future__ import annotations
 
 import logging
+import os
 import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -31,11 +32,22 @@ logger = logging.getLogger(__name__)
 
 
 def _default_periods_path() -> Path:
-    """Locate `data/dynasty-periods.yaml` relative to the HuaDian project root.
+    """Locate `data/dynasty-periods.yaml` for HuaDian classics example.
 
-    parents[0]=huadian_classics, [1]=examples, [2]=identity_resolver,
-    [3]=framework, [4]=<project_root>
+    Resolution priority (per Sprint P DGF-O-01 P2 patch):
+        1. ``HUADIAN_DATA_DIR`` environment variable (if set)
+           → ``$HUADIAN_DATA_DIR/dynasty-periods.yaml``
+        2. Fallback: walk up from this file
+           parents[0]=huadian_classics, [1]=examples, [2]=identity_resolver,
+           [3]=framework, [4]=<project_root>
+
+    Cross-domain re-use note: callers may also pass ``path`` directly to
+    :func:`_load_dynasty_periods` (or call :func:`set_dynasty_periods_path`
+    semantically by setting the env var) to override entirely.
     """
+    env = os.environ.get("HUADIAN_DATA_DIR")
+    if env:
+        return Path(env) / "dynasty-periods.yaml"
     return Path(__file__).resolve().parents[4] / "data" / "dynasty-periods.yaml"
 
 

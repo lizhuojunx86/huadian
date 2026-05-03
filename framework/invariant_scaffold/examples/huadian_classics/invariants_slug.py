@@ -13,6 +13,7 @@ ADR: ADR-011 (slug naming convention)
 
 from __future__ import annotations
 
+import os
 import re
 from pathlib import Path
 from typing import Any
@@ -40,17 +41,30 @@ SLUG_COLLISION_SQL = """
 """
 
 
-def _load_tier_s_whitelist() -> set[str]:
+def _default_tier_s_path() -> Path:
+    """Locate `data/tier-s-slugs.yaml` for HuaDian classics example.
+
+    Resolution priority (per Sprint P DGF-O-01 P2 patch):
+        1. ``HUADIAN_DATA_DIR`` environment variable (if set)
+           → ``$HUADIAN_DATA_DIR/tier-s-slugs.yaml``
+        2. Fallback: walk up from this file
+           parents[0]=huadian_classics, [1]=examples, [2]=invariant_scaffold,
+           [3]=framework, [4]=<project_root>
+    """
+    env = os.environ.get("HUADIAN_DATA_DIR")
+    if env:
+        return Path(env) / "tier-s-slugs.yaml"
+    return Path(__file__).resolve().parents[4] / "data" / "tier-s-slugs.yaml"
+
+
+def _load_tier_s_whitelist(path: Path | None = None) -> set[str]:
     """Load Tier-S slug whitelist values from data/tier-s-slugs.yaml.
 
     The huadian_pipeline package provides get_tier_s_whitelist() which
     returns dict[chinese_name, slug]; we need the set of slug values.
 
-    Path note: this file lives at
-        framework/invariant_scaffold/examples/huadian_classics/invariants_slug.py
-    so the project root is 4 levels up:
-        parents[0]=huadian_classics, [1]=examples, [2]=invariant_scaffold,
-        [3]=framework, [4]=<project_root>
+    Path resolution: explicit ``path`` arg > ``HUADIAN_DATA_DIR`` env var
+    > ``parents[4]/data`` walk-up fallback. See :func:`_default_tier_s_path`.
     """
     # Primary path: import from huadian_pipeline (catch any exception, not
     # just ImportError — yaml loader inside slug.py can also raise).
@@ -66,10 +80,10 @@ def _load_tier_s_whitelist() -> set[str]:
         import yaml  # type: ignore
     except ImportError:
         return set()
-    path = Path(__file__).resolve().parents[4] / "data" / "tier-s-slugs.yaml"
-    if not path.exists():
+    yaml_path = path or _default_tier_s_path()
+    if not yaml_path.exists():
         return set()
-    with path.open(encoding="utf-8") as fh:
+    with yaml_path.open(encoding="utf-8") as fh:
         data = yaml.safe_load(fh) or {}
     return set(data.values()) if isinstance(data, dict) else set()
 

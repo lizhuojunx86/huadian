@@ -21,10 +21,16 @@
 ⚠️FILL：前 N 个 sprint 已完成什么；本 sprint 在大局中的位置；战略锚点引用（如 ADR-NNN）
 
 ### 1.2 与既有 sprint 的差异
-⚠️FILL（表格）：当前 sprint vs 历史最近 sprint 的关键维度对比
+⚠️FILL（表格）：当前 sprint vs 历史最近 sprint(s) 的关键维度对比。
 
-| 维度 | 上一 sprint | 本 sprint |
-|------|----------|---------|
+> **列数灵活**（DGF-Sprint-O 反馈 / Sprint P T-P3-FW-001）：
+> - 与单一上一 sprint 比时：2 列表头（"上一 sprint" / "本 sprint"）
+> - 与一批近 N 个 sprint 比时：表头写聚合范围（如 "Sprint L-O" / "本 sprint"）
+> - 与不同形态 sprint 各 1 个对比时：N+1 列（如 "Sprint L 抽象" / "Sprint M 抽象" / "本 sprint"）
+> - 维度行数也灵活：3-7 行通常足够，超 8 行说明对比维度过多 → 拆 sub-section。
+
+| 维度 | ⚠️FILL 历史范围 | 本 sprint |
+|------|------|---------|
 | ⚠️FILL | ... | ... |
 | ⚠️FILL | ... | ... |
 
@@ -55,15 +61,40 @@
 
 ---
 
-## 3. Stages（5-stage 模板）
+## 3. Stages
 
-### Stage 0 — 前置准备 / Inventory
+> ⚠️ **二选一**：根据 sprint 形态选 §3.A（5-stage 数据管线模板）或 §3.B（精简 / 文档 + 框架抽象模板）。
+> 不要硬填空 stage（"无"或 N/A 是负担）。
+> 选择依据：见 §3.0 选择指南。
+
+### 3.0 Stages 形态选择指南（DGF-M-01 / Sprint P 新增）
+
+按以下顺序判断，第一个 ✅ 即采用：
+
+| 条件 | 适用模板 |
+|------|---------|
+| 涉及 LLM 抽取 / DB write / Stage 3 historian review | **§3.A（5-stage 数据管线）** |
+| 涉及 schema migration / production data backfill | §3.A |
+| 纯 framework 抽象 / methodology 起草 / template polish / release prep | **§3.B（精简 1-2 阶段）** |
+| 纯文档整理 / cross-ref 修复 / debt patch | §3.B |
+| 单 actor + 全 in-memory + 0 DB write | §3.B |
+
+实证（华典智谱）：
+- Sprint A-K（数据 ingest）→ §3.A
+- Sprint L-P（framework 抽象 / patch）→ §3.B
+- 大多数 D-route Layer 1 抽象 sprint → §3.B
+
+---
+
+### 3.A — 5-stage 数据管线模板（数据 sprint 用）
+
+#### Stage 0 — 前置准备 / Inventory
 
 ⚠️FILL：本 sprint 启动前需要的准备工作（fixture / adapter / inventory / etc）
 
 输出：⚠️FILL `docs/sprint-logs/sprint-{id}/stage-0-{topic}.md`
 
-### Stage 1 — Smoke
+#### Stage 1 — Smoke
 
 **子集大小**：⚠️FILL `5 段 / 1 章节 / 10 行 / etc`
 
@@ -72,14 +103,14 @@
 - ⚠️FILL invariants 全绿
 - ⚠️FILL 输出格式符合 schema
 
-### Stage 2 — Full
+#### Stage 2 — Full
 
 **Gate 1**：
 - ⚠️FILL 总成本 ≤ $⚠️N（brief 预算的 1.5x 内）
 - ⚠️FILL 新增实体数 ≤ ⚠️N（brief 预期的 1.2x 内）
 - ⚠️FILL 没有任何 invariant 回归
 
-### Stage 3 — Dry-Run + Review
+#### Stage 3 — Dry-Run + Review
 
 ⚠️FILL：本 sprint 的 review 类型（merge candidates / split candidates / mapping verification / etc）
 
@@ -88,7 +119,7 @@
 - ⚠️FILL Architect ACK 决策
 - ⚠️FILL apply input file 就绪
 
-### Stage 4 — Apply
+#### Stage 4 — Apply
 
 **关键约束**：
 - ⚠️FILL idempotency unique key
@@ -100,13 +131,57 @@
 - ⚠️FILL invariants 仍全绿
 - ⚠️FILL audit log 完整
 
-### Stage 5 — Closeout
+#### Stage 5 — Closeout
 
 输出：
 - 任务卡 → done
 - STATUS / CHANGELOG 更新
 - retro 文档（含 D-route 资产盘点段）
 - 衍生债登记
+
+---
+
+### 3.B — 精简模板（framework 抽象 / 纯文档 / patch sprint 用）
+
+实证：Sprint L / M / N / O / P 全部用本路径。
+
+#### Stage 0 — Inventory（轻量；如已在 brief §2 列清，可写"§2 即 inventory，无独立文档"）
+
+⚠️FILL：本 sprint 抽出的源代码 / 文档清单 / 待 patch 候选清单。
+
+输出（任选）：
+- 独立文档 `docs/sprint-logs/sprint-{id}/stage-0-inventory-YYYY-MM-DD.md`
+- **或**直接在 brief §2.1 列清，不另起文档（patch / polish sprint 推荐此模式）
+
+#### Stage 1 — 抽象 / Patch / Polish 主体
+
+按批次组织（每批 ≤ ~30 分钟工作量）：
+
+1. **批 1：⚠️FILL 主题** — ⚠️FILL 文件 / 估时
+2. **批 2：⚠️FILL 主题** — ⚠️FILL 文件 / 估时
+3. **批 N：⚠️FILL 主题** — ⚠️FILL
+
+**Gate 1.B**：
+- ⚠️FILL ruff check + format clean（仅当涉及代码改动）
+- ⚠️FILL 改动文件 sanity import / smoke test 通过
+- ⚠️FILL 涉及的 cross-ref（README / methodology / STATUS）已联动更新
+
+#### Stage 1.13 — Dogfood（可选，仅当抽象 / patch 涉及代码 path）
+
+⚠️FILL：dogfood 验证形式（byte-identical 对比生产 / soft-equivalent self-test 注入 / 仅 import sanity / etc）。
+
+非代码 sprint（纯文档 / template polish）→ 写"无 dogfood，下一 sprint 起草过程即下游 dogfood"。
+
+#### Stage 4.B — Closeout（精简版）
+
+输出：
+- 8 项判据回填（见 §6）
+- STATUS / CHANGELOG 更新
+- retro 文档（含 D-route 资产盘点段）
+- 衍生债登记
+- 下一 sprint 候选议程建议
+
+> 注意 §3.B 路径下 **无 Stage 2 / 3 / 5 编号**——这是精简模板的特性，不是 stages 缺失。retro / closeout 模板里不要硬填 "Stage 2 / 3" 行。
 
 ---
 
@@ -158,15 +233,19 @@
 
 ---
 
-## 8. D-route 资产沉淀预期（Layer 1+2 项目专用，非 D-route 项目可删本节）
+## 8. D-route 资产沉淀预期（D-route 风格项目适用 — 详见 `framework/README.md` D-route 段；非 D-route 项目可删本节）
 
-本 sprint 预期沉淀以下框架抽象资产（任选 ≥ 1 项，违反 C-22 不得启动）：
+D-route 风格的项目（"框架抽象 + 参考实现"双轨）要求**每个 sprint 至少沉淀 1 项可被后续 sprint / 跨领域案例方复用的框架资产**，避免出现"纯案例完成度推进、对框架抽象 0 贡献"的 sprint。本节即对该规则做 sprint-level 自检。
 
-- [ ] 新增 docs/methodology/*.md 草案
+本 sprint 预期沉淀以下框架抽象资产（**至少勾 ≥ 1 项**；若 0 项请回到 §1.1 重审 sprint 设计是否仅服务案例完成度）：
+
+- [ ] 新增 `docs/methodology/*.md` 草案
 - [ ] 已有 methodology 草案的 v0.x → v0.(x+1) 迭代
 - [ ] 框架代码 spike（具体路径）
 - [ ] 案例素材积累（retro 中标注 ≥1 个可抽象 pattern）
 - [ ] 跨领域 mapping 表更新
+
+> 本项目特定的不可变约束（如华典智谱 C-22 项目宪法）请在子 brief 中显式引用；模板本身不绑定具体项目宪法编号。
 
 ---
 
@@ -177,4 +256,9 @@
 
 ---
 
-**本 brief 模板版本**：framework/sprint-templates v0.1
+**本 brief 模板版本**：framework/sprint-templates v0.1.2
+
+变更日志：
+- v0.1 (Sprint L) — 初版
+- v0.1.1 (Sprint M DGF-M-02~07 patch) — §3 加 Stage 0 inventory / §5 single-actor 注脚 / §8 跨域 mapping checklist 等
+- **v0.1.2 (Sprint P 批 2 polish)** — §1.2 灵活列数说明 / §3 拆分 §3.A 5-stage 与 §3.B 精简模板 + §3.0 选择指南 / §8 措辞解耦 C-22 项目宪法专属性
