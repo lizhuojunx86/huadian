@@ -419,13 +419,65 @@ ADR 按时间顺序编号 ADR-001 / ADR-002 / ...，不允许"跳号占位"。
 
 ---
 
-## 8. 修订历史
+## 8. 与 methodology/02 元 pattern 的关系（v0.1.1 新增 / Sprint U 批 2）
+
+methodology/02-sprint-governance-pattern.md v0.1.1 (Sprint R) §10-§13 沉淀了 4 段元 pattern。本文件 §1-§7 描述的是"ADR 在 KE 项目的适配"层；§8 给出与 /02 元 pattern 的双向引用关系，让读者理解"ADR pattern vs sprint 治理"的耦合点。
+
+### 8.1 跨 doc 引用速查
+
+| methodology/02 §X | 对本文件的影响 |
+|-------------------|--------------|
+| §10 Maintenance Sprint Pattern | 本文件 §6.3 何时启动 ADR — maintenance sprint 内通常**不**起新 ADR（patch sprint 应该 zero ADR / per Stop Rule §5）；起 ADR 应该是 release / eval / 抽象 sprint |
+| §11 P3 复发升级 P2 暗规则 | 本文件 §3 ADR 演化 — debt 跨 sprint 复发是 ADR addendum 的典型触发场景（vs case-level 一次性修订）|
+| §12 5 模块齐备阈值 | 本文件 §4 ADR 编号策略 — framework 抽象阶段终点后，新 ADR 应该集中在 release / cross-domain / governance（而非新模块抽象）|
+| §13 跨 stack 抽象 pattern | 本文件 §6.1 ADR 模板领域无关 — 跨 stack 抽象本身需要 ADR 记录（per Sprint Q audit_triage 实证 / 但 Sprint Q 当时未起 ADR / 触发 v0.4 候选 "应回填跨 stack 抽象决策记录"）|
+
+### 8.2 实证锚点（Sprint A-U 累计 31 ADR + 演化数据点）
+
+| Sprint | ADR 起 / 修 | pattern 类型 |
+|--------|----------|------------|
+| A-K | ADR-001 ~ ADR-027（27 ADRs / 抽象 + maintenance + V1-V11 invariant 引入）| 主线 ADR / per §3 ADR 演化模式 |
+| K | ADR-027（Triage UI workflow / first-class）| 复杂业务流程 ADR |
+| L | ADR-028（D-route 战略转型）| 战略级 ADR / 触发后续抽象 |
+| L | ADR-029（许可证策略）| Release 必要 ADR |
+| Q | （audit_triage 抽象 / **应起 ADR 但未起**）| Identified gap → v0.4 候选 |
+| S | ADR-030（v0.3 release timing）| Release-trigger ADR / 模板复用 |
+| **U (本 sprint)** | **ADR-031**（v1.0 release candidate evaluation）| **Release-eval ADR / 与 ADR-030 形成对比模板** |
+
+**模式**：
+- v0.x 早期（Sprint A-K）：ADR 多与"抽象决策"对应（每个新 framework 模块至少 1 ADR）
+- v0.x 中期（Sprint L-T）：ADR 多与"治理决策"对应（D-route 战略 / 许可证 / release timing）
+- v0.x 晚期（Sprint U+N，预测）：ADR 多与"release / 跨域 / 成熟度"对应（per ADR-031 §5 路径）
+
+### 8.3 跨域 fork 案例方启示
+
+如果你 fork framework 到你的领域（per methodology/02 §13.4）：
+
+- **抽象 sprint** 起 ADR：每个新 framework 模块抽象至少 1 ADR（per Sprint A-K 实证）
+- **maintenance sprint 应 zero ADR**（per methodology/02 §10.5 反模式 + 本文件 §6.3）
+- **release sprint** 起 ADR：v0.x → v0.(x+1) 触发条件 + Validation Criteria（per ADR-030 模板）
+- **eval sprint** 起 ADR：v1.0 / 跨域 / 成熟度阈值评估（per ADR-031 模板）
+- **跨 stack 抽象** 应起 ADR（vs Sprint Q audit_triage 当时未起 / 已识别 gap 待回填）
+
+### 8.4 ADR 与 methodology cross-ref 的双向责任
+
+ADR 是**点状决策**，methodology 是**结构化模式**。两者关系：
+
+- ADR 验证或挑战 methodology pattern → 触发 methodology v0.x → v0.(x+1) iter（per /02 §10-§13 实证锚点）
+- methodology 给 ADR 提供"为什么这么决策"的理论基础（per §6.3 何时启动 ADR）
+- 两者通过 §修订历史 + cross-ref 表互相引用（per Sprint S /01 + /03 + /04 + Sprint U /06 polish 模式）
+
+---
+
+## 9. 修订历史
 
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
 | Draft v0.1 | 2026-04-29 | 首席架构师 | 初稿（Stage C-10 of D-route doc realignment）|
+| **v0.1.1** | **2026-04-30** | **首席架构师** | **Sprint U 批 2 polish：加 §8 与 methodology/02 元 pattern 关系（4 段 cross-ref + Sprint A-U 31 ADR 演化数据点 + 跨域 fork 启示 5 条 + ADR↔methodology 双向责任段）** |
 
 ---
 
 > 本文档描述的 ADR Pattern for KE 是 AKE 框架的 Layer 1 核心资产之一。
-> 27+ ADRs 实证细节见 `docs/decisions/ADR-001` ~ `ADR-029`.
+> 31+ ADRs 实证细节见 `docs/decisions/ADR-001` ~ `ADR-031`.
+> Sprint U §8 把它链接回 methodology/02 §10-§13 元 pattern + Sprint A-U ADR 演化数据点。
