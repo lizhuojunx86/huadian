@@ -390,11 +390,202 @@ cp /path/to/huadian/docs/sprint-logs/sprint-k/stage-0-brief-2026-04-28.md \
 
 ---
 
-## 9. 修订历史
+## 9. Sprint 形态与 5-Stage 模板的关系（v0.1.1 重述）
+
+§2 给出的 5-stage 是**数据管线类 sprint** 的标准模板（实证：Sprint A-K）。但实际 AKE 项目中存在多种 sprint 形态，并不都需要 5 stage。下面 4 类（§10-§13）是华典智谱 Sprint L-Q 实证沉淀的**元 pattern**——它们告诉你：什么时候用精简模板 / 什么时候触发暗规则升级 / 什么时候宣布"抽象阶段终点" / 怎么跨 stack 抽象。
+
+| 元 pattern | 适用 | 详见 |
+|-----------|------|------|
+| Maintenance Sprint Pattern | 5-batch 清债 sprint | §10 |
+| P3 复发升级 P2 暗规则 | 跨 sprint 同 bug 复发 ≥ 2 次 | §11 |
+| 5 模块齐备阈值 | framework 抽象阶段终点判断 | §12 |
+| 跨 stack 抽象 pattern | 生产 stack ≠ framework stack | §13 |
+
+---
+
+## 10. Maintenance Sprint Pattern（清债 sprint 形态）
+
+### 10.1 触发
+
+累计 v0.x 候选 ≥ 5（含 ≥ 1 P2 升级或跨 sprint 复发的债务）→ 启动 maintenance sprint。
+
+### 10.2 5-batch 标准结构（实证：Sprint P / 1 会话压缩 / Sprint R / 1-2 会话）
+
+```
+批 1 — P2 优先（如有）          ~30 min
+批 2 — template / docs polish   ~5-30 min/项 * N 项
+批 3 — code patches             ~5-30 min/项 * N 项
+批 4 — release prep（如有）      ~30-45 min
+批 5 — sanity 回归               ~15 min
+```
+
+每批：
+- ≤ 30 min（保证 commit 粒度细 / 中段可中止）
+- 天然 commit point（每批结束 commit + push）
+- 5 批之间零依赖（架构师任何时刻可中断）
+
+### 10.3 与 §2 5-stage 的关系
+
+Maintenance sprint 走 brief-template **§3.B 精简模板**（非 §2 的 5-stage）：
+- Stage 0 inventory 直接嵌 brief §2.1（不必独立文档）
+- Stage 1 = N batch 主体
+- Stage 1.13 = 简单 sanity（非完整 dogfood）
+- Stage 4 = 精简 closeout
+
+### 10.4 节律（D-route 项目）
+
+每 3-5 个抽象 sprint 触发 1 次 maintenance sprint（避免 v0.x 候选堆积）。
+
+实证：
+- Sprint L+M+N+O（4 抽象）→ Sprint P (maintenance) → Sprint Q (抽象 + 合并补测) → Sprint R (maintenance)
+
+### 10.5 反模式
+
+❌ Maintenance sprint 内做"顺手抽个新模块"——破坏 zero-trigger 节奏 + scope 失控
+
+❌ 试图把 ≥ 10 项 v0.x 候选塞进 1 个 maintenance sprint——批数 > 5 = 工时超预算
+
+✅ 每个 maintenance sprint scope ≤ 5 batch / 工时 ≤ 2 会话 / 触发 ≥ 0 Stop Rule
+
+---
+
+## 11. P3 复发升级 P2 暗规则
+
+### 11.1 规则
+
+跨 sprint 同类 bug / debt 复发 ≥ 2 次 → 自动升级至 P2 优先处理（next maintenance sprint 第一批）。
+
+### 11.2 实证
+
+**DGF-N-02 → DGF-O-01 path bug 跨 sprint 复发**：
+- Sprint N dogfood 触发 path 解析 bug（`Path(__file__).resolve().parents[5]` vs `parents[4]`），登记 DGF-N-02 P3
+- Sprint O 跑同 dogfood，**同 bug 复发**（slug_format 报 135 violations / `parents[5]` 错算 + `except ImportError` 太窄）
+- 触发暗规则 → DGF-N-02 升级为 DGF-O-01 P2
+- Sprint P 第一批 land：4 处 `_default_*_path()` 改 `HUADIAN_DATA_DIR` env var > `parents[4]` fallback
+
+### 11.3 为什么必须升级（不是简单"再做一次 P3"）
+
+- 复发 = 这是 **systemic** 问题，不是 isolated bug
+- 复发 ≥ 2 次 = "下次还会发生"概率高
+- 再 defer 一次 = 跨 sprint 工时浪费 × 2-3 倍
+- → 必须打破"P3 永远 defer"的死循环
+
+### 11.4 配套
+
+- retro § Lessons Learned 必须显式记"复发"事实 + "升级 P2" 决策
+- next sprint brief §1.1 显式引用复发 retro
+- chief-architect.md §工程小细节 已固化此规则（v0.2.1 Sprint R）
+
+---
+
+## 12. 5 模块齐备阈值（framework 抽象阶段终点判断）
+
+### 12.1 阈值
+
+framework Layer 1 抽象**5 模块齐备**即可宣布抽象阶段终点：
+- 2 治理类（sprint workflow + role coordination）
+- 3 代码类（identity / invariant / audit）
+
+### 12.2 实证：华典智谱
+
+```
+Sprint L → framework/sprint-templates/        (governance ① )
+Sprint M → framework/role-templates/          (governance ② )
+Sprint N → framework/identity_resolver/       (code ① )
+Sprint O → framework/invariant_scaffold/      (code ② )
+Sprint Q → framework/audit_triage/            (code ③ ) ← 5 齐备 ⭐
+```
+
+### 12.3 为什么是 5 个
+
+5 模块覆盖 KE 项目的**最小完整工作流**：
+1. **怎么管理 sprint** → sprint-templates
+2. **怎么协作多角色** → role-templates
+3. **怎么解析"谁是谁"** → identity_resolver
+4. **怎么校验数据正确性** → invariant_scaffold
+5. **怎么人机协同 review** → audit_triage
+
+少 1 个 → 跨域 fork 案例方需自己设计该模块（增加学习成本）。
+多 1 个 → 抽象过度（v0.x 期内不必追求"完美"前发布）。
+
+### 12.4 5 齐备后的工作重心切换
+
+抽象阶段终点 ≠ framework 工作终点。后续重心：
+
+- **maintenance sprint**（每 3-5 sprint 一次）→ 清债 + polish
+- **methodology v0.x 迭代**（v0.1 → v0.2 → ...）→ 元 pattern 沉淀
+- **跨域 reference impl**（等案例方主动接触）→ examples/legal/ + examples/medical/ 等
+- **v0.x release prep**（v0.2 / v0.3 / ...）→ ceremonial release
+
+但**不主动开第 6 / 第 7 模块**（除非有强 case 触发，如外部贡献者强烈反馈缺哪一刀）。
+
+### 12.5 反模式
+
+❌ "再开个 framework/llm_gateway/ / framework/cost_tracker/ 模块" — 这些是案例方的事，不是框架的事
+
+❌ "5 模块每个都做到 v1.0 完美再 release" — 等不到那一天
+
+✅ 5 齐备 + 各模块 ≥ v0.1（有 dogfood 实证）即 release v0.x
+
+---
+
+## 13. 跨 stack 抽象 pattern（生产 stack ≠ framework stack）
+
+### 13.1 触发
+
+生产代码与 framework 抽象使用不同语言 / runtime / 框架时（如 production = TypeScript / framework = Python；production = Java / framework = Rust）。
+
+### 13.2 标准做法（华典智谱 Sprint Q 实证）
+
+#### Step 1: SQL / 共享接口逐字 port
+
+DB 层 SQL 在两个 stack 间通常完全等价。逐字复制（`_SEED_SELECT` / `_GUARD_SELECT` / `_INSERT_*_SQL` 等），不重新设计。
+
+#### Step 2: 业务逻辑分层
+
+```
+service.py    — 纯 Python，零 DB / 零 HTTP（与生产 TS 业务逻辑等价）
+store.py      — Plugin Protocol（DB-agnostic）
+examples/     — 具体 stack 实现（asyncpg / aiosqlite / etc）
+```
+
+#### Step 3: dogfood 走 soft-equivalent（非 byte-identical）
+
+跨 stack 不能 byte-identical（DTO 命名 / serialization 差别），所以走 soft-equivalent：
+- 比对 row 数 / 主要字段值 / ordering
+- 接受 DTO shape 差异（snake_case vs camelCase）
+- 接受 timestamp 序列化差异（datetime vs ISO string）
+
+### 13.3 实证 Sprint Q audit_triage
+
+- 生产：`services/api/src/services/triage.service.ts`（TypeScript / Drizzle / Postgres-js / 922 行）
+- framework：`framework/audit_triage/` （Python / asyncpg / 14 files / 2553 行）
+- dogfood：`test_soft_equivalent.py`（user local Terminal 跑 / list_pending 20/20 ✓ + decisions_for_surface 4 surfaces 全部一致 ✓）
+
+→ 跨 stack 抽象 work（vs Sprint N+O 同 stack 的 byte-identical）。
+
+### 13.4 反模式
+
+❌ 跨 stack 想做 byte-identical（diff 永远在 / 浪费工时）
+
+❌ 把 GraphQL / REST 接口层也 port 到 framework（每 BE stack 不同 / 锁死）
+
+❌ 为了"统一 stack" 把生产 TS 重写成 Python（不是 framework 抽象的 scope）
+
+✅ SQL + service core 抽象到 framework；接口层 / data layer 留给案例方
+
+### 13.5 跨 stack 抽象 ≠ 跨 stack rewrite
+
+framework 抽象**不替换生产实现**——生产 TS triage.service.ts 继续生产用；framework Python 是给"跨 stack 案例方 fork"用的。两者**并行存在**+ dogfood 保证等价性 + 任一改动需同步评估另一边。
+
+---
+
+## 14. 修订历史
 
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
 | Draft v0.1 | 2026-04-29 | 首席架构师 | 初稿（Stage C-6 of D-route doc realignment）|
+| **v0.1.1** | **2026-04-30** | **首席架构师** | **Sprint R 批 3 polish (T-V03-FW-002)：加 §9 元 pattern 总览 + §10 Maintenance Sprint Pattern + §11 P3 复发升级 P2 暗规则 + §12 5 模块齐备阈值 + §13 跨 stack 抽象 pattern；4 段全来自华典智谱 Sprint P+Q 实证沉淀** |
 
 ---
 
