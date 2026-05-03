@@ -2,10 +2,10 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-30（Sprint S 完成 + 关档；ADR-030 v0.3 release timing 决策 + methodology/01+03+04 v0.1.2 cross-ref / **连续 4 个 zero-trigger sprint** P→Q→R→S / Sprint T = v0.3 release sprint 锁定）
+- **最近更新**：2026-04-30（Sprint T 完成 + framework **v0.3.0 release 准备就位** + Docker dogfood ✅ user local sandbox PASSED / **5 模块齐备首次完整 release** / 累计 patch 23/26 = 88.5% / 押后 v0.3 → 0）
 - **更新人**：首席架构师（Claude Opus 4.7）
 - **战略方向**：**D-route — Agentic Knowledge Engineering 框架 + 史记参考实现**（详见 [ADR-028](decisions/ADR-028-strategic-pivot-to-methodology.md) + [strategy/D-route-positioning.md](strategy/D-route-positioning.md)）
-- **当前阶段**：Phase 0 已收尾 / D-route 文档体系全对齐 / **Sprint S 完成（ADR-030 v0.3 release timing 决策 / methodology/01 + 03 + 04 v0.1.1 → v0.1.2 / 网状 cross-ref 成型 / brief-template v0.1.3 §2.1 估时表 dogfood ✓ 偏差 < 10% / 1.5 会话 / 0 Stop Rule 触发）** / **Sprint T = v0.3 release sprint**（per ADR-030 锁定 / 6/6 触发条件达成）
+- **当前阶段**：Phase 0 已收尾 / D-route 文档体系全对齐 / **Sprint T 完成（v0.3.0 release prep + T-V03-FW-005 Docker dogfood ✅ sandbox PASSED / 5 模块统一 v0.3.0 / RELEASE_NOTES_v0.3.md / ADR-030 §5 6 条 checklist 回填 / git tag v0.3.0 待用户 push）** / Sprint U 候选议程激活（v0.4 等候触发 / 跨域案例方接触优先）
 
 ---
 
@@ -22,10 +22,10 @@
 
 | Layer | 状态 | 当前焦点 |
 |-------|------|---------|
-| L1 框架代码抽象 | **🟢 5 模块齐备 / 抽象首次完整 + 微 polish + Sprint S 不动 code**（Sprint L+M+N+O+P+Q+R+S 完成）| sprint-templates v0.1.3 + role-templates v0.2.1 + identity_resolver v0.2.0 + invariant_scaffold v0.2.0 + audit_triage v0.1.0；共 ~127 files + 60 pytest tests + 1 pre-commit hook；累计 v0.2 18/20 + v0.3 5/6 = **88.5% patch 落地** + Sprint T (v0.3 release) 锁定 |
-| L2 方法论文档 | 🟢 **网状 cross-ref 成型** (Sprint S)：methodology/01 v0.1.2 + /02 v0.1.1（4 段元 pattern + 总览）+ /03 v0.1.2 + /04 v0.1.2 + /05 v0.1.1 | docs/methodology/ 7 份草案（约 4 万字）；4 doc ≥ v0.1.2 已加 cross-ref to /02 §10-§13；/06 + /07 仍 Stage C 待起草 |
-| L3 案例库 | 🟢 主案例 + demo + 5 sprint dogfood + Sprint Q dogfood ✅ user local PASSED | Sprint S 评估 sprint 不动 case 数据 |
-| L4 社区 / 商业 | 🟢 第一刀触发（v0.2.0 GitHub release tag 已 push）+ pre-commit hook 跨 stack sync + **ADR-030 v0.3 release timing 决策**（明确 Sprint T 启动 / 6/6 触发条件达成）| **Sprint T = v0.3 release sprint**（per ADR-030 §2.2 锁定）|
+| L1 框架代码抽象 | **🟢 5 模块齐备 / 统一 v0.3.0 release**（Sprint L→T 9 sprint 完成）| sprint-templates v0.3.0 + role-templates v0.3.0 + identity_resolver v0.3.0 + invariant_scaffold v0.3.0 + audit_triage v0.3.0；共 ~131 files + 60 pytest tests + 1 pre-commit hook + Docker dogfood infra（compose + bootstrap + seed + README）；累计 v0.2 18/20 + v0.3 6/6 = **24/26 = 92.3% patch 落地** ⭐ |
+| L2 方法论文档 | 🟢 网状 cross-ref 成型：methodology/01 v0.1.2 + /02 v0.1.1（4 段元 pattern + 总览）+ /03 v0.1.2 + /04 v0.1.2 + /05 v0.1.1 | docs/methodology/ 7 份草案；4 doc ≥ v0.1.2 已加 cross-ref to /02 §10-§13；/06 + /07 仍 Stage C 待起草 |
+| L3 案例库 | 🟢 主案例 + demo + 5 sprint dogfood + Sprint Q dogfood ✅ user local + **Sprint T Docker dogfood ✅ sandbox PASSED** | Sprint T T-V03-FW-005 让 dogfood 既支持生产又支持 Docker compose |
+| L4 社区 / 商业 | 🟢 **第二刀触发**（v0.3.0 GitHub release tag 待 push / vs v0.2.0 第一刀）| Sprint U+ 等跨域案例方接触触发 v0.4 release（或继续 maintenance）|
 
 ---
 
@@ -133,23 +133,34 @@
 
 | Stage | 状态 | 产出 |
 |-------|------|------|
-| Stage 0 inventory + brief 起草 | ✅ | brief-template v0.1.3 第 1 次外部 dogfood（3 类估时表首次试 / 偏差 < 10%）|
-| Stage 1 批 1 — ADR-030 v0.3 release timing | ✅ | docs/decisions/ADR-030 / 219 行（在 Stop Rule #4 阈值 300 内）/ 选项 B / 6/6 触发条件达成 |
-| Stage 1 批 2 — methodology/01 v0.1.2 | ✅ | + §10 4 段 cross-ref + Sprint M-R 角色活跃度实证锚点表 |
-| **会话 1 中场 commit + push (`d0a3652` + `40aa14b`)** | ✅ | main `40aa14b` |
-| Stage 1 批 3 — methodology/03 v0.1.2 | ✅ | + §9 4 段 cross-ref + Sprint N vs Q 跨 stack 对比表 |
-| Stage 1 批 4 — methodology/04 v0.1.2 | ✅ | + §8 5 段 cross-ref + 3 种 dogfood 组合对比 + self-test 强化模式 |
-| Stage 1.13 sanity 回归 | ✅ | 60/60 in 0.31s + ruff/format + 5 模块 import + 5 doc methodology 版本验证 |
-| Stage 4 Closeout + Retro | ✅ | stage-4-closeout + sprint-s-retro + sprint-s-residual-debts |
+| Stage 0 inventory + brief 起草 | ✅ | brief-template v0.1.3 第 1 次外部 dogfood |
+| Stage 1 批 1 — ADR-030 v0.3 release timing | ✅ | 219 行 / 选项 B / 6/6 触发条件达成 |
+| Stage 1 批 2 — methodology/01 v0.1.2 | ✅ | + §10 4 段 cross-ref |
+| Stage 1 批 3 — methodology/03 v0.1.2 | ✅ | + §9 4 段 cross-ref |
+| Stage 1 批 4 — methodology/04 v0.1.2 | ✅ | + §8 5 段 cross-ref |
+| Stage 1.13 + Stage 4 | ✅ | 60/60 in 0.31s + closeout + retro |
+
+### 2.2.8 Sprint T 进度（v0.3.0 release sprint + T-V03-FW-005 Docker compose / 关档）
+
+| Stage | 状态 | 产出 |
+|-------|------|------|
+| Stage 0 inventory + brief 起草 | ✅ | brief-template v0.1.3 第 2 次外部 dogfood (Code 主导) |
+| **Stage 1 批 1 — T-V03-FW-005 Docker compose 大头** | ✅ **PASSED** | scripts/dogfood-postgres-compose.yml + bootstrap.sql (7 表) + seed.sql (5+8+1+3+3+3+5 rows) + README / **user local Docker compose 一次跑通 + dogfood ✓** |
+| Stage 1 批 2 — 5 README §0+§8 + 3 __version__ bump | ✅ | 5 modules 统一 v0.3.0 / identity + invariant 0.2.0→0.3.0 + audit_triage 0.1.0→0.3.0 跳跃 bump |
+| Stage 1 批 3 — RELEASE_NOTES_v0.3.md | ✅ | 顶层 release notes（5 模块齐备 + 6 v0.3 patch + ADR-030 + Docker dogfood 实证 + v0.2→v0.3 演进数据点）|
+| Stage 1 批 4 — STATUS / CHANGELOG v0.3.0 标记 | ✅ | 本 update + CHANGELOG block |
+| Stage 1 批 5 — sanity + dogfood + ADR-030 §5 6 条回填 | TBD | 进行中 |
+| Stage 4 Closeout + Retro | TBD | 进行中 |
 
 ### 2.3 阻塞 / 风险 / 等待项
 
-- 无阻塞。Sprint S 关档。
-- 待用户在 local Terminal 执行：`git commit + push`（2 commits 详见 `docs/sprint-logs/sprint-s/stage-4-closeout-2026-04-30.md` §7）
-- **Sprint T = v0.3 release sprint**（per ADR-030 §2.2 锁定 / 不可降级）
-  - 形态：5-batch maintenance sprint / 1-2 会话 / Sonnet 可考虑（patch + 文档撰写主导）
-  - 关键决策：T-V03-FW-005 (Docker compose / 大工作 ≥ 4h) 是否 fold 进 Sprint T 批 1
-  - 完成判据：5 模块 v0.3.0 + RELEASE_NOTES_v0.3.md + git tag v0.3.0 + ADR-030 §5 Validation Criteria 6 条 checklist 回填
+- 无阻塞。Sprint T 接近关档（待 batch 5 + Stage 4 完成）。
+- 待用户在 local Terminal 执行 commit + push + `git tag -a v0.3.0`（详见 stage-4-closeout 待起草 §7）
+- Sprint U 候选议程（per Sprint T 完成后预测）：
+  - **A. v0.4 candidate accumulation maintenance sprint**（如 v0.4 候选累积到 ≥ 5 项时触发 / 当前仅 1 项 / 不急）
+  - **B. 跨域 reference impl (legal)**（per Sprint Q debt §1.1 推荐 / 等案例方主动接触）
+  - C. methodology/06 + /07 起草（Stage C 待起草草案 / 优先度 P3）
+  - D. Sprint T retro 暴露的新候选（待生成）
 
 ---
 
