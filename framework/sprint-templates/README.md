@@ -1,8 +1,8 @@
 # framework/sprint-templates — Sprint Governance Templates
 
-> Status: **v0.2.0 (Sprint P release / 2026-04-30)**
+> Status: **v0.3.0 (Sprint T release / 2026-04-30)**
 > First abstraction: Sprint L Stage 1, 2026-04-29
-> Latest patch: Sprint P v0.2 release (T-P3-FW-001~004 + DGF-M-01)
+> Latest patch: Sprint R T-V03-FW-003 (brief-template v0.1.3 §2.1 3 类估时表)
 > Date: 2026-04-30
 > License: Apache 2.0 (代码/模板) / CC BY 4.0 (文档)
 > Source: 华典智谱 Sprint A-K 11 个真实 sprint 实证 + `docs/methodology/02-sprint-governance-pattern.md`
@@ -150,6 +150,7 @@ cp sprint-templates/brief-template.md \
 | v0.1 | 2026-04-29 | Sprint L Stage 1 (first abstraction) | 初版抽出 |
 | v0.1.1 | 2026-04-29 | Sprint M Stage 4 follow-up patch | DGF-M-02 / DGF-M-03 落地：brief-template §0 PE 模型字段加 N/A 占位；brief-template §5 角色边界表加 single-actor 简化注脚 |
 | **v0.2.0** | **2026-04-30** | **Sprint P v0.2 release** | brief-template §1.2 灵活列数 (T-P3-FW-001) / §3 拆分 §3.A 5-stage 与 §3.B 精简模板 + §3.0 选择指南 (DGF-M-01) / §8 解耦 C-22 项目宪法专属性 (T-P3-FW-004)；retro-template §4 与 stop-rules-catalog §7 双向 cross-ref (T-P3-FW-002)；stage-3-review-template §2.0 review 形式选择指南 (T-P3-FW-003)；与 framework v0.2 release 同步发布 |
+| **v0.3.0** | **2026-04-30** | **Sprint T v0.3 release** | brief-template v0.1.3 §2.1 加 Code/Docs/Closeout-Retro 3 类估时表（Sprint R T-V03-FW-003 落地，Sprint S+T 累计 2 次外部 dogfood ≤ 10% 偏差）；与 framework v0.3 release 同步发布 |
 
 ---
 

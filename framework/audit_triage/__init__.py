@@ -130,4 +130,4 @@ __all__ = [
     "DEFAULT_REASON_SOURCE_TYPES",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.3.0"

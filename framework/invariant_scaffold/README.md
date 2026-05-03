@@ -1,6 +1,6 @@
 # framework/invariant_scaffold — Invariant Checking Framework
 
-> Status: **v0.2.0 (Sprint P release / 2026-04-30)**
+> Status: **v0.3.0 (Sprint T release / 2026-04-30)**
 > First abstraction: Sprint O Stage 1, 2026-04-30
 > Date: 2026-04-30
 > License: Apache 2.0 (代码) / CC BY 4.0 (文档)
@@ -231,6 +231,7 @@ vs Sprint N byte-identical dogfood，本框架的 self-test 是**等价但更轻
 |---------|------|--------|--------|
 | v0.1 | 2026-04-30 | Sprint O Stage 1 (first abstraction) | 初版抽出（12 framework core + 13 huadian_classics examples）|
 | **v0.2.0** | **2026-04-30** | **Sprint P v0.2 release** | DGF-O-01 (P2): `examples/huadian_classics/invariants_slug.py` 路径硬编码改 `HUADIAN_DATA_DIR` 环境变量优先；DGF-O-04: `ContainmentInvariant.query_violations` 用 `inspect.isawaitable()` 替换 `hasattr(result, "__await__")`（更 robust 的 awaitable 检测，避免边缘情形误判）；与 framework v0.2 release 同步发布 |
+| **v0.3.0** | **2026-04-30** | **Sprint T v0.3 release** | 内容无独立 patch；与 framework v0.3 release 同步发布（统一版本号策略 / pytest tests 套件已在 Sprint Q 落地 27 tests）|
 
 ---
 
