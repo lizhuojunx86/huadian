@@ -45,23 +45,33 @@ def _load_tier_s_whitelist() -> set[str]:
 
     The huadian_pipeline package provides get_tier_s_whitelist() which
     returns dict[chinese_name, slug]; we need the set of slug values.
+
+    Path note: this file lives at
+        framework/invariant_scaffold/examples/huadian_classics/invariants_slug.py
+    so the project root is 4 levels up:
+        parents[0]=huadian_classics, [1]=examples, [2]=invariant_scaffold,
+        [3]=framework, [4]=<project_root>
     """
+    # Primary path: import from huadian_pipeline (catch any exception, not
+    # just ImportError — yaml loader inside slug.py can also raise).
     try:
         from huadian_pipeline.slug import get_tier_s_whitelist  # type: ignore
 
         return set(get_tier_s_whitelist().values())
+    except Exception:  # noqa: BLE001
+        pass
+
+    # Fallback: parse the YAML directly
+    try:
+        import yaml  # type: ignore
     except ImportError:
-        # Fallback: parse the YAML directly if huadian_pipeline isn't on path
-        try:
-            import yaml  # type: ignore
-        except ImportError:
-            return set()
-        path = Path(__file__).resolve().parents[5] / "data" / "tier-s-slugs.yaml"
-        if not path.exists():
-            return set()
-        with path.open(encoding="utf-8") as fh:
-            data = yaml.safe_load(fh) or {}
-        return set(data.values()) if isinstance(data, dict) else set()
+        return set()
+    path = Path(__file__).resolve().parents[4] / "data" / "tier-s-slugs.yaml"
+    if not path.exists():
+        return set()
+    with path.open(encoding="utf-8") as fh:
+        data = yaml.safe_load(fh) or {}
+    return set(data.values()) if isinstance(data, dict) else set()
 
 
 def _slug_predicate_factory() -> Any:
