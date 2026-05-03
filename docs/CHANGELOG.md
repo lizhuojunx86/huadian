@@ -5,6 +5,39 @@
 
 ---
 
+## 2026-04-30 (Sprint T)
+
+### [release] framework v0.3.0 — Sprint T release sprint / 5 模块齐备首次完整 release / Docker dogfood ✅ sandbox PASSED
+
+- **角色**：首席架构师（single-actor / Opus 4.7 全程）
+- **性质**：framework 第 2 次公开 release（vs v0.2.0 4 模块 → v0.3.0 5 模块）；Sprint S ADR-030 §2.2 锁定的 v0.3 release sprint
+- **关键产出**：
+  - **5 模块统一 v0.3.0 release**：sprint-templates / role-templates / identity_resolver / invariant_scaffold / audit_triage 全部统一版本号
+  - **3 模块 `__version__` bump**：identity_resolver 0.2.0→0.3.0 / invariant_scaffold 0.2.0→0.3.0 / **audit_triage 0.1.0→0.3.0 跳跃式**（对齐统一版本号 / 内容 ABI 不变）
+  - **T-V03-FW-005 Docker compose dogfood infra**（fold 进 Sprint T 批 1 / 1 押后 → land）：
+    - scripts/dogfood-postgres-compose.yml — postgres:16-alpine on port 5434
+    - scripts/dogfood-bootstrap.sql — 7 表 minimum schema 子集（Approach B）
+    - scripts/dogfood-seed.sql — 5 persons + 8 names + 1 dict_src + 3 dict_entries + 3 seed_mappings + 3 pending_merge_reviews + 5 triage_decisions（deterministic UUIDs）
+    - scripts/README-dogfood-postgres.md — quick start + 设计取舍 + sync 责任 + 跨域 fork 启示
+    - **user local Docker compose 一次跑通 + dogfood ✅ PASSED**（list_pending 6/6 + decisions_for_surface 4 surfaces 全部一致）⭐
+  - **framework/RELEASE_NOTES_v0.3.md** 顶层 release notes（5 模块统一 + v0.3 cycle Q→R→S→T 累计 patch + ADR-030 + Docker dogfood 实证 + v0.2→v0.3 演进数据点）
+  - 5 模块 README §0 + §8 v0.3.0 行更新
+- **D-route Layer 进度**:
+  - L1: 5 模块 v0.2.0 → **统一 v0.3.0 公开 release**（vs v0.2.0 4 模块 / 第 2 次完整 release）⭐
+  - L2: methodology/02 §10.4 节律实证小补充（待 retro）
+  - L3: + Docker compose dogfood infra（sandbox 可跑 / vs 之前只能 user local）⭐
+  - L4: **第二刀触发**（v0.3.0 GitHub release tag 待 push / vs v0.2.0 第一刀）
+- **debt 状态**: Sprint L→T 累计 **24/26 = 92.3% patch 落地**（v0.2 18/20 + v0.3 6/6 全清）；押后仅 2 项 v0.2（DGF-N-04 + DGF-N-05 / 等外部触发）+ 1 项 v0.4（T-V04-FW-001 commit message hygiene）
+- **Stop Rule 触发**: TBD（当前 0 触发延续 Sprint P+Q+R+S 的 4 sprint zero-trigger）
+- **commits 待 push**: scripts/dogfood-* + 5 README §0+§8 + 3 __init__.py version + RELEASE_NOTES_v0.3 + STATUS / CHANGELOG / Sprint T closeout/retro
+- **关键设计赢**:
+  - Approach B 最小 schema 子集 (7 表 vs 36+ 生产) — Docker dogfood DB 起 < 5s + 单文件 bootstrap.sql 可读
+  - 端口 5434 (vs 生产 5433) — dogfood 与生产可同时跑
+  - 统一版本号策略延续（Sprint P 4 模块 v0.2.0 → Sprint T 5 模块 v0.3.0 / audit_triage 跳跃式 bump 与 role-templates v0.1→v0.2 同模式）
+  - **5 sprint zero-trigger** 连续可能强化（Sprint T 批 1 一次跑通无 trouble / 完整确认待 batch 5 + closeout）
+
+---
+
 ## 2026-04-30 (Sprint S)
 
 ### [feat] Sprint S — ADR-030 v0.3 release timing 决策 + methodology/01+03+04 v0.1.2 cross-ref / 1.5 会话 / 连续第 4 个 zero-trigger sprint
