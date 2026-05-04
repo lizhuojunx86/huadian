@@ -5,6 +5,48 @@
 
 ---
 
+## 2026-04-30 (Sprint W)
+
+### [feat] Sprint W — methodology v0.2 cycle 持续 / /05 + /07 → v0.2 / 1.5 会话 / 连续第 8 个 zero-trigger sprint ⭐⭐
+
+- **角色**：首席架构师（single-actor / Opus 4.7 全程）
+- **性质**：methodology v0.2 cycle 持续 sprint（v0.2 doc 数 1 → 3 / Sprint V retro §8 候选 A 落地）；double doc bump（/05 audit-trail-pattern + /07 cross-stack-abstraction-pattern）
+- **关键产出**：
+  - **methodology/05 v0.1.1 → v0.2** ⭐（v0.x cycle 第 2 doc bump）：
+    - + §8 Audit Immutability Pattern first-class（multi-row audit + surface_snapshot 冻结）
+    - + §7.6 ADR-032 retroactive 引用（首个 retroactive ADR 案例锚定）
+    - § 修订历史 §8 → §9 重编号
+    - +131 行 / 532 总行（Stop Rule #3 阈值 600 内 / 88.7% 容量）
+  - **methodology/07 v0.1 → v0.2** ⭐（v0.x cycle 第 3 doc bump）：
+    - + §9 Tooling Pattern for Cross-Stack Abstraction（4 子模式 first-class）：
+      - §9.2 SQL Syntax Validation 不起 DB（pglast / Sprint R T-V03-FW-006 实证）
+      - §9.3 Minimum Schema Subset Docker（Approach B 7 表 vs 36+ 生产 / Sprint T 实证）
+      - §9.4 Cross-Stack Sync Pre-commit Hook（schema 不同步前 fail-closed / Sprint R 实证）
+      - §9.5 Hybrid Release Sprint Pattern Adaptation（release sprint + 大 feature fold 形态 / Sprint T 实证）
+    - § 8 cross-ref 表更新（+ /02 v0.2 §15.3 + /05 v0.2 §8 双向引用）
+    - § 修订历史 §9 → §10 重编号
+    - +125 行 / 426 总行（Stop Rule #4 阈值 450 内 / 94.7% 容量）
+  - **methodology v0.2 cycle 进度: 1/8 → 3/8** ⭐（距 ADR-031 触发条件 #7 达成还需 5 doc bump / Sprint X+ 推荐 /06 + /04）
+- **D-route Layer 进度**:
+  - L1: 5 模块 v0.3.0 不变 + sprint/role-templates v0.3.1 patch（Sprint W 不动 framework code）
+  - L2: methodology/05 v0.1.1 → **v0.2** ⭐ + methodology/07 v0.1 → **v0.2** ⭐（v0.x cycle 进度 1/8 → 3/8）
+  - L3: 不变
+  - L4: 8 sprint zero-trigger 连续 P→Q→R→S→T→U→V→W ⭐⭐ 强化 ADR-031 §3 #2 (≥ 5 zero-trigger / 当前 8 / 60% over target)
+- **debt 状态**: Sprint L→W 累计 **28/30 = 93.3% patch 落地**（不变 / Sprint W 不 land 新 patch）；新增 **0 项**；押后仅 2 v0.2 + 0 v0.3 + 0 v0.4 + 2 v0.5 候选 = 4 总押后（不变）
+- **Stop Rule 触发**: **0 触发**（连续第 8 个 zero-trigger sprint：P→Q→R→S→T→U→V→W）⭐⭐
+- **brief-template v0.1.4 第 1 次外部 dogfood ✓**: 7 子类首验证 / Docs 主导（new doc 起草 + polish）/ 偏差 5.5%（≤ 5% target edge 达成）/ Sprint X+ 持续累积验证
+- **commits 待 push** (2 commits)：
+  - **会话内待 push**: `docs(methodology): /05 v0.1.1 → v0.2 + /07 v0.1 → v0.2 (Sprint W batch 1+2)` + `docs(sprint-w): closeout + retro + status + changelog + residual debts`
+- **下一 sprint**: Sprint X 推荐 **A. methodology v0.2 cycle 持续**（推荐 /06 + /04 → v0.2 / 1.5 会话 / 与 Sprint W 同模式）
+- **关键设计赢**:
+  - "Audit Immutability Pattern" first-class 抽离（multi-row audit + surface_snapshot 冻结 / per ADR-032 retroactive lessons）
+  - "Tooling Pattern" 4 子模式 first-class 抽离（pglast / Approach B / pre-commit hook / Hybrid Release / 系统沉淀 Sprint Q→T 4 sprint 工具实证）
+  - methodology v0.2 cycle "double doc bump per sprint" 节律确立（Sprint V 1 doc / Sprint W 2 doc / 加速到位）
+  - 8 sprint zero-trigger 持续（连续第 8 个 / brief-template v0.1.4 子类化估时验证）
+  - Stop Rule 阈值 88.7% + 94.7% 容量边缘（双 doc 都接近阈值 / 验证 v0.2 大 bump 在合理 doc 体量内）
+
+---
+
 ## 2026-04-30 (Sprint V)
 
 ### [feat] Sprint V — v0.4 maintenance (fold 4 candidates) + methodology/02 v0.2 (v0.x cycle 起步) / 1.5 会话 / 连续第 7 个 zero-trigger sprint

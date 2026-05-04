@@ -2,10 +2,10 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-30（Sprint V 完成 + v0.4 maintenance fold 4 候选 / methodology/02 v0.1.1 → v0.2（v0.x cycle 起步 / +§14 Eval Sprint Pattern + §15 Release Sprint Pattern）/ ADR-032 audit_triage retroactive / **连续 7 个 zero-trigger sprint** P→Q→R→S→T→U→V / 累计 patch 落地率 93.3% / v0.4 押后 0）
+- **最近更新**：2026-04-30（Sprint W 完成 + methodology v0.2 cycle 持续 / /05 + /07 → v0.2 / **3/8 doc ≥ v0.2** ⭐ / **连续 8 个 zero-trigger sprint** P→Q→R→S→T→U→V→W / brief-template v0.1.4 子类化首验证 ≤ 5% 偏差边缘）
 - **更新人**：首席架构师（Claude Opus 4.7）
 - **战略方向**：**D-route — Agentic Knowledge Engineering 框架 + 史记参考实现**（详见 [ADR-028](decisions/ADR-028-strategic-pivot-to-methodology.md) + [strategy/D-route-positioning.md](strategy/D-route-positioning.md)）
-- **当前阶段**：Phase 0 已收尾 / D-route 文档体系全对齐 / **Sprint V 完成（v0.4 maintenance fold 4 candidates: ADR-032 + chief-arch v0.3.1 + brief-template v0.1.4 + sprint/role-templates v0.3.1 / methodology/02 v0.1.1 → v0.2 大 bump (v0.x cycle 起步 / 1/8 doc) / 1.5 会话 / 0 Stop Rule 触发）** / Sprint W 候选议程激活（methodology v0.2 cycle 持续 / 推荐 /05 + /07 之一）
+- **当前阶段**：Phase 0 已收尾 / D-route 文档体系全对齐 / **Sprint W 完成（methodology/05 v0.1.1 → v0.2 + §8 Audit Immutability Pattern + methodology/07 v0.1 → v0.2 + §9 Tooling Pattern (4 子模式) / 1.5 会话 / 0 Stop Rule 触发）** / Sprint X 候选议程激活（methodology v0.2 cycle 持续 / 推荐 /06 + /04 → v0.2）
 
 ---
 
@@ -22,10 +22,10 @@
 
 | Layer | 状态 | 当前焦点 |
 |-------|------|---------|
-| L1 框架代码抽象 | 🟢 5 模块 v0.3.0 不变 + sprint/role-templates v0.3.1 patch（Sprint L→V 11 sprint 完成）| sprint-templates v0.3.1 + role-templates v0.3.1 + identity_resolver v0.3.0 + invariant_scaffold v0.3.0 + audit_triage v0.3.0；累计 v0.2 18/20 + v0.3 6/6 + v0.4 4/4 = **28/30 = 93.3% patch 落地** ⭐ + v0.4 押后 0 / v0.5 候选 2 / 不急 |
-| L2 方法论文档 | 🟢 **8 doc 完整 + methodology v0.2 cycle 起步**（1/8 doc ≥ v0.2 / Sprint V）：/00 v0.1.1 + /01 v0.1.2 + **/02 v0.2 ⭐ (+§14 Eval + §15 Release Sprint Patterns / 6 元 pattern 总览)** + /03 v0.1.2 + /04 v0.1.2 + /05 v0.1.1 + /06 v0.1.1 + /07 v0.1 | docs/methodology/ 8 份草案；下次迭代 Sprint W+ 推荐 /05 + /07 → v0.2（双 doc / 1.5 会话）|
-| L3 案例库 | 🟢 主案例 + demo + 5 sprint dogfood + Sprint Q dogfood ✅ user local + Sprint T Docker dogfood ✅ sandbox PASSED | Sprint V maintenance + methodology sprint 不动 case 数据 |
-| L4 社区 / 商业 | 🟢 第二刀触发（v0.3.0 GitHub release tag 已 push）+ ADR-031 v1.0 候选议程评估 + **ADR-032 audit_triage cross-stack abstraction (retroactive) ⭐ 首个 retroactive ADR** | Sprint W+ 主要工作：methodology v0.2 cycle 持续 / 等跨域接触触发 v1.0 #4 + #5 |
+| L1 框架代码抽象 | 🟢 5 模块 v0.3.0 不变 + sprint/role-templates v0.3.1 patch（Sprint L→W 12 sprint 完成）| sprint-templates v0.3.1 + role-templates v0.3.1 + identity_resolver v0.3.0 + invariant_scaffold v0.3.0 + audit_triage v0.3.0；累计 v0.2 18/20 + v0.3 6/6 + v0.4 4/4 = **28/30 = 93.3% patch 落地** ⭐ + v0.4 押后 0 / v0.5 候选 2 / 不急 |
+| L2 方法论文档 | 🟢 **8 doc 完整 + methodology v0.2 cycle 推进 3/8 ⭐**（Sprint V→W 起步→3 doc）：/00 v0.1.1 + /01 v0.1.2 + **/02 v0.2** (+§14 Eval + §15 Release Sprint Patterns / 6 元 pattern 总览) + /03 v0.1.2 + /04 v0.1.2 + **/05 v0.2 ⭐ (+§8 Audit Immutability Pattern)** + /06 v0.1.1 + **/07 v0.2 ⭐ (+§9 Tooling Pattern / 4 子模式)** | docs/methodology/ 8 份草案；下次迭代 Sprint X+ 推荐 /06 + /04 → v0.2（双 doc / 1.5 会话）|
+| L3 案例库 | 🟢 主案例 + demo + 5 sprint dogfood + Sprint Q dogfood ✅ user local + Sprint T Docker dogfood ✅ sandbox PASSED | Sprint W maintenance + methodology sprint 不动 case 数据 |
+| L4 社区 / 商业 | 🟢 第二刀触发（v0.3.0 GitHub release tag 已 push）+ ADR-031 v1.0 候选议程评估 + **ADR-032 audit_triage cross-stack abstraction (retroactive) ⭐ 首个 retroactive ADR** + **8 sprint zero-trigger 连续 P→Q→R→S→T→U→V→W ⭐⭐ 强化 ADR-031 #2** | Sprint X+ 主要工作：methodology v0.2 cycle 持续（剩余 5 doc）/ 等跨域接触触发 v1.0 #4 + #5 |
 
 ---
 
@@ -168,17 +168,28 @@
 | Stage 1.13 sanity | ✅ | 60/60 in 0.26s + 5 模块 + ruff/format clean |
 | Stage 4 Closeout + Retro | ✅ | stage-4-closeout + sprint-v-retro + sprint-v-residual-debts |
 
+### 2.2.11 Sprint W 进度（methodology v0.2 cycle 持续 / /05 + /07 → v0.2 / 1.5 会话 / 关档）
+
+| Stage | 状态 | 产出 |
+|-------|------|------|
+| Stage 0 inventory + brief 起草 | ✅ | brief-template **v0.1.4 第 1 次外部 dogfood**（7 子类首验证）|
+| **Stage 1 批 1 — methodology/05 v0.1.1 → v0.2** ⭐ | ✅ | + §8 Audit Immutability Pattern (multi-row + surface_snapshot 冻结 first-class) + §7.6 ADR-032 retroactive 引用 / +131 行 / 532 总行（Stop Rule #3 阈 600 内）|
+| **Stage 1 批 2 — methodology/07 v0.1 → v0.2** ⭐ | ✅ | + §9 Tooling Pattern for Cross-Stack Abstraction（4 子模式：pglast / Approach B Docker / pre-commit hook / Hybrid Release）+ §8 cross-ref 表更新 / +125 行 / 426 总行（Stop Rule #4 阈 450 内）|
+| Stage 1.13 sanity | ✅ | 60/60 in 0.06s + 5 模块 + ruff/format clean |
+| Stage 4 Closeout + Retro | ✅ | stage-4-closeout + sprint-w-retro + sprint-w-residual-debts |
+
 ### 2.3 阻塞 / 风险 / 等待项
 
-- 无阻塞。Sprint V 关档。
-- 待用户在 local Terminal 执行：`git commit + push`（2 commits 详见 `docs/sprint-logs/sprint-v/stage-4-closeout-2026-04-30.md` §7）
-- Sprint W 候选议程（per Sprint V retro §8）：
-  - **A. methodology v0.2 cycle 持续**（推荐 / 1.5 会话 / 1-2 doc）
-    - 推荐 1: /05 audit-trail-pattern.md v0.1.1 → v0.2（与 ADR-032 retroactive 紧密关联）
-    - 推荐 2: /07 cross-stack-abstraction-pattern.md v0.1 → v0.2（加 Hybrid Release Sprint Pattern 实证）
-  - B. v0.5 maintenance（待 ≥ 3-5 候选累积 / 当前 2 项 / 不急）
+- 无阻塞。Sprint W 关档。
+- 待用户在 local Terminal 执行：`git commit + push`（2 commits 详见 `docs/sprint-logs/sprint-w/stage-4-closeout-2026-04-30.md` §8）
+- **连续 8 个 zero-trigger sprint** P→Q→R→S→T→U→V→W ⭐⭐ → 强化 ADR-031 §3 #2（≥ 5 zero-trigger / 当前 8 / 60% over target）
+- Sprint X 候选议程（per Sprint W retro §8）：
+  - **A. methodology v0.2 cycle 持续**（推荐 / 1.5 会话 / 双 doc）
+    - 推荐 1: /06 adr-pattern-for-ke.md v0.1.1 → v0.2（fold T-V05-FW-001 §5 retroactive lessons + 加 release-trigger vs release-eval ADR 模板对比 first-class）
+    - 推荐 2: /04 invariant-pattern.md v0.1.2 → v0.2（加 self-test pattern first-class）
+  - B. v0.5 maintenance（待 ≥ 3-5 候选累积 / 当前 2 项 / 不急 / 可与 Sprint Y+ methodology v0.2 cycle 完成时一并 polish）
   - C. 跨域 outreach + reference impl (legal) — 押后等触发
-- v1.0 路径预测（per ADR-031 §5）：2026-10 (乐观) ~ 2027-04 (保守) / methodology v0.2 cycle 进度 1/8 doc / 距 #7 达成 ≥ 4-5 sprint
+- v1.0 路径预测（per ADR-031 §5）：2026-10 (乐观) ~ 2027-04 (保守) / methodology v0.2 cycle 进度 **3/8 doc** ⭐ / 距 #7 达成 ≥ 3-4 sprint
 
 ---
 
