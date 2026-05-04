@@ -5,6 +5,45 @@
 
 ---
 
+## 2026-04-30 (Sprint V)
+
+### [feat] Sprint V — v0.4 maintenance (fold 4 candidates) + methodology/02 v0.2 (v0.x cycle 起步) / 1.5 会话 / 连续第 7 个 zero-trigger sprint
+
+- **角色**：首席架构师（single-actor / Opus 4.7 全程）
+- **性质**：v0.4 maintenance sprint + methodology/02 v0.x → v0.2 大 bump（v0.x cycle 起步 doc）；Sprint U retro §8 候选 A + B 合并落地
+- **关键产出**：
+  - **ADR-032 audit_triage cross-stack abstraction (retroactive)**（196 行 / status: accepted (retroactive)）⭐
+    - 首个 retroactive ADR / 回填 Sprint Q 应起未起的 ADR（per Sprint U retro §3.2 触发）
+    - §5 retroactive ADR lessons learned（编号策略 / 何时必要 / 何时不必要）
+    - Validation Criteria 6/6 ✅ + 1 待跨域案例方触发
+  - **chief-architect §工程小细节 v0.3.1**（+ 第 4 条 "commit message 应反映实际 staged 改动 file 集合" / Sprint R commit `35f371d` 残留教训沉淀）+ role-templates v0.3.0 → v0.3.1
+  - **brief-template v0.1.3 → v0.1.4**（§2.1 Code 类拆分 3 子类 + Docs 类拆分 3 子类 = 7 子类 / 估算精度 ≤ 10% → ≤ 5%）+ sprint-templates v0.3.0 → v0.3.1
+  - **methodology/02 v0.1.1 → v0.2** ⭐（v0.x cycle 第 1 doc bump）：
+    - + §14 Eval Sprint Pattern（Sprint S+U 实证：trigger/eval ADR 模板对比 / 1.5-2 会话标准结构 / 反模式）
+    - + §15 Release Sprint Pattern（Sprint P+T 实证：5-batch 标准结构 + Hybrid 形态含大 feature fold / Validation Criteria 回填 / 反模式）
+    - 重组 §9 元 pattern 总览（4 → 6 patterns / + 实证 sprint 列）
+    - §修订历史 v0.2 大 bump（vs v0.1.x polish）
+  - **v0.4 押后清单 → 0** ⭐（Sprint V fold 4 v0.4 候选全 land）
+- **D-route Layer 进度**:
+  - L1: 5 模块 v0.3.0 不变 + sprint-templates + role-templates v0.3.1 patch
+  - L2: methodology/02 v0.1.1 → **v0.2** ⭐（v0.x cycle 起步 / 1/8 doc / 距 ADR-031 触发条件 #7 达成还需 7 doc bump）
+  - L3: 不变
+  - L4: + ADR-032 audit_triage retroactive（首个 retroactive ADR / 跨外部 reviewer 历史完整性）
+- **debt 状态**: Sprint L→V 累计 **28/30 = 93.3% patch 落地**（vs Sprint U 后 92.3% / +1pp）；新增 **2 项 v0.5 候选**（T-V05-FW-001 + -002 / 不急）；押后仅 2 v0.2 + 0 v0.3 + 0 v0.4 + 2 v0.5 候选 = 4 总押后
+- **Stop Rule 触发**: **0 触发**（连续第 7 个 zero-trigger sprint：P→Q→R→S→T→U→V）⭐⭐
+- **commits 待 push** (2 commits)：
+  - **会话 1 中场已 push**: `7573c86` ADR-032 + `137557b` chief-architect v0.3.1 + `7c5ce84` brief-template v0.1.4
+  - **会话 2 待 push**: `docs(methodology): /02 v0.1.1 → v0.2 (Sprint V 批 4)` + `docs(sprint-v): closeout + retro + status + changelog + residual debts`
+- **brief-template v0.1.3 §2.1 估时表第 4 次 dogfood ✓**: Docs 主导偏差 < 10%（Sprint S+U+V 累计 3 次 Docs 主导 / 累计 4 次外部 dogfood / 模板对 Docs 主导稳定确认）
+- **下一 sprint**: Sprint W 推荐 **A. methodology v0.2 cycle 持续**（推荐 /05 + /07 → v0.2 / 1.5 会话）
+- **关键设计赢**:
+  - "v0.x cycle 起步 sprint" 形态首次实证（maintenance fold + main doc bump 合并 / 1.5-2 会话）
+  - "first-class retroactive ADR" 模板沉淀（ADR-032 §5 / 何时必要 / 编号策略 / 待 methodology/06 v0.2 收录）
+  - methodology v0.x → v0.(x+1) bump 标准（≥ 1 段新 first-class pattern + 重组结构 + ≥ 1 sprint 实证锚点）
+  - 7 sprint zero-trigger 持续（连续第 7 个 / 持续强化 ADR-031 §3 #2）
+
+---
+
 ## 2026-04-30 (Sprint U)
 
 ### [feat] Sprint U — ADR-031 v1.0 候选议程评估 + methodology 8 doc 完整 + 第 7 大核心抽象 (cross-stack abstraction pattern) / 1.5 会话 / 连续第 6 个 zero-trigger sprint
