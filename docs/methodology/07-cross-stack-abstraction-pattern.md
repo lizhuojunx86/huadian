@@ -281,21 +281,146 @@ per Sprint T T-V03-FW-005 实证：
 | methodology | 关系 |
 |-------------|------|
 | /00 框架总览 | 加 §2 7 大核心抽象的第 7 项（per Sprint U 批 4 sync）|
-| /02 sprint governance | §13 首次提出本 pattern（简介 4 段）/ 本 doc 是 first-class 详细抽象 |
+| /02 sprint governance | §13 首次提出本 pattern（简介 4 段）/ 本 doc 是 first-class 详细抽象；**v0.2 §15.3 Hybrid Release Sprint Pattern** 引用 cross-stack feature fold 进 release sprint 模式（per Sprint T 实证 / 见本 doc §9.4）|
 | /03 identity-resolver-pattern §9 | 同 stack 实证锚点（Sprint N byte-identical）|
 | /04 invariant-pattern §8 | 同 stack + self-test 实证锚点（Sprint O soft-equivalent + injection）|
-| /05 audit-trail-pattern §7 | **跨 stack 实证锚点**（Sprint Q audit_triage / 与本 doc 互为印证）|
-| /06 ADR pattern §8 | 跨 stack 抽象本身需要 ADR 记录（per /06 §8.3 跨域 fork 启示）|
+| /05 audit-trail-pattern §7 + §8 | **跨 stack 实证锚点**（Sprint Q audit_triage / 与本 doc 互为印证）+ §8 v0.2 Audit Immutability Pattern（cross-stack dogfood 应验证 immutability 保留）|
+| /06 ADR pattern §8 | 跨 stack 抽象本身需要 ADR 记录（per /06 §8.3 跨域 fork 启示）；ADR-032 retroactive 是首个跨 stack 抽象 ADR |
 
 ---
 
-## 9. 修订历史
+## 9. Tooling Pattern for Cross-Stack Abstraction（v0.2 新增 / Sprint W 批 2）⭐
+
+> 跨 stack 抽象需要一组**工程工具**来让 SQL 逐字 port + soft-equivalent dogfood + 持续 sync 在 sandbox / CI 可行。本节抽出 Sprint R + T 实证的 4 个 tooling 子模式 first-class。
+
+### 9.1 4 个 tooling 子模式总览
+
+| 子模式 | 解决的问题 | 实证 |
+|--------|---------|------|
+| §9.2 SQL Syntax Validation 不起 DB | 跨 stack 抽象需要把生产 SQL port 到 framework / 验证语法不能等 DB 起来才知道 | Sprint T pglast 验证 dogfood-bootstrap.sql + dogfood-seed.sql / 19+7 stmts OK |
+| §9.3 Minimum Schema Subset Docker | dogfood 必须有 production-like DB / 但生产 36+ 表过重 | Sprint T T-V03-FW-005 / Approach B 7 表子集 / Docker compose 起 < 5s |
+| §9.4 Cross-Stack Sync Pre-commit Hook | 生产 stack 改动时提醒 framework stack 同步 | Sprint R T-V03-FW-006 / scripts/check-audit-triage-sync.sh |
+| §9.5 Hybrid Release Sprint Pattern Adapt | release sprint 内 fold 跨 stack 大 feature | Sprint T fold T-V03-FW-005 进 v0.3 release sprint / per /02 v0.2 §15.3 |
+
+### 9.2 SQL Syntax Validation 不起 DB（pglast / sqlglot 等）
+
+**问题**：跨 stack 抽象写 dogfood-bootstrap.sql + dogfood-seed.sql 时，没有真 DB 跑 = 拼写错误 / SQL syntax 错只能等 Docker 起来后才暴露 = 浪费时间。
+
+**做法**：用 SQL parser 库（如 Python 的 `pglast` / TS 的 `node-sql-parser`）静态验证：
+
+```python
+# Sprint T 实证模式
+import pglast
+for f in ["scripts/dogfood-bootstrap.sql", "scripts/dogfood-seed.sql"]:
+    sql = open(f).read()
+    parsed = pglast.parse_sql(sql)  # 抛 ParseError 即语法错
+    print(f"{f}: {len(parsed)} statements parsed OK")
+```
+
+**收益**：
+- Sprint T 实证：pglast 验证 19+7 stmts OK / 起 Docker 前 100% 语法正确
+- 编辑 cycle 加速（vs 起 Docker 等 5-10s 后才知错）
+- CI 可跑（vs Docker compose 在 sandbox 复杂）
+
+**反模式**：
+- ❌ 不验证 / 直接起 Docker / 失败后 debug docker entrypoint logs
+- ❌ 用 `python -c "import sqlite3; sqlite3.connect(':memory:').execute(sql)"` — SQLite 与 PG 语法差别大（PG-specific syntax 如 `JSONB` / `UUID` / `gen_random_uuid()` 都不支持）
+
+### 9.3 Minimum Schema Subset Docker（Approach B）
+
+**问题**：跨 stack 抽象需要 dogfood DB / 生产 schema 36+ 表过重（启动 30s+）/ 维护多 stack 同步昂贵。
+
+**做法**（per Sprint T T-V03-FW-005 实证）：
+1. 识别 framework dogfood 实际触及的最小表集（Sprint T audit_triage = 7 表 vs 生产 36+）
+2. 写独立 `dogfood-bootstrap.sql`（最小 schema / 不复用生产 migration）
+3. 写 `dogfood-seed.sql`（最小 fixtures / 5-10 rows per critical table）
+4. 用 deterministic UUID（`00000000-0000-4xxx-8xxx-NNNNNNNNNNNN` shape）让 re-seed 一致
+5. Docker compose 端口与生产隔离（生产 5433 / dogfood 5434）
+
+**收益**：
+- Docker DB 起 < 5s（vs 全量 schema ~30s+）
+- 单文件 bootstrap.sql 可读（~150 行 vs 552 行 0000）
+- 跨域 fork 案例方易复制 + 改 schema
+
+**反模式**：
+- ❌ 直接复用生产 migration 文件（耦合生产 schema 演化 / 跨域 fork 时累赘）
+- ❌ 用同一端口（生产 + dogfood 不能并行跑）
+- ❌ Seed 0 行 / dogfood trivially 通过（假绿）
+
+### 9.4 Cross-Stack Sync Pre-commit Hook
+
+**问题**：跨 stack 抽象**两边并行存在**（生产 + framework）/ 生产 stack 改动时容易忘记同步 framework / 跨 sprint 漂移。
+
+**做法**（per Sprint R T-V03-FW-006 实证）：
+1. 识别生产 stack 文件 path（如 `services/api/.../triage.*`）+ framework example path（如 `framework/audit_triage/examples/huadian_classics/`）
+2. 写 bash 脚本 categorize staged files：prod_changed / fw_example_changed / 都没改
+3. 仅 prod_changed=1 AND fw_example_changed=0 时输出 warning（不阻塞 commit / informational only）
+4. 加入 .pre-commit-config.yaml 的 `files:` regex 限制触发 scope
+
+```bash
+# scripts/check-audit-triage-sync.sh 节选
+if [ "$prod_changed" -eq 1 ] && [ "$fw_example_changed" -eq 0 ]; then
+    cat >&2 <<'WARN'
+⚠️  services↔framework/audit_triage sync warning
+You are committing changes to services/api/.../triage.* without any change to
+framework/audit_triage/examples/huadian_classics/. Please review whether
+SQL/business logic also need framework sync.
+WARN
+fi
+exit 0  # informational only
+```
+
+**收益**：
+- Sprint T 第 1 次实战 hook 触发（commit `b532341`）/ 自动 silent（pass）/ 0 false positive
+- 跨外部贡献者也能受益（fork 后保留 hook = 持续提醒）
+
+**反模式**：
+- ❌ Hook 阻塞 commit（exit 1）— 用户不爽 / 倾向 `--no-verify` bypass / 反而不读 warning
+- ❌ Hook 仅本地 / 不 fork 友好（应该把 hook script 跟仓库走 / 任何贡献者 install pre-commit 即生效）
+- ❌ Hook 不分类 staged files / 总是输出 warning（噪音 / Hook fatigue）
+
+### 9.5 Hybrid Release Sprint Pattern Adaptation
+
+**问题**：跨 stack 抽象的大 feature（如 Docker compose dogfood infra）何时 land？单独 mini-sprint 太短（不值得起完整流程）/ 与 release sprint 合并担心 scope creep。
+
+**做法**（per /02 v0.2 §15.3 Hybrid + Sprint T 实证）：
+- 在 release sprint 批 1 fold 1 个押后大 feature（条件：feature ≥ 4h / 与 release 主题相关 / release 不急）
+- 实证 Sprint T fold T-V03-FW-005 (Docker compose) 进 v0.3 release sprint：
+  - 批 1: T-V03-FW-005 Docker compose ~3-4h
+  - 批 2-5: 5 模块 README + RELEASE_NOTES + STATUS/CHANGELOG + sanity ~2h
+  - 批 4: closeout
+  - total: 2 sessions / 实际 ~3h（远低于估算）
+
+**收益**：
+- Release sprint 不空（仅 release prep 是 1 sprint 浪费）
+- 大 feature 不必单独 mini-sprint（fold 进有 bookkeeping 优势）
+- Sprint T 第 6 个 zero-trigger sprint 巩固稳定信号
+
+**反模式**：
+- ❌ Fold > 1 个大 feature 进 release sprint（scope creep / Stop Rule 触发风险）
+- ❌ Fold 不相关 feature（如 release sprint 内 fold v0.4 maintenance / 主题混乱）
+- ❌ Hybrid 但不 update release notes 写 fold 内容（让外部 reviewer 困惑）
+
+### 9.6 Tooling Pattern 跨域 fork 启示
+
+任何跨域 fork（per §6）都应该带这些 tooling：
+
+- ✅ **复制 scripts/dogfood-postgres-compose.yml + 改 schema + 改 seed**（Approach B 模板）
+- ✅ **保留 .pre-commit-config.yaml 的 cross-stack sync hook + 改 path regex**（Sprint R 实证可复用）
+- ✅ **用 SQL parser 验证 your-domain bootstrap.sql + seed.sql**（per pglast / sqlglot / etc）
+- ⚪ **如有跨 stack 大 feature push 进 release sprint 用 Hybrid 形态**（vs 单独 mini-sprint / 看主题 + 工时容忍度）
+
+---
+
+## 10. 修订历史
 
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
-| **Draft v0.1** | **2026-04-30** | **首席架构师** | **Sprint U 批 3 起草：first-class 详细抽象 cross-stack pattern（vs methodology/02 §13 简介）；§1-§7 含三步做法 + 3 种等级 + 3 种 stack 组合实证 + Docker dogfood infra + 跨域 fork 启示 + 反模式；§8 与其他 6 doc 关系；沉淀 Sprint Q audit_triage + Sprint T Docker dogfood 实证** |
+| Draft v0.1 | 2026-04-30 | 首席架构师 | Sprint U 批 3 起草：first-class 详细抽象 cross-stack pattern（vs methodology/02 §13 简介）；§1-§7 含三步做法 + 3 种等级 + 3 种 stack 组合实证 + Docker dogfood infra + 跨域 fork 启示 + 反模式；§8 与其他 6 doc 关系；沉淀 Sprint Q audit_triage + Sprint T Docker dogfood 实证 |
+| **v0.2** | **2026-04-30** | **首席架构师** | **Sprint W 批 2 大 bump（v0.x cycle 第 2 sprint / 第 3 doc → v0.2）：加 §9 Tooling Pattern for Cross-Stack Abstraction（4 子模式：SQL Syntax Validation 不起 DB / Minimum Schema Subset Docker / Cross-Stack Sync Pre-commit Hook / Hybrid Release Sprint Pattern Adaptation）+ §8 加 /02 v0.2 §15.3 + /05 v0.2 §8 引用更新 + 重组 修订历史 §9 → §10；§9 是新 first-class pattern（4 子模式）→ v0.x → v0.2 大 bump（vs v0.1.x polish）** |
 
 ---
 
 > 本文档描述的 Cross-Stack Abstraction Pattern 是 AKE 框架的 Layer 1 第 7 大核心抽象（per methodology/00 §2 from Sprint U sync）。
-> 实证锚点：framework/audit_triage/ (Sprint Q) + scripts/dogfood-postgres-compose.yml (Sprint T)。
+> 实证锚点：framework/audit_triage/ (Sprint Q) + scripts/dogfood-postgres-compose.yml (Sprint T) + scripts/check-audit-triage-sync.sh (Sprint R) + pglast 验证（Sprint T）。
+> Sprint W (§9 v0.2) 抽出 Tooling Pattern first-class（vs §5 dogfood infra 选项 + 散在各处的 tooling）。
