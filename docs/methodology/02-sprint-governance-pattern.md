@@ -622,7 +622,7 @@ total: 1-2 sessions
 
 ### 14.4 ADR 模板对比（trigger ADR vs eval ADR）
 
-per Sprint S+U 实证 / methodology/06 v0.1.1 §8.2 沉淀：
+per Sprint S+U 实证 / **methodology/06 v0.2 §8 已抽 first-class 3 类专用 ADR 模板**（release-trigger / release-eval / retroactive）/ 本节仅展示 trigger vs eval 对比 / 完整 3 模板见 /06 §8：
 
 | 维度 | release-trigger ADR (e.g. ADR-030) | release-eval ADR (e.g. ADR-031) |
 |------|---------------------------------|-------------------------------|
@@ -630,6 +630,8 @@ per Sprint S+U 实证 / methodology/06 v0.1.1 §8.2 沉淀：
 | 时机 | release prep 完成时 | sprint zero-trigger 触发评估时 |
 | 主要输出 | release timing + 启动 release sprint | 触发条件锁定 + 路径预测 + Validation Criteria |
 | 决策方向 | "立即做" | "暂不做 / 等待 X 条件 / 锁定阈值" |
+
+→ §15.4 release-trigger ADR Validation Criteria 回填模式见下；release-eval ADR 路径预测模式见 ADR-031 §5。
 
 ### 14.5 反模式
 
@@ -676,6 +678,8 @@ per Sprint T T-V03-FW-005 实证：可在 release sprint 内 fold 1 个押后大
 
 ### 15.4 release-trigger ADR + Validation Criteria 回填
 
+per §14.4 trigger ADR vs eval ADR 对比 + **methodology/06 v0.2 §8.2 release-trigger 模板 first-class 沉淀**（含 §3 ≥ 5 触发条件 + §5 Validation Criteria 半填充 / sprint 后回填）。
+
 release sprint 完成后 **必须回填**触发 ADR 的 Validation Criteria（per ADR-030 §5 6/6 + Sprint T 批 5）：
 
 ```
@@ -707,10 +711,12 @@ release sprint 完成后 **必须回填**触发 ADR 的 Validation Criteria（pe
 |---------|------|--------|--------|
 | Draft v0.1 | 2026-04-29 | 首席架构师 | 初稿（Stage C-6 of D-route doc realignment）|
 | v0.1.1 | 2026-04-30 | 首席架构师 | Sprint R 批 3 polish (T-V03-FW-002)：加 §9 元 pattern 总览 + §10 Maintenance Sprint Pattern + §11 P3 复发升级 P2 暗规则 + §12 5 模块齐备阈值 + §13 跨 stack 抽象 pattern；4 段全来自华典智谱 Sprint P+Q 实证沉淀 |
-| **v0.2** | **2026-04-30** | **首席架构师** | **Sprint V 批 4 大 bump（v0.x cycle 第 1 doc → v0.2）：加 §14 Eval Sprint Pattern (Sprint S+U 实证) + §15 Release Sprint Pattern (Sprint P+T 实证) + 重组 §9 元 pattern 总览 (4→6 patterns) + 各 pattern 加实证 sprint 列；2 段新 first-class pattern + 总览结构性变化 → v0.x → v0.2 大 bump（vs v0.1.x polish）；本 doc 是 methodology v0.2 cycle 起步（per ADR-031 触发条件 #7）** |
+| v0.2 | 2026-04-30 | 首席架构师 | Sprint V 批 4 大 bump（v0.x cycle 第 1 doc → v0.2）：加 §14 Eval Sprint Pattern (Sprint S+U 实证) + §15 Release Sprint Pattern (Sprint P+T 实证) + 重组 §9 元 pattern 总览 (4→6 patterns) + 各 pattern 加实证 sprint 列 |
+| **v0.2.1** | **2026-04-30** | **首席架构师** | **Sprint AA 批 1 polish (T-V05-FW-002)：§14.4 + §15.4 cross-ref polish — 加 /06 v0.2 §8 3 类专用 ADR 模板 first-class 双向引用（§14.4 引 /06 §8 / §15.4 引 /06 §8.2 release-trigger 半填充 + sprint 后回填模式）；让 trigger vs eval ADR 对比与 /06 §8 完整 3 模板形成单源真相 cross-ref 网** |
 
 ---
 
 > 本文档描述的 Sprint Governance 是 AKE 框架的 Layer 1 核心资产之一。
 > Sprint A-K 是其真实演化历史，详见 `docs/sprint-logs/sprint-{a..k}/`.
 > Sprint L-V 是其元 pattern 沉淀历史（v0.1.1 + v0.2），详见各对应 sprint logs。
+> Sprint AA §14.4 + §15.4 cross-ref polish (v0.2.1) 把 ADR 模板对比指向 /06 §8 first-class 3 模板（避免 /02 与 /06 重复定义 / 单源真相）。
