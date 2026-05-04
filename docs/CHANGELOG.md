@@ -5,6 +5,53 @@
 
 ---
 
+## 2026-04-30 (Sprint X)
+
+### [feat] Sprint X — methodology v0.2 cycle 过半 / /06 + /04 → v0.2 / 1.5 会话 / 连续第 9 个 zero-trigger sprint ⭐⭐
+
+- **角色**：首席架构师（single-actor / Opus 4.7 全程）
+- **性质**：methodology v0.2 cycle 持续 sprint（v0.2 doc 数 3 → 5 / **过半线 ⭐** / Sprint W retro §8 候选 A 落地）；double doc bump（/06 adr-pattern-for-ke + /04 invariant-pattern）；首次主动应用方案 B (deferred §X.6+§X.7 to v0.x.1)
+- **关键产出**：
+  - **methodology/06 v0.1.1 → v0.2** ⭐（v0.x cycle 第 4 doc bump）：
+    - + §8 ADR Template Comparison Pattern first-class（3 类专用模板）：
+      - §8.2 Release-trigger ADR (per ADR-030 / Sprint S 实证)
+      - §8.3 Release-eval ADR (per ADR-031 / Sprint U 实证)
+      - §8.4 Retroactive ADR (per ADR-032 / Sprint V 实证 / fold T-V05-FW-001 §5 retroactive lessons)
+      - §8.5 跨域 fork 启示（4 类决策→3 模板选择）
+    - § 修订历史 §9 → §10 重编号 + §9 子节 §8.x → §9.x 重编号
+    - +93 行 / 577 总行（阈 600 内 96.2% 容量 ✓）
+  - **methodology/04 v0.1.2 → v0.2** ⭐（v0.x cycle 第 5 doc bump）：
+    - + §8 Self-Test Pattern first-class：
+      - §8.1 定义（transaction 内主动注入违反 / verify catch / auto-rollback）
+      - §8.2 vs byte-identical / soft-equivalent dogfood — **L4 主动 dogfood 等级**（vs L1/L2/L3 被动等价性测试）
+      - §8.3 SelfTest Protocol 设计契约（per Sprint O 实证）
+      - §8.4 何时必须配 self-test（critical / SQL 阈值 / 跨 stack 抽象）
+      - §8.5 跨 invariant 类 framework 启示（invariant_scaffold 独有 / identity / audit_triage 没有）
+      - **§8.6 详细实证 + 反模式 deferred to v0.2.1**（per Sprint X brief §7 方案 B / 控制 doc 体量 / **首次主动应用方案 B** ⭐）
+    - § 修订历史 §9 → §10 重编号 + §9 子节 §8.x → §9.x 重编号
+    - +75 行 / 555 总行（远内于阈值 ✓ / 方案 B deferred 加成）
+  - **methodology v0.2 cycle 进度: 3/8 → 5/8** ⭐（**过半线** / 距 ADR-031 #7 触发还需 3 doc / Sprint Y+ 推荐 /00 + /01 / Sprint Z 推 /03 完成 cycle）
+- **D-route Layer 进度**:
+  - L1: 5 模块 v0.3.0 不变 + sprint/role-templates v0.3.1 patch（Sprint X 不动 framework code）
+  - L2: methodology/06 v0.1.1 → **v0.2** ⭐ + methodology/04 v0.1.2 → **v0.2** ⭐（v0.x cycle 进度 3/8 → 5/8 过半线）
+  - L3: 不变
+  - L4: 9 sprint zero-trigger 连续 P→Q→R→S→T→U→V→W→X ⭐⭐ 强化 ADR-031 §3 #2 (≥ 5 zero-trigger / 当前 9 / 80% over target) + methodology v0.2 cycle 过半 ⭐ 强化 ADR-031 #7
+- **debt 状态**: Sprint L→X 累计 **28/30 = 93.3% patch 落地**（不变 / Sprint X 不 land 新 patch）；新增 **1 项 v0.5 候选**（T-X02-FW-001 /04 v0.2.1 polish §8.6）；T-V05-FW-001 已 fold（per /06 §8.4.1）；押后仅 2 v0.2 + 0 v0.3 + 0 v0.4 + 3 v0.5 候选 = 5 总押后
+- **Stop Rule 触发**: **0 触发**（连续第 9 个 zero-trigger sprint：P→Q→R→S→T→U→V→W→X）⭐⭐
+- **brief-template v0.1.4 第 2 次外部 dogfood ✓**: 双批 Docs: new doc 起草子类偏差 0% (/06) + -12.5% (/04 方案 B) / 累计 3 次 dogfood 偏差 [-12.5%, +5.5%] / 平均 |偏差| ~6% / 接近 ≤ 5% target
+- **commits 待 push** (2 commits)：
+  - **会话内待 push**: `docs(methodology): 06 + 04 v0.x → v0.2 (Sprint X 批 1+2 / cycle 过半)` + `docs(sprint-x): closeout + retro + status + changelog + residual debts`
+- **下一 sprint**: Sprint Y 推荐 **A. methodology v0.2 cycle 持续**（推荐 /00 + /01 → v0.2 / **1 会话紧凑** / 小+中工作）+ Sprint Z 推 /03 完成 cycle → ADR-031 #7 触发 → **v1.0 评估议程激活**
+- **关键设计赢**:
+  - "ADR Template Comparison Pattern" 3 类专用模板 first-class（让"何时用哪类 ADR"在 KE 项目中决策树化 / 跨域 fork 立即可用）
+  - "Self-Test Pattern" L4 主动 dogfood 等级 first-class（与 L1-L3 被动等价性测试形成 4 等级 dogfood 框架）
+  - **方案 B (deferred to v0.x.1) 首次主动应用** ⭐：核心 first-class section + deferred 实证/反模式 → 控制 v0.2 大 bump 体量 / Sprint Y+ 推荐默认走方案 B 形态
+  - methodology v0.2 cycle "double doc bump per sprint" 节律持续（Sprint V 1 doc / Sprint W 2 doc / Sprint X 2 doc / 累计 5 doc）
+  - 9 sprint zero-trigger 持续（连续第 9 个 / 80% over ADR-031 §3 #2 target）
+  - cycle 过半线达成（Sprint Z 后预期 100% → ADR-031 #7 触发 → v1.0 评估议程激活）
+
+---
+
 ## 2026-04-30 (Sprint W)
 
 ### [feat] Sprint W — methodology v0.2 cycle 持续 / /05 + /07 → v0.2 / 1.5 会话 / 连续第 8 个 zero-trigger sprint ⭐⭐
