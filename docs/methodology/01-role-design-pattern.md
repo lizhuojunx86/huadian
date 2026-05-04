@@ -362,11 +362,91 @@ cp -r .claude/agents/ /path/to/new-case/.claude/agents/
 
 ---
 
-## 10. 与 methodology/02 元 pattern 的关系（v0.1.2 新增 / Sprint S 批 2）
+## 10. Role Evolution Pattern（v0.2 新增 / Sprint Y 批 2 / first-class 抽出）
+
+§2.1 给出角色定义模板（8 段静态契约）。但实战中识别出：**角色不是静态契约，是演化的工程实体**。本节抽出 first-class，描述角色定义如何随 sprint 累积演化、版本号约定、跨域 fork 启示。
+
+### 10.1 角色不是静态契约，是演化的工程实体
+
+角色定义（`.claude/agents/{role}.md` + `framework/role-templates/*.md`）应该有版本号 / 修订历史 / patch 触发条件，与 framework 模块代码同等对待。
+
+**核心观察**（per Sprint M-V 累计）：
+- 单 sprint 实战 → 暴露角色定义"应该但没说"的实操细节
+- 实操细节累积到 ≥ 3 条 → 触发角色 patch（v0.x.y）
+- 跨 sprint 模式累积到 ≥ 1 模式 → 触发角色 minor bump（v0.x → v0.(x+1)）
+
+### 10.2 实证：Sprint M role-templates 演化轨迹
+
+`framework/role-templates/` v0.2.0 → v0.3.1 演化轨迹：
+
+| 版本 | 触发 sprint | 触发条件 | 演化内容 |
+|------|------------|---------|---------|
+| v0.2.0 | Sprint M Stage 1 (初创) | framework 抽象第二刀 | 10 角色 + tagged-sessions-protocol + cross-domain-mapping 初版 |
+| v0.2.1 | Sprint Q (audit_triage 抽象后) | Sprint Q retro 暴露 chief-architect 实操 gap | + chief-architect §工程小细节段（3 条 sprint 实操：工时低估 / 跨 sprint 决策 / 模板 dogfood）|
+| v0.3.0 | Sprint T (release prep) | framework v0.3.0 release | role-templates 与 framework 5 模块统一版本号 / 全角色 §工程小细节同步 |
+| v0.3.1 | Sprint V (T-V04-FW-001) | Sprint R commit `35f371d` 残留 commit hygiene 教训 | + chief-architect §工程小细节第 4 条 commit message hygiene |
+
+**模式**：
+- v0.2.x → v0.3.x = framework 模块齐备 / release 触发的 minor bump（不增内容 / 仅版本号统一）
+- v0.x.y patch = 单条实操细节累积触发（per Sprint Q + V 各 1 patch）
+
+### 10.3 ADR-032 retroactive 对架构师角色的影响
+
+ADR-032（首个 retroactive ADR / per /06 §8.4）落地后，chief-architect 角色定义中"何时起 ADR"的判据更新：
+
+**新判据**（per /06 §8.4 retroactive lessons + Sprint V 实证）：
+- 实时起 ADR：当前 sprint 内的架构决策（per §6.3 何时启动 ADR）
+- **回填 ADR**（v0.2 新增）：识别"应起未起"的 gap → retroactive ADR（per /06 §8.4 / Sprint V ADR-032）
+  - 触发：retro / 第三方 review / cross-domain 准备时识别 gap
+  - 写作：不修改原 sprint log / 仅在新 ADR 中"回填"（per /06 §8.4.1 lessons）
+
+→ chief-architect §工程小细节 v0.4.x 候选：fold "retroactive ADR 写作模式" 为第 5 条实操（待 v0.5 maintenance sprint 触发）。
+
+**case study：Sprint R commit `35f371d` 残留 → v0.3.1 演化路径**：
+1. Sprint R 实施时 commit message 与实际 staged file 集合不符（pre-commit hook 自动 stage 部分新 file）
+2. Sprint U retro §3.4 发现 / 识别为"角色 §工程小细节应有 commit hygiene 条目"
+3. Sprint V 批 2 fold → role-templates v0.3.0 → v0.3.1
+4. 这是**模式而非 anomaly**：每次 sprint commit 都该 review 实际 staged 与 message 是否一致
+
+→ 单条实操细节累积触发 patch 的典型例（per §10.1 触发条件 #2）。
+
+### 10.4 角色版本号约定
+
+**角色版本号格式**：`role.{major}.{minor}.{patch}` 与 framework 模块版本号耦合。
+
+**bump 触发条件**：
+
+| Bump 类型 | 触发条件 | 实例 |
+|----------|---------|------|
+| **patch** (v0.x.y → v0.x.(y+1)) | 单条实操细节累积 / 单 sprint 暴露的 gap fold | role-templates v0.2.0 → v0.2.1 (Sprint Q chief-architect §工程小细节加 3 条) |
+| **minor** (v0.x → v0.(x+1)) | framework 模块齐备 / release 触发 / 全角色统一版本号 | role-templates v0.2.x → v0.3.0 (Sprint T release prep) |
+| **major** (v0.x → v(x+1).0) | 角色边界 / 决策权重大变更 / 触发修宪 | 暂无（华典智谱 v1.0 候选：framework v1.0 release 时） |
+
+**与 framework 模块的耦合契约**：
+- framework `<module>` v(x).y.z 释出时 / role-templates 必须 ≥ v(x).y.z
+- methodology /01 v(x).y.z 起草时 / 必须以当时最新 role-templates 实证支撑
+
+### 10.5 跨域 fork 启示
+
+跨域 fork 团队不要"全盘 copy 角色定义"。应该：
+
+- ✅ **copy + 演化**：复制 framework/role-templates/ 到你的项目 → 跑 ≥ 1 sprint → retro 识别"应该但没说"的 gap → patch 你领域的 role-templates v0.2.1
+- ✅ **承认演化是常态**：领域差异 + 团队差异 → 你的角色定义会 v0.2 → v0.5 演化 4-5 patch 才稳定
+- ❌ **不要把 framework/role-templates/ 当 spec 来抄**（视为 starter / 不视为 final）
+- ❌ **不要跳过 retro 识别 gap 步骤**（patch 触发必须有 sprint 实证 / 不能是空想）
+
+**反模式**：
+- 角色定义起草后再不修订（违反 §10.1 "演化的工程实体"假设）
+- patch 触发条件不写明（导致后人不知道为什么这条加进来 / 失去 audit trail）
+- 跨域 fork 团队期望 huadian 的角色定义"开箱即用"（错估 fork 工作量）
+
+---
+
+## 11. 与 methodology/02 元 pattern 的关系（v0.1.2 新增 / Sprint S 批 2 / v0.2 §10.x 重编 §11.x）
 
 methodology/02-sprint-governance-pattern.md v0.1.1 (Sprint R) 沉淀了 4 段元 pattern。本文件 §1-§9 描述的是"角色 + 协作"层；§10 给出与 §02 元 pattern 的双向引用关系，让读者理解"角色设计 vs sprint 治理"的耦合点。
 
-### 10.1 跨 doc 引用速查
+### 11.1 跨 doc 引用速查
 
 | methodology/02 §X | 对本文件的影响 |
 |-------------------|--------------|
@@ -375,7 +455,7 @@ methodology/02-sprint-governance-pattern.md v0.1.1 (Sprint R) 沉淀了 4 段元
 | §12 5 模块齐备阈值 | 本文件 §6.2 当 framework 抽象阶段终点到达，活跃度配置进入"维护态"（除 Architect 全程 🟢，其余 9 角色全 ⚪），不再追求"完整 sprint 团队配置"|
 | §13 跨 stack 抽象 pattern | 本文件 §3 Tagged Sessions 协议 — 跨 stack 抽象的 sync 责任落在 Architect 主 session（per role-templates/chief-architect §工程小细节 v0.2.1）|
 
-### 10.2 实证锚点（Sprint M-R 角色活跃度演化）
+### 11.2 实证锚点（Sprint M-R 角色活跃度演化）
 
 | Sprint | 主导角色 | 其余 9 角色活跃度 | 元 pattern 类型 |
 |--------|--------|-----------------|---------------|
@@ -389,7 +469,7 @@ methodology/02-sprint-governance-pattern.md v0.1.1 (Sprint R) 沉淀了 4 段元
 
 **模式**：framework 抽象阶段（Sprint L-Q）和 maintenance 阶段（P / R）都是 single-actor 主导。这与 §6.2 "D-route 框架角色 vs 案例角色"的设计一致：framework 抽象天然不需要"完整团队"。
 
-### 10.3 跨域 fork 案例方启示
+### 11.3 跨域 fork 案例方启示
 
 如果你 fork framework/role-templates/ 做你的项目：
 
@@ -399,15 +479,17 @@ methodology/02-sprint-governance-pattern.md v0.1.1 (Sprint R) 沉淀了 4 段元
 
 ---
 
-## 11. 修订历史
+## 12. 修订历史
 
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
 | Draft v0.1 | 2026-04-29 | 首席架构师 | 初稿（Stage C-5 of D-route doc realignment）|
 | Draft v0.1.1 | 2026-04-29 | 首席架构师 | Sprint M Stage 1 cross-reference §9 加（紧密化 framework/role-templates/）|
-| **v0.1.2** | **2026-04-30** | **首席架构师** | **Sprint S 批 2 polish：加 §10 与 methodology/02 元 pattern 的关系（4 段 cross-ref + Sprint M-R 角色活跃度实证锚点 + 跨域 fork 启示）** |
+| Draft v0.1.2 | 2026-04-30 | 首席架构师 | Sprint S 批 2 polish：加 §11 (原 §10) 与 methodology/02 元 pattern 的关系（4 段 cross-ref + Sprint M-R 角色活跃度实证锚点 + 跨域 fork 启示）|
+| **v0.2** | **2026-04-30** | **首席架构师** | **Sprint Y 批 2 大 bump：加 §10 Role Evolution Pattern first-class（5 sub-sections：演化的工程实体 + Sprint M role-templates v0.2.0→v0.3.1 演化轨迹 + ADR-032 retroactive 对架构师角色影响 + 角色版本号约定 + 跨域 fork 启示）；§修订历史 §11 → §12 重编号 + §11 子节 §10.x → §11.x 重编** |
 
 ---
 
 > 本文件描述的角色设计模式是 AKE 框架的 Layer 1 核心资产之一。
 > 任何对本模式的修改建议，请通过 GitHub Issue + PR 走 ADR 流程。
+> Sprint Y §10 抽出 Role Evolution Pattern first-class（v0.2 大 bump）+ §11 子节 §10.x → §11.x 重编号。
