@@ -385,17 +385,148 @@ V0.2 sprint 候选议程（押后到 Sprint Q+M）：
 3. UPDATE `downstream_applied=true / downstream_applied_at / by`
 4. 与 framework/identity_resolver `MergeApplier` 双向 binding（approve guard_blocked_merge → 调 MergeApplier）
 
+### 7.6 ADR-032 audit_triage cross-stack abstraction (retroactive) / v0.2 新增
+
+per Sprint V 批 1（v0.2 起草前）落地的 ADR-032 是 framework v0.x 演进**首个 retroactive ADR**——回填 Sprint Q audit_triage 抽象决策的历史记录（per Sprint U retro §3.2 触发）。
+
+ADR-032 关键内容（与本 methodology 关联）：
+- §2 决策：选项 B（Python framework / 跨 stack）+ Approach B 最小 schema 子集 + 6 Plugin Protocol
+- §3 已实证（Sprint Q + T）：dogfood ✅ user local + Docker compose sandbox 双 PASSED
+- §5 retroactive ADR lessons learned（编号策略 / 何时必要 / 何时不必要）
+- §4 Validation Criteria 6/6 ✅ + 1 待跨域案例方触发
+
+**与本文件的关系**：
+- 本文件 §3 + §7 描述了 audit_triage **业务流程 + framework 实现**
+- ADR-032 记录了**为什么这么实现**（stack 选择 / Plugin Protocol design / Approach B 取舍）
+- 两者互补：methodology 是 pattern level / ADR 是 decision level
+
 ---
 
-## 8. 修订历史
+## 8. Audit Immutability Pattern（v0.2 新增 / Sprint W 批 1）⭐
+
+> 本节抽出 §2-§4 中关于"audit 数据不可变性"的 first-class pattern。这个 pattern 同时覆盖 multi-row audit per source_id（保留决策演化轨迹）+ surface_snapshot 冻结（防 source 行变化破坏 hint banner）。
+
+### 8.1 两个 sub-pattern 合一
+
+audit immutability 是 audit_triage / 任何审计类系统的核心保证。落实到具体实现是**两个 sub-pattern 的组合**：
+
+**Sub-pattern A — Multi-row audit per source_id**：
+- 同一 source_id（如 pending_merge_reviews 的某行）允许 ≥ 2 条 triage_decisions 行
+- 决策 = INSERT 新行（非 UPDATE 已有行）
+- 应用层查"当前 effective decision"用 `ORDER BY decided_at DESC LIMIT 1`
+- 必要性：defer → revisit → approve workflow（per §4.1 实证 Sprint G）
+
+**Sub-pattern B — Surface snapshot 冻结**：
+- 决策时立即把当时的 `pending_review.surface` 字符串复制到 `triage_decisions.surface_snapshot`
+- 后续 source 行被 rename / soft-delete / split 都不影响 hint banner 查询
+- 必要性：跨 sprint hint banner 需要稳定的 surface 索引（per §4 实证 Sprint H 楚怀王 entity-split）
+
+两个 sub-pattern 合在一起 = audit immutability 保证。
+
+### 8.2 为什么必须不可变（vs 可变 audit）
+
+可变 audit 的 3 个失败模式（实证 Sprint G/H）：
+
+1. **决策演化丢失**：UPDATE 已有行 = 丢失 defer → revisit 的中间状态 / Hist 后续无法 review 自己的思考过程
+2. **跨 sprint hint banner 失效**：surface 变化 → 用旧 surface 字符串搜索找不到决策记录
+3. **审计法律 / 合规风险**：可变 audit 不被监管认可（医疗 HIPAA / 金融 SOX 等都要求 append-only）
+
+→ Audit immutability 是 audit_triage 系统的**正确性 + 合规性 + 演化追溯**三重保证。
+
+### 8.3 实现契约（领域无关）
+
+**Sub-pattern A 实现契约**：
+
+```sql
+-- ✅ 正确（multi-row 允许）
+CREATE TABLE triage_decisions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    source_id UUID NOT NULL,                -- 不加 UNIQUE
+    decided_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    -- ... 其他字段
+);
+CREATE INDEX idx_triage_decisions_source_id_decided_at
+    ON triage_decisions(source_id, decided_at DESC);
+
+-- ❌ 错误（强制 single-row）
+CREATE TABLE triage_decisions (
+    source_id UUID PRIMARY KEY,             -- 单一约束 / 破坏 sub-pattern A
+    -- ...
+);
+```
+
+**Sub-pattern B 实现契约**：
+
+```python
+# ✅ 正确（决策时冻结 surface）
+async def record_decision(item: PendingItem, input: RecordDecisionInput):
+    row = await store.insert_decision(
+        source_id=item.source_id,
+        surface_snapshot=item.surface,   # ← 立即冻结
+        decision=input.decision,
+        ...
+    )
+
+# ❌ 错误（决策时不冻结 / hint banner 查时再 lookup）
+async def record_decision(...):
+    row = await store.insert_decision(
+        source_id=item.source_id,
+        # 缺 surface_snapshot
+        ...
+    )
+# 后续 hint banner 查询：JOIN pending_review 取当前 surface ← 数据已变 / 失效
+```
+
+### 8.4 跨域 fork 案例方启示
+
+任何审计类 framework fork 都应保留 audit immutability 这两个 sub-pattern：
+
+| 领域 | Sub-pattern A 实证场景 | Sub-pattern B 实证场景 |
+|------|--------------------|--------------------|
+| 古籍（华典智谱）| Hist defer 后补资料 → revisit → approve | 楚怀王 entity-split 后 surface 变化 |
+| 法律（hypothetical）| 律师对合同条款 reject → 修改 → approve | 公司名 rename（如 Apple Computer → Apple Inc.）|
+| 医疗（hypothetical）| 处方 defer 等会诊 → 调整 → approve | 药品 generic name 改名 |
+| 金融（hypothetical）| AML defer 等 KYC 升级 → 调整 → approve | 客户 entity 合并 / 分拆 |
+
+→ 5 领域全实证 sub-pattern A + B 必要性。
+
+### 8.5 反模式
+
+❌ **直接 UPDATE 已有 audit 行**（破坏 sub-pattern A / 决策演化丢失）
+
+❌ **不存 surface_snapshot / hint banner 时 JOIN source 表实时取**（破坏 sub-pattern B / 数据一致性失效）
+
+❌ **`UNIQUE (source_id)` 约束**（强制 single-row / 与 sub-pattern A 冲突）
+
+❌ **`UNIQUE (source_id, surface)` 约束**（同 historian 重新决策同 surface 时 INSERT 失败）
+
+❌ **soft-delete audit 行 + 再 INSERT**（看似 multi-row / 但 soft-delete 本身违反不可变 / immutability 应是 append-only）
+
+✅ **`UNIQUE (source_id, surface, historian_id)`**（per §6.6 / 同 historian 同 source 同 surface 只能 1 条决策 / 但跨 historian / 跨 surface 都允许 multi-row）
+
+### 8.6 与其他 methodology pattern 的关系
+
+| methodology | 关系 |
+|-------------|------|
+| /02 v0.2 §13 跨 stack 抽象 pattern | audit_triage 是 cross-stack 抽象的实证 / immutability 在 TS prod + Python framework 必须双 stack 一致保证 |
+| /04 invariant pattern | audit immutability 可作为 invariant 来实现：写 V_audit_append_only invariant 检查 triage_decisions 表无 UPDATE 痕迹（仅 INSERT）|
+| /06 v0.1.1 §8.3 跨域 fork 启示 | audit immutability 是 audit_triage fork 的核心约束 / per /06 §8.3 第 5 条"跨 stack 抽象应起 ADR" + 本 §8 immutability 双重约束 |
+| /07 v0.1 §6 跨域 fork 启示 | cross-stack 抽象的 dogfood 必须验证 audit immutability 保留（vs 仅验证 row 数 / 字段值）|
+
+---
+
+## 9. 修订历史
 
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
 | Draft v0.1 | 2026-04-29 | 首席架构师 | 初稿（Stage C-9 of D-route doc realignment）|
-| **v0.1.1** | **2026-04-30** | **首席架构师** | **Sprint Q 批 5：加 §7 Framework Implementation 段（5 Plugin Protocol 映射 / 6 default REASON_SOURCE_TYPES / DGF-N-03+O-02 测试范本 / V0.2 Applier 路径）** |
+| v0.1.1 | 2026-04-30 | 首席架构师 | Sprint Q 批 5：加 §7 Framework Implementation 段（5 Plugin Protocol 映射 / 6 default REASON_SOURCE_TYPES / DGF-N-03+O-02 测试范本 / V0.2 Applier 路径）|
+| **v0.2** | **2026-04-30** | **首席架构师** | **Sprint W 批 1 大 bump（v0.x cycle 第 2 sprint / 第 2 doc → v0.2）：加 §8 Audit Immutability Pattern（multi-row audit per source_id + surface_snapshot 冻结 / 2 sub-patterns first-class 抽出）+ §7.6 ADR-032 retroactive 引用 + 重组（修订历史 §8 → §9）；§8 是新 first-class pattern + §7.6 是 ADR retroactive 引用 → v0.x → v0.2 大 bump（vs v0.1.x polish）** |
 
 ---
 
 > 本文档描述的 Audit Trail Pattern 是 AKE 框架的 Layer 1 核心资产之一。
 > Sprint K (T-P0-028) 是其首次完整实现，详见 `docs/decisions/ADR-027-pending-triage-ui-workflow-protocol.md` + `docs/sprint-logs/sprint-k/`.
 > Sprint Q (Layer 1 第 5 刀) 把它抽象为 framework/audit_triage/ Python 框架，详见 §7。
+> Sprint V (ADR-032 retroactive) 补 audit_triage 抽象的历史决策记录。
+> Sprint W (§8 v0.2) 抽出 Audit Immutability Pattern first-class（vs §2-§4 的隐式分散）。
