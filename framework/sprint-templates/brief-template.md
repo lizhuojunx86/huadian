@@ -83,6 +83,55 @@
 
 ---
 
+## 2.5 v0.x 大 bump 重编号 checklist（v0.1.5 新增 / Sprint AA 批 3）
+
+> 用于 methodology v0.x → v0.(x+1) 大 bump（first-class 抽出新 §X 推后续章节降序时）。
+> 触发：Sprint X retro §2.1 + Sprint Y §2.1 + Sprint Z §2.1 连续 3 sprint 同 issue（§修订历史子节重编号易遗漏）。
+
+如果本 sprint 涉及"在 doc 中部插入新章节" → 必须执行：
+
+- [ ] **父节号重编**（如新 §10 插入 → 旧 §10 → §11 / 旧 §11 → §12 / 修订历史 §12 → §13 等）
+- [ ] **子节号重编**（容易遗漏 / 旧 §10.1-§10.N → §11.1-§11.N / 4-6 个子节通常）
+- [ ] **cross-ref 内章节引用更新**（如 "per §10.x 元 pattern" → "per §11.x 元 pattern" / grep 搜索 `§旧号` 全文）
+- [ ] **`§修订历史` 修订条目自身用新号**（描述写"§旧 §X.x → §X.x 重编"）
+
+**反模式**：
+- ❌ 仅改父节号 / 子节号留旧（断裂 hierarchy）
+- ❌ cross-ref 不全文 grep（容易漏）
+- ❌ 修订条目用旧号（让后人困惑）
+
+**实操经验**：在 single Edit 内完成所有重编号风险大 / 推荐 N+1 个 sequential Edit（per Sprint Y /01 批 2 实证 / 1 个父节 + N 个子节 + cross-ref / 顺序 Edit）。
+
+---
+
+## 2.6 里程碑庆祝节制（v0.1.5 新增 / Sprint AA 批 3）
+
+> 用于 closeout / retro / CHANGELOG 撰写时。
+> 触发：Sprint Z retro §2.2 自我反思（cycle 完成 sprint 用了大量 ⭐⭐⭐ / 可能过度庆祝）。
+
+撰写时**节制使用 ⭐**：
+
+| 里程碑 weight | 推荐 ⭐ 数 | 例 |
+|--------------|---------|------|
+| 单 doc bump（v0.x → v0.x.y）| 0-1 ⭐ | "/02 v0.2.1 polish" |
+| 单 doc 大 bump（v0.x → v0.(x+1)）| 1 ⭐ | "/05 v0.2 +§8 Audit Immutability" |
+| 多 doc cycle 进度推进 | 1-2 ⭐ | "cycle 5/8 过半" |
+| cycle 完成（100%） | 2-3 ⭐ | "methodology v0.2 cycle 完成" |
+| ADR 触发条件首次达成 | 1-2 ⭐ | "ADR-031 #7 触发" |
+| v1.0 / 跨域 ref impl 实际触发 | 3+ ⭐ | （未达成 / 等触发）|
+
+**区分"等触发"vs"实际触发"**：
+- ✅ "v1.0 评估议程**激活**"（= 进入等触发状态）→ 客观事实 / 不需庆祝
+- ❌ "v1.0 评估议程激活 ⭐⭐⭐"（过度庆祝 / 实际只是状态切换）
+- ✅ "v1.0 实际 release"（实际触发 / 值得 ⭐⭐⭐）
+
+**反模式**：
+- ❌ ⭐⭐⭐ 滥用（视觉 inflation / 让真正重要里程碑失去 weight）
+- ❌ "X 评估议程激活" + ⭐⭐⭐（混淆"激活"与"达成"）
+- ❌ 每 sprint closeout 都用 ⭐⭐⭐（连续触发 ≥ 3 次时 / weight 应递减）
+
+---
+
 ## 3. Stages
 
 > ⚠️ **二选一**：根据 sprint 形态选 §3.A（5-stage 数据管线模板）或 §3.B（精简 / 文档 + 框架抽象模板）。
@@ -278,11 +327,12 @@ D-route 风格的项目（"框架抽象 + 参考实现"双轨）要求**每个 s
 
 ---
 
-**本 brief 模板版本**：framework/sprint-templates v0.1.4
+**本 brief 模板版本**：framework/sprint-templates v0.1.5
 
 变更日志：
 - v0.1 (Sprint L) — 初版
 - v0.1.1 (Sprint M DGF-M-02~07 patch) — §3 加 Stage 0 inventory / §5 single-actor 注脚 / §8 跨域 mapping checklist 等
 - v0.1.2 (Sprint P 批 2 polish) — §1.2 灵活列数说明 / §3 拆分 §3.A 5-stage 与 §3.B 精简模板 + §3.0 选择指南 / §8 措辞解耦 C-22 项目宪法专属性
 - v0.1.3 (Sprint R 批 1 polish) — §2.1 工作量估算按 Code / Docs / Closeout-Retro 3 类分别列（解决 Sprint Q retro §3.3 实证的"混算估时偏离 1.4-1.5x"问题 / T-V03-FW-003）
-- **v0.1.4 (Sprint V 批 3 polish)** — §2.1 Code 类拆分 3 子类（框架 spike / 新模块抽象 / patch）+ Docs 类拆分 3 子类（cross-ref polish / new doc 起草 / ADR）+ Closeout 类不拆 = 7 子类 / 让估算精度从 ≤ 10% 提升到 ≤ 5%（基于 Sprint S+T+U 累计 3 次 dogfood 实证 / T-V04-FW-002 + T-V04-FW-003 合并落地）
+- v0.1.4 (Sprint V 批 3 polish) — §2.1 Code 类拆分 3 子类（框架 spike / 新模块抽象 / patch）+ Docs 类拆分 3 子类（cross-ref polish / new doc 起草 / ADR）+ Closeout 类不拆 = 7 子类 / 让估算精度从 ≤ 10% 提升到 ≤ 5%（基于 Sprint S+T+U 累计 3 次 dogfood 实证 / T-V04-FW-002 + T-V04-FW-003 合并落地）
+- **v0.1.5 (Sprint AA 批 3 polish / T-X02-FW-002)** — 加 §2.5 v0.x 大 bump 重编号 checklist (per Sprint X+Y+Z 连续 3 sprint 同 issue / 父节+子节+cross-ref+修订条目 4 项 checklist + 反模式) + §2.6 里程碑庆祝节制（per Sprint Z retro §2.2 自我反思 / ⭐ 数量 vs 里程碑 weight 对应表 + "等触发 vs 实际触发"区分 + 反模式）；v0.1.4 § 2.1 7 子类估时表保持不变（已收敛 ≤ 5% target / 6 次 dogfood 实证）
