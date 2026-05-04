@@ -5,6 +5,55 @@
 
 ---
 
+## 2026-04-30 (Sprint Z) ⭐⭐⭐ **methodology v0.2 cycle 完成 sprint**
+
+### [feat] Sprint Z — methodology v0.2 cycle **完成 8/8 = 100% ⭐⭐⭐** / /03 → v0.2 / **ADR-031 §3 #7 触发** / **v1.0 评估议程激活** / 连续第 11 个 zero-trigger sprint ⭐⭐⭐ 220% over target
+
+- **角色**：首席架构师（single-actor / Opus 4.7 全程）
+- **性质**：methodology v0.2 cycle **完成** sprint（v0.2 doc 数 7 → **8 = 100%** ⭐⭐⭐ / Sprint Y retro §7 候选 A 落地）；single doc 大工作（/03 identity-resolver-pattern）；**Layer 2 (方法论文档) 第一阶段完整化** / 进入维护态
+- **关键产出**：
+  - **methodology/03 v0.1.2 → v0.2** ⭐⭐⭐（v0.x cycle 第 8 doc bump / cycle 完成 doc）：
+    - + §10 Byte-Identical Dogfood Pattern first-class（8 sub-sections）：
+      - §10.1 定义（同 stack 抽象后跑双路径 / 字段逐字一致）
+      - §10.2 **4 等级 Dogfood 框架完整化** ⭐（L1 byte-identical + L2 soft 同 stack + L3 soft 跨 stack + L4 self-test 主动 / 与 /04 §8.2 协调）
+      - §10.3 适用条件（同 stack / 输出确定性 / 抽象边界 / alias whitelist）
+      - §10.4 设计契约（pseudocode + Plugin Protocol 边界要求）
+      - §10.5 实证 Sprint N（729 persons / 17 guards / 0 字段差异 / Stop Rule #1 临时触发处理）
+      - §10.6 跨域 fork 启示（同 stack 走 L1 / 跨 stack 走 L3）
+      - §10.7 Byte-Identical vs Self-Test 对比（L1 vs L4 / 4 等级框架两端）
+      - §10.8 反模式
+    - § 修订历史 §10 → §11 重编号
+    - +119 行 / 510 总行（85% 容量 / 内于阈值 600 ✓）
+  - **methodology v0.2 cycle 进度: 7/8 → 8/8 = 100%** ⭐⭐⭐
+- **D-route Layer 进度**:
+  - L1: 5 模块 v0.3.0 不变 + sprint/role-templates v0.3.1 patch（Sprint Z 不动 framework code）
+  - L2: methodology/03 v0.1.2 → **v0.2** ⭐⭐⭐（**v0.x cycle 完成 8/8 = 100%** / Layer 2 第一阶段完整化 / 进入维护态）
+  - L3: 不变
+  - L4: 11 sprint zero-trigger 连续 ⭐⭐⭐ (220% over ADR-031 §3 #2 target) + **methodology v0.2 cycle 完成 ⭐⭐⭐** + **ADR-031 §3 #7 触发条件达成** + **v1.0 评估议程激活**
+- **debt 状态**: Sprint L→Z 累计 **28/30 = 93.3% patch 落地**（不变）；新增 **1 项 v0.5 候选**（T-X02-FW-002 / brief-template v0.1.5 重编号 + 里程碑庆祝节制 checklist / 触发条件达成：连续 3 sprint X+Y+Z 同 issue）；押后仅 2 v0.2 + 0 v0.3 + 0 v0.4 + 4 v0.5 候选 = 6 总押后
+- **Stop Rule 触发**: **0 触发**（连续第 11 个 zero-trigger sprint：P→Q→R→S→T→U→V→W→X→Y→Z）⭐⭐⭐ **220% over target**
+- **brief-template v0.1.4 第 4 次外部 dogfood ✓✓**: Docs: new doc 起草 (/03 大工作) 偏差 0% (区间中位) / 累计 6 次 dogfood 区间 [-12.5%, +5.5%] / 平均 |偏差| **~4.7%** / **达成 ≤ 5% v0.1.4 设计目标 ✓✓** ⭐
+- **commits 待 push** (2 commits)：
+  - **会话内待 push**: `docs(methodology): 03 v0.1.2 → v0.2 (Sprint Z 批 1 / methodology v0.2 cycle 完成 8/8 ⭐⭐⭐)` + `docs(sprint-z): closeout + retro + status + changelog + cycle 完成宣布 + ADR-031 #7 触发`
+- **🎯 ADR-031 §3 #7 触发条件达成 → v1.0 评估议程激活**:
+  - 之前: 7/7 触发条件中 2/7 ✅ + 2/7 ⏳ + 3/7 ❌
+  - **Sprint Z 后**: **3/7 ✅** (新增 #7) + 2/7 ⏳ + 2/7 ❌
+  - **v1.0 路径瓶颈**: #4 跨域 ref impl + #5 第三方 review（战略层工作 / 非 sprint level）
+  - **路径预测**: 2026-10 (乐观) ~ 2027-04 (保守) / 进入"等触发"维护态
+- **下一 sprint**: **Sprint Z+1 默认 D 等候触发**（per /00 §7 Negative Space + Sprint Z retro §3.3 + §7.4 / 不主动启动新 sprint / 等外部信号）
+  - 用户主动启动可选 4 路径菜单：A v0.5 maintenance / B v0.2.1 polish / C 跨域 outreach
+- **关键设计赢**:
+  - **methodology v0.2 cycle 完成 ⭐⭐⭐** (Layer 2 第一阶段完整化 / D-route §6 时间窗 12-18mo 第一阶段提前达成 / 实际 ~5 个月)
+  - **4 等级 Dogfood 框架完整** (L1 first-class @/03 §10 / L2+L3 @/04 §8.2 / L4 first-class @/04 §8 / 跨 doc 分布式形成)
+  - **6 元 sprint pattern 完整** (per /02 §9-§15 / Maintenance / Eval / Release / Hybrid Release / v0.x cycle 起步 / v0.x cycle 持续)
+  - **3 类专用 ADR 模板完整** (per /06 §8 / release-trigger / release-eval / retroactive)
+  - **v0.x cycle 加速规律实证** (单 doc 平均工时 V 1.5 → W/X 0.75 → Y 0.5 → Z 1.5 / cycle 完成 sprint 因 cycle 宣布额外工作量回到 1.5 节律)
+  - **brief-template v0.1.4 收敛 ≤ 5% 达成 ✓✓** (6 次累计 dogfood / 平均 |偏差| ~4.7% / 可作 final 版)
+  - **11 sprint zero-trigger 持续 ⭐⭐⭐** (220% over ADR-031 §3 #2 target / 跨 12+ 周持续无 Stop Rule 触发)
+  - **Stop Rule #3 阈值合理性首次接近上限验证** (/03 510/600 = 85% / 阈值合理 / 不需调整)
+
+---
+
 ## 2026-04-30 (Sprint Y)
 
 ### [feat] Sprint Y — methodology v0.2 cycle 7/8 ⭐⭐ / /00 + /01 → v0.2 / **1 会话紧凑首次实证** ⭐ / 连续第 10 个 zero-trigger sprint ⭐⭐⭐ 10 sprint 里程碑
