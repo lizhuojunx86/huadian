@@ -5,6 +5,56 @@
 
 ---
 
+## 2026-04-30 (Sprint AA) — Layer 2 维护态首 sprint
+
+### [feat] Sprint AA — v0.5 maintenance sprint / 清 3 v0.5 candidates / methodology/02 + /04 v0.2 → v0.2.1 + brief-template v0.1.5 / 1 会话紧凑 / 连续第 12 个 zero-trigger sprint (240% over target)
+
+- **角色**：首席架构师（single-actor / Opus 4.7 全程）
+- **性质**：**Layer 2 维护态首 sprint** ⭐ / v0.5 maintenance sprint（per /02 §10 + Sprint Z residual debts §6 / methodology v0.2 cycle 完成后第一个 maintenance sprint）；3-batches 清 3 v0.5 candidates；1 会话紧凑路径
+- **关键产出**：
+  - **methodology/02 v0.2 → v0.2.1**（T-V05-FW-002 落地）：
+    - §14.4 + §15.4 cross-ref polish — 加 methodology/06 v0.2 §8 first-class 3 模板 (release-trigger / release-eval / retroactive) 双向引用
+    - 让 trigger vs eval ADR 对比与 /06 §8 完整 3 模板形成 **single source of truth cross-ref 网**
+    - +6 行 / 722 总行
+  - **methodology/04 v0.2 → v0.2.1**（T-X02-FW-001 落地 / per Sprint X 方案 B deferred）：
+    - fold §8.6 deferred 内容
+      - §8.6.1 Sprint O 4/4 catch 详细实证（V9 SelfTest impl 范例 + SelfTestRunner flow + 4/4 catch 数据点）
+      - §8.6.2 Self-Test 反模式 4 条（无 transaction rollback / query 与 invariant 共享模板 / 仅断言 row count / self-test 仅 dev 不进 CI）
+    - 紧凑写法成功（V9 1 例代替 4 例详写 + 反模式 4 条不展开 / 555 → 597 行 / **99.5% Stop Rule #4 阈值** / 未触发）
+    - +42 行 / 597 总行
+  - **framework/sprint-templates v0.3.1 → v0.3.2**（T-X02-FW-002 落地 / per Sprint Z residual §2.3）：
+    - brief-template v0.1.4 → v0.1.5
+    - + §2.5 **v0.x 大 bump 重编号 checklist** (per Sprint X+Y+Z 连续 3 sprint 同 issue / 父节+子节+cross-ref+修订条目 4 项 + 反模式)
+    - + §2.6 **里程碑庆祝节制** (per Sprint Z retro §2.2 / ⭐ 数量 vs 里程碑 weight 对应表 + "等触发 vs 实际触发"区分 + 反模式)
+    - v0.1.4 §2.1 7 子类估时表保持不变（6 次 dogfood 已收敛 ≤ 5% target / 不动）
+- **D-route Layer 进度**:
+  - L1: 5 模块 v0.3.0 不变 + **sprint-templates v0.3.1 → v0.3.2** ⭐ NEW + role-templates v0.3.1
+  - L2: methodology v0.2 cycle 完成 8/8（不变）+ 维护态首批 v0.2.1 patch (2 doc：/02 + /04)
+  - L3: 不变
+  - L4: 12 sprint zero-trigger 连续 ⭐⭐⭐ (240% over ADR-031 §3 #2 target / vs Sprint Z 220% / +20pp)
+- **debt 状态**: Sprint L→AA 累计 **28/30 = 93.3% patch 落地**（不变 / Sprint AA 是 v0.x.1 polish / 不算新 patch land）；**v0.5 押后清单 4 → 1**（清 T-V05-FW-002 + T-X02-FW-001 + T-X02-FW-002 / 仅剩 1 候选未登记）；总押后 5 → 3（2 v0.2 + 1 v0.5 候选未登记）
+- **Stop Rule 触发**: **0 触发**（连续第 12 个 zero-trigger sprint：P→Q→R→S→T→U→V→W→X→Y→Z→AA）⭐⭐⭐ **240% over target**
+- **brief-template v0.1.4 第 5 次外部 dogfood**（含新发现）:
+  - Docs: cross-ref polish 子类首独立验证 → **-33% 大幅低估**（vs 估时表 ~95-105% 预测）
+  - Docs: new doc 起草 (/04 §8.6 方案 B) → 0% (区间下界)
+  - Docs: cross-ref polish (brief-template) → 0% (区间下界)
+  - 累计 9 次 dogfood 偏差区间 [-33%, +5.5%] / Docs: new doc 起草子类内仍 ≤ 5%
+  - **新发现**：cross-ref polish 子类基线偏保守 / 触发 Sprint AB candidate / brief-template v0.1.6 调整 cross-ref polish 基线（待 ≥ 2-3 次 dogfood 后再调整 / 当前不主动起）
+- **commits 待 push** (2 commits)：
+  - **会话内待 push**: `docs(methodology+templates): v0.5 maintenance batch (Sprint AA / Layer 2 维护态首 sprint)` + `docs(sprint-aa): closeout + retro + status + changelog + Layer 2 维护态首 sprint 模板沉淀`
+- **下一 sprint**: **Sprint AB 默认 D 等候触发**（v0.5 maintenance 触发条件未达成 / 候选 ≤ 2 / 阈值 ≥ 3 / per Sprint AA retro §7.4）
+  - 用户主动启动可选：A v0.5 maintenance（不推荐 / 候选 ≤ 2）/ B 跨域 outreach（战略层 / 等用户主动驱动）
+- **关键设计赢**:
+  - **Layer 2 维护态首 sprint 模板验证** ⭐：1 会话紧凑 + 3-batches + pure docs + template patch + 1 file per batch / per Sprint Z residual debts §6 工作流预测一次命中 / 后续 v0.5 maintenance sprint ready 复用
+  - **方案 B 紧凑写法成功避 Stop Rule #4 触发** (/04 99.5% 阈值 / V9 1 例代替 4 例详写 + 反模式 4 条不展开)
+  - **Single source of truth cross-ref 网建立** (/02 §14.4+§15.4 引 /06 §8 / 避免重复定义 / 单源真相)
+  - **brief-template v0.1.5 自我演化 dogfood** (用 v0.1.4 estimate 自己升级到 v0.1.5 / meta-dogfood)
+  - **维护态 4 类工作流 3/4 已实证** (v0.2.x patch ✅ / v0.5 maintenance ✅ / v1.0 评估更新 ✅ / 跨域 outreach ⏳)
+  - **12 sprint zero-trigger 持续** ⭐⭐⭐ (240% over ADR-031 §3 #2 target / 跨 13+ 周持续无 Stop Rule 触发)
+  - **dogfood 覆盖度盲区识别** (Sprint W-Z 6 次都是同一子类 / Sprint AA 首次扩展子类覆盖)
+
+---
+
 ## 2026-04-30 (Sprint Z) ⭐⭐⭐ **methodology v0.2 cycle 完成 sprint**
 
 ### [feat] Sprint Z — methodology v0.2 cycle **完成 8/8 = 100% ⭐⭐⭐** / /03 → v0.2 / **ADR-031 §3 #7 触发** / **v1.0 评估议程激活** / 连续第 11 个 zero-trigger sprint ⭐⭐⭐ 220% over target

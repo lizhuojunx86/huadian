@@ -2,10 +2,10 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-04-30（**Sprint Z 完成 + methodology v0.2 cycle 完成 8/8 = 100% ⭐⭐⭐** / /03 → v0.2 / **ADR-031 §3 #7 触发条件达成** / **v1.0 评估议程激活** / **连续 11 个 zero-trigger sprint** P→Q→R→S→T→U→V→W→X→Y→Z ⭐⭐⭐ **220% over target** / brief-template v0.1.4 第 4 次 dogfood / 累计 6 次 ≤ 5% target ✓✓ / Layer 2 第一阶段完整化 / 进入维护态）
+- **最近更新**：2026-04-30（**Sprint AA 完成 / Layer 2 维护态首 sprint** / methodology/02 + /04 v0.2 → v0.2.1 + brief-template v0.1.5 / 清 3 v0.5 candidates / **连续 12 个 zero-trigger sprint** P→Q→R→S→T→U→V→W→X→Y→Z→AA ⭐⭐⭐ **240% over target** / 1 会话紧凑 / brief-template v0.1.4 第 5 次 dogfood / cross-ref polish 子类首验证 -33% 新发现 / 维护态首 sprint 模板验证）
 - **更新人**：首席架构师（Claude Opus 4.7）
 - **战略方向**：**D-route — Agentic Knowledge Engineering 框架 + 史记参考实现**（详见 [ADR-028](decisions/ADR-028-strategic-pivot-to-methodology.md) + [strategy/D-route-positioning.md](strategy/D-route-positioning.md)）
-- **当前阶段**：Phase 0 已收尾 / D-route 文档体系全对齐 / **Sprint Z 完成（methodology/03 v0.1.2 → v0.2 + §10 Byte-Identical Dogfood Pattern first-class / 4 等级 dogfood 框架完整化 / 1.5 会话 / 0 Stop Rule 触发 / cycle 完成 8/8 ⭐⭐⭐）** / **methodology v0.2 cycle 完成 ⭐⭐⭐ → ADR-031 §3 #7 触发 → v1.0 评估议程激活** / Sprint Z+1 默认路径：D 等候触发（per /00 §7 Negative Space + Sprint Z retro §3.3）/ 用户主动启动可选 4 路径菜单（A v0.5 maintenance / B v0.2.1 polish / C 跨域 outreach）
+- **当前阶段**：Phase 0 已收尾 / D-route 文档体系全对齐 / methodology v0.2 cycle 完成 8/8 = 100% / **Sprint AA 完成（v0.5 maintenance sprint / 清 T-V05-FW-002 + T-X02-FW-001 + T-X02-FW-002 / methodology/02 + /04 v0.2 → v0.2.1 + brief-template v0.1.5 / sprint-templates v0.3.2 / 1 会话紧凑 / 0 Stop Rule 触发 / Layer 2 维护态首 sprint 模板验证）** / **Sprint AB 默认路径：D 等候触发**（v0.5 maintenance 触发条件未达成 / 候选 ≤ 2 / 阈值 ≥ 3）
 
 ---
 
@@ -22,10 +22,10 @@
 
 | Layer | 状态 | 当前焦点 |
 |-------|------|---------|
-| L1 框架代码抽象 | 🟢 5 模块 v0.3.0 不变 + sprint/role-templates v0.3.1 patch（Sprint L→Z 15 sprint 完成）| sprint-templates v0.3.1 + role-templates v0.3.1 + identity_resolver v0.3.0 + invariant_scaffold v0.3.0 + audit_triage v0.3.0；累计 v0.2 18/20 + v0.3 6/6 + v0.4 4/4 = **28/30 = 93.3% patch 落地** ⭐ + v0.4 押后 0 / v0.5 候选 4 / 不急 |
-| L2 方法论文档 | 🟢⭐⭐⭐ **8 doc 完整 + methodology v0.2 cycle 完成 8/8 = 100% ⭐⭐⭐**（Sprint V→Z 5 sprint 累计 / 7 会话工时）：**/00 v0.2** (+§9 Cross-Doc 网状图) + **/01 v0.2** (+§10 Role Evolution Pattern) + **/02 v0.2** (+§14+§15 Sprint Patterns) + **/03 v0.2 ⭐⭐⭐ NEW** (+§10 Byte-Identical Dogfood Pattern / L1 dogfood 等级) + **/04 v0.2** (+§8 Self-Test Pattern / L4) + **/05 v0.2** (+§8 Audit Immutability) + **/06 v0.2** (+§8 ADR Template Comparison) + **/07 v0.2** (+§9 Tooling Pattern) | **Layer 2 第一阶段完整化 / 进入维护态**；4 等级 dogfood 框架完整（L1+L2+L3+L4）；6 元 sprint pattern 完整；3 类专用 ADR 模板完整；下次启动等触发或 v0.5 maintenance |
-| L3 案例库 | 🟢 主案例 + demo + 5 sprint dogfood + Sprint Q dogfood ✅ user local + Sprint T Docker dogfood ✅ sandbox PASSED | Sprint Z maintenance + methodology sprint 不动 case 数据 |
-| L4 社区 / 商业 | 🟢⭐⭐⭐ 第二刀触发（v0.3.0 GitHub release tag 已 push）+ ADR-031 v1.0 候选议程评估 + ADR-032 retroactive ADR + **11 sprint zero-trigger 连续 P→Q→R→S→T→U→V→W→X→Y→Z ⭐⭐⭐ 220% over ADR-031 #2 target** + **methodology v0.2 cycle 完成 8/8 ⭐⭐⭐ ADR-031 #3 #7 触发** + **v1.0 评估议程激活 / v1.0 触发条件状态 3/7 ✅ + 2/7 ⏳ + 2/7 ❌** | Sprint Z+1 默认 D 等候触发 / 用户主动可启动 A v0.5 / B v0.2.1 / C 跨域 outreach / 等跨域接触触发 v1.0 #4 + #5 |
+| L1 框架代码抽象 | 🟢 5 模块 v0.3.0 不变 + sprint-templates v0.3.2 (NEW Sprint AA) + role-templates v0.3.1（Sprint L→AA 16 sprint 完成）| sprint-templates **v0.3.2** + role-templates v0.3.1 + identity_resolver v0.3.0 + invariant_scaffold v0.3.0 + audit_triage v0.3.0；累计 v0.2 18/20 + v0.3 6/6 + v0.4 4/4 = **28/30 = 93.3% patch 落地** ⭐ + v0.4 押后 0 / v0.5 候选 1（剩余 / Sprint AA 清 3）/ 不急 |
+| L2 方法论文档 | 🟢 **8 doc 完整 + methodology v0.2 cycle 完成 8/8 = 100% ⭐⭐⭐ + 维护态首批 v0.2.1 patch (2 doc)**：/00 v0.2 + /01 v0.2 + **/02 v0.2.1 ⭐ NEW** (Sprint AA §14.4+§15.4 cross-ref polish) + /03 v0.2 + **/04 v0.2.1 ⭐ NEW** (Sprint AA fold §8.6 实证+反模式) + /05 v0.2 + /06 v0.2 + /07 v0.2 | Layer 2 维护态运行中；4 类工作流 3/4 已实证（v0.2.x patch ✅ / v0.5 maintenance ✅ / v1.0 评估更新 ✅ / 跨域 outreach ⏳ 等触发）；下次维护 sprint 等 ≥ 3 候选累积 |
+| L3 案例库 | 🟢 主案例 + demo + 5 sprint dogfood + Sprint Q dogfood ✅ user local + Sprint T Docker dogfood ✅ sandbox PASSED | Sprint AA maintenance + methodology sprint 不动 case 数据 |
+| L4 社区 / 商业 | 🟢 第二刀触发（v0.3.0 GitHub release tag 已 push）+ ADR-031 v1.0 候选议程评估 + ADR-032 retroactive ADR + **12 sprint zero-trigger 连续 P→Q→R→S→T→U→V→W→X→Y→Z→AA ⭐⭐⭐ 240% over ADR-031 #2 target** + methodology v0.2 cycle 完成 + **v1.0 评估议程激活 / v1.0 触发条件状态 3/7 ✅ + 2/7 ⏳ + 2/7 ❌**（不变 / Sprint AA 维护态不影响 v1.0 状态）| Sprint AB 默认 D 等候触发 / 用户主动可启动 A v0.5 maintenance（候选 ≤ 2 / 阈值 ≥ 3 / 不推荐） / B 跨域 outreach |
 
 ---
 
@@ -207,23 +207,31 @@
 | Stage 1.13 sanity | ✅ | 60/60 in 0.11s + 5 模块 + ruff check passed + 84 files format clean |
 | Stage 4 Closeout + Retro | ✅ | stage-4-closeout + sprint-z-retro (16th external) + sprint-z-residual-debts |
 
-### 2.3 阻塞 / 风险 / 等待项 — **methodology v0.2 cycle 完成阶段** ⭐⭐⭐
+### 2.2.15 Sprint AA 进度（**Layer 2 维护态首 sprint** / v0.5 maintenance / 清 3 candidates / 1 会话紧凑 / 关档）
 
-- 无阻塞。Sprint Z 关档。**methodology v0.2 cycle 完成 ⭐⭐⭐**。
-- 待用户在 local Terminal 执行：`git commit + push`（2 commits 详见 `docs/sprint-logs/sprint-z/stage-4-closeout-2026-04-30.md` §9）
-- **连续 11 个 zero-trigger sprint** P→Q→R→S→T→U→V→W→X→Y→Z ⭐⭐⭐ → 强化 ADR-031 §3 #2（≥ 5 zero-trigger / 当前 11 / **220% over target**）
-- **methodology v0.2 cycle 完成 8/8 = 100% ⭐⭐⭐** → ADR-031 §3 #7 触发条件达成 → **v1.0 评估议程激活**
-- **v1.0 触发条件状态**（Sprint Z 后）：3/7 ✅ + 2/7 ⏳ + 2/7 ❌
-  - ✅ #1 ≥ 5 模块 + ≥ 2 release cycle / ✅ #2 ≥ 5 zero-trigger sprint (11 / 220% over) / ✅ **#7 methodology 7 doc 全 ≥ v0.2 (8/8 ⭐⭐⭐ NEW)**
-  - ⏳ #3 API 稳定 ≥ 6 个月 / ⏳ #6 累计 v0.x patch ≥ 95% (93.3%)
-  - ❌ #4 ≥ 1 跨域 ref impl / ❌ #5 第三方 review ≥ 2 person
-- **v1.0 路径瓶颈**：#4 + #5（跨域 outreach + 第三方 review）/ **战略层工作 / 非 sprint level**
-- **Sprint Z+1 默认推荐 — D 等候触发** ⭐（per Sprint Z retro §3.3 + §7.4 / D-route §7 Negative Space 哲学 / 不主动启动新 sprint / 等外部信号）
-- **Sprint Z+1 用户主动启动选项**（按优先级排序）：
-  - A. v0.5 maintenance sprint（4 候选累积已达触发条件 / 含 T-X02-FW-002 brief-template v0.1.5 polish）
-  - B. v0.2.1 polish 单 doc patch（如 /04 v0.2.1 fold §8.6 deferred）
-  - C. 跨域 outreach 主动启动（v1.0 #4 + #5 触发探索 / 战略层工作）
-- v1.0 路径预测（per ADR-031 §5 / Sprint Z 后更新）：2026-10 (乐观) ~ 2027-04 (保守) / methodology v0.2 cycle **完成** ⭐⭐⭐ / 进入"等触发"维护态
+| Stage | 状态 | 产出 |
+|-------|------|------|
+| Stage 0 inventory + brief 起草 | ✅ | brief-template **v0.1.4 第 5 次外部 dogfood**（Docs: cross-ref polish 子类首独立验证）|
+| Stage 1 批 1 — T-V05-FW-002 /02 v0.2 → v0.2.1 | ✅ | §14.4 + §15.4 cross-ref polish (引 /06 §8 single source of truth) / +6 行 / 722 总行 |
+| Stage 1 批 2 — T-X02-FW-001 /04 v0.2 → v0.2.1 | ✅ | fold §8.6 deferred (per Sprint X 方案 B) / §8.6.1 V9 SelfTest impl 范例 + §8.6.2 反模式 4 条 / +42 行 / 597 总行（99.5% Stop Rule #4 / 紧凑写法成功避触发）|
+| Stage 1 批 3 — T-X02-FW-002 brief-template v0.1.5 | ✅ | + §2.5 v0.x 大 bump 重编号 checklist + §2.6 里程碑庆祝节制 / sprint-templates v0.3.1 → v0.3.2 |
+| Stage 1.13 sanity | ✅ | 60/60 in 0.06s + 5 模块 + ruff check passed + 84 files format clean |
+| Stage 4 Closeout + Retro | ✅ | stage-4-closeout + sprint-aa-retro (17th external) + sprint-aa-residual-debts |
+
+### 2.3 阻塞 / 风险 / 等待项 — **维护态运行中**
+
+- 无阻塞。Sprint AA 关档。**Layer 2 维护态首 sprint 模板验证**。
+- 待用户在 local Terminal 执行：`git commit + push`（2 commits 详见 `docs/sprint-logs/sprint-aa/stage-4-closeout-2026-04-30.md` §9）
+- **连续 12 个 zero-trigger sprint** P→Q→R→S→T→U→V→W→X→Y→Z→AA ⭐⭐⭐ → 强化 ADR-031 §3 #2（≥ 5 zero-trigger / 当前 12 / **240% over target**）
+- methodology v0.2 cycle 完成 8/8 不变（维护态 v0.2.1 patch 不影响 cycle 完成判据）
+- **v1.0 触发条件状态**（不变 / 维护态不影响 v1.0）：3/7 ✅ + 2/7 ⏳ + 2/7 ❌
+- **新发现**：brief-template v0.1.4 Docs: cross-ref polish 子类首独立验证 -33% 大幅低估 / 待 ≥ 2-3 次 dogfood 后再决定 v0.1.6 调整
+- **Sprint AB 默认推荐 — D 等候触发** ⭐（v0.5 maintenance 触发条件未达成 / 候选 ≤ 2 / 阈值 ≥ 3 / per Sprint AA retro §7.4）
+- **Sprint AB 用户主动启动选项**：
+  - A. v0.5 maintenance sprint（仅 1 candidate + 2 待评估 / 累积 ≤ 2 / **不推荐**）
+  - B. 跨域 outreach 主动启动（v1.0 #4 + #5 触发探索 / 战略层工作）
+- 维护态工作流 4 类已实证 3/4：v0.2.x patch ✅ / v0.5 maintenance ✅ / v1.0 评估更新 ✅ / 跨域 outreach ⏳ 等触发
+- v1.0 路径预测（per ADR-031 §5 / 不变）：2026-10 (乐观) ~ 2027-04 (保守) / 进入"等触发"维护态
 
 ---
 
