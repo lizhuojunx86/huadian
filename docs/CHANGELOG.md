@@ -5,6 +5,39 @@
 
 ---
 
+## 2026-05-15 (GO-M-ζ) — case-2 ADR-035 + schema v0.4 outline lock / 沉淀期并行项 D5
+
+### [docs] case-2 ADR-035 finalize + extraction-schema-v0.4.md outline 起草 + §10.17 进度日志 + STATUS.md L3 更新
+
+- **角色**：首席架构师（Claude / Opus 4.7）+ 用户审稿（5 个决策点全 ACK）
+- **性质**：沉淀期（5/15 → 5/31）首项工作 / 用户选 D5 路径（ADR-035 schema v0.4 lock / 沉淀期并行 / 非阻塞 / 中等优先级）/ GO-L-ε 后第 1 天
+- **关键产出**：
+  - **`docs/decisions/ADR-035-case-2-schema-v0.4-F004-finalization-and-F001-v0.4-lock.md`**（**新建 / status: accepted / 第 3 个 case-2 ADR / 继 033 + 034**）
+    - §1 Context — v0.3 11 项盲点（F-004 / F-001 v0.4 / cross_form / cross_product / 边界子通道 / qualitative_LOD / σ 矩阵 / 中层多形态 / ABAB / P12 / X2）
+    - §2 Decision — 8 项 lock + 3 项押后 v0.5（C-1/C-2/C-3/C-4/C-7/C-8/C-10/C-11 lock；C-5/C-6/C-9 押后）
+    - §2.4 框架抽象产出（强框架占比 50% / 押后 case-only 偏向二次实证 D-route §6.2）
+    - §6 用户决策点全 ACK（6.1 仅 8 项 / 6.2 B outline / 6.3 默认 B / 6.4 A 复制 / 6.5 A cross_form）
+  - **`docs/cases/tcm-extraction/schema/extraction-schema-v0.4.md`**（**新建 / outline 状态 / ~150 行**）
+    - 8 项 v0.4 增量 outline（字段名 + 类型 + 语义 lock / 详细 jsonc 块留 5/28 后续 session）
+    - §3 v0.3 → v0.4 变更核对清单（8 项 / 押后 3 项详 ADR-035）
+    - §4 outline → 完整 lock 路径（5/28 后续 session 工作清单）
+  - **`docs/strategy/case-2-tcm-manufacturing-evaluation.md` §10.17 GO-M-ζ 进度日志**追加
+  - **`docs/STATUS.md`** L3 行 + 最近更新行更新
+- **框架抽象产出**（D-route §6.2 评估通过 / 强框架占比 50%）：
+  - C-3 cross_form scope = audit_triage Anomaly.scope 命名空间持续扩展模式实证
+  - C-4 cross_product 顶层 section schema = D-route Layer 3 多案例集成 schema 锚点
+  - C-1 + C-2 F-004 + F-001 v0.4 lock = fundamental_findings 跨案例承载结构稳定性实证
+  - C-7 跨产品 σ 矩阵 = 09 文章 §6.4 方法论的 schema 化锚点
+  - 押后 C-5/C-6/C-9 = 拒绝堆叠 n 仍小字段 = ADR-pattern + 06 文章 §8 "小步迭代"二次实证
+- **D-route Layer 进度影响**：
+  - L3 案例库 — case-2 GO-A → GO-M-ζ 16 阶段 / 3 ADR / schema v0.4 outline lock / 应用层 08 v0.3 partial + 09 v0.2 全本不动
+  - L1/L2/L4 不动（沉淀期节制 / 不影响领先 ~6-8 周状态）
+- **决策记录**：用户选择押后 C-5/C-6/C-9 三项 case-only 偏向变更 = "案例服务于框架"原则的二次实证 / batch-record.json _meta 修改推迟到 5/28 后续 session（与 schema 完整起草 + 2026-06 月度日记节奏对齐）
+- **后续触发链**：v0.4 outline → 5/28 后续 session 完整 lock + batch-record.json _meta 升级 → 2026-06 起 08 v0.3 完整初稿引用 v0.4 锚点 → 2026-07 起 09 v0.3 完整初稿引用 v0.4 锚点
+- **commit message 建议**：`docs(case-2): finalize ADR-035 + schema v0.4 outline lock (8 items / defer 3 to v0.5) [GO-M-ζ]`
+
+---
+
 ## 2026-05-10 — case-2 (TCM 中成药制造) Cowork Project 化 + Instructions 版本化
 
 ### [docs] 新增 Cowork Project Instructions 主副本 + CLAUDE.md §2.3 引用
