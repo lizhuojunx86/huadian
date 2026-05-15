@@ -2,7 +2,7 @@
 
 - **Status**: accepted
 - **Date**: 2026-05-10
-- **Authors**: 首席架构师（Claude）+ 用户（前本草堂制药负责人）批准（GO-C-α）
+- **Authors**: 首席架构师（Claude）+ 用户（企业 A 前负责人）批准（GO-C-α）
 - **Related**:
   - ADR-028（D-route 战略转型）
   - ADR-033（Case-2 schema v0.1 → v0.2 升级 / incoming_qc 正式纳入 + 3 子通道）
