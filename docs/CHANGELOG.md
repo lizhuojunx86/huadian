@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-05-10 — case-2 (TCM 中成药制造) Cowork Project 化 + Instructions 版本化
+
+### [docs] 新增 Cowork Project Instructions 主副本 + CLAUDE.md §2.3 引用
+
+- **新增**：`docs/cowork-project-instructions.md` (v0.3) — Cowork Project Instructions 输入框内容的版本化主副本，含案例命题（F-001 + F-002）、签名链（操作工 L/提取复核员 M/工艺员 G/QA C）、Path C 进度（B 段先行 → A 段跟进）、OCR 工作规则、危险操作红线、升级日志（v0.1 → v0.2 → v0.3 触发条件登记）
+- **修订**：`CLAUDE.md` §2.3 加 1 行指向上述主副本，确保新协作者按"开工三步"启动时能发现 Cowork 配置
+- **触发**：用户决定把 huadian + 中成药制造 case-2 工作流注册为 Cowork Project；Project Instructions 输入框无 git 历史，需要外部主副本承担版本管理职责
+- **D-route Layer 进度影响**：L3 案例库 — case-2 (TCM extraction) 完成 Cowork Project 化（持续可恢复 + 可演进）；不影响 L1/L2/L4 状态
+- **后续**：本文件每次升级（v0.4 / v0.5 / v1.0）都应同步更新 CHANGELOG `docs:` 条目
+
+---
+
 ## 2026-04-30 (Sprint AA) — Layer 2 维护态首 sprint
 
 ### [feat] Sprint AA — v0.5 maintenance sprint / 清 3 v0.5 candidates / methodology/02 + /04 v0.2 → v0.2.1 + brief-template v0.1.5 / 1 会话紧凑 / 连续第 12 个 zero-trigger sprint (240% over target)

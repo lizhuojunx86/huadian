@@ -69,6 +69,7 @@
 - `docs/04_工作流与进度机制.md` — Sprint / Stage / Gate 工作流
 - `docs/05_质检与监控体系.md` — V1-V11 invariants + 质检体系
 - `CONTRIBUTING.md` — 外部贡献者入门（inbound = outbound 等）
+- `docs/cowork-project-instructions.md` — Cowork Project Instructions 主副本（v0.3）— 含案例命题（F-001/F-002）、签名链、Path C 进度等关键状态的可版本化备份
 
 ### 2.4 架构 / 实现（深入时读）
 - `华典智谱_架构设计文档_v2.0.md` — 双轴架构（框架层 + 案例实现层）
