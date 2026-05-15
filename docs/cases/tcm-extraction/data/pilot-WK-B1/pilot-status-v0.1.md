@@ -2,7 +2,7 @@
 
 > Status: **In Progress / 16 of 100 pages extracted (16%)**
 > Date: 2026-05-08
-> Owner: 首席架构师（Claude）+ 用户（前本草堂制药负责人）
+> Owner: 首席架构师（Claude）+ 用户（企业 A 前负责人）
 
 ---
 

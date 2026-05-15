@@ -2,7 +2,7 @@
 
 - **Status**: accepted
 - **Date**: 2026-05-10
-- **Authors**: 首席架构师（Claude）+ 用户（前本草堂制药负责人）批准
+- **Authors**: 首席架构师（Claude）+ 用户（企业 A 前负责人）批准
 - **Related**:
   - ADR-028（D-route 战略转型）— Layer 3 跨领域案例机制
   - ADR-029（双许可证）— 案例数据治理基础
