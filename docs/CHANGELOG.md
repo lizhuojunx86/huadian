@@ -5,6 +5,162 @@
 
 ---
 
+## 2026-06-01 (GO-S-η) — case-2 09 文章 v0.3 启动（§8 学术理论 5 锚点详细展开）
+
+### [docs] 09-layered-compliance-narrative-pattern.md §8 outline → 5 实质段落 + §13/§11.3/header 更新
+
+- **角色**：首席架构师起草（含 web 文献核实）/ 用户后续审稿
+- **性质**：用户"commit，然后启动 09 v0.3"的第 2 部分 / 09 v0.3 首批 / 与 08 v0.3 配对
+- **关键产出**（`docs/methodology/09-layered-compliance-narrative-pattern.md` §8 / outline stub → 5 实质段落）：
+  - §8.1 Latour ANT（inscription / black box / trial of strength）
+  - §8.2 组织社会学 — Knorr Cetina *Epistemic Cultures*(1999) + Van Maanen *Tales of the Field*(1988)
+  - §8.3 Goodhart 结构性载体（09 论证分层结构 / 与 08 论证方向性分工）
+  - §8.4 Wenger 实践共同体（深层传承 + 政策含义）
+  - §8.5 Scott legibility vs métis（与 F-001 表层/深层精确对应 + 多模态采集边界）
+  - header Status v0.2 → v0.3 启动 / §11.3 + §13 跟踪表 7/8 → 8 内容项全完成
+- **research-first**：Knorr Cetina + Van Maanen 两条引用 web 核实（Latour/Goodhart/Wenger/Scott 已在 08 §7.3 核实）
+- **分工**：09 §8 聚焦"结构"理论（inscription/epistemic cultures/legibility）/ 08 §7.3 聚焦"机制"理论（Goodhart 方向性/Prospect/委托代理）/ 不重复
+- **剩余（09 v0.3 收尾）**：§9.2 文献补强（5 域表已在）+ 全文精炼到 4000-6000 字 + 参考文献（仿 08 GO-R-η 存快照后精简）
+- **commit message 建议**：`docs(methodology): 09 v0.3 start — expand §8 academic theory (5 anchors, research-verified) [GO-S-eta]`
+
+### ⚠️ 本日 commit 交付用户本地执行（沙箱 .git 只读）
+
+- 沙箱挂载不可删文件（rm 被拒）→ git commit 无法在沙箱完成 / 且遗留 `.git/index.lock` 需用户先删
+- 待提交单元 A（今日 GO-N→S + 月度日记）/ 单元 B（ADR-036 case-3 / 用户旧工作 / 不代提交）/ `docs/STATUS 3.md`（疑似误建副本）
+- 4 个逻辑 commit 命令 + 排除项见会话交付 / 不 push
+
+---
+
+## 2026-06-01 (GO-R-η) — case-2 08 全文精简收尾 → v0.3 完整初稿达成（存快照 + 真精简）
+
+### [docs] 08-dual-reverse-calculation-pattern.md 精简到 4015 字 + §参考文献 + 全量快照存档 + §10.22 进度日志
+
+- **角色**：首席架构师 / 用户 ACK 范围"存快照 + 真精简"（AskUserQuestion）
+- **性质**：沉淀期后第 5 批 / GO-Q-η 后 / v0.3 终末步（全文精简）/ **08 v0.3 完整初稿达成**
+- **两步（无损）**：
+  - **存全量快照**：`docs/methodology/archive/08-dual-reverse-calculation-pattern-v0.3-full-2026-06-01.md`（946 行 / 67 KB / 精简前内容齐备版 / 保全 E1-E3 + 完整伪代码 + 全套 σ 表 + 文献综述细节）
+  - **真精简**：正文 **946 行/~11000 字 → 279 行/4015 字**（目标 4000-6000 ✅）
+- **关键产出**（`docs/methodology/08-dual-reverse-calculation-pattern.md`）：
+  - 删冗余 prose + meta 进度节（Changelog v0.1→v0.3 批表 / §10 写作计划 / §11 待协作 / §12 进度跟踪 → 保留在快照 + case-2 §10 + 本 CHANGELOG）+ 退化穷举表
+  - 保留：核心论点 / F-001~F-004 / key 数字（σ 0.0223·0.0275 / 倍率 / 极差比 55:1·370:1）/ 决策树 mermaid / 跨域引用 / traceguard 映射 + E1-E3 / GMP 对比表
+  - **新增 §10 参考文献**（12 条 / 实证类 Burgstahler&Dichev 1997·Graham 等 2005·Simmons 等 2011·Masicampo&Lalande 2012·Head 等 2015 web 核实 + 理论类 Goodhart·Campbell·Kahneman&Tversky·Jensen&Meckling·Latour·Wenger·Scott）
+- **校验**：正文 4015 字 / 围栏 8 配平 / 12 引用在位 / 快照无损可追溯
+- **D-route Layer 进度**：L2 — 08 v0.3 完整初稿达成（精炼版）/ 领先 ~6-8 周不变 / 进 v0.4 审稿前形态；L1/L3/L4 不动
+- **剩余（v0.3 后）**：09 v0.3 完整初稿（2026-07）/ 08 v0.4 审稿（2026-09）→ v1.0（2026-10 双发布）
+- **commit message 建议**：`docs(methodology): 08 v0.3 distill to ~4000-6000 zh-chars + references; archive full draft [GO-R-η]`
+
+---
+
+## 2026-06-01 (GO-Q-η) — case-2 08 §9.1 traceguard 完整实现设计（v0.3 内容项全完成 8/8）
+
+### [docs] 08-dual-reverse-calculation-pattern.md §9.1 重写为完整实现设计 + §10.21 进度日志 + STATUS 同步
+
+- **角色**：首席架构师起草（含 Explore agent 读 traceguard 真实代码）/ 用户 ACK 范围"文章内完成"（AskUserQuestion）
+- **性质**：沉淀期后第 4 批 / GO-P-η 后同日 / 08 v0.3 §9.1（§12 #6）完成 → 8 个内容项全完成 = 100%
+- **前置 research（research-first 用于代码）**：派 Explore agent 读 `traceguard/guardian/`（core/config.py + guardian_node.py + validators/structural.py + store/writer·reader.py + configs/examples/market_intel.yaml + optimizer/suggestion.py + env.py）取回真实接口/类名/字段/枚举
+- **关键产出**（`docs/methodology/08-dual-reverse-calculation-pattern.md` §9.1 / 原 6 行占位 → 完整实现设计 ~95 行）：
+  - §9.1.1 V12-V14 落 traceguard **structural 层**（确定性 / 无需 LLM / **DEGRADED 模式照跑**）
+  - §9.1.2 概念→真实组件映射表（`validate_structural`→`StructuralResult` / `TraceReader.query_traces` / `TraceWriter.write` / `ActionConfig.on_structural_fail="alert"` / `generate_suggestions` advisory）
+  - §9.1.3 stateless guardian × 跨批 σ 解法（状态在 eval_store / guardian 只读不持状态）
+  - **§9.1.4 必要框架扩展 E1-E3**（reverse_calc check 类型 / 可插拔注册 / audit-flag 语义）= **case-2 → traceguard 框架抽象产出 / D-route 2027-01 框架代码 v0.1 候选输入**
+  - §9.1.5 TCM extraction config YAML（对齐 market_intel.yaml / σ_floor 来自访谈 Q-027 / domain config 不进 generic core）
+  - §9.1.6 V13 检测器伪代码（traceguard 真实签名）+ §9.1.7 嫌疑→访谈→ground truth config 回写闭环
+  - §12 #6 ✅ / 文件头 + §10.3 + Changelog 第 4 批表更新（8 内容项 = 100% / 仅剩精简）
+- **框架抽象产出**（D-route §6.2）：§9.1 把 08 方法论落到 traceguard 真实架构 + E1-E3 扩展点是 case-2 对 traceguard 的具体框架贡献（不是断言）
+- **诚实边界**：E1-E3 是"需扩展项"（traceguard 当前未实现）/ 范围限"文章内完成"（用户 ACK）/ 不改 traceguard 仓库 / 真实 PoC 代码属 Layer 1 工作
+- **剩余（v0.3 收尾 / 2026-07~08）**：仅终末步——全文精简到 4000-6000 字 + 正式参考文献列表
+- **commit message 建议**：`docs(methodology): 08 §9.1 full traceguard implementation design (real-arch grounded) [GO-Q-η]`
+
+---
+
+## 2026-06-01 (GO-P-η) — case-2 08 文章 v0.3 第 3 批：跨域实证补强（§3.3.1 分布图 + §7.2 跨域文献综述 / research-first）
+
+### [docs] 08-dual-reverse-calculation-pattern.md v0.3 partial 第 3 批 + §10.20 进度日志 + STATUS 同步
+
+- **角色**：首席架构师起草（含 web 文献检索）/ 用户后续审稿
+- **性质**：沉淀期后第 3 项 / GO-O-η 后同日 / 08 v0.3 跨域实证补强（§12 跟踪 4.5/8 → ~7/8 = 88%）
+- **关键产出**（`docs/methodology/08-dual-reverse-calculation-pattern.md`）：
+  - **§3.3.1（新）** minor_component 跨产品分布对比（0.5-宽分箱直方图 / python 核算 / 均值差 0.006 / 78% 重叠 / 与 main 紧贴形态对照）— §12 #1 ✅
+  - **§7.2.1（新）** 财报 benchmark-beating 跨域同构 — Burgstahler & Dichev (1997) 盈余零阈值不连续 + Graham/Harvey/Rajgopal (2005) 78% 高管牺牲长期价值且倾向真实动作而非改账（= F-004"改过程不改账"同构）— §12 #5 ✅
+  - **§7.2.2（新）** 学术 p-hacking 同构 — Simmons/Nelson/Simonsohn (2011) researcher degrees of freedom + **如实呈现"p<0.05 下方聚集"分布证据复现争议**（Masicampo&Lalande 2012 / Head 等 2015 vs 重分析 / 发表偏倚）→ 反向印证"访谈 ground truth 必要性"核心论断
+  - **§7.2.3（新）** F-002 文化话语 upward 跨域同构较弱 / 需逐域识别
+  - 文件头 Status + Changelog 第 3 批表 + §10.3 计划 + §12 进度（4.5/8 → ~7/8）
+- **research-first 纪律**：§7.2 全部引用经 web 检索核实（作者/年份/期刊卷页）/ 不凭记忆 / 检索发现 p-hacking 分布证据争议 → 强化文章核心论断
+- **标签一致性修正**：08 文章内 §4.5.1/§5.4/§6.3.1 的 GO 标签从 GO-N-η 统一为 GO-O-η（GO-N-η 仅指 schema v0.4 lock / 与 case-2 §10.19 对齐）
+- **框架抽象产出**（D-route §6.2）：F-004 跨域可迁移性落到真实会计学 + 心理学文献 / 不再是断言 / 学界外审稳健性提升
+- **剩余（v0.3 收尾 / 2026-07~08）**：§9.1 traceguard 完整实现 + 全文精简到 4000-6000 字 + 正式参考文献列表
+- **commit message 建议**：`docs(methodology): 08 v0.3 partial batch 3 — cross-domain lit review (research-first) + dist viz [GO-P-η]`
+
+---
+
+## 2026-06-01 (GO-O-η) — case-2 08 文章 v0.3 完整初稿启动（partial 第 2 批 / 可视化 + 工程化 + 量化）
+
+### [docs] 08-dual-reverse-calculation-pattern.md v0.3 partial 第 2 批 + §10.19 进度日志 + STATUS 同步
+
+- **角色**：首席架构师起草（写作能力短板协作模式 / 用户后续审稿）
+- **性质**：沉淀期后第 2 项 / GO-N-η（schema v0.4 lock）后同日 / 08 v0.3 完整初稿启动（接 GO-K-ε §7.3 第 1 批）
+- **关键产出**（`docs/methodology/08-dual-reverse-calculation-pattern.md` / 717 行 → 扩展 3 节）：
+  - **§4.5.1（新）** 双向反算可视化 mermaid（F-002 upward vs F-004 downward 共享规程边界轴 / 单向框架盲区论断）— §12 #2 ✅
+  - **§5.4（新）** 双重反算检测工程化伪代码（V12 detect_f002 + V13 detect_f004 / 复用 identity_resolver + invariant_scaffold + audit_triage / "SIGMA_FLOOR 来自访谈 ground truth"工程契约）— §12 #3 ✅ / **强框架抽象（接 Layer 1）**
+  - **§6.3.1（新）** 逐批 σ 精确计算（python 程序核算 / 样本 σ 0.0223·0.0275 与文章一致 / 相对真实工艺 σ>0.5pp 压平 ~20-25× / σ 量级比 1.23 / Cpk 判断反转量化）— §12 #4 ✅
+  - 文件头 Status + Changelog v0.3 第 2 批表 + §10.3 v0.3 计划 + §12 进度跟踪（1.5/8 → ~4.5/8 = 56%）
+- **框架抽象产出**（D-route §6.2）：§5.4 把 08 方法论显式接到 Layer 1 框架代码（V12-V14 + 3 模块复用）= "案例服务于框架"直接产出 / 非纯 case 完成度
+- **校验**：σ 用 python 核算（与既有数值一致）/ mermaid + 伪代码块语法自查 / 全部引用 schema-v0.4 完整 lock 锚点
+- **节制**：仅 3 类严谨性补强（可视化 + 工程化 + 量化）/ 不堆量 / 与 2026-06 月度日记 §2.1+§3 "节制即写作能力"一致
+- **剩余（v0.3 完整初稿 / 2026-07~08）**：§3.5 散点图 + §7.2 跨域文献综述（与 09 §9.2 同步）+ 全文精简到 4000-6000 字 + §9.1 traceguard 完整实现
+- **commit message 建议**：`docs(methodology): 08 v0.3 partial batch 2 — viz + pseudocode + per-batch σ [GO-O-η]`
+
+---
+
+## 2026-06-01 — 2026-06 月度决策日记 v0.1（Q5 ACK 节律第 2 篇 / GO-N-η 后）
+
+### [docs] decision-journals/2026-06.md v0.1 起草 + README 索引 + STATUS L2 标记
+
+- **角色**：首席架构师起草 / 待用户审稿（协作模式延续 2026-05 篇）
+- **性质**：Q5 ACK 月度节律第 2 篇 / 接续 2026-05 首篇 / Status v0.1 草稿（月内可追加 / 用户审稿后定版）
+- **关键产出**：
+  - **`docs/methodology/decision-journals/2026-06.md`**（新建 / v0.1 草稿 / ~150 行）
+    - §2.1 沉淀期作为刻意节奏工具的回看验证（承接 2026-05 §2.5）
+    - §2.2 schema v0.4 完整 lock — versioning 工作流二次走通（框架抽象意义）
+    - §2.3 红线纪律一次干净实证（batch-record.json _meta 修改走确认格式）
+    - §2.4 本月写作节奏决策 — 启动 08 v0.3 完整初稿
+    - §3 元反思新增："节制不写"也是一种写作能力
+  - **`docs/methodology/decision-journals/README.md`** 索引加 2026-06 行
+  - **`docs/STATUS.md`** L2 行加 2026-06.md v0.1 草稿标记
+- **与既有文档边界**：本日记是月度元反思 / 不重复 case-2 §10 操作日志 / 不替代 ADR
+- **下次触发**：用户审稿通过后 v0.1 → v1.0 定版 + §8 定版记录段
+- **commit message 建议**：`docs(journal): draft 2026-06 monthly decision journal v0.1 [Q5 ACK rhythm #2]`
+
+---
+
+## 2026-06-01 (GO-N-η) — case-2 schema v0.4 outline → 完整 lock + batch-record.json _meta 0.3→0.4 / 沉淀期后首项
+
+### [docs] case-2 extraction-schema-v0.4.md 完整 lock + batch-record.json _meta 升级 + §10.18 进度日志 + STATUS.md 同步
+
+- **角色**：首席架构师（Claude）+ 用户 ACK（红线 #2 batch-record.json _meta 修改确认）
+- **性质**：沉淀期（5/15 → 5/31）结束后首项工作 / 执行 GO-M-ζ 押后的"5/28 后续 session"工作清单（extraction-schema-v0.4.md §4）
+- **关键产出**：
+  - **`docs/cases/tcm-extraction/schema/extraction-schema-v0.4.md`**（outline ~206 行 → **完整 lock ~330 行**）
+    - C-1 F-004 finding 完整 jsonc（路径 6.4 A 复制 batch-record.json 权威内容）
+    - C-2 F-001 v0.4 三层精细化完整 jsonc（表层三类参数 / 中层运筹层 + 多形态 / 深层身体化经验）
+    - C-4 cross_product 顶层 section 完整结构定义 + C-10 P12 中药材检验原始记录字段结构
+    - §2.9 F-002 vs F-004 6 维度对比表正式 lock（08 文章核心论点）
+    - C-3 cross_form / C-7 σ 矩阵 / C-8 中层多形态 / C-11 X2 unresolvable（outline 已完整 / 沿用）
+  - **`docs/cases/tcm-extraction/data/pilot-WK-B1/batch-record.json`** `_meta` 升级（**红线 #2 / 用户 ACK 后执行**）
+    - `schema_version` `0.3` → `0.4`
+    - `_schema_upgrade_history` 追加 v0.4 条目（from 0.3.4 → 0.4 / 8 项 changes / 3 项 defer_to_v0_5 / fully_forward_compatible）
+    - **不动**任何 records / findings / anomalies / cross_product section（22 records + 22 anomalies + 37 open questions + 4 findings + 2 cross_product 原样保留）
+  - **`docs/strategy/case-2-tcm-manufacturing-evaluation.md` §10.18 GO-N-η 进度日志**追加
+  - **`docs/STATUS.md`** 最近更新行 + L3 行同步到 2026-06-01 / GO-N-η / schema v0.4 完整 lock
+- **校验**（5 项全过）：JSON 合法 VALID / schema_version=0.4 / history 8 条 / F-001 `_v0_4_精细化` + F-004 + cross_form + 2 cross_product 均在 / schema-v0.4.md ↔ batch-record _meta 字段一致 / §3 变更清单 8 项全 lock
+- **框架抽象产出**（D-route §6.2）：ADR-pattern schema versioning 二次走通（records-only patch 累积 → 正式 lock）/ F-001 v0.4 + F-004 schema 锚点稳定，08 + 09 文章 v0.3 写作可引用
+- **D-route Layer 进度影响**：L3 case-2 GO-A → GO-N-η 17 阶段 / schema v0.1~v0.4 全 lock / 3 ADR（033/034/035）；L1/L2/L4 不动
+- **旁观发现（登记 / v0.5 小候选）**：A-001~A-005 早期 anomaly 无 `scope` 字段（建于 scope 引入前）/ v0.4 向前兼容不要求回填
+- **后续触发链**：v0.4 完整 lock → 2026-06 月度日记 v0.1 + 08 v0.3 完整初稿（引用 v0.4 锚点）→ 2026-07 09 v0.3 完整初稿
+- **commit message 建议**：`docs(case-2): finalize schema v0.4 full lock (8 items) + bump batch-record _meta 0.3→0.4 [GO-N-η]`
+
+---
+
 ## 2026-05-15 (GO-M-ζ) — case-2 ADR-035 + schema v0.4 outline lock / 沉淀期并行项 D5
 
 ### [docs] case-2 ADR-035 finalize + extraction-schema-v0.4.md outline 起草 + §10.17 进度日志 + STATUS.md L3 更新
