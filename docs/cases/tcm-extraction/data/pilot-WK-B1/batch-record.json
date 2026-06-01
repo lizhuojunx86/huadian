@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schema_version": "0.3",
+    "schema_version": "0.4",
     "_schema_upgrade_history": [
       {
         "from": "0.1-pilot",
@@ -68,6 +68,29 @@
         "trigger": "GO-G-γ-Phase 2 / P2 6 批跨产品 σ 验证 / F-004 X1 finalized / F-003 condition B 完整确证",
         "compat": "fully_forward_compatible",
         "_note": "schema v0.4 候选累积进一步增强：F-004 跨产品 / F-001 中层多形态 / dual_limit 边界子通道"
+      },
+      {
+        "from": "0.3.4",
+        "to": "0.4",
+        "date": "2026-06-01",
+        "adr": "ADR-035",
+        "trigger": "v0.4 完整 lock：F-004 + F-001 v0.4 + cross_form + cross_product + σ 矩阵 + 中层多形态 + P12 + X2 unresolvable（8 项）",
+        "changes": [
+          "F-004 fundamental_finding lock 入 schema (C-1)",
+          "F-001 v0.4 三层精细化 lock 入 schema (C-2)",
+          "Anomaly.scope 增 cross_form (C-3)",
+          "cross_product 顶层 section schema 化 (C-4)",
+          "跨产品 σ 矩阵字段 schema 化 (C-7)",
+          "F-001 中层运筹层多形态字段 (C-8)",
+          "页型 P12 中药材检验原始记录 (C-10)",
+          "F-004._X2_状态 显式 unresolvable (C-11)"
+        ],
+        "defer_to_v0_5": [
+          "C-5 边界子通道 high_minor/high_extract",
+          "C-6 qualitative_LOD",
+          "C-9 ABAB 班次轮值"
+        ],
+        "compat": "fully_forward_compatible / 无需重抽数据 / records-only patch v0.3.1~v0.3.4 已落字段值在 v0.4 中正式合法化"
       }
     ],
     "extraction_date": "2026-05-08",
