@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-01 (GO-T-η) — case-2 09 v0.3 收尾（§9.2 文献补强 + 全文精简）→ 08+09 双文章 v0.3 完整初稿齐
+
+### [docs] 09-layered-compliance-narrative-pattern.md §9.2 文献 + 精简到 4054 字 + §参考文献 + 全量快照 + §10.24 进度日志
+
+- **角色**：首席架构师（含 web 文献核实）/ 用户后续审稿
+- **性质**：用户"做 09 收尾（§9.2+精简）"/ 仿 08 GO-P-η（文献）+ GO-R-η（存快照+精简）/ **双文章 v0.3 里程碑**
+- **§9.2 文献补强**（research-first / 与 08 §7.2 同步）：5 域锚定真实引用 — 临床 Studdert 等(JAMA 2005 / 93% 防御性医疗 / web 核实) / 金融 Burgstahler&Dichev 1997 + Graham 2005 / 学术 Simmons 2011 + 分布证据争议 / 教师 Campbell 1979 / 核电 Vaughan 1996 偏差正常化 + Perrow 1984
+- **存快照 + 真精简**：
+  - 全量快照 `docs/methodology/archive/09-layered-compliance-narrative-pattern-v0.3-full-2026-06-01.md`（956 行 / 无损）
+  - 正文 **956 行/~14826 字 → 225 行/4054 字**（目标 4000-6000 ✅）/ 删 meta 节（Changelog/§11/§12/§13）+ 退化穷举 / 保留三层定义+反命题·§6 代差建模与判读反转·§8 五理论·§9 五域+文献·§10 互证 panel·2 mermaid
+  - 新增 **§12 参考文献 15 条**
+- **校验**：09 正文 4054 字 / 围栏 4 配平 / 2 mermaid / 15 引用 / 快照无损 956 行
+- **D-route Layer 进度**：L2 — **08 + 09 v0.3 完整初稿全部达成（精炼版各 ~4000 字 / 全量快照各存档）** / 领先 ~6-8 周 / 双文章进 v0.4 审稿前形态
+- **剩余**：08+09 v0.4 审稿（2026-09）→ v1.0 双发布（2026-10）
+- **commit message 建议**：`docs(methodology): 09 v0.3 finish - §9.2 lit anchors + distill to ~4k zh + references; archive full draft [GO-T-eta]`
+
+---
+
 ## 2026-06-01 (GO-S-η) — case-2 09 文章 v0.3 启动（§8 学术理论 5 锚点详细展开）
 
 ### [docs] 09-layered-compliance-narrative-pattern.md §8 outline → 5 实质段落 + §13/§11.3/header 更新
