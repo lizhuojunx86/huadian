@@ -22,7 +22,7 @@
 - ✅ outline 已 lock：8 项字段名 + 类型 + 语义（保留不变）
 - ✅ 完整 lock 补全：C-1 / C-2 / C-4 / C-10 的详细 jsonc 块（从 batch-record.json 复制 + 精炼，路径 6.4 A）
 - ✅ 完整 lock 补全：§2.9 F-002 vs F-004 对比表正式 lock（v0.4.md §4 step 3）
-- ⏳ 仍待执行：batch-record.json `_meta.schema_version` `0.3` → `0.4` + `_schema_upgrade_history` 追加 v0.4 条目（CLAUDE.md §5 红线 #2 / ADR-035 §6.3 / 需用户单独 ACK）
+- ✅ 已执行（GO-N-η / 2026-06-01 / 走确认格式 + 用户单独 ACK 后应用）：batch-record.json `_meta.schema_version` `0.3` → `0.4` + `_schema_upgrade_history` 追加 v0.4 条目（CLAUDE.md §5 红线 #2 / ADR-035 §6.3）
 - 押后清单（C-5/C-6/C-9）：见 ADR-035 §2.1 押后表 / 留 v0.5
 
 ---
@@ -298,7 +298,7 @@ cross_form  ← v0.4 新增（命名 ACK 6.5 A）
 | F-001 中层运筹层多形态 (C-8) | 新增字段段 | A-021 | `F-001._v0_4_精细化.中层._多形态` | ✅ 完整 lock（§2.6） |
 | 页型 P12 (C-10) | taxonomy 扩展 | GO-G-γ Phase 1 栀子 | 页型 11 → 12 类 | ✅ 完整 lock（§2.7） |
 | F-004._X2_状态 显式 (C-11) | 新增字段 | GO-I-ε 用户决定 | `F-004._X2_状态` | ✅ 完整 lock（§2.8） |
-| schema_version `0.3` → `0.4` | 版本升级 | 本文档 | `_meta.schema_version` | ⏳ 待用户 ACK（红线 / ADR-035 §6.3） |
+| schema_version `0.3` → `0.4` | 版本升级 | 本文档 | `_meta.schema_version` | ✅ 已应用（GO-N-η / 用户 ACK / 2026-06-01） |
 
 **押后到 v0.5（3 项 / 详 ADR-035 §2.1 押后表）**：C-5 边界子通道（high_minor / high_extract）/ C-6 qualitative_LOD / C-9 ABAB 班次。
 
@@ -309,13 +309,13 @@ cross_form  ← v0.4 新增（命名 ACK 6.5 A）
 **完整 lock session 工作清单（v0.4.md §4 / 已达成）**：
 
 1. ✅ C-1 / C-2 / C-4 / C-10：详细 jsonc 块完整起草（从 batch-record.json 复制 + 精炼）→ §2.1/§2.2/§2.4/§2.7
-2. ⏳ batch-record.json `_meta.schema_version` `0.3` → `0.4` + `_schema_upgrade_history` 追加 v0.4 条目 → **待用户 ACK（CLAUDE.md §5 红线 #2）**
+2. ✅ batch-record.json `_meta.schema_version` `0.3` → `0.4` + `_schema_upgrade_history` 追加 v0.4 条目 → **已应用（GO-N-η / 2026-06-01 / 走确认格式 + 用户 ACK 后执行 / CLAUDE.md §5 红线 #2）**
 3. ✅ F-002 vs F-004 跨产品对比表正式 lock 入 schema 文档 → §2.9
 4. ✅ F-001 v0.4 三类参数 / 中层多形态 / 深层身体化经验 详细字段定义 → §2.2 + §2.6
 5. ✅ P12 中药材检验原始记录字段结构完整定义 → §2.7
 6. ✅ 与 inventory v0.3 + lot-summary 文档的 cross-ref → §6 参考
 
-**batch-record.json 待同步条目（红线 / 需 ACK）**：
+**batch-record.json 已同步条目（GO-N-η 应用 / 走确认格式 + 用户 ACK 后执行）**：
 
 ```jsonc
 // _meta.schema_version: "0.3" → "0.4"
@@ -349,7 +349,7 @@ cross_form  ← v0.4 新增（命名 ACK 6.5 A）
 
 任何对 v0.4 的偏离视为 bug 或 v0.5 升级候选。
 
-batch-record.json 既有 records 维持 records-only patch v0.3.4 状态 / `_meta.schema_version` 待用户 ACK 后升 `0.4`（红线 #2 / ADR-035 §6.3）。
+batch-record.json 既有 records 维持 records-only patch v0.3.4 状态 / `_meta.schema_version` 已于 GO-N-η（2026-06-01 / 用户 ACK）升 `0.4`（红线 #2 / ADR-035 §6.3）。
 
 ---
 
