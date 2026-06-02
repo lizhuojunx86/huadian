@@ -35,6 +35,9 @@
 | [ADR-025](ADR-025-r-rule-pair-guards.md) | R Rule Pair Guards：通用 pair-level guard 接口（evaluate_pair_guards rule-aware；R1=200yr / R6=500yr cross_dynasty_guard 阈值；deprecated wrapper 保留至 Sprint I） | 2026-04-26 | 架构师 + 管线工程师 |
 | [ADR-026](ADR-026-entity-split-protocol.md) | Entity Split Protocol：mention-level redirect 例外授权（ADR-014 supplement；person_names UPDATE/INSERT 双授权；entity_split_log migration 0013；split_for_safety 子场景；双签 + 4 闸门 + dry-run + pg_dump anchor + 单事务） | 2026-04-27 | 架构师 + 管线工程师 + 历史专家 |
 | [ADR-027](ADR-027-pending-triage-ui-workflow-protocol.md) | Pending Triage UI Workflow Protocol（triage_decisions 表 migration 0014 + GraphQL interface TriageItem + 2 implements + 4 queries + 1 mutation；URL token + cookie auth；inbox V1 必须；historical markdown backfill V1 必须；merge 铁律继承条款明文授权范围） | 2026-04-29 | 架构师 + Backend / Frontend / Pipeline / Historian 工程师 |
+| [ADR-036](ADR-036-case-3-dao-de-jing-candidacy-evaluation.md) | Case-3 候选评估：《道德经》是否应作为第三个跨领域案例 — 登记为条件触发候选（不立即开案例 / 5 条触发条件 / 思想实验路径替代 / F-001 跨域映射保留） | 2026-05-17 | 架构师 + 用户 |
+
+> 注：ADR-028 ~ ADR-035 已在 `docs/decisions/` 目录存在但未补回本索引（既有 doc tech debt / 见 STATUS.md L2 进度）。ADR-036 索引补回不连带补回 028~035；如需 backfill 走单独 doc sprint。
 
 ### 已提议（待签字）
 
