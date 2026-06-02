@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-06-02 (GO-V-η) — case-2 F-003 第 3 篇 Layer 2 文章 v0.1 outline（子通道分层检测 / 三篇三角成形）
+
+### [docs] methodology/10-subchannel-stratified-detection-pattern.md v0.1 outline 新建（197 行 / 12 节）
+
+- **角色**：首席架构师起草 / 用户审稿（选"登记 + commit"）
+- **性质**：用户"手动驱动 / 开始 F-003 第 3 篇 outline" / case-2 应用层从双文章扩为三文章三角
+- **核心立意**：操纵可检测性是指标量级的函数 / 招牌「易操纵 ⊥ 易暴露」反转悖论（主成分易反算但信号弱 / 微量难反算但信号强 → 朴素审计注意力与操纵概率反向）
+- **niche（不重复 08）**：F-003 在 08 是检测工具（§3 表 + 决策树 C 分支）；在 10 升为独立的领域无关检测分辨率模式。三篇三角：09 结构 / 08 机制+方向 / 10 检测分辨率
+- **research-first**：实证全引既有 lock 数据（极差比 55:1·370:1 / 石膏 1.014x / minor 跨产品 1.839 vs 1.833）；§8 学术锚点（SDT / Simpson's paradox / costly signaling / Benford / IUPAC LOD）标 ⏳ v0.2 web 核实
+- **严谨边界**：子通道边界值暂定（Q-035 押后 v0.5）；不覆盖 F-004（σ+访谈）
+- **剩余**：10-* v0.2 全本（与 08/09 v0.4 审稿错峰 per 日记 §2.5 / ETA 2026-07 候选）
+- **commit message 建议**：`docs(methodology): add 10-subchannel-stratified-detection-pattern v0.1 outline - F-003 as standalone detection-resolution pattern [GO-V-eta]`
+
+---
+
 ## 2026-06-02 (GO-U-η) — case-2 2026-06 月度决策日记 v1.0 定版（Q5 节律第 2 篇 / 用户审稿通过）
 
 ### [docs] decision-journals/2026-06.md v0.1 → v1.0 定版（全面修订纳入 6/1 全程 + 新增 §2.5）
