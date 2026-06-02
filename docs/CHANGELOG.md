@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-06-02 (GO-U-η) — case-2 2026-06 月度决策日记 v1.0 定版（Q5 节律第 2 篇 / 用户审稿通过）
+
+### [docs] decision-journals/2026-06.md v0.1 → v1.0 定版（全面修订纳入 6/1 全程 + 新增 §2.5）
+
+- **角色**：首席架构师全面修订 / 用户审稿通过（route A：全面修订）
+- **性质**：Q5 ACK 节律第 2 篇定版 / 协作模式（架构师起草 + 用户审稿）第 2 次完整闭环
+- **核心修订**：v0.1 草稿冻结于 6/1 GO-N-η 当刻（预判 08 v0.3 为 4-6 周分批 / 09 留 7 月）→ v1.0 用实况对账（6/1 当天 GO-O-η~GO-T-η 把 08+09 v0.3 完整初稿当日双双达成）
+  - §1 一句话 + §2.4 写作节奏 + §4 剩余/下月：预测段 → 实况（08/09 v0.3 移入 ✅ 已完成）
+  - **新增 §2.5「节制 vs 6/1 爆发」**：时间分离·功能互补 framing + 诚实成本（审稿负荷前置）+ v0.3→v0.4 错峰启示
+  - §2.3 加 doc-sync 盲点（schema-v0.4.md 4 处"待 ACK"未回填 / 红线收尾教训）
+  - §3 标题 → "节制与爆发是同一种产能调度能力" / §8 定版记录「草稿允许预测，定版负责对账」
+- **校验**：165 行（150-300 约束 ✅）/ §0-§8 结构完整 / status 翻 v1.0 定版 ✅
+- **附带 doc-sync 修正**（同 GO-U-η 会话 / 独立 commit）：`extraction-schema-v0.4.md` 共 5 处"⏳ 待 ACK"→"✅ 已应用（GO-N-η / 用户 ACK / 2026-06-01）"——`_meta` 实际 6/1 已升 0.4，schema 文档措辞此前滞后；对应日记 §2.3 记的"红线收尾 doc-sync 盲点"教训
+- **commit message 建议**（2 commit / 本地执行 / 不 push）：
+  - 日记+状态：`docs(methodology): finalize 2026-06 decision journal v1.0 - reconcile forecast with 6/1 burst, add §2.5 restraint-vs-burst [GO-U-eta]`
+  - schema 回填：`docs(case-2): sync extraction-schema-v0.4.md _meta caveat to applied at GO-N-eta [GO-U-eta]`
+
+---
+
 ## 2026-06-01 (GO-T-η) — case-2 09 v0.3 收尾（§9.2 文献补强 + 全文精简）→ 08+09 双文章 v0.3 完整初稿齐
 
 ### [docs] 09-layered-compliance-narrative-pattern.md §9.2 文献 + 精简到 4054 字 + §参考文献 + 全量快照 + §10.24 进度日志
