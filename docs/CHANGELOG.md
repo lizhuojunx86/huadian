@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-02 (GO-X-η) — case-2 F-003 第 3 篇（10-*）v0.3 精炼 → 08+09+10 三篇全 v0.3 齐平
+
+### [docs] methodology/10-subchannel-stratified-detection-pattern.md v0.2 全本 → v0.3 精炼（278→264 行 / 4474 字）+ archive 快照
+
+- **角色**：首席架构师精炼 / 用户后续审稿
+- **性质**：用户"10-* v0.3 精炼" / 仿 08 GO-R-η·09 GO-T-η（存快照 + 精炼）/ **三篇三角全 v0.3 齐平**
+- **两步**：存全量快照 `archive/10-subchannel-stratified-detection-pattern-v0.3-full-2026-06-02.md`（277 行 / 字节一致）+ 精炼（删 §12 meta + §2 去重 + 收尾 / 4474 字落 4000–6000）
+- **关键差异**：10 v0.2 写时已克制（4658 字）→ 精炼为轻量（删 meta + 去重），非 08/09 上万字大砍 = 日记 §2.5"节制"实践
+- **校验**：264 行 / 4474 字 / §0–§11 完整 / 5 锚点 + 参考文献在位 / 快照无损 277 行
+- **里程碑**：**08 + 09 + 10 三篇全部 v0.3 齐平** → 三文章三角实体完整 / 下一关三篇 v0.4 审稿（错峰）
+- **commit message 建议**：`docs(methodology): distill 10-subchannel-stratified-detection to v0.3 (4474 zh) + archive full v0.2 snapshot [GO-X-eta]`
+
+---
+
 ## 2026-06-02 (GO-W-η) — case-2 F-003 第 3 篇（10-*）v0.2 全本（outline → 全本 / §8 五锚点 web 核实）
 
 ### [docs] methodology/10-subchannel-stratified-detection-pattern.md v0.1 outline → v0.2 全本（197 → 277 行）
