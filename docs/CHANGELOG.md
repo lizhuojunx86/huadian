@@ -5,7 +5,15 @@
 
 ---
 
-## 2026-06-02 (GO-X-η) — case-2 F-003 第 3 篇（10-*）v0.3 精炼 → 08+09+10 三篇全 v0.3 齐平
+## 2026-06-02 (GO-Y-η) — case-2 三篇 v0.4 审稿计划（视角清单 + 错峰次序 09→08→10）
+
+### [docs] methodology/case-2-application-articles-v0.4-review-plan.md v0.1 新建（129 行 / §0–§6）
+
+- **角色**：首席架构师起草 / 用户决策（错峰次序）
+- **性质**：用户"列三篇 v0.4 审稿视角清单 + 错峰次序" / planning 非审稿 / 呼应日记 §2.5"把爆发省下的时间还给审稿"
+- **内容**：共通视角 5 + 每篇专属视角 + 头号风险靶点（08 = F-004 X2 generalizability / 09 = 三层可操作性 / 10 = 子通道边界 Q-035）+ **错峰次序 09→08→10**（依赖链 F-001 是共同地基 + 09 学理风险最高先啃 + 10 最新放最后沉淀 + 作者带宽）+ 交付物流程 + §5 作者侧可先做项
+- **剩余**：§5 可先做项（citation 卷页最终化等 / 不等外部审稿人）/ 三篇 v0.4 审稿（2026-09 错峰 / 需外部审稿人）
+- **commit message 建议**：`docs(methodology): add case-2 v0.4 review plan v0.1 - per-article lenses + staggered order 09->08->10 [GO-Y-eta]`
 
 ### [docs] methodology/10-subchannel-stratified-detection-pattern.md v0.2 全本 → v0.3 精炼（278→264 行 / 4474 字）+ archive 快照
 
