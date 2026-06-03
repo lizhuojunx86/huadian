@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-02 (GO-W-η) — case-2 F-003 第 3 篇（10-*）v0.2 全本（outline → 全本 / §8 五锚点 web 核实）
+
+### [docs] methodology/10-subchannel-stratified-detection-pattern.md v0.1 outline → v0.2 全本（197 → 277 行）
+
+- **角色**：首席架构师起草（含 §8 web 文献核实）/ 用户后续审稿
+- **性质**：用户"10-* v0.2 全本展开 / 请继续" / 第 3 篇从 outline 推进到全本
+- **v0.2 增量**：各节 prose 展开 + **§4 全方差分解·Simpson 悖论稀释数学**（pooled = 组内平均方差 + 组间均值离散 → 主成分贴线信号被微量离散淹没 / 极差比 55:1·370:1）+ **§5 分层检测伪代码**（detect_f002_stratified 分组独立判不汇总 + is_qualitative_degenerate）+ **§8 五锚点 web 核实** + **§11 参考文献 8 条**
+- **research-first**：SDT(Green&Swets 1966) / Simpson 1951 JRSS-B 13:238–241 + Cochran 1977 / Benford 1938 + Nigrini 2012 / Spence 1973 QJE 87:355–374 + Zahavi 1975（handicap 有争议 / 以 Spence 为主）/ IUPAC LOD-LOQ — 全 web 核实
+- **校验**：277 行 / 13 节 / 5 锚点引用在位 / lens F-001~F-004 齐 / 围栏配平
+- **剩余**：10-* v0.3 精炼（4000–6000 字 + archive 快照 / 与 08·09 v0.4 审稿错峰 per 日记 §2.5）
+- **commit message 建议**：`docs(methodology): expand 10-subchannel-stratified-detection to v0.2 - dilution math, stratified protocol, 5 verified anchors [GO-W-eta]`
+
+---
+
 ## 2026-06-02 (GO-V-η) — case-2 F-003 第 3 篇 Layer 2 文章 v0.1 outline（子通道分层检测 / 三篇三角成形）
 
 ### [docs] methodology/10-subchannel-stratified-detection-pattern.md v0.1 outline 新建（197 行 / 12 节）
