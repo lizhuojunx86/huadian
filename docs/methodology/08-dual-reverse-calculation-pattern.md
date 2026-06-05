@@ -1,7 +1,7 @@
 # 双重反算识别模式 — 中药合规叙事的方法论框架
 # Dual Reverse Calculation Identification Pattern — Methodology for TCM Compliance Narrative Audit
 
-> Status: **v0.3 完整初稿（精炼版 / 2026-06-01 GO-R-η）** — 内容项 8/8 完成后精简到目标字数
+> Status: **v0.3 完整初稿（精炼版 / 2026-06-01 GO-R-η）+ v0.4 审稿前置批（author-side / 2026-06-05 GO-AA-η）** — 内容项 8/8 完成后精简到目标字数
 > Owner: 首席架构师
 > Source: case-2 中药提取案例（企业 A / P1 + P2双产品 / 28 物料来料检验 + 12 批生产记录 + 5 题用户访谈）
 > 关联 finding: F-001 v0.4 / F-002 v0.3 / F-003（finalized 三维）/ F-004（X1 finalized）
@@ -221,17 +221,21 @@ F-002 与 F-004 是**两条独立路径**，结论汇入决策树整合判定；
 
 ## 8. 局限性
 
-- 单企业双产品（n=2）；访谈为间接证据（非现场观察 / 非操作工本人）。
+- **推断边界（n=2）**：全部证据基于单企业·双产品（P1 + P2 / 12 批 + 29 物料），访谈为间接证据（非现场观察、非操作工本人）。故跨产品稳健性结论仅限"双产品内部一致"；对跨企业、跨品类的外推是**有方向的假说**而非已证命题（X2 见下条）。
 - F-004 X2 跨企业实证未做（已决定先放着 / documented unresolvable / 由文献综述补强 generalizability）。
 - 缺原始 HPLC 谱图 / TLC 板照片等"二阶 ground truth"。
-- **识别 ≠ 证实**：双重反算识别能提"嫌疑"，证实需结合访谈 / 现场 / 原始仪器数据。
+- **识别 ≠ 证实（方法论自觉边界）**：双重反算识别是**提嫌疑的结构筛查**，不是定罪。σ≈0、紧贴边界、子通道分裂等只把字段标为"反算嫌疑"；证实必须叠加访谈 / 现场观察 / 原始仪器数据（§5 闭环、§7.2"分布证据本身模糊"的教训）。本方法论定位为审计**第一道筛**，不替代制度性确证。
 - 伦理：F-004 是一线人员的**理性行为**而非道德问题；技术手段（AI 审计）不能替代制度设计。F-002 跨文化普适性低于 F-004。
 
 ---
 
 ## 9. 与现有方法论的关系
 
-**§9.1 在 traceguard 中实现 V12-V14（运行时底座）**。两个 Layer 1 底座分工：HuaDian 知识侧框架（`identity_resolver` / `invariant_scaffold` / `audit_triage`）与 traceguard 运行时 QA 底座互补。V12-V14 是确定性统计检验，落 traceguard 的 **structural 层**（`validators/structural.py::validate_structural → StructuralResult`），**无需 LLM**——在 `env.py` DEGRADED 模式（structural-only）下照常运行。映射要点：
+**§9.1 在 traceguard 中实现 V12-V14（运行时底座）**
+
+> **[PoC-validated 2026-06-04 / GO-Z-η]** 本节的 E1–E3 + V13 设计已在 traceguard 真实架构落地、端到端跑通（真 6 批 σ 矩阵经真实 CLI `guardian check` → `action=alert` / σ=0.0203 贴 40.0 下限 / DEGRADED 无 LLM / dogfood 246 passed / 0 回归）。真跑对设计稿的命名·单位修正：方法名 `output.output_as_dict()`（非 `as_dict()`）；core mode 用 generic `"sigma_floor"`（去 `F004_` 前缀，F-004 语义移入 config 注释）；core 字段用 `sigma_floor` / `edge_band`（去 `_pp` 单位，pp 移入 config 注释）。**新增 E4 候选 = 结构化输出持久化**：`EvalTrace` 仅存截断的 `output_preview`，跨批标量回取需结构化持久化——纯设计稿发现不了，已登记为 D-route 2027-01 框架 v0.1 候选输入。详见 [`../cases/tcm-extraction/traceguard-poc/poc-results-v0.1.md`](../cases/tcm-extraction/traceguard-poc/poc-results-v0.1.md)。
+
+两个 Layer 1 底座分工：HuaDian 知识侧框架（`identity_resolver` / `invariant_scaffold` / `audit_triage`）与 traceguard 运行时 QA 底座互补。V12-V14 是确定性统计检验，落 traceguard 的 **structural 层**（`validators/structural.py::validate_structural → StructuralResult`），**无需 LLM**——在 `env.py` DEGRADED 模式（structural-only）下照常运行。映射要点：
 
 - 跨批 σ 需历史数据 → 经 `store/reader.py::TraceReader.query_traces()` 读 eval_store（状态在 eval_store / guardian 仍 stateless）；
 - 嫌疑落库 → `TraceWriter.write(action="alert", passed=False, issues=[...])`（反算是 audit flag / 不 abort）；
@@ -241,11 +245,11 @@ F-002 与 F-004 是**两条独立路径**，结论汇入决策树整合判定；
 **stateless × 跨批 σ 的解法**：traceguard guardian 是 per-step stateless，但 V13 需跨 6 批。遵循"all state lives in eval_store"原则，V13 经 `TraceReader.query_traces(limit=6)` 拉取前 N 批，在内存算 σ 后写回——guardian 本身仍无状态。domain 参数（含取自访谈的 σ_floor）放配置，不进 generic core：
 
 ```yaml
-# configs/examples/tcm_extraction.yaml（E1 提议的 reverse_calc 扩展块）
+# configs/examples/tcm_extraction.yaml（reverse_calc 扩展块 / PoC-validated as-built 命名）
 reverse_calc:
-  mode: "F004_sigma_floor"
+  mode: "sigma_floor"          # generic / core 不含 F004；F-004 downward 压线语义在此注释
   window_batches: 6
-  sigma_floor_pp: 0.5          # ★ ground truth 来自访谈 Q-027（非常量）
+  sigma_floor: 0.5             # pp / ★ ground truth 来自访谈 Q-027（非常量 / core 字段去 pp 单位）
   spec_edges: { "P1": {type: interval_low, value: 40.0},
                 "P2": {type: benchmark, value: 38.3} }
 ```
@@ -258,7 +262,7 @@ reverse_calc:
 
 ## 10. 参考文献
 
-> 实证类（会计 / 心理学）经 web 检索核实；理论类为基础文献，精确卷页待 v0.4 审稿最终化。
+> 全部条目经 web 检索核实，卷期·页码已最终化（v0.4 审稿前置批 / 2026-06-05 / GO-AA-η）。Goodhart (1975) 原版（RBA *Papers in Monetary Economics*）无通用页码，附权威重印之精确卷页。
 
 - Burgstahler, D., & Dichev, I. (1997). Earnings Management to Avoid Earnings Decreases and Losses. *Journal of Accounting and Economics*, 24(1), 99–126.
 - Graham, J. R., Harvey, C. R., & Rajgopal, S. (2005). The Economic Implications of Corporate Financial Reporting. *Journal of Accounting and Economics*, 40(1–3), 3–73.
@@ -267,13 +271,14 @@ reverse_calc:
 - Head, M. L., Holman, L., Lanfear, R., Kahn, A. T., & Jennions, M. D. (2015). The Extent and Consequences of P-Hacking in Science. *PLoS Biology*, 13(3), e1002106.
 - Kahneman, D., & Tversky, A. (1979). Prospect Theory: An Analysis of Decision under Risk. *Econometrica*, 47(2), 263–291.
 - Jensen, M. C., & Meckling, W. H. (1976). Theory of the Firm: Managerial Behavior, Agency Costs and Ownership Structure. *Journal of Financial Economics*, 3(4), 305–360.
-- Goodhart, C. A. E. (1975). Problems of Monetary Management: The U.K. Experience.
+- Goodhart, C. A. E. (1975). Problems of Monetary Management: The U.K. Experience. In *Papers in Monetary Economics* (Vol. I). Sydney: Reserve Bank of Australia. （重印于 C. A. E. Goodhart (1984), *Monetary Theory and Practice: The U.K. Experience*, pp. 91–121. London: Macmillan.）
 - Campbell, D. T. (1979). Assessing the Impact of Planned Social Change. *Evaluation and Program Planning*, 2(1), 67–90.
-- Latour, B. (1987). *Science in Action*. Harvard University Press.
-- Wenger, E. (1998). *Communities of Practice*. Cambridge University Press.
-- Scott, J. C. (1998). *Seeing Like a State*. Yale University Press.
+- Latour, B. (1987). *Science in Action: How to Follow Scientists and Engineers through Society*. Cambridge, MA: Harvard University Press.
+- Wenger, E. (1998). *Communities of Practice: Learning, Meaning, and Identity*. Cambridge: Cambridge University Press.
+- Scott, J. C. (1998). *Seeing Like a State: How Certain Schemes to Improve the Human Condition Have Failed*. New Haven, CT: Yale University Press.
 
 ---
 
 > v0.3 完整初稿（精炼版）。逐批进度（v0.1 outline → v0.3 / GO-F-α~GO-R-η）见 git 历史 + CHANGELOG + case-2 §10；全量未精简稿见 archive。
+> **v0.4 审稿前置批（author-side / 2026-06-05 / GO-AA-η）**：§9.1 标 PoC-validated + E4 候选 + 去 F004/去 pp；§10 全 12 条卷页 web 最终化（Goodhart 重印页码 + 三书出版地）；§8 n=2 推断边界 + 识别≠证实 canonical 化（供 09/10 后续批镜像）。不改论点，仅审稿前编辑。
 > 待 v0.4 审稿（用户 + 行业专家 + 学界）→ v1.0 发布（2026-10 / 与 09 双文章同步）。

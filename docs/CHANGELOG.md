@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-05 (GO-AA-η) — 08 v0.4 审稿前置批（author-side / 不等外部审稿人）
+
+### [docs] methodology/08-dual-reverse-calculation-pattern.md §9.1 + §10 + §8 编辑（不改论点）+ case-2 §10.31 + review §2.1·§5 fold
+
+- **角色**：首席架构师 / 用户批准批次 + 两 fork（§5 伪代码留 pp / n=2·识别≠证实 仅定 08）
+- **性质**：GO-Y-η 审稿计划 §5「作者侧可先做项」+ GO-Z-η defer 的 08 §9.1 标注（§10.30）→ 本轮执行 08 单篇三项 author-side 编辑，不等外部审稿人
+- **§9.1**：标题后加 `[PoC-validated 2026-06-04 / GO-Z-η]` 块（E1–E3 端到端跑通 + E4 候选「结构化输出持久化」）+ YAML 去 F004/去 pp（`mode:"sigma_floor"` / `sigma_floor:0.5` / 语义·单位移注释）+ `output_as_dict()` 记入标注；§5 教学伪代码按用户决策留 pp
+- **§10**（research-first / 全 12 条 web 核实）：Goodhart (1975) 补原版 RBA *Papers in Monetary Economics* Vol.I + 权威重印 pp.91–121（Macmillan 1984 / Springer 元数据确认）+ Latour·Wenger·Scott 补出版地+副标题；8 篇期刊卷期页码逐条复核**无误**；header 改「全部 web 核实 / 卷页已最终化」
+- **§8**：n=2 →「推断边界」（跨产品稳健仅限双产品内部一致 / 跨企业外推为有方向假说）+ 识别≠证实 →「方法论自觉边界」（结构筛查 / 第一道筛 / 不替代制度性确证）；**仅定 08** / 09·10 后续批镜像
+- **配套**：case-2 §10.31（GO-AA-η）+ review §2.1（08 PoC 入项 ✅）·§5（08 三项 ✅ / 09·10 待）+ 08 Status 行·footer 记前置批 + STATUS + 本 CHANGELOG
+- **边界**：08 **不 bump v0.4**（外部审稿未启 / 仍 v0.3 工作稿 + 前置批标注）/ 09 §12·10 §11 同类项留各自前置批
+- **commit 待用户本地**（沙箱 .git 只读）
+- **commit message 建议**：`docs(methodology): 08 v0.4 pre-review batch - §9.1 PoC-validated+E4, §10 citations finalized, §8 n=2/identification-not-confirmation canonical [GO-AA-eta]`
+
+---
+
 ## 2026-06-04 (GO-Z-η) — traceguard E1-E3 真实 PoC（Layer 1 框架 / case→框架）
 
 ### [feat] traceguard E1-E3 落地（generic 进 core / 中药进 configs/examples）+ [docs] case-2 traceguard-poc + §10.30 + v0.4 review fold
