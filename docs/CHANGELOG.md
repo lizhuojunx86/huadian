@@ -5,6 +5,34 @@
 
 ---
 
+## 2026-06-04 (GO-Z-η) — traceguard E1-E3 真实 PoC（Layer 1 框架 / case→框架）
+
+### [feat] traceguard E1-E3 落地（generic 进 core / 中药进 configs/examples）+ [docs] case-2 traceguard-poc + §10.30 + v0.4 review fold
+
+- **角色**：管线工程师 + 首席架构师（框架抽象）/ 用户批准范围 + E3 方案（flag_type 列）+ 回填 placement
+- **性质**：把 08 §9.1（**文章内**实现设计）落成 traceguard **真实可跑代码** = archive 第 4 批显式 defer 的 Layer 1 工作（非本文范围 → 本轮补上）
+- **三扩展点**：E2 check 注册/dispatch（`register_structural_check` / 4 旧 check byte-identical）+ E1 generic `reverse_calc`（σ-floor + edge-band 通用统计 / 标量从 `output_preview` 回取）+ E3 audit-flag（`EvalTrace.flag_type` + 幂等 forward-only `ensure_schema` + `get_step_stats` 把 suspicion 排除出 `pass_rate`/`avg_score` + `suspicion_count`）
+- **真跑**：真 6 批 σ 矩阵 `[40.27,40.26,40.30,40.28,40.32,40.30]` 经真实 CLI `guardian check` → `action=alert` / σ=0.0203<0.025 / 贴 40.0 下限；`pass_rate=1.0` 不污染（非 5/6）；自然方差负对照不 fire；DEGRADED 无 LLM 照跑。dogfood **246 passed**（224 基线 +22 新 / 0 回归）/ my files ruff clean / 既有 15 ruff 债零新增
+- **框架抽象产出（核心）**：**新暴露 E4 候选（结构化输出持久化）** = `EvalTrace` 仅存截断 `output_preview` / 跨批标量需结构化持久化 / **纯设计稿发现不了** / 2027-01 框架 v0.1 候选输入；另修正 `output_as_dict()` 命名 + core mode·字段去 F004·去 pp 单位 + suspicion≠failure 通道。`tcm_extraction.yaml` = 第 2 个 domain config（与 `market_intel.yaml` 并列 / 验证 generic 跨域可移植）
+- **回填**（用户决策）：case-2 §10.30 执行日志已写入 / 08 §9.1 "PoC-validated" 标注挂 **08 v0.4 审稿批次**（review plan §2.1 已记 / 08 本体未动）
+- **commit**：traceguard `b9c1767`(E1/E2) + `a683696`(E3) + `1a341f5`(examples) / huadian `c5defd3`(docs) + 本条（STATUS + CHANGELOG）
+- **commit message 建议**：`docs(status): log GO-Z-η traceguard E1-E3 PoC in STATUS + CHANGELOG`
+
+---
+
+## 2026-06-04 — case-2 外部文献 fit 评估登记（《中药前处理及提取生产质量管理合规性导论》）
+
+### [docs] cases/tcm-extraction/external-refs/合规性导论-fit-assessment-v0.1.md v0.1 新建（93 行）+ strategy §10.29 登记
+
+- **角色**：首席架构师评估 / 用户决策（仅登记，不启动实质工作）
+- **性质**：用户提供该书一段介绍文案（书纸质 ~300 页 / 评估时未到手），问"如何 fit in case-2" / 仅基于介绍文案
+- **核心判断**：该书 = F-001「表层 GMP 合规叙事」权威范本 / 与 case-2 镜像（书是合规 how-to 集大成，case-2 从其边界往后接审计合规叙事）/ **定位价值 > 内容价值**（标定 negative space 边界）
+- **内容**：12 问题×F-001~F-004 映射 + 三重价值（对照文本 / decision-rules 标杆源 / external validity）+ 两种污染警告（路线·视角）+ F-005 候选（批均质性 / backlog / 不擅自立）+ 靶向开采计划（书到手后·不通读）
+- **本轮动作**：仅登记（external-refs 文档 + §10.29）/ 未启动 OCR / 对照表 / F-005
+- **commit message 建议**：`docs: register 合规性导论 book fit assessment for case-2 (external-refs + §10.29)`
+
+---
+
 ## 2026-06-02 (GO-Y-η) — case-2 三篇 v0.4 审稿计划（视角清单 + 错峰次序 09→08→10）
 
 ### [docs] methodology/case-2-application-articles-v0.4-review-plan.md v0.1 新建（129 行 / §0–§6）
