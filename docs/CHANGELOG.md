@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-06-05 (GO-AB-η) — 09+10 v0.4 审稿前置批（镜像 08 / author-side）
+
+### [docs] methodology/09 §11+§12 + 10 §10+§11 编辑（不改论点）+ case-2 §10.32 + review §5 三项全绿
+
+- **角色**：首席架构师 / 用户"启动" + fork（10 §11 保留编号+注释·仅微调标点）
+- **性质**：GO-AA-η（08 前置批）后镜像批——把 08 已批 canonical（n=2 推断边界 + 识别≠证实）+ citation 最终化镜像到 09·10
+- **09**：§11 n=2 →「推断边界」（F-001 三层适配）+ 识别≠证实 →「方法论自觉边界」；§12 全 15 条卷页 web 最终化（**新核实 5 条**：Knorr Cetina +Cambridge MA / Perrow +New York / Van Maanen +Chicago / Vaughan +Chicago+副标题 / Studdert JAMA 293(21) 2609–2617；Goodhart·Latour·Scott·Wenger 套 08 同款）
+- **10**：§10「单企业数据」前缀「推断边界（n=2）」+ **新增「识别≠证实」条**（10 原无此条 / 适配"可检测 ≠ 证实"）；§11 按 fork **保留编号+注释格式**，仅 `vol(issue): pages` → `, ` 标点对齐 08/09 + header 记 v0.4 复核
+- **配套**：case-2 §10.32 + review §5（n=2 / 识别≠证实 / citation 三篇全绿）+ 09·10 footer 记前置批 + STATUS + 本 CHANGELOG
+- **边界**：09·10 **不 bump v0.4**（仍 v0.3 工作稿 + 前置批标注）/ 三篇正式 v0.4 审稿仍按 2026-09 错峰（需外部审稿人）
+- **commit 待用户本地**（沙箱 .git 只读）
+- **commit message 建议**：`docs(methodology): 09+10 v0.4 pre-review batch - n=2/identification-not-confirmation canonical mirror + citations finalized [GO-AB-eta]`
+
+---
+
 ## 2026-06-05 (GO-AA-η) — 08 v0.4 审稿前置批（author-side / 不等外部审稿人）
 
 ### [docs] methodology/08-dual-reverse-calculation-pattern.md §9.1 + §10 + §8 编辑（不改论点）+ case-2 §10.31 + review §2.1·§5 fold
