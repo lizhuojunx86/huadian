@@ -42,7 +42,7 @@
 | **行为经济学 / 博弈论** | F-004 博弈论自保 framing（怕考核 + 怕调查）是否严谨；Prospect / agency 理论引用是否准确 |
 | **制药 QA 实务** | σ_floor 取自访谈（Q-027）的有效性；"σ≈0 + 紧贴边界 = 反算"的判据在真实工艺下是否会误伤优秀工艺 |
 | **STS / 伦理** | "F-004 是一线人员理性行为而非道德问题"的 framing；F-002 跨文化普适性低于 F-004 的论断 |
-| **运行时工程（traceguard）** | §9.1 的 E1-E3 扩展点设计是否可落地（Layer 1 2027-01 v0.1 候选）|
+| **运行时工程（traceguard）** | §9.1 的 E1-E3 扩展点**已 PoC-validated（2026-06-04 / GO-Z-η）**。v0.4 编辑入项：把 §9.1 标注更新为 PoC-validated，并并入真跑暴露的 **E4 候选（结构化输出持久化）**+ 命名/去单位化修正（`output_as_dict()` / mode·字段去 F004·去 pp）。审稿靶点降为"措辞与 E4 定位"而非"是否可落地"。详见 `../cases/tcm-extraction/traceguard-poc/poc-results-v0.1.md` §4+§6b |
 
 **08 头号风险**：F-004 X2 跨企业未做（documented unresolvable）——审稿可能质疑 generalizability，需确认"文献综述补强"是否足够说服外审。
 
