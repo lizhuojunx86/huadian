@@ -193,9 +193,9 @@ flowchart LR
 
 ## 11. 局限性
 
-- 单企业双产品（n=2）；访谈为间接证据（非现场观察）。
+- **推断边界（n=2）**：全部证据基于单企业·双产品（P1 + P2 / 12 批 + 29 物料），访谈为间接证据（非现场观察、非操作工本人）。F-001 三层划分与代差量化的跨企业稳健性未验证；对跨企业、跨品类的外推是**有方向的假说**而非已证命题。
 - 缺多模态 ground truth（视频 / IoT）；深层 σ_real 为访谈估计而非直接测量。
-- **识别 ≠ 证实**：三层 + 代差识别能提"嫌疑"，证实需结合访谈 / 现场 / 原始数据。
+- **识别 ≠ 证实（方法论自觉边界）**：三层划分 + 代差识别是**提嫌疑的结构筛查**，不是定罪——它指出某字段"疑似表层叙事而非真实执行"，但证实某字段实际属哪一层、深层 σ_real 真值几何，须叠加访谈 / 现场观察 / 原始数据。本方法论定位为审计**第一道筛**，不替代制度性确证。
 - 跨域 5 候选为预测 + 间接文献支撑，非一手验证（v0.4 按领域细化）。
 - Scott métis 锚点提示：深层部分本质抗拒编码，多模态全采集有理论上限。
 
@@ -203,25 +203,26 @@ flowchart LR
 
 ## 12. 参考文献
 
-> 实证类（会计 / 心理学 / 医学）经 web 检索核实；理论 / 专著类为基础文献，精确卷页待 v0.4 审稿最终化。
+> 全部条目经 web 检索核实，卷期·页码已最终化（v0.4 审稿前置批 / 2026-06-05 / GO-AB-η）。Goodhart (1975) 原版（RBA *Papers in Monetary Economics*）无通用页码，附权威重印之精确卷页。
 
 - Burgstahler, D., & Dichev, I. (1997). Earnings Management to Avoid Earnings Decreases and Losses. *Journal of Accounting and Economics*, 24(1), 99–126.
 - Campbell, D. T. (1979). Assessing the Impact of Planned Social Change. *Evaluation and Program Planning*, 2(1), 67–90.
-- Goodhart, C. A. E. (1975). Problems of Monetary Management: The U.K. Experience.
+- Goodhart, C. A. E. (1975). Problems of Monetary Management: The U.K. Experience. In *Papers in Monetary Economics* (Vol. I). Sydney: Reserve Bank of Australia. （重印于 C. A. E. Goodhart (1984), *Monetary Theory and Practice: The U.K. Experience*, pp. 91–121. London: Macmillan.）
 - Graham, J. R., Harvey, C. R., & Rajgopal, S. (2005). The Economic Implications of Corporate Financial Reporting. *Journal of Accounting and Economics*, 40(1–3), 3–73.
 - Head, M. L., Holman, L., Lanfear, R., Kahn, A. T., & Jennions, M. D. (2015). The Extent and Consequences of P-Hacking in Science. *PLoS Biology*, 13(3), e1002106.
-- Knorr Cetina, K. (1999). *Epistemic Cultures: How the Sciences Make Knowledge*. Harvard University Press.
-- Latour, B. (1987). *Science in Action*. Harvard University Press.
+- Knorr Cetina, K. (1999). *Epistemic Cultures: How the Sciences Make Knowledge*. Cambridge, MA: Harvard University Press.
+- Latour, B. (1987). *Science in Action: How to Follow Scientists and Engineers through Society*. Cambridge, MA: Harvard University Press.
 - Masicampo, E. J., & Lalande, D. R. (2012). A peculiar prevalence of p values just below .05. *Quarterly Journal of Experimental Psychology*, 65(11), 2271–2279.
-- Perrow, C. (1984). *Normal Accidents: Living with High-Risk Technologies*. Basic Books.
-- Scott, J. C. (1998). *Seeing Like a State*. Yale University Press.
+- Perrow, C. (1984). *Normal Accidents: Living with High-Risk Technologies*. New York: Basic Books.
+- Scott, J. C. (1998). *Seeing Like a State: How Certain Schemes to Improve the Human Condition Have Failed*. New Haven, CT: Yale University Press.
 - Simmons, J. P., Nelson, L. D., & Simonsohn, U. (2011). False-Positive Psychology. *Psychological Science*, 22(11), 1359–1366.
 - Studdert, D. M., Mello, M. M., Sage, W. M., et al. (2005). Defensive Medicine Among High-Risk Specialist Physicians. *JAMA*, 293(21), 2609–2617.
-- Van Maanen, J. (1988). *Tales of the Field: On Writing Ethnography*. University of Chicago Press.
-- Vaughan, D. (1996). *The Challenger Launch Decision*. University of Chicago Press.
-- Wenger, E. (1998). *Communities of Practice*. Cambridge University Press.
+- Van Maanen, J. (1988). *Tales of the Field: On Writing Ethnography*. Chicago: University of Chicago Press.
+- Vaughan, D. (1996). *The Challenger Launch Decision: Risky Technology, Culture, and Deviance at NASA*. Chicago: University of Chicago Press.
+- Wenger, E. (1998). *Communities of Practice: Learning, Meaning, and Identity*. Cambridge: Cambridge University Press.
 
 ---
 
 > v0.3 完整初稿（精炼版）。逐批进度（v0.1 → v0.3 / GO-H-δ~GO-T-η）见 git 历史 + CHANGELOG + case-2 §10；全量未精简稿见 archive。
+> **v0.4 审稿前置批（author-side / 2026-06-05 / GO-AB-η）**：§11 n=2「推断边界」+「识别≠证实」canonical（镜像 08）；§12 全 15 条卷页 web 最终化（Goodhart 重印 pp.91–121 + Knorr Cetina·Perrow·Van Maanen·Vaughan 等专著出版地）。不改论点。
 > 待 v0.4 审稿（用户 + 行业专家 + STS/社会学学者）→ v1.0 发布（2026-10 / 与 08 双文章同步）。

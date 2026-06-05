@@ -236,22 +236,23 @@ def is_qualitative_degenerate(items):
 - **dual_limit 子通道样本极少**（颠茄/玉米淀粉/明胶/包材各少量），其判据未充分实证。
 - **反转悖论的前提**：依赖审计者同时看"绝对差 + 相对差"。若只看相对差（如纯 Benford 式检验），悖论形态会变——这条边界条件待 v0.3 严格论证。
 - **不覆盖 F-004**：downward 压线（收率/工艺参数）靠跨批 σ + 紧贴边界 + 访谈识别，**非**子通道分层。本文方法只作用于 F-002 的上限 upward 通道；把它套到 F-004 是方法越界。
-- **单企业数据**：F-004 X2 跨企业 documented_unresolvable；F-003 的跨企业稳健性同样未验证，generalizability 由 §7 跨域 + §8 理论间接补强，而非一手跨企业数据。
+- **推断边界（n=2 / 单企业数据）**：全部证据基于单企业·双产品，访谈为间接证据（非现场观察、非操作工本人）。F-004 X2 跨企业 documented_unresolvable；F-003 的跨企业稳健性同样未验证，generalizability 由 §7 跨域 + §8 理论间接补强，而非一手跨企业数据。对跨企业、跨品类的外推是**有方向的假说**而非已证命题。
+- **识别 ≠ 证实（方法论自觉边界）**：子通道分层把"可检测性"提上台面，但**检测到 ≠ 证实**——贴线 + 低离散、定性化退化（连倍率都算不出）都只是"反算嫌疑"，证实须叠加访谈 / 现场观察 / 原始仪器数据。本方法定位为审计**第一道筛**，不替代制度性确证（与 08·09 同一自觉边界）。
 - **阈值标定**：§4 的"何时必须分层"阈值、§5 的各通道阈值，目前取自 case-2 量级结构，跨域迁移时需重标。
 
 ---
 
 ## 11. 参考文献
 
-**学术锚点**（均经 web 核实 / 2026-06-02）：
+**学术锚点**（均经 web 核实 / 2026-06-02 / 卷页 v0.4 前置批复核无误 2026-06-05 GO-AB-η）：
 
 1. Green, D. M., & Swets, J. A. (1966). *Signal Detection Theory and Psychophysics*. New York: Wiley. — 区分敏感度与判定标准的奠基作。
-2. Simpson, E. H. (1951). "The Interpretation of Interaction in Contingency Tables." *Journal of the Royal Statistical Society, Series B* 13(2): 238–241. — 聚合反转 / Simpson 悖论（前驱：Pearson 1899、Yule 1903）。
+2. Simpson, E. H. (1951). "The Interpretation of Interaction in Contingency Tables." *Journal of the Royal Statistical Society, Series B*, 13(2), 238–241. — 聚合反转 / Simpson 悖论（前驱：Pearson 1899、Yule 1903）。
 3. Cochran, W. G. (1977). *Sampling Techniques* (3rd ed.). New York: Wiley. — 分层抽样/分层分析传统。
-4. Benford, F. (1938). "The Law of Anomalous Numbers." *Proceedings of the American Philosophical Society* 78(4): 551–572. — 首位数律。
+4. Benford, F. (1938). "The Law of Anomalous Numbers." *Proceedings of the American Philosophical Society*, 78(4), 551–572. — 首位数律。
 5. Nigrini, M. J. (2012). *Benford's Law: Applications for Forensic Accounting, Auditing, and Fraud Detection*. Hoboken: Wiley. — 数字分析法务审计。
-6. Spence, M. (1973). "Job Market Signaling." *Quarterly Journal of Economics* 87(3): 355–374. — 难伪造信号 = 可信信号（经济学）。
-7. Zahavi, A. (1975). "Mate selection—a selection for a handicap." *Journal of Theoretical Biology* 53(1): 205–214. — handicap 原理（生物学 / 后续有争议，作旁证）。
+6. Spence, M. (1973). "Job Market Signaling." *Quarterly Journal of Economics*, 87(3), 355–374. — 难伪造信号 = 可信信号（经济学）。
+7. Zahavi, A. (1975). "Mate selection—a selection for a handicap." *Journal of Theoretical Biology*, 53(1), 205–214. — handicap 原理（生物学 / 后续有争议，作旁证）。
 8. IUPAC. *Compendium of Analytical Nomenclature* — limit of detection (≈3×S/N) / limit of quantitation (≈10×S/N) 定义。
 
 **case-2 内部源**：ADR-033（v0.2 三子通道）/ ADR-034（v0.3 六子通道 + F-003 命题 + §3.4 边界风险）/ ADR-035（边界子通道押后 v0.5）/ `lot-L1-summary-v0.1`（§3.1 子通道分布）/ `lot-L2-and-auxiliary-summary-v0.1`（跨 lot 极差）/ `batch-record.json` `_meta.fundamental_findings.F-003` + `_subchannel` 字段。
@@ -259,5 +260,6 @@ def is_qualitative_degenerate(items):
 ---
 
 > **v0.3 精炼**（GO-X-η / 2026-06-02）/ 架构师起草 / 待用户审稿 → v0.4（与 08·09 v0.4 审稿错峰）。全量 v0.2 存 `archive/` 无损。
+> **v0.4 审稿前置批（author-side / 2026-06-05 / GO-AB-η）**：§10 新增「推断边界 n=2」+「识别≠证实」canonical（镜像 08·09 / 10 原无识别≠证实条）；§11 卷页复核无误 + 标点对齐 08/09（保留编号+注释）。不改论点。
 > Layer 2 应用层方法论第 3 篇 — 接续 08（机制+方向）+ 09（结构）/ 本篇主"检测分辨率"。
 > F-003 从 08 的检测工具升格为一类独立的、领域无关的检测分辨率模式。
