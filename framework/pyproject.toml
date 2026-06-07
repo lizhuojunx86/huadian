@@ -7,10 +7,10 @@
 # engineer clone + run in <1h" criterion had no physical path and could not be
 # measured. This file + README.md + requirements-dev.txt close that gap.
 #
-# PROVISIONAL NAME: the canonical framework distribution name is an OPEN
-# decision tracked in ADR-037 (proposed). `huadian-ke-framework` below is a
-# placeholder. Renaming the *import* root (`framework.*`) is a separate, larger
-# change (it would churn every test import) and is intentionally deferred.
+# NAME: distribution name `kb-forge` decided in ADR-037 (accepted 2026-06-07;
+# web-verified unused on GitHub/PyPI). Renaming the *import* root (`framework.*`
+# -> `kb_forge.*`) is a separate, larger change (it would churn every import)
+# and is intentionally deferred to a dedicated rename sprint before v0.1.
 #
 # VERIFIED path today (no install required — core is pure-Python; run from the
 # REPO ROOT, which is the import root for `framework.*`):
@@ -20,15 +20,17 @@
 #                      framework/invariant_scaffold/tests \
 #                      framework/audit_triage/tests        # -> 93 passed
 #
-# Editable install (`pip install -e framework`) is the intended next step but
-# its final shape is pending the ADR-037 naming/layout decision.
+# Editable install (`pip install -e framework`) is the intended next step;
+# distribution name is now fixed (kb-forge / ADR-037). The import-root rename
+# (`framework.*` -> `kb_forge.*`) is the only remaining packaging change, deferred
+# to a dedicated rename sprint before v0.1.
 
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "huadian-ke-framework"            # PROVISIONAL — see ADR-037
+name = "kb-forge"                        # ADR-037 (accepted 2026-06-07)
 version = "0.3.0"
 description = "Agentic Knowledge Engineering framework — domain-agnostic core (identity resolution, formal invariants, audit/triage) extracted from the HuaDian Shiji reference implementation"
 readme = "README.md"

@@ -1,8 +1,8 @@
 # ADR-037 — 框架包命名（Layer 1 distribution / import name）
 
-- **Status**: **proposed**（待用户拍板 — 命名是战略决策，架构师不擅自 accept）
+- **Status**: **accepted**（2026-06-07 用户拍板 `kb-forge` / web 核实无占用）
 - **Date**: 2026-06-07
-- **Authors**: 首席架构师（Claude Opus 4.8）/ 待用户 ACK
+- **Authors**: 首席架构师（Claude Opus 4.8）+ 用户确认（"同意 kb-forge"）
 - **Related**:
   - [ADR-028](ADR-028-strategic-pivot-to-methodology.md)（D-route 战略转型）
   - [D-route §5 Layer 1](../strategy/D-route-positioning.md) — 完成判据"`kb-engine` 命名（或同等）确定（→ ADR-029）"
@@ -30,11 +30,13 @@
 
 ---
 
-## 2. Decision（proposed — 待选）
+## 2. Decision（accepted 2026-06-07）
 
-**推荐：distribution name = `kb-forge`（或 `huadian-ke`），import root 暂保持 `framework` 不变到 v0.1 release 前。**
+**distribution name = `kb-forge`**（候选 A / 用户拍板）。**import root 暂保持 `framework` 不变到 v0.1 release 前**（避免现在 churn 所有 import）。
 
-> 由用户在 §3 候选中选定，或另提。选定后本 ADR 转 accepted，并执行 §6 后续动作。
+- **web 核实（2026-06-07）**：GitHub / PyPI 上无 `kb-forge` 项目（同类仅 `kb` / `kb-mcp-server` / `pykb` / `Knowledge-Base`，均非同名）→ 无强占用、可用。
+- `framework/pyproject.toml` `[project].name` 已从 provisional 占位改为 `kb-forge`；README 标题与 provisional 注释相应更新。
+- import root（`framework.*` → `kb_forge.*`）的实际 rename 仍延到 v0.1 release 前的专门 sprint（配 byte-identical dogfood）。
 
 ---
 

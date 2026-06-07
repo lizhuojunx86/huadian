@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-06-07 (decisions) — 三项决策落定：ADR-037 kb-forge accepted + ADR-038 accepted + case-2 止损线 lock + push 公开
+
+### [docs] ADR-037/038 → accepted + framework 改名 kb-forge + D-route §6/roadmap 重对齐 + case-2 §11 止损线 + storyextractor 下游评估
+
+- **角色**：首席架构师执行 + 用户三项决策（① kb-forge ② 经 storyextractor 评估后 ACK ③ 止损线按原阈值）
+- **① ADR-037 framework 命名 → accepted = `kb-forge`**（web 核实 GitHub/PyPI 无占用）：`framework/pyproject.toml` name `huadian-ke-framework`→`kb-forge` + README 标题/状态 + D-route §5 命名判据更正（原误指 ADR-029）。**import root `framework.*`→`kb_forge.*` 改名延到 v0.1 前专门 sprint**（避免 churn）
+- **② ADR-038 史记里程碑由 case-2 顶替 → accepted**：经 **storyextractor 下游引用评估**确认——其 ARCHITECTURE.md 明示"借用数据模型与管线设计、不并入、不受 D-route 约束"，零第三方依赖（不 import kb-forge）+ 自建史记语料（不消费 729 persons）+ 自己已做 112 篇 → **下游消费的是"模式"非史记数据，huadian 多做史记对下游引用价值=0**。据此改 D-route §6（2026-08 史记延伸级撤销 / demo 降 best-effort / 2027-04 注 case-2 ahead + storyextractor 第 2 下游）+ roadmap §1+§2（Sprint N 史记 ingest track 撤销）
+  - **反向发现（ADR-038 §6 #5 候选 / 不擅自启动）**：storyextractor 实际复用的是 huadian"语料-抽取 schema 模式"（books/raw_texts/source_evidences/triage/feedback），不在当前 framework/ 三模块内 → "让其他项目更好引用"的高杠杆 = 抽象这套模式 + 把 storyextractor 写成可移植性采纳案例（需用户启动 / 受止损线约束）
+- **③ case-2 深度止损线 S1-S5 → lock（按原阈值）**：写入 case-2 strategy §11（S1 第4篇 / S2 schema v0.5 / S3 X2访谈 / S4 ≥3 GO 0 新资产 / S5 L1 代码>4周停滞；触及任一先回 L1/公开/外审还债）。S5 已触发→已执行整改
+- **push 公开**：huadian origin/main 同步到今天 + traceguard 3 commit 同步 → **真相表"push public"判据 ❌→✅**。truth table 刷新：✅ 4（push/命名/单测/日记）+ 🟡 2（clone 路径/代码推进）+ ❌ 5
+- **ADR-000-index**：036~038 行更新（037/038 → accepted）
+- **commit message 建议**：`docs: ACK ADR-037 (kb-forge) + ADR-038 (Shiji superseded) + case-2 stop-loss; realign D-route §6/roadmap`
+
+---
+
 ## 2026-06-07 — D-route 进度评估 + 整改批（L1 收尾 + STATUS 真相表 + 2 proposed ADR + case-2 retro）
 
 ### [docs] d-route-progress-review-2026-06-07 + [test] audit_triage 33 单测 + [docs] framework 打包 + ADR-037/038 + STATUS §1.2
