@@ -5,6 +5,43 @@
 
 ---
 
+## 2026-06-07 — D-route 进度评估 + 整改批（L1 收尾 + STATUS 真相表 + 2 proposed ADR + case-2 retro）
+
+### [docs] d-route-progress-review-2026-06-07 + [test] audit_triage 33 单测 + [docs] framework 打包 + ADR-037/038 + STATUS §1.2
+
+- **角色**：首席架构师评估 + 整改 / 用户 ACK 评估结论 + 授权"按计划依次实施"
+- **性质**：全仓 6 维度多 agent 进度-目标差距评估（roadmap/L1/L2/L3/治理/战略纪律 → 综合 → 对抗式批判）+ 关键 git 事实架构师本人复核 → 6 步整改计划，本批落地架构师可执行的 3–6 步
+- **评估核心结论**：方法论写作真实高产，但 L1 框架代码 + 史记主案例双冻结，对外可验证判据 11 项 ✅ 仅 2；STATUS ⭐ 渲染层盖住真实滞后（非欺骗 / 限定词都在 / 渲染层未与判据层分离）。校准了综合稿 2 处过头（"0/3 判据"→0–1/3；领域无关 56.4 vs 62.3 → 统一记 ~56–62%；"三篇连 push 都没做到"→ 08/09 早稿在公开仓、10 未公开）
+- **整改 3（L1 收尾 / ✅ 已落地）**：
+  - `framework/audit_triage/tests/`（conftest FakeTriageStore + test_service.py）**新增 33 单测**（record_decision 全验证序 / surface_snapshot 冻结 / multi-row audit / inbox redirect / 读 API / 自定义 validator）→ **全套 93 passed**（60 旧 +33 新 / 0 回归 / ruff+format clean）。补上 audit_triage 此前 0 单测的判据缺口
+  - `framework/` 顶层 **pyproject.toml（provisional name `huadian-ke-framework` / 待 ADR-037）+ README.md（verified Quick Start）+ requirements-dev.txt + __init__.py（inert / __version__）** → "外部 1h clone 跑通"路径首次建立、可测量
+- **整改 4①（✅ ADR-038 proposed）**：2026-08 史记延伸级里程碑由 case-2 顶替 / 消除 D-route §4 Sunset 与 §6/roadmap §2 自相矛盾 / 史记重定义为冻结 dogfood 底物（待用户 ACK 后改 §6 + roadmap §2）
+- **整改 4②（✅ 已落地）**：STATUS 新增 **§1.2 对外可验证判据真相表**（11 项二元 done/not-done / 与 ⭐ 叙事物理分离）+ L1 状态色 🟢→🟡（代码冻结待触发）+ L4 🟢→⚪（有意休眠 / 名实对齐）
+- **整改 5+6（✅ 已落地）**：`retros/case-2-go-s-to-ac-retro-2026-06-07.md` 补办 case-2 主线首个 retro（去通胀产出账 + 治理真空发现）+ **§6 case-2 深度止损线提案**（S1-S5 / S5 已触发 / 待用户确认阈值）
+- **命名（⏳ ADR-037 proposed）**：框架包名 5 候选 + 推荐 `kb-forge` / 待用户拍板
+- **用户侧待办（整改 1+2 / 架构师无法执行）**：① `git push`（沙箱 .git 只读 / 本地领先 origin 19 commit / origin 停 2026-05-15）② 解耦预印（arXiv/SSRN）与外审 + 联系 ≥3 外审人选（详见评估报告 §7）
+- **ADR-000-index**：补 036~038 索引行
+- **commit 待用户本地**（沙箱 .git 只读）
+- **commit message 建议**：`docs+test: D-route progress review 2026-06-07 + remediation batch (L1 packaging+tests, STATUS truth-table, ADR-037/038, case-2 retro)`
+
+---
+
+## 2026-06-06 (GO-AC-η) — 三篇目标投放渠道候选（review §5 第 4 项 / author-side 收口）
+
+### [docs] methodology/case-2-target-venues-v0.1.md 新建 + review §5 第 4 项收口 + case-2 §10.33
+
+- **角色**：首席架构师 research + 起草 / 用户定策略（双轨 + 预印先行）
+- **性质**：review §5 最后一项 author-side「目标期刊/会议候选」/ research-first / 不改三篇论点
+- **研究**：web 核实各渠道当前 scope + 截稿窗（STS: SSS/ST&HV/ESTS/BD&S；AI 问责: FAccT 2026 已截稿→2027 / AIES 2026 窗已过；会计: AOS/JBE；制药质量: PDA / 中文《中成药》《中国医药工业杂志》）
+- **用户决策**：**双轨**（中文域内直投 + 英文方法论国际）+ **预印先行**（arXiv `cs.CY`/`stat.AP` + SSRN / CC BY 4.0）
+- **shortlist**：08→AOS / JBE / FAccT 2027 · 09→SSS·ST&HV / ESTS·BD&S · 10→PDA / 法务会计 / 中文域内
+- **里程碑**：**三篇 v0.4 四项 author-side（citation / n=2 / 识别≠证实 / 渠道）全部完成**（GO-AA/AB/AC-η）；余外部审稿（2026-09 错峰）+ 翻译（v0.4 后）
+- **产出**：`docs/methodology/case-2-target-venues-v0.1.md`（策略 + shortlist + 预印计划 + 写作规范前置 + open items）+ review §5 收口 + case-2 §10.33 + STATUS
+- **commit 待用户本地**（沙箱 .git 只读）
+- **commit message 建议**：`docs(methodology): add case-2 target-venues v0.1 - dual-track + preprint-first [GO-AC-eta]`
+
+---
+
 ## 2026-06-05 (GO-AB-η) — 09+10 v0.4 审稿前置批（镜像 08 / author-side）
 
 ### [docs] methodology/09 §11+§12 + 10 §10+§11 编辑（不改论点）+ case-2 §10.32 + review §5 三项全绿
