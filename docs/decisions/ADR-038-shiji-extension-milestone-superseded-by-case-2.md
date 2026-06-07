@@ -79,7 +79,7 @@
 2. ✅ 修订 [sprint-roadmap §1+§2](../strategy/sprint-roadmap-D-route.md) Sprint N：改"吕后/孝文延伸级 ingest"，注明被 case-2 顶替
 3. ✅ STATUS L3/§4 定位：本批 §1.2 真相表 + L1/L4 状态色已覆盖史记"冻结 dogfood 底物"定位
 4. ✅ [ADR-000-index](ADR-000-index.md) 索引行（036~038 已补）
-5. ⏳ **候选（不擅自启动）**：把 storyextractor 实际复用的"语料-抽取 schema 模式"（books/raw_texts/source_evidences/story_reviews/feedback）抽象成方法论文档 / kb-forge 模块——这是"让其他项目更好引用"的真高杠杆动作；同时可把 storyextractor 写成一份"框架可移植性真实采纳"案例研究（Layer 2/3）。**需用户启动**（避免成为新完成度黑洞 / 受 case-2 止损线 §约束）
+5. ✅ **已执行（2026-06-07 用户"启动"）**：产出 [methodology/11-corpus-extraction-schema-pattern.md](../methodology/11-corpus-extraction-schema-pattern.md)（叙事语料抽取存储 schema 骨架 / 四条骨架字段级双实现互证 / scope 钉死"叙事"+"存储 schema" / 消歧 see-03·审核 see-05 / 剔除 TCM 审计 schema）+ [methodology/case-study-storyextractor-adoption-v0.1.md](../methodology/case-study-storyextractor-adoption-v0.1.md)（可移植性实证）。**经对抗式核验收紧**：明确 storyextractor 镜像的是史记 Schema-A 非中药 Schema-B；明确"同域双实现已证核心稳 / 跨域未证"；明确"轻量重写反证框架打包过重"（互证 STATUS §1.2 的 56-62%）。未做 kb-forge 模块（留 v0.1 / 避免过早重实现）。
 
 ---
 
