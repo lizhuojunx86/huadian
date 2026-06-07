@@ -1,11 +1,12 @@
-# Agentic Knowledge Engineering Framework (Layer 1)
+# kb-forge — Agentic Knowledge Engineering Framework (Layer 1)
 
 > Domain-agnostic engineering core for building **trustworthy knowledge bases with
 > AI agent teams**, extracted from the [华典智谱 (HuaDian)](../README.md) *Shiji*
 > reference implementation.
 >
-> Status: **v0.3.0** · License: Apache 2.0 · Canonical name: **provisional —
-> see [ADR-037](../docs/decisions/ADR-037-framework-package-naming.md)**
+> Status: **v0.3.0** · License: Apache 2.0 · Name: **`kb-forge`**
+> (distribution name fixed in [ADR-037](../docs/decisions/ADR-037-framework-package-naming.md);
+> import root `framework.*` renames to `kb_forge.*` in a dedicated sprint before v0.1)
 
 This is the "it really works" engineering substrate behind the HuaDian D-route
 strategy (see [`docs/strategy/D-route-positioning.md`](../docs/strategy/D-route-positioning.md)).
@@ -76,7 +77,7 @@ review, [`docs/reports/d-route-progress-review-2026-06-07.md`](../docs/reports/d
 |---|---|---|
 | External engineer clone + run tests | ≤ 1 h | ✅ path exists (this README) |
 | Domain-agnostic LOC ratio | ≥ 70 % | ⚠️ ~56–62 % (examples still heavy) |
-| Framework name decided | yes | ⏳ ADR-037 proposed |
+| Framework name decided | yes | ✅ `kb-forge` (ADR-037 accepted) — import-root rename pending |
 | Per-module unit tests | each module | ✅ as of 2026-06-07 (audit_triage backfilled) |
 
 ---

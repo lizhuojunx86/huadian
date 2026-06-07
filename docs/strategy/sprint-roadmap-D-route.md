@@ -27,7 +27,7 @@
 |--------|--------|
 | **2026-05 (1mo)** | 文档体系全对齐（Stage A-D ✅）+ Sprint L 启动 |
 | **2026-06 (2mo)** | docs/methodology/ 7 份草案 v0.2 + 第 1 个跨领域案例邀约启动 |
-| **2026-08 (4mo)** | 华典智谱史记到 5-10 篇典型章节延伸级 + 产品化 demo 上线（内部可访问）|
+| **2026-08 (4mo)** | ~~史记 5-10 篇延伸级~~ **撤销（ADR-038 / case-2 顶替 / 史记 = 冻结 dogfood 底物）**；产品化 demo 降级 best-effort |
 | **2026-10 (6mo)** | 第 1-2 篇方法论文章发布 + 与近邻项目（如 shiji-kb）有过 1 次实质交流 |
 | **2027-01 (9mo)** | 框架代码抽象 v0.1 release（单仓内 docs/methodology + framework/ 双成熟）|
 | **2027-04 (12mo)** | 第 2 个跨领域案例（内部或外部）验证框架可移植性 |
@@ -67,16 +67,18 @@
 
 ### Sprint N (2026-07 候选)
 
-**主题**：Identity resolver + GUARD_CHAINS 抽象 + 史记延伸级 ingest 第一篇
+**主题**：Identity resolver + GUARD_CHAINS 抽象 + ~~史记延伸级 ingest 第一篇~~
+
+> **2026-06-07 修订（ADR-038）**：本节 Track 2 的史记延伸级 ingest **已撤销**——史记重定义为冻结 dogfood 底物，第 2 跨域案例由 case-2 中药顶替。实际 Sprint N 已是 framework 代码 sprint（identity_resolver 抽象），与下方 Track 1 一致；Track 2 的史记 ingest 从未启动且不再计划。
 
 **Track 1**：
 - 抽象 R1-R6 + GUARD_CHAINS（参见 docs/methodology/03-identity-resolver-pattern.md）
 - 创建 `framework/identity-resolver/`（接口领域无关，guard 可插拔）
 - 史记案例 = 第一个使用本框架的"参考实现"
 
-**Track 2**：
-- 启动 1 篇延伸级 ingest（候选：吕后本纪 / 孝文本纪 / 项羽列传）
-- 选择标准：覆盖不同体裁 + 不同人物密度 + 能验证不同框架抽象
+**Track 2**（~~史记延伸级 ingest~~ — 撤销 / ADR-038）：
+- ~~启动 1 篇延伸级 ingest（候选：吕后本纪 / 孝文本纪 / 项羽列传）~~
+- 替代：跨域可移植性由 case-2 中药（+ storyextractor 下游模式复用）验证
 
 **关键 ADR 候选**：
 - 第一篇延伸级章节选择 ADR

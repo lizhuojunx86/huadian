@@ -22,7 +22,7 @@
 
 | Layer | 状态 | 当前焦点 |
 |-------|------|---------|
-| L1 框架代码抽象 | 🟡 **代码冻结待触发**（`framework/**/*.py` 自 2026-05-03 起零实质改动 ~5 周 / 触发 sprint-roadmap §6 警告信号 — 见 §1.2 真相表 + [ADR-038](decisions/ADR-038-shiji-extension-milestone-superseded-by-case-2.md)）；5 模块 v0.3.0 不变 + sprint-templates v0.3.2 + role-templates v0.3.1（Sprint L→AA 16 sprint 完成）| sprint-templates **v0.3.2** + role-templates v0.3.1 + identity_resolver v0.3.0 + invariant_scaffold v0.3.0 + audit_triage v0.3.0（**2026-06-07 补 33 单测 → 全套 93 passed**）；累计 v0.2 18/20 + v0.3 6/6 + v0.4 4/4 = 28/30 patch（**内部维护账本 / ≠ L1 对外判据**，见 §1.2）+ **traceguard E1-E3 真实 PoC (GO-Z-η) validated → E4 候选** + **2026-06-07 补 framework 顶层 pyproject+README+requirements（"1h clone 跑通"路径建立）+ 命名 [ADR-037](decisions/ADR-037-framework-package-naming.md) proposed** |
+| L1 框架代码抽象 | 🟡 **代码冻结待触发**（`framework/**/*.py` 自 2026-05-03 起零实质改动 ~5 周 / 触发 sprint-roadmap §6 警告信号 — 见 §1.2 真相表 + [ADR-038](decisions/ADR-038-shiji-extension-milestone-superseded-by-case-2.md)）；5 模块 v0.3.0 不变 + sprint-templates v0.3.2 + role-templates v0.3.1（Sprint L→AA 16 sprint 完成）| sprint-templates **v0.3.2** + role-templates v0.3.1 + identity_resolver v0.3.0 + invariant_scaffold v0.3.0 + audit_triage v0.3.0（**2026-06-07 补 33 单测 → 全套 93 passed**）；累计 v0.2 18/20 + v0.3 6/6 + v0.4 4/4 = 28/30 patch（**内部维护账本 / ≠ L1 对外判据**，见 §1.2）+ **traceguard E1-E3 真实 PoC (GO-Z-η) validated → E4 候选** + **2026-06-07 补 framework 顶层 pyproject+README+requirements（"1h clone 跑通"路径建立）+ 命名 [ADR-037](decisions/ADR-037-framework-package-naming.md) accepted = `kb-forge`** |
 | L2 方法论文档 | 🟢 **8 doc 完整 + methodology v0.2 cycle 完成 8/8 = 100% ⭐⭐⭐ + 维护态首批 v0.2.1 patch (2 doc)**：/00 v0.2 + /01 v0.2 + **/02 v0.2.1** (Sprint AA §14.4+§15.4 cross-ref polish) + /03 v0.2 + **/04 v0.2.1** (Sprint AA fold §8.6 实证+反模式) + /05 v0.2 + /06 v0.2 + /07 v0.2 + **/08 v0.3 完整初稿达成（精炼版 4015 字 / GO-K-ε §7.3 + GO-O-η §4.5.1·§5.4·§6.3.1 + GO-P-η §3.3.1·§7.2 跨域文献 + GO-Q-η §9.1 traceguard + GO-R-η 精简+§参考文献 / 全量快照 archive 存档 / 待 v0.4 审稿（GO-AA-η author-side 前置批已落：§9.1 PoC-validated+E4 / §10 卷页最终化 / §8 n=2·识别≠证实 canonical）/ case-2 应用层）⭐⭐⭐** + **/09 v0.3 完整初稿达成（精炼版 4054 字 / GO-S-η §8 五理论 Latour·Knorr Cetina+Van Maanen·Goodhart·Wenger·Scott + GO-T-η §9.2 五域文献 Studdert/B&D/Simmons/Campbell/Vaughan+Perrow + 精简 / 全量快照存档 / 待 v0.4 审稿）⭐⭐⭐** + **decision-journals/ Q5 ACK 节律首篇 2026-05.md v1.0 定版 ⭐⭐⭐**（GO-L-ε / 用户审稿通过 / 协作闭环首次实证）+ **2026-06.md v1.0 定版（GO-U-η / 6-2 用户审稿通过 / Q5 节律第 2 篇）⭐⭐⭐** + **/10 子通道分层检测 v0.3 精炼（GO-X-η / F-003 第3篇 / 三篇三角全 v0.3 齐平）⭐** | Layer 2 维护态运行中；4 类工作流 3/4 已实证；**case-2 应用层文章组 08+09+10 三篇 v0.3 齐平（三文章三角 09 结构/08 机制/10 分辨率 / 各 ~4000-4500 字 + archive 快照）/ 三篇 v0.4 author-side 四项全完成（GO-AA 08 + GO-AB 09·10 + GO-AC 渠道 / citation + n=2 + 识别≠证实 + 目标渠道 / 余外部审稿 2026-09）/ D-route §6 2026-10 v1.0 发布锚点领先 ~6-8 周** ⭐ |
 | L3 案例库 | 🟢 主案例 + demo + 5 sprint dogfood + Sprint Q dogfood ✅ user local + Sprint T Docker dogfood ✅ sandbox PASSED + **case-2 中药提取 GO-A → GO-Z-η ⭐⭐⭐**（双产品 / **+ traceguard E1-E3 真实 PoC (GO-Z-η) → E4 候选** / 28 物料 / 12 批 / 4 fundamental findings F-001~F-004 / 22 anomalies / **3 ADR (033/034/035)** / 应用层方法论 08+09+10 三篇 v0.3 齐平（三文章三角）/ **schema v0.4 完整 lock (8 项 / 押后 3 项 v0.5) + batch-record.json _meta 0.3→0.4**） | 沉淀期 (5/15→5/31) 结束 / **GO-N-η schema v0.4 完整 lock + batch-record _meta 0.3→0.4 ✅** / **case-2 应用层文章组（08 + 09）按 D-route §6 2026-10 双文章 v1.0 发布锚点推进 / 当前领先 ~6-8 周**（v0.2 全本提前从 6 月节点达成 / GO-K-ε 08 v0.3 启动 / GO-L-ε 月度日记 v1.0 / GO-M-ζ schema v0.4 outline / GO-N-η v0.4 完整 lock）|
 | L4 社区 / 商业 | ⚪ **有意休眠**（机会主义层 / 非失败）：v0.3.0 GitHub release tag 已 push + ADR-031 v1.0 候选议程评估 + ADR-032 retroactive ADR；但外部触发条件（跨域 reference impl / 第三方 review）**零进展、0 次近邻交流、0 outreach 动作** — L4 标 🟢 名实不符故改 ⚪ | v1.0 触发条件 3/7 ✅ + 2/7 ⏳ + 2/7 ❌（#4#5 外部触发未动）/ 用户主动可启动 B 跨域 outreach |
@@ -35,19 +35,19 @@
 
 | 对外可验证判据 | 目标 | 客观现状（2026-06-07）| 达成 |
 |---|---|---|---|
-| 本地工作已 push 到 public GitHub | origin 持续更新 | 本地领先 origin/main **19 commit**，origin 停在 **2026-05-15**（沙箱 .git 只读 / 待用户 push）| ❌ |
+| 本地工作已 push 到 public GitHub | origin 持续更新 | **✅ 2026-06-07 已 push**（huadian origin/main 同步到今天 / traceguard 3 commit 同步）| ✅ |
 | 方法论文章正式发表数 | 12mo ≥ 4（D-route §5 L2）| **0**（08/09 早稿在公开仓 / 10 未公开 / 精炼版+v0.4 均未公开 / 均工作稿）| ❌ |
 | 文章被外部真实引用 / 讨论 | 12mo ≥ 1（≥3 更佳）| **0**（未发表 → 无引用路径）| ❌ |
 | 外部审稿人已对接 | 三篇 2026-09 外审需真人 | **0 人在接触**（"找愿审 GMP+STS 跨域稿专家"= 代笔无法替代瓶颈 / 全文 0 风险登记）| ❌ |
 | 近邻项目（shiji-kb 等）实质交流 | 2026-10 ≥ 1 次 | **0** | ❌ |
 | L1 外部工程师 clone+跑通 starter | ≤ 1h（D-route §10）| **路径已建立**（2026-06-07 补 framework README+pyproject+requirements / `pytest → 93 passed` 可测量）；外部实测尚未发生 | 🟡 |
 | L1 领域无关 LOC 比例 | ≥ 70%（D-route §10）| 实测 **~56–62%**（examples/huadian_classics 仍偏重）| ❌ |
-| L1 框架命名确定 | yes（D-route §5）| **ADR-037 proposed**（候选 + 推荐已出 / 待用户拍板）| 🟡 |
+| L1 框架命名确定 | yes（D-route §5）| **✅ `kb-forge`**（ADR-037 accepted 2026-06-07 / web 核实无占用 / import root 改名延 v0.1 前）| ✅ |
 | 每模块有单元测试 | 各模块 | **✅**（2026-06-07 补 audit_triage 33 单测 → 全套 93 passed）| ✅ |
 | 月度决策日记累计字数 | 6mo ≥ 6000 字 | **✅ ~1.2 万字 / 2 月**（North Star 唯一硬达标项）| ✅ |
-| 框架代码近期有推进 | 不连续 2 sprint 停滞 | ❌ `framework/**/*.py` 冻结 ~5 周（sprint-roadmap §6 警告信号已触发）| ❌ |
+| 框架代码近期有推进 | 不连续 2 sprint 停滞 | 🟡 2026-06-07 补测试+打包（tests/pyproject/__init__）打破冻结；**核心抽象逻辑**（领域无关比例↑/ import-root 改名）仍待下个 L1 sprint | 🟡 |
 
-**一句话**：内部产能（文档 / 治理 / sprint 计数）很高；**对外可验证判据 11 项里 ✅ 仅 2、🟡 2、❌ 7**。整改见 [d-route-progress-review-2026-06-07](reports/d-route-progress-review-2026-06-07.md) §6。
+**一句话**：内部产能（文档 / 治理 / sprint 计数）很高；**对外可验证判据 11 项里 ✅ 4、🟡 2、❌ 5**（2026-06-07 整改后：push / 命名 / 单测 / 日记 ✅；clone 路径 + 代码推进 🟡；发表 / 引用 / 外审 / 近邻 / 领域无关比例 ❌）。整改见 [d-route-progress-review-2026-06-07](reports/d-route-progress-review-2026-06-07.md) §6 + 外审包已就绪（[case-2-external-review-package](methodology/case-2-external-review-package-v0.1.md)）。
 
 ---
 

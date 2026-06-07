@@ -160,7 +160,7 @@
 **目标**：把 `services/pipeline` 和 `services/api` 里"领域无关"部分识别 + 抽象，让别人能 clone 跑通。
 
 **形式**：
-- 单仓内 `framework/`（待命名）+ `docs/methodology/` 子目录
+- 单仓内 `framework/`（distribution name = `kb-forge` / ADR-037；import root `framework.*` 改名延到 v0.1 前）+ `docs/methodology/` 子目录
 - CLI / config schema / agent role 模板 / sprint template / invariant test scaffolding / audit migration generator
 - 不强求产品级稳定，强求"概念清晰 + 可被跑通 + 有 starter template"
 
@@ -171,7 +171,7 @@
 **完成判据**：
 - 一个完全外部的工程师能在 1 小时内 clone + 跑通 starter template
 - 7 份 `docs/methodology/*.md` 草案（每份 2000-4000 字）+ 真实代码引用
-- `kb-engine` 命名（或同等）确定（→ ADR-029）
+- 框架命名确定：**`kb-forge`**（ADR-037 accepted 2026-06-07 / web 核实无占用）。〔注：原文误把命名指向 ADR-029，实为许可证策略；命名由 ADR-037 补位〕
 
 ### Layer 2: 方法论文档（12-18mo）
 
@@ -229,10 +229,10 @@
 |--------|--------|--------------|
 | 2026-05 (1mo) | 文档体系全对齐（Stage A-D 完成）+ Sprint L 启动 | 无 |
 | 2026-06 (2mo) | `docs/methodology/` 7 份草案完整版 + 第 1 个跨领域案例邀约启动 | Sprint L 完成 |
-| 2026-08 (4mo) | 华典智谱史记到 5-10 篇典型章节延伸级 + 产品化 demo 上线（内部可访问）| PE 主线持续；BE/FE 维护模式不卡 |
+| 2026-08 (4mo) | ~~史记 5-10 篇延伸级~~ **撤销（ADR-038 / 由 case-2 顶替；史记 = 冻结 dogfood 底物）**；产品化 demo 降级为 best-effort（README Quick demo 已达最低限 / traceguard PoC 是更强的可移植性活体证明）| — |
 | 2026-10 (6mo) | 第 1-2 篇方法论文章发布 + 与近邻项目（如 shiji-kb）有过 1 次实质交流 | 写作节律 (Q5) 不掉链 |
 | 2027-01 (9mo) | 框架代码抽象 v0.1 release（单仓内 `docs/methodology` + `framework/` 双成熟）| L1 工作不被中断 |
-| 2027-04 (12mo) | 第 2 个跨领域案例（内部或外部）验证框架可移植性 | L3 邀约成功率 |
+| 2027-04 (12mo) | 第 2 个跨领域案例验证框架可移植性 — **case-2 中药已提前达成核心目标**（traceguard 第 2 domain config + E1-E3 PoC）/ **storyextractor 为第 2 份真实下游引用（模式复用 / 独立项目）** | L3 邀约成功率 |
 
 ---
 
