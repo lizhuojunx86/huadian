@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-06-07 (L2) — ADR-038 #5 启动：语料-抽取 schema 骨架方法论 + storyextractor 采纳案例研究
+
+### [docs] methodology/11-corpus-extraction-schema-pattern.md + case-study-storyextractor-adoption-v0.1.md（新建 2 篇）
+
+- **角色**：首席架构师起草 / 用户"启动" / 多 agent 抽取 + 对抗式核验
+- **性质**：ADR-038 §6 #5 落地——把 storyextractor 真实复用的"语料-抽取 schema 模式"抽象成方法论文档 + 把 storyextractor 写成可移植性采纳案例。**Layer 1/2 框架抽象**（非 case-2 / 不受止损线约束 / 正是 L1 解冻后该做的）
+- **方法**：workflow 并行从 huadian 史记 schema + storyextractor schema 抽取 + 对抗式"抽象是真共享还是硬凑"核验（3 抽取 agent socket 失败，但核验 agent 自行读仓库产出高价值判断）+ 架构师本人字段级复核（`packages/db-schema/src/schema/sources.ts` + storyextractor `db.py`）
+- **/11（严格 scope）**：核心 = **Source→Unit→Span 三层骨架 + span 级溯源 + 抽取层永带回指 + 多源聚合保留每源**（4 条字段级双实现互证）。**钉死两限定词"叙事"+"存储 schema"**；消歧 see-03 / 审核 see-05 不复述；**剔除** TCM 审计 schema（F-001~F-004/σ矩阵属 08/09/10）+ MultiLangText/PostGIS/tier（史记丰富度）+ 多 LLM 共识（storyextractor 单方/05 变体）
+- **案例研究（双刃诚实）**：storyextractor 保留 4 骨架 = **核心可移植**；但砍掉 60-70% huadian schema（Postgres→SQLite / identity_resolver 轻量化 / 字符偏移→段范围 / 弃 MultiLang·PostGIS·tier）= **框架打包过重**（互证 STATUS §1.2 领域无关 56-62%）。**诚实边界：同域移植（古籍→古籍）只证核心稳、不证跨域**；真跨域探针（非叙事域）当前不存在
+- **对抗式核验关键纠偏**：①huadian 有两个 schema（史记 A / 中药 B），storyextractor 镜像 A 非 B → 不把 TCM 算进同一 pattern ②与 03/05 实质重叠 → 新 doc 只占"存储 schema 形状"这一未被覆盖层
+- **配套**：ADR-038 §6 #5 标 ✅ + STATUS L2 行 + 本 CHANGELOG。未做 kb-forge 模块（留 v0.1 / 避免过早重实现）
+- **commit message 建议**：`docs(methodology): add /11 corpus-extraction schema skeleton + storyextractor adoption case study [ADR-038 #5]`
+
+---
+
 ## 2026-06-07 (decisions) — 三项决策落定：ADR-037 kb-forge accepted + ADR-038 accepted + case-2 止损线 lock + push 公开
 
 ### [docs] ADR-037/038 → accepted + framework 改名 kb-forge + D-route §6/roadmap 重对齐 + case-2 §11 止损线 + storyextractor 下游评估
