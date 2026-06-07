@@ -1,0 +1,68 @@
+# Packaging metadata for the Agentic Knowledge Engineering framework.
+#
+# PURPOSE (D-route §5 Layer 1 completion criterion): give an external engineer
+# a single declared "what is this / what does it depend on / how do I run it"
+# entry point. Before 2026-06-07 the framework/ subtree had no top-level
+# README, no dependency manifest, and no package metadata — so the "external
+# engineer clone + run in <1h" criterion had no physical path and could not be
+# measured. This file + README.md + requirements-dev.txt close that gap.
+#
+# PROVISIONAL NAME: the canonical framework distribution name is an OPEN
+# decision tracked in ADR-037 (proposed). `huadian-ke-framework` below is a
+# placeholder. Renaming the *import* root (`framework.*`) is a separate, larger
+# change (it would churn every test import) and is intentionally deferred.
+#
+# VERIFIED path today (no install required — core is pure-Python; run from the
+# REPO ROOT, which is the import root for `framework.*`):
+#
+#     pip install -r framework/requirements-dev.txt
+#     python -m pytest framework/identity_resolver/tests \
+#                      framework/invariant_scaffold/tests \
+#                      framework/audit_triage/tests        # -> 93 passed
+#
+# Editable install (`pip install -e framework`) is the intended next step but
+# its final shape is pending the ADR-037 naming/layout decision.
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "huadian-ke-framework"            # PROVISIONAL — see ADR-037
+version = "0.3.0"
+description = "Agentic Knowledge Engineering framework — domain-agnostic core (identity resolution, formal invariants, audit/triage) extracted from the HuaDian Shiji reference implementation"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+authors = [{ name = "华典智谱 (HuaDian)" }]
+keywords = [
+    "knowledge-engineering",
+    "identity-resolution",
+    "audit-trail",
+    "invariants",
+    "llm-agents",
+]
+
+# Core is stdlib-only (Protocol-based; domain DB drivers live behind plugin
+# Protocols and are pulled per example, not by core).
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.5"]
+examples = ["asyncpg>=0.29"]
+
+# `framework.*` is rooted at the repository root (the parent of this file),
+# so package discovery maps the empty namespace to "..". The hyphenated
+# template dirs (sprint-templates / role-templates) are documentation, not
+# importable modules, and are excluded by listing packages explicitly.
+[tool.setuptools]
+package-dir = { "" = ".." }
+
+[tool.setuptools.packages.find]
+where = [".."]
+include = [
+    "framework",
+    "framework.identity_resolver*",
+    "framework.invariant_scaffold*",
+    "framework.audit_triage*",
+]

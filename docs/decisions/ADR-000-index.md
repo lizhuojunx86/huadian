@@ -36,8 +36,10 @@
 | [ADR-026](ADR-026-entity-split-protocol.md) | Entity Split Protocol：mention-level redirect 例外授权（ADR-014 supplement；person_names UPDATE/INSERT 双授权；entity_split_log migration 0013；split_for_safety 子场景；双签 + 4 闸门 + dry-run + pg_dump anchor + 单事务） | 2026-04-27 | 架构师 + 管线工程师 + 历史专家 |
 | [ADR-027](ADR-027-pending-triage-ui-workflow-protocol.md) | Pending Triage UI Workflow Protocol（triage_decisions 表 migration 0014 + GraphQL interface TriageItem + 2 implements + 4 queries + 1 mutation；URL token + cookie auth；inbox V1 必须；historical markdown backfill V1 必须；merge 铁律继承条款明文授权范围） | 2026-04-29 | 架构师 + Backend / Frontend / Pipeline / Historian 工程师 |
 | [ADR-036](ADR-036-case-3-dao-de-jing-candidacy-evaluation.md) | Case-3 候选评估：《道德经》是否应作为第三个跨领域案例 — 登记为条件触发候选（不立即开案例 / 5 条触发条件 / 思想实验路径替代 / F-001 跨域映射保留） | 2026-05-17 | 架构师 + 用户 |
+| [ADR-037](ADR-037-framework-package-naming.md) | 框架包命名（L1 distribution / import name）— **proposed**：补 D-route §5 悬空的命名判据（误指 ADR-029）/ 5 候选 + 推荐 `kb-forge` / import root 改名延到 v0.1 前 / 待用户拍板 | 2026-06-07 | 架构师（待用户 ACK）|
+| [ADR-038](ADR-038-shiji-extension-milestone-superseded-by-case-2.md) | 2026-08 史记延伸级里程碑由 case-2 顶替 — **proposed**：消除 D-route §4 Sunset 与 §6/roadmap §2 的自相矛盾 / 史记重定义为冻结 dogfood 底物 / 待用户 ACK 后改 D-route §6 + roadmap §2 | 2026-06-07 | 架构师（待用户 ACK）|
 
-> 注：ADR-028 ~ ADR-035 已在 `docs/decisions/` 目录存在但未补回本索引（既有 doc tech debt / 见 STATUS.md L2 进度）。ADR-036 索引补回不连带补回 028~035；如需 backfill 走单独 doc sprint。
+> 注：ADR-028 ~ ADR-035 已在 `docs/decisions/` 目录存在但未补回本索引（既有 doc tech debt / 见 STATUS.md L2 进度）。ADR-036 ~ 038 索引已补回；028~035 的 backfill 仍走单独 doc sprint。
 
 ### 已提议（待签字）
 
