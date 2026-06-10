@@ -2,7 +2,7 @@
 
 ADR-004 / T-TG-002 §0 hard constraint. Upstream pin:
     pipeline-guardian @ v0.1.0-huadian-baseline
-    sha: 0350b0a54ec646a96e3f25949b7ce604284c49eb
+    sha: c1c1b7502b07e46abde5be5c23f60aed9894d7db
 
 RULES
 -----
