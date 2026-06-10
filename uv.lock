@@ -737,7 +737,7 @@ wheels = [
 [[package]]
 name = "pipeline-guardian"
 version = "0.1.0"
-source = { git = "https://github.com/lizhuojunx86/traceguard.git?rev=v0.1.0-huadian-baseline#0350b0a54ec646a96e3f25949b7ce604284c49eb" }
+source = { git = "https://github.com/lizhuojunx86/traceguard.git?rev=v0.1.0-huadian-baseline#c1c1b7502b07e46abde5be5c23f60aed9894d7db" }
 dependencies = [
     { name = "click" },
     { name = "fastapi" },
