@@ -5,7 +5,30 @@
 
 ---
 
-## 2026-06-07 (L2) — ADR-038 #5 启动：语料-抽取 schema 骨架方法论 + storyextractor 采纳案例研究
+## 2026-06-11 (P0) — case-2 全仓脱敏执行完成（用户确认映射后）
+
+### [fix] 37 文件约 2300 处批量脱敏 + 6 项重命名 + traceguard examples 脱敏 + 发布版文章三篇
+
+- **角色**：首席架构师执行 / 用户决策（① 仓库已转 private ② 确认映射方案 ③ 提供作者补充数据 20h/~$100）
+- **脱敏范围**：产品名→P1/P2/P3（含产品代码联动）· 成品批号→B1~B12 · 来料 lot→L1/L2/L-mat-NN · 设备型号→E1~E6（含全角破折号 OCR 变体）· 设备资产号→E-asset-NN · **药品批准文号 3 个→占位（最高危，可药监局反查企业）** · 内部编号体系（SOP/物料码/指令号）→中性化 · 供应商 6 家→S1~S6 · 设备厂商 22 个（含跨行 OCR 截断段）→〔设备厂商〕· 操作工/检验员真实姓名 8 人→角色代称 · 企业名简化为"企业 A"
+- **数值原则**：σ/极差比/倍率/投料量等计算输入**全部保留原值**（三篇文章可复算性不受影响），仅切断数值↔产品/批号/企业关联链
+- **重命名（git mv）**：3 份工艺规程 txt（文件名含产品名）→ P1/P2/P3-工艺规程.txt · pilot 目录（含批号）→ pilot-WK-B1 · 2 份 lot summary → lot-L1/L2-*；traceguard 批次 json 同步重命名
+- **配套**：08/09/10 + case README 加脱敏说明节 · target-venues §6 脱敏工序标记完成 · 终验 grep 全部敏感值 = 0 命中（huadian + traceguard 双仓）· 假名映射仅存会话不落盘
+- **发布版文章**：`docs/articles/publish/` 三篇（剥内部注释头 + 填作者补充 + 文末协作声明外化），可直接复制发帖
+- **遗留（用户决策）**：git 历史处置（filter-repo vs 重建仓库）完成前**仓库不得重新 public**；traceguard 若 public 同理
+- **commit message 建议**：`fix(privacy): de-anonymize case-2 data across repo (37 files, renames, publish-ready articles)`
+
+---
+
+## 2026-06-11 (L2/L4) — 公开输出第一批：方向评估落地 + 三篇对外文章初稿 + P0 脱敏扫描
+
+### [docs] articles/ 三篇初稿 + reports/public-output-plan + readme-update-proposal + 敏感信息全量映射（未落盘）
+
+- **角色**：首席架构师执行 / 用户 ACK 2026-06-10 方向评估结论（"方向保留、兑现模式从闭门精修切换为公开输出"）并批准实施
+- **背景**：2026-06-10 完成 10-agent 方向评估（内部 3 + 行业 web 4 + 对抗批判 3）：D-route 方向保留；价值排序为 case-2 08 文章 > 过程标本 > 方法论真货 > 框架代码（与 L1 优先级倒挂）；全部兑现路径卡在"公开输出 + 外部接触"。另以 2-agent 核实发布就绪度 + 平台机制（发现《中成药》/《中国医药工业杂志》要求单位公函 → 独立作者实质受阻；Show HN 不收纯文档项目；SSRN 须全文英文；arXiv 2026 新政须 endorsement + 英文全文）
+- **新建**：`docs/reports/public-output-plan-2026-06.md`（跨会话追踪板）+ `docs/articles/` 三篇初稿（① stop-rules 硬中断 ~3600 字 ② storyextractor 采纳复盘 ~3000 字 ③ 旗舰复盘"一个人+AI 扮演 10 角色：8 周/27 sprint/34 ADR" ~3500 字，2 处[作者补充]占位）+ `docs/reports/readme-update-proposal-2026-06-11.md`（15 处变更，待用户确认后覆盖）。三篇均通过敏感值泄漏 grep 检查
+- **P0 脱敏扫描（只读，映射表仅存会话不落盘）**：暴露面远超预估——主战场为 `docs/cases/tcm-extraction/` 数据树（batch-record.json 7600 行含企业名/6 供应商/操作工检验员真实姓名/全部批号；3 份 sop/raw/*.txt 含**国药准字批文号**可药监局反查企业；6 个文件/目录名本身含敏感值）；已确认敏感值在公开远端 origin/main 历史中（自 commit 84f93a1）。traceguard 仓 configs 已脱敏 ✅、examples/tcm_extraction_poc 含真实批号待替换。**等用户三项决策**：① 转 private 止血 ② 确认映射方案后批量替换+重命名 ③ git 历史重写方式
+- **commit message 建议**：`docs: public-output batch 1 - 3 article drafts + output plan + README proposal [eval 2026-06-10 ACK]`（注意：本 commit 应在脱敏决策后再 push）
 
 ### [docs] methodology/11-corpus-extraction-schema-pattern.md + case-study-storyextractor-adoption-v0.1.md（新建 2 篇）
 
