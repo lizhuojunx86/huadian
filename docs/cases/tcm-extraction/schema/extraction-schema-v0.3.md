@@ -250,7 +250,7 @@ GO-B-α 发现 SOP 在 6-7 个月内 10 物料 100% 升级，触发 _meta 顶层
 ```jsonc
 // IncomingQCRecord 字段增强
 "_代码前缀_v2_映射": {
-  "前缀": "WB-ZY-Y | WB-ZY | WB-FG | NB | WB-NB",
+  "前缀": "MAT-Y | MAT | MAT-FG | NB | MAT-NB",
   "_物料分类_v2": "饮片 | 中药材 | 中间体 | 动物源材料 | 辅料 | 包材",
   "_一对多": true,  // ← v0.3 承认前缀↔分类不是 1:1
   "_包材子映射": {

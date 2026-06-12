@@ -3,6 +3,7 @@
 
 > **Status**: **v0.3 精炼**（GO-X-η / 2026-06-02 / 接续 v0.2 全本 GO-W-η / 全量 v0.2 存 archive/ 无损 / 待用户审稿）
 > **Owner**: 首席架构师（Claude）起草 / 用户审稿
+> 脱敏说明（2026-06-11）: 本文及全部 case-2 配套数据已完成系统性脱敏——产品名（P1/P2/P3）、批号（B1~B12）、来料 lot（L1/L2）、设备型号（E1~E6）、企业/供应商/人名均为假名；σ、极差比、倍率等计算输入数值保留原值，结论可复算。假名映射不公开。
 > **D-route 定位**: Layer 2 应用层方法论 **第 3 篇**（接续 08 + 09 / case-2 应用层文章组）
 > **Anchor finding**: F-003（子通道分裂 / finalized_来料检验侧_with_F004_extension_AND_condition_B_met_via_yanreqingpian）
 > **Related**: 08-dual-reverse-calculation-pattern（F-003 作工具）/ 09-layered-compliance-narrative-pattern / ADR-033 / ADR-034 / lot-L1-summary-v0.1
