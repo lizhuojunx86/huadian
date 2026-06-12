@@ -10,12 +10,10 @@
 
 运转方式是 tagged-session：同时开多个 Claude Code 会话，每个会话戴一顶角色帽子，跨会话交接靠显式信号。这是协作规约里的真实片段：
 
-```
-【BE】SDL ready           → 【FE】codegen 解除阻塞
-【BE】migration 已应用     → 【PE】backfill 解除阻塞
-【PE】Stage 2 apply 完成   → 【Architect】发起领域专家评审
-【Hist】评审报告完成       → 【Architect】下达 Stage 4 apply 指令
-```
+> 【BE】SDL ready           → 【FE】codegen 解除阻塞
+> 【BE】migration 已应用     → 【PE】backfill 解除阻塞
+> 【PE】Stage 2 apply 完成   → 【Architect】发起领域专家评审
+> 【Hist】评审报告完成       → 【Architect】下达 Stage 4 apply 指令
 
 治理机制完全照搬人类工程团队：STATUS 状态板 + CHANGELOG + ADR + 任务卡四件套；Sprint / Stage / Gate 工作流加 Stop Rules（触发即停、升级仲裁）；数据层 11 类形式化不变量（V1–V11），每个 sprint 收口必须全绿。
 
