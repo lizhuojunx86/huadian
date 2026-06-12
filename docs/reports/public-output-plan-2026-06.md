@@ -15,8 +15,9 @@
 - [x] 0.1 脱敏全量扫描 + 映射表产出（2026-06-11 / 范围远超预估：除三篇文章外，主战场是 `docs/cases/tcm-extraction/` 数据树——7600 行 batch-record.json 含企业名/供应商/真实人名/全部批号；3 份工艺规程 raw txt 含**国药准字批文号**（药监局可直接反查企业）；6 个文件/目录名本身含敏感值需重命名）→ **等用户确认映射方案**
 - [x] 0.2 **工作区批量脱敏完成（2026-06-11）**：两轮替换共 37 个文件约 2300 处（产品/批号/lot/设备/批文号/SOP编号体系/物料码/供应商/设备厂商/人名/企业名）+ 6 项 git mv 重命名 + 08/09/10 与 case README 加脱敏说明节；σ/极差/倍率计算输入数值全部保留原值；终验 grep 全部敏感值 = 0 命中；假名映射不落盘
 - [x] 0.3a **huadian 本地历史重写完成（2026-06-12，方案 A 用户 ACK）**：mirror 备份至 `_backups/huadian-pre-rewrite-20260612.git` → `git filter-repo` 重写 437 commits（replace-text 全映射 + 6 项历史路径 rename）→ 全历史 pickaxe 验证 8 个高危词 0 命中。注意：全部 commit SHA 已变更（文档中引用的旧 SHA 失效，叙事性引用可接受）；origin remote 已被 filter-repo 按安全设计移除
-- [ ] 0.3b **GitHub 端处置（仅用户可做）**：推荐**删仓重建同名仓**（force push 后旧 commit 在 GitHub 端仍可凭 SHA 访问，需联系 support 清缓存；本仓 0 star 0 issue，删仓重建零代价且彻底）→ push 重写后历史 → 转 public
-- [ ] 0.3c **traceguard 历史重写（用户执行，指令已提供）**：本地 commit 已完成（3c2e23c）；历史重写 + GitHub 端处置同 huadian 流程
+- [x] 0.3b **GitHub 端处置完成（2026-06-13 用户执行）**：huadian + traceguard 双仓删仓重建同名 → push main --tags → traceguard v0.2.0 release 重建（gh release create）→ 旧备份 _backups 已删除。**两仓当前 private，待网页抽查后转 public**
+- [x] 0.3c **traceguard 历史重写完成（2026-06-13 用户执行）**：filter-repo 45 commits（Already-Ran 提示answered N）→ pickaxe 验证 0 命中；PyPI 包 traceguard 0.2.0 经逐文件验证不含敏感数据（wheel/sdist 仅 src+tests），无需 yank；huadian uv.lock 已 relock（c1c1b750 → 新 SHA / commit 8572f3b）
+- [x] 0.6 **三篇文章知乎导入适配（2026-06-13）**：根因 = `$` 金额被知乎当 LaTeX 公式定界符劫持 + 代码块导入器占位符复原 bug（`__CODE_BLOCK_2__` 泄漏）。修复：$ 金额全部改写"X.XX 美元"、代码块全部转引用块、表格已转列表。三篇终验 0 个 `$`、0 个代码块、0 表格
 - [x] 0.4 target-venues §6 已补登记脱敏工序（2026-06-11，标记已完成）
 - [x] 0.5 traceguard 仓库脱敏完成（2026-06-11：configs 本就是合成数据 ✅；examples/tcm_extraction_poc 真实批号已替换 + 批次 json 重命名，复验 0 残留。注意 traceguard 若为 public 同样有历史暴露问题，处置方式同 0.3）
 
