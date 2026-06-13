@@ -151,8 +151,8 @@ import root 改名 `kb_forge.*` → 领域无关 LOC 比例提升至 ≥ 70% →
 来自本项目工程实践的三篇文章（2026-06 发布于知乎，源文件在 [`docs/articles/publish/`](docs/articles/publish/)）：
 
 - [给 AI agent 团队设计"硬中断"：5 类 Stop Rule 与 4 个反模式](https://zhuanlan.zhihu.com/p/2049033957845607396)
-- [另一个项目"抄"了我们的框架之后：4 条骨架活了下来，60% 的设计被扔掉](https://zhuanlan.zhihu.com/p/2049056588497940839)
-- [一个人 + AI 扮演 10 个角色：8 周、27 个 sprint、34 份 ADR 全程留痕之后，我学到了什么](https://zhuanlan.zhihu.com/p/2049057076417126646)
+- [一个人 + AI 扮演 10 个角色：8 周、27 个 sprint、34 份 ADR 全程留痕之后，我学到了什么](https://zhuanlan.zhihu.com/p/2049056588497940839)
+- [另一个项目"抄"了我们的框架之后：4 条骨架活了下来，60% 的设计被扔掉](https://zhuanlan.zhihu.com/p/2049057076417126646)
 
 ---
 
