@@ -25,9 +25,11 @@
 
 | 文章 | 草稿文件 | 发布渠道 | 状态 |
 |------|---------|---------|------|
-| Stop Rules：给 AI agent 团队设计"硬中断" | `docs/articles/2026-06-stop-rules-for-ai-agent-teams.md` | 博客/知乎 → 阮一峰周刊【开源自荐】issue | ☑ 草稿(06-11) ☐ 审订 ☐ 发布 |
-| 另一个项目"抄"了我们的框架之后 | `docs/articles/2026-06-when-another-project-adopted-our-schema.md` | 同上（传播性更强，优先） | ☑ 草稿(06-11) ☐ 审订 ☐ 发布 |
-| 一个人 + AI 扮演 10 个角色（旗舰复盘，8 周/27 sprint/34 ADR，2 处[作者补充]占位待填） | `docs/articles/2026-06-solo-plus-ai-multi-role-retrospective.md` | 博客 + 阮一峰周刊；后续译英文发 HN（普通链接帖，非 Show HN） | ☑ 草稿(06-11) ☐ 审订 ☐ 发布 |
+| Stop Rules：给 AI agent 团队设计"硬中断" | `docs/articles/2026-06-stop-rules-for-ai-agent-teams.md` | 博客/知乎 → 阮一峰周刊【开源自荐】issue | ☑ 草稿 ☑ 审订 ☑ **知乎已发（2026-06-13）** |
+| 另一个项目"抄"了我们的框架之后 | `docs/articles/2026-06-when-another-project-adopted-our-schema.md` | 同上（传播性更强，优先） | ☑ 草稿 ☑ 审订 ☑ **知乎已发（2026-06-13）** |
+| 一个人 + AI 扮演 10 个角色（旗舰复盘，8 周/27 sprint/34 ADR） | `docs/articles/2026-06-solo-plus-ai-multi-role-retrospective.md` | 博客 + 阮一峰周刊；后续译英文发 HN（普通链接帖，非 Show HN） | ☑ 草稿 ☑ 审订 ☑ **知乎已发（2026-06-13）** |
+
+**GitHub 页面完善（2026-06-13）**：双仓 About 侧栏（description/topics/homepage）✅ · traceguard badges + pip install 修正（fe13f72 已 push）✅ · huadian Release v0.3.0 创建 ✅ · 两仓均 public ✅。待办：HelloGitHub 提交（2.2）+ 阮一峰自荐（2.3）+ 知乎文章链接补进 README（等用户提供 URL）。
 
 三篇草稿均已通过敏感值泄漏检查（grep 产品名/批号/设备/批文号/人名 = 0 命中）。
 
