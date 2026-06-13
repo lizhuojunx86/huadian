@@ -29,7 +29,7 @@
 | 另一个项目"抄"了我们的框架之后 | `docs/articles/2026-06-when-another-project-adopted-our-schema.md` | 同上（传播性更强，优先） | ☑ 草稿 ☑ 审订 ☑ **知乎已发（2026-06-13）** |
 | 一个人 + AI 扮演 10 个角色（旗舰复盘，8 周/27 sprint/34 ADR） | `docs/articles/2026-06-solo-plus-ai-multi-role-retrospective.md` | 博客 + 阮一峰周刊；后续译英文发 HN（普通链接帖，非 Show HN） | ☑ 草稿 ☑ 审订 ☑ **知乎已发（2026-06-13）** |
 
-**GitHub 页面完善（2026-06-13）**：双仓 About 侧栏（description/topics/homepage）✅ · traceguard badges + pip install 修正（fe13f72 已 push）✅ · huadian Release v0.3.0 创建 ✅ · 两仓均 public ✅。待办：HelloGitHub 提交（2.2）+ 阮一峰自荐（2.3）+ 知乎文章链接补进 README（等用户提供 URL）。
+**GitHub 页面完善（2026-06-13）**：双仓 About 侧栏（description/topics/homepage）✅ · traceguard badges + pip install 修正（fe13f72 已 push）✅ · huadian Release v0.3.0 创建 ✅ · 两仓均 public ✅ · 知乎 3 篇链接已补进 README 延伸阅读节（352fa18）✅ · HelloGitHub + 阮一峰自荐已提交（见 §2）✅。
 
 三篇草稿均已通过敏感值泄漏检查（grep 产品名/批号/设备/批文号/人名 = 0 命中）。
 
@@ -38,9 +38,11 @@
 ## 2. README 更新 + 项目自荐
 
 - [x] 2.1a README 更新提案产出（2026-06-11，15 处变更：v0.3.0/kb-forge/34 ADRs/断链修复/首屏重写/Quick start 双路径）
-- [ ] 2.1b 提案审订 → 用户确认后覆盖 README.md
-- [ ] 2.2 HelloGitHub 自荐：https://hellogithub.com/periodical （GitHub 登录提交；介绍/快速开始/license 为必查项）
-- [ ] 2.3 阮一峰周刊自荐：https://github.com/ruanyf/weekly/issues 开 Issue，标题前缀【开源自荐】
+- [x] 2.1b README.md 已按提案覆盖（2026-06-13，commit 2e8c126）+ 延伸阅读节加 3 篇知乎链接（352fa18）
+- [x] 2.2 HelloGitHub 自荐已提交（2026-06-13 / 类别：人工智能 / 等月刊审稿，月底 28 日出刊周期）
+- [x] 2.3 阮一峰周刊自荐已提交（2026-06-13 / 【开源自荐】issue，含项目 + 3 篇文章链接 / 周五发布周期，策展人单选）
+
+**待回收的外部信号（下次 sync 检查）**：HelloGitHub issue 是否被标记收录 / 阮一峰 issue 是否进入某期周刊 / 知乎三篇阅读·点赞·评论数 → 任一非零即真相表「文章被外部引用/讨论」❌→✅ 的证据。
 
 ## 3. case-2 三篇的发布管线（脱敏完成后）
 
