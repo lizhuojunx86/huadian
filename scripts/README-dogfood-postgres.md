@@ -38,7 +38,7 @@ docker ps --filter "name=huadian-dogfood-postgres" --format 'table {{.Names}}\t{
 cd ..
 PYTHONPATH=$(pwd) \
     DATABASE_URL=postgresql://huadian:huadian_dev@localhost:5434/huadian_dogfood \
-    python3 -m framework.audit_triage.examples.huadian_classics.test_soft_equivalent
+    python3 -m kb_forge.audit_triage.examples.huadian_classics.test_soft_equivalent
 
 # 4. 完成后清理（-v 删除 volume / 数据消失，重新 up 会重新 seed）
 cd scripts
@@ -161,4 +161,4 @@ docker ps --filter "publish=5434"
 ---
 
 > 本目录是 framework v0.3.0 release 的 dogfood 基础设施一部分。
-> 详见 `framework/RELEASE_NOTES_v0.3.md` + `docs/sprint-logs/sprint-t/`.
+> 详见 `kb_forge/RELEASE_NOTES_v0.3.md` + `docs/sprint-logs/sprint-t/`.

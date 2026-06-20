@@ -175,7 +175,7 @@ docker compose down
 - [README](../../README.md) — 项目入口
 - [docs/strategy/D-route-positioning.md](../strategy/D-route-positioning.md) — 战略定位
 - [docs/methodology/00-framework-overview.md](../methodology/00-framework-overview.md) — 框架概览
-- [framework/sprint-templates/README.md](../../framework/sprint-templates/README.md) — Sprint 模板（你可以拿来用）
+- [kb_forge/sprint-templates/README.md](../../kb_forge/sprint-templates/README.md) — Sprint 模板（你可以拿来用）
 
 ---
 

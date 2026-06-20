@@ -29,7 +29,7 @@
 | **2026-06 (2mo)** | docs/methodology/ 7 份草案 v0.2 + 第 1 个跨领域案例邀约启动 |
 | **2026-08 (4mo)** | ~~史记 5-10 篇延伸级~~ **撤销（ADR-038 / case-2 顶替 / 史记 = 冻结 dogfood 底物）**；产品化 demo 降级 best-effort |
 | **2026-10 (6mo)** | 第 1-2 篇方法论文章发布 + 与近邻项目（如 shiji-kb）有过 1 次实质交流 |
-| **2027-01 (9mo)** | 框架代码抽象 v0.1 release（单仓内 docs/methodology + framework/ 双成熟）|
+| **2027-01 (9mo)** | 框架代码抽象 v0.1 release（单仓内 docs/methodology + kb_forge/ 双成熟）|
 | **2027-04 (12mo)** | 第 2 个跨领域案例（内部或外部）验证框架可移植性 |
 
 ---
@@ -53,7 +53,7 @@
 
 **Track 1**：
 - 抽象 multi-role coordination pattern（参见 docs/methodology/01-role-design-pattern.md §3 tagged sessions）
-- 创建 `framework/role-templates/`（10 角色模板，领域无关版本）
+- 创建 `kb_forge/role-templates/`（10 角色模板，领域无关版本）
 - 起草"领域无关 + Domain Expert instantiate guide"
 
 **Track 2**：
@@ -73,7 +73,7 @@
 
 **Track 1**：
 - 抽象 R1-R6 + GUARD_CHAINS（参见 docs/methodology/03-identity-resolver-pattern.md）
-- 创建 `framework/identity-resolver/`（接口领域无关，guard 可插拔）
+- 创建 `kb_forge/identity-resolver/`（接口领域无关，guard 可插拔）
 - 史记案例 = 第一个使用本框架的"参考实现"
 
 **Track 2**（~~史记延伸级 ingest~~ — 撤销 / ADR-038）：
@@ -91,7 +91,7 @@
 
 **Track 1**：
 - 抽象 V1-V11 invariant pattern + Triage UI workflow（参见 docs/methodology/04-invariant-pattern.md + 05-audit-trail-pattern.md）
-- 创建 `framework/invariant-scaffold/` + `framework/audit-tables/`（migration generator）
+- 创建 `kb_forge/invariant-scaffold/` + `kb_forge/audit-tables/`（migration generator）
 
 **Track 2**：
 - 第 2 篇延伸级 ingest
@@ -108,7 +108,7 @@
 
 **Track 1**：
 - ADR pattern 抽象（参见 docs/methodology/06-adr-pattern-for-ke.md）
-- 创建 `framework/adr-templates/`
+- 创建 `kb_forge/adr-templates/`
 - 7 份 methodology 整体梳理为 v0.5 状态
 
 **Track 2**：
@@ -126,8 +126,8 @@
 **主题**：跨领域案例验证 + 框架 v0.1 release 准备
 
 **Track 1**：
-- framework/ 整体梳理为 v0.1 release 候选
-- 起草 framework/README.md + 5-min Quick start
+- kb_forge/ 整体梳理为 v0.1 release 候选
+- 起草 kb_forge/README.md + 5-min Quick start
 - starter template repo（如分仓决策做出，参见 ADR-033 候选触发）
 
 **Track 2**：

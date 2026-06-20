@@ -4,7 +4,7 @@
 > **Status**: v0.1（2026-06-07 / 架构师起草 / 经对抗式核验收紧 scope）
 > **Owner**: 首席架构师
 > **Source（双实现字段级互证）**: huadian 史记语料 schema（`packages/db-schema/src/schema/sources.ts` + `events.ts` + `persons.ts`）↔ storyextractor（`~/Desktop/APP/storyextractor/src/storyextractor/db.py` + `model.py`，源码注释自承"mirrors huadian's design / ingest contract"）
-> **触发**: [ADR-038](../decisions/ADR-038-shiji-extension-milestone-superseded-by-case-2.md) §6 #5 — storyextractor 下游引用评估暴露"被复用的是模式不是数据"，且该模式**不在**已抽象的 framework/ 三模块内
+> **触发**: [ADR-038](../decisions/ADR-038-shiji-extension-milestone-superseded-by-case-2.md) §6 #5 — storyextractor 下游引用评估暴露"被复用的是模式不是数据"，且该模式**不在**已抽象的 kb_forge/ 三模块内
 > **配套**: [case-study-storyextractor-adoption-v0.1.md](./case-study-storyextractor-adoption-v0.1.md)（同一抽象的可移植性实证）
 
 ---

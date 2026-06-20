@@ -1,6 +1,6 @@
 # ADR-037 — 框架包命名（Layer 1 distribution / import name）
 
-- **Status**: **accepted**（2026-06-07 用户拍板 `kb-forge` / web 核实无占用）
+- **Status**: **accepted**（2026-06-07 用户拍板 `kb-forge` / web 核实无占用）/ **2026-06-20 更新：§2 末句"import root 暂保持 framework"已被 [ADR-039](ADR-039-l1-unfreeze-import-rename-and-criterion-redefinition.md) 解冻——import-root `framework.*`→`kb_forge.*` 改名获批并**已于 2026-06-20 执行**（`framework/`→`kb_forge/` / pytest 93 passed / 见 ADR-039 §5）→ dist 名与 import root 现已对齐**
 - **Date**: 2026-06-07
 - **Authors**: 首席架构师（Claude Opus 4.8）+ 用户确认（"同意 kb-forge"）
 - **Related**:
