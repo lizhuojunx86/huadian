@@ -332,11 +332,11 @@ Domain Expert 提交"周成王↔楚成王 reject"后，再次访问该 surface 
 > v0.1.1 新增（Sprint Q Stage 1 批 5 / 2026-04-30）
 > 本节把抽象 pattern 落实到 framework code 的具体引用关系。
 
-### 7.1 framework/audit_triage/ v0.1 (Sprint Q)
+### 7.1 kb_forge/audit_triage/ v0.1 (Sprint Q)
 
-本 methodology 文档描述的 Audit Trail Pattern 在 Sprint Q（Layer 1 第 5 刀）落地为 `framework/audit_triage/` Python 框架。映射关系：
+本 methodology 文档描述的 Audit Trail Pattern 在 Sprint Q（Layer 1 第 5 刀）落地为 `kb_forge/audit_triage/` Python 框架。映射关系：
 
-| methodology §X | framework/audit_triage/ 实现 |
+| methodology §X | kb_forge/audit_triage/ 实现 |
 |----------------|---------------------------|
 | §2.1 三表角色 | `store.py` `TriageStore` Protocol（pending_review + triage_decisions 双表 I/O 抽象）|
 | §2.2 Schema 抽象 | `examples/huadian_classics/schema.sql`（参考 DDL）|
@@ -357,7 +357,7 @@ Domain Expert 提交"周成王↔楚成王 reject"后，再次访问该 surface 
 
 ### 7.3 6 default REASON_SOURCE_TYPES (DEFAULT_REASON_SOURCE_TYPES)
 
-`framework/audit_triage/reasons.py` 提供 6 tag 默认词汇，与本 methodology §3 quick template 段一致：
+`kb_forge/audit_triage/reasons.py` 提供 6 tag 默认词汇，与本 methodology §3 quick template 段一致：
 
 ```python
 DEFAULT_REASON_SOURCE_TYPES = (
@@ -374,7 +374,7 @@ DEFAULT_REASON_SOURCE_TYPES = (
 
 ### 7.4 测试范本（Sprint Q DGF-N-03 + DGF-O-02）
 
-`framework/identity_resolver/tests/` + `framework/invariant_scaffold/tests/` 共 **60 pytest tests / 1273 lines** / `pytest-asyncio` 模式 / `FakePort` 风格 mock — 给 audit_triage 后续单测一个参考范本。`framework/audit_triage/tests/` 待 v0.2（与 N+O 同节律：先框架代码 + dogfood，再回头补单测）。
+`kb_forge/identity_resolver/tests/` + `kb_forge/invariant_scaffold/tests/` 共 **60 pytest tests / 1273 lines** / `pytest-asyncio` 模式 / `FakePort` 风格 mock — 给 audit_triage 后续单测一个参考范本。`kb_forge/audit_triage/tests/` 待 v0.2（与 N+O 同节律：先框架代码 + dogfood，再回头补单测）。
 
 ### 7.5 V0.1 → V0.2 路径（DecisionApplier hook）
 
@@ -383,7 +383,7 @@ V0.2 sprint 候选议程（押后到 Sprint Q+M）：
 1. 实现 `DecisionApplier` reference impl（HuaDian classics merge / split 应用器）
 2. 异步 job 扫描 `WHERE downstream_applied=false`
 3. UPDATE `downstream_applied=true / downstream_applied_at / by`
-4. 与 framework/identity_resolver `MergeApplier` 双向 binding（approve guard_blocked_merge → 调 MergeApplier）
+4. 与 kb_forge/identity_resolver `MergeApplier` 双向 binding（approve guard_blocked_merge → 调 MergeApplier）
 
 ### 7.6 ADR-032 audit_triage cross-stack abstraction (retroactive) / v0.2 新增
 
@@ -527,6 +527,6 @@ async def record_decision(...):
 
 > 本文档描述的 Audit Trail Pattern 是 AKE 框架的 Layer 1 核心资产之一。
 > Sprint K (T-P0-028) 是其首次完整实现，详见 `docs/decisions/ADR-027-pending-triage-ui-workflow-protocol.md` + `docs/sprint-logs/sprint-k/`.
-> Sprint Q (Layer 1 第 5 刀) 把它抽象为 framework/audit_triage/ Python 框架，详见 §7。
+> Sprint Q (Layer 1 第 5 刀) 把它抽象为 kb_forge/audit_triage/ Python 框架，详见 §7。
 > Sprint V (ADR-032 retroactive) 补 audit_triage 抽象的历史决策记录。
 > Sprint W (§8 v0.2) 抽出 Audit Immutability Pattern first-class（vs §2-§4 的隐式分散）。

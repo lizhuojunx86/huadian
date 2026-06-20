@@ -1,0 +1,69 @@
+# Packaging metadata for the Agentic Knowledge Engineering framework (kb-forge).
+#
+# PURPOSE (D-route §5 Layer 1 completion criterion): give an external engineer
+# a single declared "what is this / what does it depend on / how do I run it"
+# entry point. Before 2026-06-07 the kb_forge/ subtree had no top-level
+# README, no dependency manifest, and no package metadata — so the "external
+# engineer clone + run in <1h" criterion had no physical path and could not be
+# measured. This file + README.md + requirements-dev.txt close that gap.
+#
+# NAME: distribution name `kb-forge` decided in ADR-037 (accepted 2026-06-07;
+# web-verified unused on GitHub/PyPI). The import root was renamed
+# `framework.*` -> `kb_forge.*` on 2026-06-20 (ADR-039; dir `framework/` ->
+# `kb_forge/`, 73 imports across 51 files, pytest 93 passed). Distribution name
+# and import root are now aligned (kb-forge / kb_forge).
+#
+# VERIFIED path today (no install required — core is pure-Python; run from the
+# REPO ROOT, which is the import root for `kb_forge.*`):
+#
+#     pip install -r kb_forge/requirements-dev.txt
+#     python -m pytest kb_forge/identity_resolver/tests \
+#                      kb_forge/invariant_scaffold/tests \
+#                      kb_forge/audit_triage/tests        # -> 93 passed
+#
+# Editable install (`pip install -e kb_forge`) is the intended next step before
+# v0.1; PyPI publication remains out of scope until then.
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kb-forge"                        # ADR-037 (accepted 2026-06-07) / import root aligned ADR-039 (2026-06-20)
+version = "0.3.0"
+description = "Agentic Knowledge Engineering framework — domain-agnostic core (identity resolution, formal invariants, audit/triage) extracted from the HuaDian Shiji reference implementation"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+authors = [{ name = "华典智谱 (HuaDian)" }]
+keywords = [
+    "knowledge-engineering",
+    "identity-resolution",
+    "audit-trail",
+    "invariants",
+    "llm-agents",
+]
+
+# Core is stdlib-only (Protocol-based; domain DB drivers live behind plugin
+# Protocols and are pulled per example, not by core).
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.5"]
+examples = ["asyncpg>=0.29"]
+
+# `kb_forge.*` is rooted at the repository root (the parent of this file),
+# so package discovery maps the empty namespace to "..". The hyphenated
+# template dirs (sprint-templates / role-templates) are documentation, not
+# importable modules, and are excluded by listing packages explicitly.
+[tool.setuptools]
+package-dir = { "" = ".." }
+
+[tool.setuptools.packages.find]
+where = [".."]
+include = [
+    "kb_forge",
+    "kb_forge.identity_resolver*",
+    "kb_forge.invariant_scaffold*",
+    "kb_forge.audit_triage*",
+]

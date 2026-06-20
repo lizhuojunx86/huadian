@@ -68,7 +68,7 @@ methodology/02 v0.1.1 §13 首次提出此 pattern（4 段简介 + Sprint Q audi
 DB 层 SQL 在两个 stack 间通常完全等价（PG / MySQL / SQLite 等的 dialect 差异可忽略）。**逐字复制**：
 
 ```python
-# framework/audit_triage/examples/huadian_classics/asyncpg_store.py
+# kb_forge/audit_triage/examples/huadian_classics/asyncpg_store.py
 _SEED_SELECT = """
     SELECT
         'seed_mapping'::text AS kind,
@@ -115,7 +115,7 @@ examples/     — 具体 stack 实现（asyncpg / aiosqlite / etc）
 
 实证（华典智谱 Sprint Q + T）：
 ```python
-# framework/audit_triage/examples/huadian_classics/test_soft_equivalent.py
+# kb_forge/audit_triage/examples/huadian_classics/test_soft_equivalent.py
 
 # Path A: framework Python
 fw_items, fw_total = await list_pending_items(store, limit=20)
@@ -352,7 +352,7 @@ for f in ["scripts/dogfood-bootstrap.sql", "scripts/dogfood-seed.sql"]:
 **问题**：跨 stack 抽象**两边并行存在**（生产 + framework）/ 生产 stack 改动时容易忘记同步 framework / 跨 sprint 漂移。
 
 **做法**（per Sprint R T-V03-FW-006 实证）：
-1. 识别生产 stack 文件 path（如 `services/api/.../triage.*`）+ framework example path（如 `framework/audit_triage/examples/huadian_classics/`）
+1. 识别生产 stack 文件 path（如 `services/api/.../triage.*`）+ framework example path（如 `kb_forge/audit_triage/examples/huadian_classics/`）
 2. 写 bash 脚本 categorize staged files：prod_changed / fw_example_changed / 都没改
 3. 仅 prod_changed=1 AND fw_example_changed=0 时输出 warning（不阻塞 commit / informational only）
 4. 加入 .pre-commit-config.yaml 的 `files:` regex 限制触发 scope
@@ -361,9 +361,9 @@ for f in ["scripts/dogfood-bootstrap.sql", "scripts/dogfood-seed.sql"]:
 # scripts/check-audit-triage-sync.sh 节选
 if [ "$prod_changed" -eq 1 ] && [ "$fw_example_changed" -eq 0 ]; then
     cat >&2 <<'WARN'
-⚠️  services↔framework/audit_triage sync warning
+⚠️  services↔kb_forge/audit_triage sync warning
 You are committing changes to services/api/.../triage.* without any change to
-framework/audit_triage/examples/huadian_classics/. Please review whether
+kb_forge/audit_triage/examples/huadian_classics/. Please review whether
 SQL/business logic also need framework sync.
 WARN
 fi
@@ -422,5 +422,5 @@ exit 0  # informational only
 ---
 
 > 本文档描述的 Cross-Stack Abstraction Pattern 是 AKE 框架的 Layer 1 第 7 大核心抽象（per methodology/00 §2 from Sprint U sync）。
-> 实证锚点：framework/audit_triage/ (Sprint Q) + scripts/dogfood-postgres-compose.yml (Sprint T) + scripts/check-audit-triage-sync.sh (Sprint R) + pglast 验证（Sprint T）。
+> 实证锚点：kb_forge/audit_triage/ (Sprint Q) + scripts/dogfood-postgres-compose.yml (Sprint T) + scripts/check-audit-triage-sync.sh (Sprint R) + pglast 验证（Sprint T）。
 > Sprint W (§9 v0.2) 抽出 Tooling Pattern first-class（vs §5 dogfood infra 选项 + 散在各处的 tooling）。

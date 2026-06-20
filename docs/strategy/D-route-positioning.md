@@ -160,7 +160,7 @@
 **目标**：把 `services/pipeline` 和 `services/api` 里"领域无关"部分识别 + 抽象，让别人能 clone 跑通。
 
 **形式**：
-- 单仓内 `framework/`（distribution name = `kb-forge` / ADR-037；import root `framework.*` 改名延到 v0.1 前）+ `docs/methodology/` 子目录
+- 单仓内 `kb_forge/`（distribution name = `kb-forge` / ADR-037；import root `framework.*` 改名延到 v0.1 前）+ `docs/methodology/` 子目录
 - CLI / config schema / agent role 模板 / sprint template / invariant test scaffolding / audit migration generator
 - 不强求产品级稳定，强求"概念清晰 + 可被跑通 + 有 starter template"
 
@@ -231,7 +231,7 @@
 | 2026-06 (2mo) | `docs/methodology/` 7 份草案完整版 + 第 1 个跨领域案例邀约启动 | Sprint L 完成 |
 | 2026-08 (4mo) | ~~史记 5-10 篇延伸级~~ **撤销（ADR-038 / 由 case-2 顶替；史记 = 冻结 dogfood 底物）**；产品化 demo 降级为 best-effort（README Quick demo 已达最低限 / traceguard PoC 是更强的可移植性活体证明）| — |
 | 2026-10 (6mo) | 第 1-2 篇方法论文章发布 + 与近邻项目（如 shiji-kb）有过 1 次实质交流 | 写作节律 (Q5) 不掉链 |
-| 2027-01 (9mo) | 框架代码抽象 v0.1 release（单仓内 `docs/methodology` + `framework/` 双成熟）| L1 工作不被中断 |
+| 2027-01 (9mo) | 框架代码抽象 v0.1 release（单仓内 `docs/methodology` + `kb_forge/` 双成熟）| L1 工作不被中断 |
 | 2027-04 (12mo) | 第 2 个跨领域案例验证框架可移植性 — **case-2 中药已提前达成核心目标**（traceguard 第 2 domain config + E1-E3 PoC）/ **storyextractor 为第 2 份真实下游引用（模式复用 / 独立项目）** | L3 邀约成功率 |
 
 ---

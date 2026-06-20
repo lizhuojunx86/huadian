@@ -5,6 +5,37 @@
 
 ---
 
+## 2026-06-20 — 进度复评 + 公开输出回填 + **L1 解冻：import-root 改名 kb_forge（93 passed）+ 判据重定义** + case-2 英文预印 + 对接 SOP + 商业试探
+
+### [docs] STATUS/CHANGELOG 回填 + 真相表刷新 + [reports] L1 finding + 外审 SOP + [articles] 08-EN 预印 + 蒲公英试水稿
+
+- **角色**：首席架构师执行 / 用户指令"全部实施"并就 B3/B4/B5/C6/C7/C8 逐项回应
+- **触发**：用户要求扫描项目、点评进展、产出下一步工作列表 → 评估后用户批准实施
+- **A 回填（✅）**：STATUS §1.2 真相表按真实信号刷新——发表数 🟡3/4→**✅4/4**（第 4 篇消歧已发）；近邻 ❌→**🟡**（shiji-kb discussion 已发待回应）；引用讨论诚实保持 **❌**（知乎阅读数十/收藏点赞个位数/无评论/收录未确认）；领域无关比例更正为实测 **64.4%**（core+tests）。一句话总账：2026-06-07 ✅4/🟡2/❌5 → 2026-06-20 终值 **✅6/🟡3/❌2**（含本会话 ③判据重定义领域无关 ❌→🟡 + ①改名执行代码推进 🟡→✅）。CHANGELOG 补 6-13~6-19 公开输出缺口（此前只在 public-output-plan + git 追踪，未回流）
+- **B3 L1 解冻调研（关键发现 / ⚠️ 待决策）**：原计划"下沉 huadian_classics 专有逻辑到 examples 以提升领域无关比例"——**调研证伪此方案前提**。实测：core 4661 行 + tests 1819 行 = 领域无关 64.4%，examples/huadian_classics 3578 行 = 35.6%。逐文件核查 3 个"低关键词密度"嫌疑文件（asyncpg_store / db_port / runner_setup）确认**全部真·领域专属**（SQL 引用 person_names 史记表 / 装配 V4-V11 史记不变量）→ **core 已 0 领域泄漏，无可下沉项**。结论：64.4% 偏低是"单一 example 过重"的度量假象，非工程缺陷；真正杠杆是 ① import-root `framework.*`→`kb_forge.*` 改名（ADR-037 主动 defer，需用户解冻决策）或 ② 引入第 2 真实 domain。产出 `docs/reports/l1-domain-agnostic-finding-2026-06-20.md`。调研阶段未擅自移动代码（红线 #1）；用户选 **①+③** 组合后、并在明确"执行改名"令后才执行（见下条）
+- **① L1 import-root 改名 + ③ 判据重定义（[ADR-039] / 用户选①+③ + "执行改名"令 / ✅ 已执行）**：③ 把失真的"≥70% LOC"判据换成"**core+tests 0 领域字样（✅）+ ≥2 domain 隔离（现 1/2）**"→ 真相表领域无关 ❌→🟡（非粉饰：剩余 gap=第 2 domain 显式保留）。① `mv framework kb_forge` + **73 imports / 51 文件** `framework.`→`kb_forge.` + pyproject（dist 名 kb-forge 与 import root 现对齐）+ 13 活文档路径；**pytest 93 passed / 0 回归**（py3.12 via uv；沙箱默认 py3.10 不满足 requires-python≥3.12）；历史 sprint-logs/retros + 已发布文章**保留旧路径名**（dated 快照）。配套 ADR-037 defer 解冻注 + ADR-000-index 039 行 → 真相表代码推进 🟡→✅。**沙箱 `rm` 受限，残留 `.__sandbox_trash/` + `kb_forge/__pycache__` 待用户本地 `rm -rf`**
+- **B5 case-2 08 英文 working paper（✅）**：`docs/articles/preprints/08-dual-reverse-calculation-pattern-EN.md`（~5000 词 / SSRN PharmSciRN 用 / Independent Researcher / CC BY 4.0）。保全 n=2 推断边界 + 识别≠证实 + 全 12 条参考文献卷页 + σ/edge-band 机制 + F-001~F-004 框架。残留标识符扫描 0 命中（无新增可识别信息）。2 处 [AUTHOR TO SUPPLY]（通讯方式 / data-availability statement）
+- **C7 外审/学术合作者对接 SOP（✅）**：`docs/reports/external-review-outreach-process-2026-06-20.md`——拆解"找外审"这个代笔无法替代的人际瓶颈：3 类对象（GMP/QA 实务·STS 学者·会计/IS 学者）× 渠道 × 话术模板 × 时序 × 风险登记。解耦预印（即时）与外审（2026-09）
+- **商业试探（✅ 起草 / 用户偏好主动提）**：08（双向反算）+ 10（子通道分层检测）本质是"药企数据完整性 / GMP 合规审计分析方法"，对口 NMPA/FDA 监管侧 + 药企 QA + CRO 审计的付费市场。产出蒲公英制药论坛（数据完整性版块）试水稿 + 从"方法论文章→B 端需求验证"的最便宜实验流程。**不转型**（与 D-route L4 机会主义层一致），仅做低成本需求探针
+- **B4（用户已执行）**：第 4 篇消歧文章已发（知乎/掘金）/ **C6（用户已执行）**：shiji-kb GitHub Discussion 搭话已发
+- **commit 待用户本地**（沙箱 .git 只读）
+- **commit message 建议**（拆 2 个 commit）：① 代码改名 `refactor(kb_forge)!: rename import root framework.* -> kb_forge.* [ADR-039]`（dir rename + 73 imports + pyproject / 93 passed）；② 文档 `docs: progress re-review 2026-06-20 + batch-2 backfill + L1 finding+unfreeze(ADR-039) + 08-EN preprint + review SOP + pharma probe`
+
+---
+
+## 2026-06-13 → 2026-06-19 — 公开输出第 2 批：脱敏后发布 + 扩散 + 第 4 篇 + 近邻搭话（回填）
+
+### [docs] 知乎/掘金发布 + GitHub 页面完善 + 自荐提交 + 第 4 篇消歧 + shiji-kb outreach + doc-code 修复
+
+- **角色**：首席架构师起草/排版 + 用户执行发布/注册/外联（分工 per public-output-plan §5）
+- **2026-06-13（发布日）**：① huadian + traceguard 历史重写收口（filter-repo / pickaxe 0 命中 / PyPI 逐文件验证不含敏感数据）→ 双仓重新 public ② 三篇文章知乎发布（修知乎导入 bug：`$` 金额被当 LaTeX 劫持 + 代码块占位符泄漏 → 金额改"X.XX 美元"、代码块转引用块、表格转列表）③ README 按提案覆盖（v0.3.0/kb-forge/34 ADRs/首屏重写/双路径 quick start）+ 延伸阅读补 3 篇知乎链接 ④ HelloGitHub（AI 类）+ 阮一峰周刊【开源自荐】提交
+- **2026-06-18**：① 三篇掘金跨发版生成 ② shiji-kb（2112★ / Discussions 开 / public）outreach 草稿（3 版本 / 推荐走 GitHub Discussion） ③ 第 4 篇「LLM 实体为何不应自动合并」（消歧主题 / 按 rules.py 真实语义写）起草 + 排版 ④ doc-code 修复：methodology/03 §2.1-2.3+§4.1 R1-R6 语义按 rules.py 校正（v0.2.1 / 不改代码）
+- **2026-06-19**：① 掘金 3 篇发布（硬中断 / solo+AI / 框架被抄，链接补进 README）② 第 4 篇 [作者补充] 用 Sprint F 真实通假字案例（缪/穆·傒/奚）填充 → 三份发布版 0 占位符 ③ V2EX 放弃（需邀请码）
+- **追踪**：详见 `docs/reports/public-output-plan-2026-06.md` §1-§4（跨会话板）
+- **commit**：已 push（origin/main 同步 / git 历史见 2b2a1e2 → cb7ad72）
+
+---
+
 ## 2026-06-11 (P0) — case-2 全仓脱敏执行完成（用户确认映射后）
 
 ### [fix] 37 文件约 2300 处批量脱敏 + 6 项重命名 + traceguard examples 脱敏 + 发布版文章三篇

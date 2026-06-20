@@ -15,7 +15,7 @@
 #   # then from project root:
 #   PYTHONPATH=$(pwd) \
 #     DATABASE_URL=postgresql://huadian:huadian_dev@localhost:5434/huadian_dogfood \
-#     python3 -m framework.audit_triage.examples.huadian_classics.test_soft_equivalent
+#     python3 -m kb_forge.audit_triage.examples.huadian_classics.test_soft_equivalent
 #
 #   # tear down:
 #   docker compose -f dogfood-postgres-compose.yml down -v

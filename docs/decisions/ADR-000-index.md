@@ -38,6 +38,7 @@
 | [ADR-036](ADR-036-case-3-dao-de-jing-candidacy-evaluation.md) | Case-3 候选评估：《道德经》是否应作为第三个跨领域案例 — 登记为条件触发候选（不立即开案例 / 5 条触发条件 / 思想实验路径替代 / F-001 跨域映射保留） | 2026-05-17 | 架构师 + 用户 |
 | [ADR-037](ADR-037-framework-package-naming.md) | 框架包命名（L1 distribution name）— **accepted**：`kb-forge`（web 核实无占用）/ 补 D-route §5 悬空命名判据（误指 ADR-029）/ import root `framework.*`→`kb_forge.*` 改名延到 v0.1 前 | 2026-06-07 | 架构师 + 用户 |
 | [ADR-038](ADR-038-shiji-extension-milestone-superseded-by-case-2.md) | 2026-08 史记延伸级里程碑由 case-2 顶替 — **accepted**：消除 §4 Sunset 与 §6/roadmap §2 矛盾 / 史记重定义为冻结 dogfood 底物 / storyextractor 下游证据（消费模式非数据）/ 已改 §6 + roadmap | 2026-06-07 | 架构师 + 用户 |
+| [ADR-039](ADR-039-l1-unfreeze-import-rename-and-criterion-redefinition.md) | L1 解冻 — **accepted**：① 解冻 ADR-037 defer，批准 import-root `framework.*`→`kb_forge.*` 改名（执行 gated 待用户对 §3 影响面给令 / 红线 #1·#3）② 领域无关判据从失真的"≥70% LOC"重定义为"core+tests 0 领域字样 + ≥2 domain 隔离"（现 1/2 🟡）| 2026-06-20 | 架构师 + 用户 |
 
 > 注：ADR-028 ~ ADR-035 已在 `docs/decisions/` 目录存在但未补回本索引（既有 doc tech debt / 见 STATUS.md L2 进度）。ADR-036 ~ 038 索引已补回；028~035 的 backfill 仍走单独 doc sprint。
 
