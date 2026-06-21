@@ -63,12 +63,25 @@
 - [x] 起草 + 排版：`docs/articles/2026-07-why-llm-entities-should-not-auto-merge.md`（消歧主题 / 按 rules.py 真实语义写 / 含 1 处 [作者补充]）
 - [x] 知乎版 + 掘金版已生成（`docs/articles/publish/` + `/juejin/`）
 - [x] [作者补充] 已填（架构师用 Sprint F 真实通假字案例 缪/穆·傒/奚 填充 / 2026-06-19）→ 三份发布版 0 占位符
-- [ ] 用户审订 → 发布（掘金新号当日限额已满，过 1-2 天再发 / 建议在 C 搭话前先发，作为技术钩子落地页）
+- [x] 已发布（2026-06-20）：知乎 https://zhuanlan.zhihu.com/p/2051289134174565368 · 掘金 https://juejin.cn/post/7652778266403274786 → 已补进 README
 
-### 4.3 近邻交流（C / shiji-kb 搭话，仅用户可发）
-- [x] 核实：baojie/shiji-kb 实在 / **2112 star** / Discussions 已开 / public（2026-05-14 last push）
-- [x] 草稿就绪：`docs/articles/outreach/shiji-kb-outreach-draft.md`（3 版本 / 推荐走 GitHub Discussion）
-- [ ] **用户决定变体 + 自行发送**（架构师不代发：对 2112-star 同行的首次接触不可撤回，须用户亲点）→ 发后在 STATUS §1.2「近邻交流」登记
+### 4.3 近邻交流（C / shiji-kb 搭话）
+- [x] 核实：baojie/shiji-kb 实在 / **2112 star** / Discussions 已开 / public
+- [x] **已发送（2026-06-20）**：用户向 [shiji-kb Discussion #114](https://github.com/baojie/shiji-kb/discussions/114) 发出搭话（版本 A）→ **2 天无回复（正常，勿催）**
+
+### 4.5 第 1-2 周分发进展快照（2026-06-21 核实）
+| 指标 | 数值 | 备注 |
+|---|---|---|
+| huadian star | **1**（0→1） | 首个外部 star |
+| huadian 流量 14d | 97 views / 23 独立 | clones 328 不可信（bot/自操作） |
+| 流量来源 | github 内部 47 / Bing 6 / 知乎 3 | 知乎→repo 路径通但涓流 |
+| 知乎专栏 D | 40 阅读 / 0 互动 | 0 粉号专栏自然流量极低 |
+| **知乎回答 D** | **70 阅读 / 2 赞 / 5 收藏** | **关键：回答 >> 专栏发文** |
+| 掘金 D | 6 阅读 | SEO 长尾未起量 |
+| HelloGitHub #3347 | COMPLETED 关闭 | 非拒稿；待月底出刊 |
+| 阮一峰 #10313 | OPEN 未选 | 待后续周五刊期 |
+
+**关键发现**：把内容拿去【回答已有问题】的分发效率显著高于【发独立专栏】→ 详见分发战术研究（workflow wrgeupyy4，进行中）。
 
 ### 4.4 doc-code 修复（已完成）
 - [x] methodology/03 §2.1–§2.3 + §4.1 R1-R6 语义校正（以 rules.py 为准 / 新增"匹配置信度 vs 身份-FP"区分 / v0.2.1 / 不改代码）
