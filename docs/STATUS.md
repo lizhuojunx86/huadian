@@ -39,7 +39,7 @@
 | 方法论文章正式发表数 | 12mo ≥ 4（D-route §5 L2）| **4**（知乎 2026-06-13 发 3 篇：stop-rules / schema 被采纳 / solo+AI 多角色；掘金 2026-06-19 镜像同 3 篇；**第 4 篇「LLM 实体为何不应自动合并」2026-06-20 已发**；case-2 学术三篇仍走 SSRN/期刊线未计入）| ✅ 4/4 |
 | 文章被外部真实引用 / 讨论 | 12mo ≥ 1（≥3 更佳）| **0 引用 / 0 讨论**（2026-06-21 核实：huadian **首个外部 star (0→1)** · 14d 23 独立访客 · 知乎引流 3 次；知乎专栏每篇阅读数十、收藏/赞个位数、无评论；**关键发现：把内容拿去【回答已有问题】得 70 阅读/2 赞/5 收藏，显著优于专栏发文 40 阅读/0 互动**；HelloGitHub #3347 已 COMPLETED 关闭待月底出刊 / 阮一峰 #10313 OPEN 未选 → 有触达无实质讨论）| ❌ |
 | 外部审稿人已对接 | 三篇 2026-09 外审需真人 | **0 人在接触**（2026-06-20 已备对接流程 SOP [external-review-outreach-process](reports/external-review-outreach-process-2026-06-20.md)，但实际联系仍 = 用户待执行 / 全文 0 风险登记）| ❌ |
-| 近邻项目（shiji-kb 等）实质交流 | 2026-10 ≥ 1 次 | **discussion 已发**（2026-06-20 用户向 baojie/shiji-kb GitHub Discussion 发出搭话 / 待回应）| 🟡 |
+| 近邻项目（shiji-kb 等）实质交流 | 2026-10 ≥ 1 次 | **✅ 已达成（2026-06-22）**：shiji-kb 作者 baojie（2112 star / 30+yr）在 [Discussion #114](https://github.com/baojie/shiji-kb/discussions/114) 实质回复——"多角色 agent team 思路是对的、往下能走得通"，且自述兴趣已从史记转向 harness 框架（与 kb-forge 同赛道）。首个外部同行实质背书，领先目标锚（2026-10）约 4 个月 | ✅ |
 | L1 外部工程师 clone+跑通 starter | ≤ 1h（D-route §10）| **路径已建立**（2026-06-07 补 framework README+pyproject+requirements / `pytest → 93 passed` 可测量）；外部实测尚未发生 | 🟡 |
 | L1 领域隔离（判据 2026-06-20 重定义 / [ADR-039](decisions/ADR-039-l1-unfreeze-import-rename-and-criterion-redefinition.md)）| (a) core+tests 0 领域字样 + (b) ≥2 domain 各自隔离（替代失真的"≥70% LOC"，理由见 [l1-domain-agnostic-finding](reports/l1-domain-agnostic-finding-2026-06-20.md)）| (a) **✅ 已达成**（core 0 领域字样 / 实测 64.4% LOC 仅作参考，已判定为单-example 假象）；(b) 第 2 真实 domain 待引入（traceguard tcm PoC 为半证）→ **1/2** | 🟡 |
 | L1 框架命名确定 | yes（D-route §5）| **✅ `kb-forge`**（ADR-037 accepted 2026-06-07 / web 核实无占用 / import root 改名延 v0.1 前）| ✅ |
