@@ -440,6 +440,11 @@ dependencies = [
     { name = "pyyaml" },
 ]
 
+[package.optional-dependencies]
+traceguard-bridge = [
+    { name = "traceguard" },
+]
+
 [package.dev-dependencies]
 dev = [
     { name = "basedpyright" },
@@ -456,7 +461,9 @@ requires-dist = [
     { name = "asyncpg", specifier = ">=0.29" },
     { name = "pipeline-guardian", git = "https://github.com/lizhuojunx86/traceguard.git?rev=v0.1.0-huadian-baseline" },
     { name = "pyyaml", specifier = ">=6.0" },
+    { name = "traceguard", marker = "extra == 'traceguard-bridge'", git = "https://github.com/lizhuojunx86/traceguard?subdirectory=packages%2Ftraceguard&rev=cf6e651" },
 ]
+provides-extras = ["traceguard-bridge"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -1212,6 +1219,16 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ca/ac/a597c3a0e02b26cbed6dd07df68be1e57684766fd1c381dee9b170a99690/testcontainers-4.14.2.tar.gz", hash = "sha256:1340ccf16fe3acd9389a6c9e1d9ab21d9fe99a8afdf8165f89c3e69c1967d239", size = 166841, upload-time = "2026-03-18T05:19:16.696Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/13/2d/26b8b30067d94339afee62c3edc9b803a6eb9332f521ba77d8aaab5de873/testcontainers-4.14.2-py3-none-any.whl", hash = "sha256:0d0522c3cd8f8d9627cda41f7a6b51b639fa57bdc492923c045117933c668d68", size = 125712, upload-time = "2026-03-18T05:19:15.29Z" },
+]
+
+[[package]]
+name = "traceguard"
+version = "0.8.1"
+source = { git = "https://github.com/lizhuojunx86/traceguard?subdirectory=packages%2Ftraceguard&rev=cf6e651#cf6e6511a7887192e66d46b1fd1a30c43751b8ff" }
+dependencies = [
+    { name = "pydantic" },
+    { name = "pyyaml" },
+    { name = "sqlalchemy" },
 ]
 
 [[package]]
