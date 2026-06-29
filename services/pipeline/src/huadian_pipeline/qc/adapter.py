@@ -41,6 +41,7 @@ from .audit import AuditSink
 from .policy import ActionPolicy, PolicyMode, max_severity
 from .port import TraceGuardPort
 from .rule_registry import RuleRegistry
+from .tg_bridge import side_write_trace
 from .types import (
     CheckpointInput,
     CheckpointResult,
@@ -170,6 +171,13 @@ class TraceGuardAdapter(TraceGuardPort):
                 duration_ms=duration_ms,
                 raw={"tg_error": repr(exc)},
             )
+
+        # --- Opt-in traceguard side-write (additive / fail-open) ------------
+        # Mirror this Guardian decision into a standalone traceguard trace when
+        # HUADIAN_TRACEGUARD is set. Default-off: a no-op with zero cost. Never
+        # raises into the hot path and does NOT touch the pinned `guardian`
+        # dependency (see qc/tg_bridge.py).
+        side_write_trace(step_output, tg_decision)
 
         # Run 华典-side Python rules — errors inside a rule fn should not
         # poison the checkpoint; they are logged and surfaced as a

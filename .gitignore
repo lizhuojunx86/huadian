@@ -70,6 +70,8 @@ data/seeds/*.sqlite
 db/pgdata/
 dist/
 env/
+huadian_traces.db
+huadian_traces.db-*
 logs/
 node_modules/
 npm-debug.log*

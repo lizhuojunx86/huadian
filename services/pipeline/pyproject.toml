@@ -15,6 +15,16 @@ dependencies = [
     "pyyaml>=6.0",
 ]
 
+[project.optional-dependencies]
+# Opt-in traceguard side-write bridge (qc/tg_bridge.py). ADDITIVE: NOT pulled by
+# a default install, so `from traceguard...` fails → bridge is a no-op (fail-open).
+# Enable with `uv sync --extra traceguard-bridge` (or pip install .[traceguard-bridge])
+# AND set HUADIAN_TRACEGUARD=1 at runtime. Independent of the pinned
+# `pipeline-guardian` above — different distribution, separate SHA.
+traceguard-bridge = [
+    "traceguard @ git+https://github.com/lizhuojunx86/traceguard@cf6e651#subdirectory=packages/traceguard",
+]
+
 [project.scripts]
 huadian-pipeline = "huadian_pipeline.cli:main"
 
