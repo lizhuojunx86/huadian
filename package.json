@@ -23,7 +23,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
   "devDependencies": {
-    "turbo": "^2.3.3",
-    "prettier": "^3.4.2"
+    "turbo": "^2.10.1",
+    "prettier": "^3.9.3"
   }
 }
