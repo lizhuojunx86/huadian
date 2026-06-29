@@ -1,8 +1,9 @@
 """Sole ingress point for `guardian` (upstream: pipeline-guardian).
 
-ADR-004 / T-TG-002 §0 hard constraint. Upstream pin:
-    pipeline-guardian @ v0.1.0-huadian-baseline
-    sha: c1c1b7502b07e46abde5be5c23f60aed9894d7db
+ADR-004 / T-TG-002 §0 hard constraint. Upstream pin (by immutable SHA):
+    pipeline-guardian @ 3aaa72dc0d9298ca9f03380ac7795db2bb662b88
+    (tag v0.1.0-huadian-baseline was re-moved to this commit 2026-04-16;
+     pinned by SHA per upstream guidance 2026-06-29 for reproducibility.)
 
 RULES
 -----

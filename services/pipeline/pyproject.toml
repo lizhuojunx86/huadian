@@ -4,9 +4,11 @@ version = "0.0.0"
 description = "华典智谱 data pipeline — ingest, extract, validate"
 requires-python = ">=3.12"
 dependencies = [
-    # TG (TraceGuard) — pinned to v0.1.0-huadian-baseline
-    # SHA: c1c1b7502b07e46abde5be5c23f60aed9894d7db
-    "pipeline-guardian @ git+https://github.com/lizhuojunx86/traceguard.git@v0.1.0-huadian-baseline",
+    # TG (TraceGuard) — pinned by immutable SHA. The tag v0.1.0-huadian-baseline
+    # was re-moved upstream (now -> 3aaa72dc, 2026-04-16); per upstream guidance
+    # (2026-06-29) we pin the commit directly so resolution is reproducible.
+    # SHA: 3aaa72dc0d9298ca9f03380ac7795db2bb662b88
+    "pipeline-guardian @ git+https://github.com/lizhuojunx86/traceguard.git@3aaa72dc0d9298ca9f03380ac7795db2bb662b88",
     # PG driver for audit sink (S-7: llm_calls / extractions_history)
     "asyncpg>=0.29",
     # Anthropic SDK — LLM Gateway provider (T-P0-005, architect-approved)
