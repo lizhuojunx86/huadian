@@ -288,9 +288,11 @@ This paper and all case-2 accompanying data have undergone systematic de-identif
 
 The source corpus is a TCM extraction case (a single enterprise, two products P1 + P2; 28 incoming-material inspection records + 12 batch manufacturing records + a 5-question user interview). Associated findings: F-001 / F-002 / F-003 / F-004. Associated decision records: ADR-033 / ADR-034 / ADR-035. The companion paper is "The Layered Compliance-Narrative Pattern" (paper 09), which provides "structure × mechanism" mutual confirmation.
 
-[AUTHOR TO SUPPLY: corresponding-author contact / affiliation statement / acknowledgments, if any, for the SSRN submission cover.]
+**Correspondence:** lizhuojun@gmail.com (Independent Researcher). Project repository: https://github.com/lizhuojunx86/huadian.
 
-[AUTHOR TO SUPPLY: a data-availability statement clarifying whether the de-identified numeric inputs (σ series, range-ratio matrix) will be shared on request, and under what terms.]
+**Acknowledgments and drafting note:** This working paper was produced in a human–AI collaboration workflow: drafting, statistical computation, and reference verification were AI-assisted (Claude, Anthropic). The author supplied the domain ground truth (industry experience and the interviews cited in the text), made and approved all methodological decisions, and takes sole responsibility for the content.
+
+**Data availability:** The de-identified structured dataset underlying this paper—including the per-batch yield series and σ computations, the sub-channel multiple distributions, and the range-ratio matrix—is openly available under CC BY 4.0 in the project repository (directory `docs/cases/tcm-extraction/`): https://github.com/lizhuojunx86/huadian. The pseudonym mapping that links published values to the enterprise, products, batches, suppliers, or personnel is not published and will not be shared under any terms. Further de-identified numeric detail is available from the author on reasonable request, subject to the same de-identification constraints.
 
 ---
 
