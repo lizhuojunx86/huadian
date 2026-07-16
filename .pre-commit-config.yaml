@@ -17,6 +17,19 @@ repos:
     hooks:
       - id: gitleaks
 
+  # ── Domain-sensitive privacy guard (ADR-040) ────────────────
+  # gitleaks only knows credential formats; this blocks re-introducing
+  # case-2 domain-sensitive values (药品批准文号 pattern + optional
+  # user-local denylist .privacy-denylist.txt, which is gitignored).
+  - repo: local
+    hooks:
+      - id: privacy-sensitive-guard
+        name: privacy guard (国药准字 pattern + local denylist)
+        entry: scripts/check-privacy-sensitive.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+
   # ── General file hygiene ────────────────────────────────────
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0

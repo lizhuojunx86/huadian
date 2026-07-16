@@ -82,6 +82,8 @@ pgdata/
 pnpm-debug.log*
 redisdata/
 secrets/
+# ADR-040: user-local privacy denylist for scripts/check-privacy-sensitive.sh — NEVER commit
+.privacy-denylist.txt
 temp/
 tmp/
 traceguard-data/
