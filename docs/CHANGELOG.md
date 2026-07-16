@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-07-16 (黄) — 黄色批次：二次历史重写执行 + ADR-041/042 + 索引/路线图对齐 + 真相表机制升级
+
+### [fix] filter-repo 二次历史重写（执行完毕）+ [docs] ADR-041/042 + index 回填 + D-route v1.1 + 桥接登记
+
+- **角色**：首席架构师执行 / 用户令"先完成黄色（结构性对齐）工作，包括二次历史重写等"，映射与本地清除经 AskUserQuestion 逐项确认
+- **① 二次历史重写（ADR-040 N2 → 执行完毕）**：转 private → fresh clone → filter-repo 重写**全部 refs**（main + 15 dependabot 分支 + 2 tags / 451 commits）→ 远端核验 9 名 + 批文号模式全历史 **0 残留** → force-with-lease 推送（CAS 防并行覆盖 / 窗口 ~7 分钟无并行提交）→ 本地主仓同步（checkout -B + stale 分支 24 条清除 + 2 个死 worktree 移除 + reflog expire + gc）→ 重新 public。已知残余：GitHub PR 缓存 refs（接受 / 可选 support ticket）。commit SHA 全变（d6dc663→051b55e 等），旧 SHA 文字引用按 dated 快照原则保留
+- **② [ADR-041](decisions/ADR-041-portfolio-alignment-and-dual-proposition-governance.md)**（accepted）：huadian 落档"声誉公共品 + 方法论兵工厂"（同步 2026-07-06 仓外单主线裁定，消除双账本漂移）；P1 KE 框架 / P2 制药数据完整性**双命题正式宣告** + 离巢判据（蒲公英闸 2 交付或首个付费线索）；kb_forge **v0.1 release 锚冻结为触发制**（首个真实外部使用者）；ADR-028"核心交付物"表述修订（forward-pointer）；负空间季度重审机制 + 首批 3 项候选
+- **③ [ADR-042](decisions/ADR-042-identity-inference-residual-risk-acceptance.md)**（accepted）：身份反推三路径×三受众枚举；R1 履历关联=**已接受残余风险** + 措辞缓解 M1（外审信 A"之前在中药企业做过管理"→"有中药行业从业背景"，已执行）；R2 数据指纹裁剪候选 M2 留用户决定；R3 残留人名=已消除；承诺降级为"对公众不可识别/圈内低成本可推"；前雇主应对预案 D4；**闭环 case-2 strategy §7 Open Question 4（悬置 2 个月）**
+- **④ 机械回填**：ADR-000-index 补 **024 + 028~035 共 9 行**（backfill 债清零）+ 041/042 行；D-route v1.1（§3.3/§5-L3/§10-L3 三处史记旧目标按 ADR-038 划线 + §6 2027-01 锚触发制）；CHANGELOG 补 6/21-6/29 空窗条目（见下）
+- **⑤ 真相表机制升级（audit #10）**：push 行加"未提交积压 > 7 天自动降 🟡"；外审行判据锚点重定为"收到实质回复"（发信只到 🟡）
+- **⑥ 桥接登记（ADR-041 A5）**：case-2 strategy 新增 §12——SSRN 7099138 / 蒲公英帖 / 08-10 三篇登记为医药商业线信任资产（Drug101China 侧对称登记留该仓执行）
+- **待用户**：外审信 C/B 发送（候选 6 名已备）/ q58413890 回答发布 / 7-25 三路信号回收（架构师回填）
+
+---
+
 ## 2026-07-16 — 独立综合审计 + 红色任务批次（P0 二次脱敏 / ADR-040 / 文档一致性 / commit&push 落地）
 
 ### [audit] 8 维度独立审计 + [fix] 二次脱敏 + [docs] ADR-040 retroactive + 一致性修复 + [chore] 隐私 guard
@@ -33,6 +48,17 @@
 - **⑧ SSRN 审核通过（2026-07-14 / 自动检查任务确认）** — abstract_id 7099138 论文页已公开（标题+摘要+PDF 下载按钮可见 / https://ssrn.com/abstract=7099138 / 提交后第 3 天通过）。外审三封信解锁待发（`reports/outreach-kit-2026-07.md`）；每日检查任务 `ssrn-7099138-review-watch` 已停用（目标达成）
 - **commit 待用户本地**（沙箱 .git 只读）
 - **commit message 建议**：`docs: 2026-07 journal v0.1 + external-action kits (ouryao post, SSRN pkg, outreach letters)`
+
+---
+
+## 2026-06-21 → 2026-06-29 — 分发读数 + 近邻背书 + traceguard 桥（回填 / audit 发现的记录空窗）
+
+### [docs] 分发战术 v1 + 真相表近邻 ✅ + [feat] tg_bridge + [build] SHA pin（6 commits 补记）
+
+- **回填说明**：audit-2026-07-16 发现本窗口 6 个 commit 无 CHANGELOG 条目（漏报非虚报），按 6-13→19 回填先例补记（SHA 为重写前旧值，dated 快照保留）
+- **6/21**（c0a846c + bb3ac5a + b51befc）：发布 2 周读数落档（首个外部 star / 23 访客 / "回答 70 阅读 vs 专栏 40"发现）+ 分发战术 v1 备忘（回答式分发 + 反过度旋转纪律：数据 2-4 周看一次）+ 第 3 篇改编为知乎回答稿（q58413890 / 抄袭 vs 复用主题）
+- **6/23**（a6301b5）：shiji-kb 作者 baojie（2112★）Discussion #114 实质回复——"多角色 agent team 思路是对的、往下能走得通"→ **真相表「近邻交流」提前 ~4 个月达成 ✅**
+- **6/29**（bd4a315 + 971a8f4）：[feat] traceguard side-write 桥（opt-in / 三重 fail-open / backfill 126 traces 验证）+ [build] pipeline-guardian 从 moving tag 钉死到 40 位 immutable SHA（上游 tag 曾被移动的防御）
 
 ---
 
