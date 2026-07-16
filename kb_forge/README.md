@@ -6,7 +6,9 @@
 >
 > Status: **v0.3.0** · License: Apache 2.0 · Name: **`kb-forge`**
 > (distribution name fixed in [ADR-037](../docs/decisions/ADR-037-framework-package-naming.md);
-> import root `kb_forge.*` renames to `kb_forge.*` in a dedicated sprint before v0.1)
+> import root renamed `framework.*` → `kb_forge.*` on 2026-06-20 per
+> [ADR-039](../docs/decisions/ADR-039-l1-unfreeze-import-rename-and-criterion-redefinition.md) —
+> distribution name and import root are now aligned)
 
 This is the "it really works" engineering substrate behind the HuaDian D-route
 strategy (see [`docs/strategy/D-route-positioning.md`](../docs/strategy/D-route-positioning.md)).
@@ -48,10 +50,13 @@ python -m pytest \
 ```
 
 That is the measurable "external engineer clone + run" path
-(D-route §5 Layer 1 completion criterion + §10 North Star). An editable install
-(`pip install -e framework`) is the intended next step; its final packaging
-shape is pending the [ADR-037](../docs/decisions/ADR-037-framework-package-naming.md)
-naming/layout decision.
+(D-route §5 Layer 1 completion criterion + §10 North Star). Requires
+**Python ≥ 3.12** (matching `kb_forge/pyproject.toml`; the quick start above
+installs only test deps, so the interpreter check is on you). An editable
+install (`pip install -e kb_forge`) is the intended next step; naming/layout
+were settled by [ADR-037](../docs/decisions/ADR-037-framework-package-naming.md)
+(accepted 2026-06-07) and [ADR-039](../docs/decisions/ADR-039-l1-unfreeze-import-rename-and-criterion-redefinition.md)
+(import root aligned 2026-06-20).
 
 ---
 

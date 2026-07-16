@@ -62,7 +62,7 @@
 - `docs/strategy/D-route-positioning.md` — 项目定位 / 差异化 / 4-Layer 路线图 / Negative Space
 - `docs/decisions/ADR-028-strategic-pivot-to-methodology.md` — 战略转型决策记录
 - `docs/decisions/ADR-029-licensing-policy.md` — 许可证策略
-- `docs/00_项目宪法.md` — **不可变原则**（C-1~C-24，违反必须修宪）
+- `docs/00_项目宪法.md` — **不可变原则**（C-1~C-25，违反必须修宪）
 
 ### 2.3 协作 / 流程（动手前必读）
 - `docs/03_多角色协作框架.md` — 10 个角色的边界与交接
@@ -73,8 +73,8 @@
 
 ### 2.4 架构 / 实现（深入时读）
 - `华典智谱_架构设计文档_v2.0.md` — 双轴架构（框架层 + 案例实现层）
-- `archive/华典智谱_架构设计文档_v1.0.md` — v1.0 归档（D-route 转型前的"古籍知识平台"架构，仅供历史参考）
-- `docs/decisions/` — 全部 ADR（ADR-001~ADR-029，按编号读）
+- `docs/archive/华典智谱_架构设计文档_v1.0.md` — v1.0 归档（D-route 转型前的"古籍知识平台"架构，仅供历史参考）
+- `docs/decisions/` — 全部 ADR（ADR-001~ADR-040，按编号读）
 - `docs/06_TraceGuard集成方案.md` — 管线 QA 运行时底座
 
 ### 2.5 方法论草案（Layer 2 持续起草）
@@ -226,7 +226,7 @@ pnpm test:e2e
 
 # Sprint 治理
 ls docs/sprint-logs/sprint-{a..k}/                # 既有 sprint logs
-cat docs/sprint-logs/sprint-l/stage-0-brief.md    # 当前 sprint brief（由 Stage D 起草）
+cat docs/sprint-logs/sprint-l/stage-0-brief*.md   # sprint brief（文件名带日期后缀）
 ```
 
 ---
@@ -277,7 +277,7 @@ cat docs/sprint-logs/sprint-l/stage-0-brief.md    # 当前 sprint brief（由 St
 |--------|--------|
 | 2026-05 (1mo) | 文档体系全对齐（Stage A-D 完成）+ Sprint L 启动 |
 | 2026-06 (2mo) | `docs/methodology/` 7 份草案完整版 |
-| 2026-08 (4mo) | 华典智谱史记到 5-10 篇典型章节延伸级 + 产品化 demo 上线 |
+| 2026-08 (4mo) | ~~华典智谱史记到 5-10 篇典型章节延伸级~~ **撤销（ADR-038 / 由 case-2 顶替；史记 = 冻结 dogfood 底物）**；产品化 demo 降 best-effort |
 | 2026-10 (6mo) | 第 1-2 篇方法论文章发布 |
 | 2027-01 (9mo) | 框架代码抽象 v0.1 release |
 | 2027-04 (12mo) | 第 2 个跨领域案例验证框架可移植性 |
@@ -288,4 +288,4 @@ cat docs/sprint-logs/sprint-l/stage-0-brief.md    # 当前 sprint brief（由 St
 > 任何对本文件的修改都应同步记入 `docs/CHANGELOG.md` 并打上 `docs:` 提交。
 > D-route 战略锚点变化必须先改 `ADR-028` 或新开 ADR，再回过来改本文件。
 
-**最后修订**：2026-04-29 / Stage B-1 of D-route doc realignment
+**最后修订**：2026-07-16 / audit-2026-07-16 红色任务批次（坏链修复 + C-25 引用 + ADR-038 路线图同步）

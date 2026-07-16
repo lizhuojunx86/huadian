@@ -39,6 +39,7 @@
 | [ADR-037](ADR-037-framework-package-naming.md) | 框架包命名（L1 distribution name）— **accepted**：`kb-forge`（web 核实无占用）/ 补 D-route §5 悬空命名判据（误指 ADR-029）/ import root `framework.*`→`kb_forge.*` 改名延到 v0.1 前 | 2026-06-07 | 架构师 + 用户 |
 | [ADR-038](ADR-038-shiji-extension-milestone-superseded-by-case-2.md) | 2026-08 史记延伸级里程碑由 case-2 顶替 — **accepted**：消除 §4 Sunset 与 §6/roadmap §2 矛盾 / 史记重定义为冻结 dogfood 底物 / storyextractor 下游证据（消费模式非数据）/ 已改 §6 + roadmap | 2026-06-07 | 架构师 + 用户 |
 | [ADR-039](ADR-039-l1-unfreeze-import-rename-and-criterion-redefinition.md) | L1 解冻 — **accepted**：① 解冻 ADR-037 defer，批准 import-root `framework.*`→`kb_forge.*` 改名（执行 gated 待用户对 §3 影响面给令 / 红线 #1·#3）② 领域无关判据从失真的"≥70% LOC"重定义为"core+tests 0 领域字样 + ≥2 domain 隔离"（现 1/2 🟡）| 2026-06-20 | 架构师 + 用户 |
+| [ADR-040](ADR-040-retroactive-privacy-desensitization-program.md) | case-2 脱敏工程追认 + 二次收口 + 防回流机制 — **accepted (retroactive)**：追认 6 月脱敏五项决策（止血/假名化/filter-repo/re-public 闸/映射不落盘）；audit-2026-07-16 证伪"终验 0 命中"与"映射不落盘"→ 二次假名化 43 处 + 用户拍板二次历史重写 + 终验升级为人员字段全枚举 + pre-commit 隐私 guard | 2026-07-16 | 架构师 + 用户 |
 
 > 注：ADR-028 ~ ADR-035 已在 `docs/decisions/` 目录存在但未补回本索引（既有 doc tech debt / 见 STATUS.md L2 进度）。ADR-036 ~ 038 索引已补回；028~035 的 backfill 仍走单独 doc sprint。
 

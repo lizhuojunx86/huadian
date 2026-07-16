@@ -5,6 +5,37 @@
 
 ---
 
+## 2026-07-16 — 独立综合审计 + 红色任务批次（P0 二次脱敏 / ADR-040 / 文档一致性 / commit&push 落地）
+
+### [audit] 8 维度独立审计 + [fix] 二次脱敏 + [docs] ADR-040 retroactive + 一致性修复 + [chore] 隐私 guard
+
+- **角色**：独立审计（多 agent / 首次评估编排移出架构师）→ 用户 ACK 审计文档并令"立即实施红色任务" / 映射表与历史重写两项决策经用户逐项拍板
+- **① 审计**：8 维度并行（宪法/ADR/代码/文档/战略/安全/输出/生态）+ FAIL/INSIGHT 逐条对抗式核验（27+ agent / 1 条被驳倒修正）→ [audits/audit-2026-07-16](audits/audit-2026-07-16.md)。核心结论：工程宣称全部复验成立（93 passed / core 零领域耦合 / SHA pin / LLM Gateway）；FAIL 7 项——P0 脱敏残留、脱敏+历史重写零 ADR、宪法 C-17 被绕过、STATUS §1.1/§2 与现实矛盾、push 滞后回潮、kb_forge README 门面病句
+- **② P0 二次脱敏（fix/privacy）**：审计证伪"终验 grep 0 命中"与"假名映射不落盘"两项声称——公开仓残留 9 个真实/半脱敏姓名、分布 6 文件、自 2026-05-15 在公开历史（含 pilot-status-v0.2 落盘的真名→假名映射表）。处置：用户确认映射后 **43 处替换为角色代称**（新增 指令人 X / 操作工 Y / 复核员 K / 检验员R6/R7 / QA C2，避开真实姓名首字母）+ 映射表左列清为〔真名已脱敏〕+ JSON 校验 + **人员字段全枚举复扫 0 残留**（终验方法升级，固化为 `scripts/verify-person-fields.py`）。**用户拍板二次 filter-repo 历史重写**（playbook 含敏感词表故不入仓，已单独交付本地执行；完成前残留名仍在公开历史、HEAD 已干净）
+- **③ ADR-040 retroactive**（accepted）：追认 6 月脱敏五项决策 + 本次 N1-N5（二次假名化/二次重写/终验升级/防回流/ dated 快照 PII 例外）+ 显式留痕 SSRN 实名决策；身份反推残余风险留专门 ADR（审计建议 #7）。ADR-000-index 补 040 行
+- **④ 防回流机制（chore）**：`scripts/check-privacy-sensitive.sh` 进 pre-commit（国药准字模式恒开 + 用户本地 denylist 可选，`.privacy-denylist.txt` 已 gitignore 永不提交；只查 staged 新增行）
+- **⑤ 文档一致性修复（docs）**：STATUS 最近更新行 + §1.1 L1 行（framework→kb_forge / 解冻对齐真相表）+ 新增 §2.0 本周真实焦点 + §2.3 刷新（原冻结在 2026-04-30）+ §1.2 汇总句 ✅6/🟡3→✅7/🟡2（近邻 6/22 已达成）；kb_forge README 三处 ADR-039 sed 病句（自指句 / `pip install -e framework` 坏命令 / "pending ADR-037"）+ 补 Python ≥ 3.12 声明；requirements-dev.txt 旧路径；CLAUDE.md 2 坏链 + C-1~C-24→C-25 + §9 路线图 2026-08 行按 ADR-038 划线 + ADR 编号范围更新
+- **⑥ 外审信 C/B 收件人候选**：web 研究交付 6 名候选（会计/审计 3 + STS 3，含公开邮箱与契合度评级，**不入仓**）——外审动作只剩"粘贴姓名+发送"
+- **commit**：本日分 4 个 commit（7/11 积压批次 / privacy fix / docs 一致性 / audit+ADR+guard）并 push
+- **待办交接**：二次 filter-repo（用户本地）/ 外审信发送 / q58413890 回答发布 / 7-25 三路信号回收 / 审计黄色批次（建议 #5-#11）
+
+### [docs] decision-journals/2026-07 v0.1 + articles/publish/ouryao-post-ready + preprints/08-EN 收口(+PDF) + reports/outreach-kit + user-actions
+
+- **角色**：首席架构师执行 / 用户 ACK 7/11 recap 三项推荐（7 月日记 + 外部动作详细指导 + 蒲公英发送全套准备）
+- **背景**：7/11 recap 确认真相表仅剩 2 ❌（引用讨论 / 外审对接）**均需用户真人动作**；per 2026-07 日记 §2.5"瓶颈第三次转移"判断，本批把全部外部动作包装到"打开→复制→发送"级
+- **① 2026-07 月度日记 v0.1**（Q5 节律第 3 篇 / 覆盖 6/2→7/11 窗口 / 五个元决策：真相表设立（6/7）· 公开模式切换+P0 脱敏险情（6/10-13）· L1 解冻以证伪自方案的方式完成（6/20 ADR-039）· 分发第一批读数+baojie 背书（6/21-23）· 静默期与沉淀期的性质区分（6/23→7/11）/ 待用户审稿定版）
+- **② 蒲公英发帖包** `articles/publish/ouryao-data-integrity-post-ready.md`：正文按 Discuz 论坛转纯文本（去 Markdown 语法）/ 标题 3 选 1 / 发帖 5 步 / 回帖应对预案 4 情形（含闸 2"免费分通道报告"私信模板）/ 源稿分寸（合成数字 / 识别≠证实 / 自查定位）全保留
+- **③ 08-EN 预印收口 + PDF**：2 处 [AUTHOR TO SUPPLY] 补齐——通讯（lizhuojun@gmail.com / Independent Researcher / repo 链接；**同日用户决策**：SSRN 注册与论文通讯统一用 lizhuojun@gmail.com，与 arXiv 等既有学术站身份一致，初稿曾用 x86x86@gmail.com 已全量替换）+ AI 协作声明（沿 publish 版协作声明外化惯例）+ data availability（脱敏数据 public repo CC BY 4.0 / **假名映射任何条件下不共享**）；生成 SSRN 上传 PDF（pandoc+xelatex / DejaVu / 14 页 / mermaid→文本树 / ★→(*) 避缺字形）；**同日排版修复（用户报告链接溢出页边）**：xurl（URL 任意断行）+ hyphenat[htt]（行内代码断字）+ 表格 \small + 2 个纯文本图重排 ≤64 字符 + 长行内代码拆分/缩短 + 2 表列宽调整 → Overfull 从 15 处（最大 343pt ≈ 12cm）降到 2 处（最大 5.4pt ≈ 1.9mm，不可辨）/ 目检首页·表格页·§9.1·尾页链接全部收进版心。排版级改写仅在 PDF 构建脚本内，仓库 md 正文未动
+- **④ 外审执行包** `reports/outreach-kit-2026-07.md`：3+1 封成品信（C 会计/审计 EN · B STS EN · A 药企 QA 中文 · B' 学术合作者中文备用）/ 每封仅 3 个【】占位 / 每类 10 分钟找人配方（SSRN 同主题近 2 年作者 / Scholar 经典引用者 / 蒲公英回帖者）/ 追踪表 / 发送纪律
+- **⑤ 单页行动清单** `reports/user-actions-2026-07-11.md`：蒲公英（10min）→ SSRN（30min / 含 title·keywords 复制块 + PharmSciRN 分类指引）→ 外审 3 封（每封 10min）→ 本地 commit 命令 / 完成判定 checklist
+- **⑥ 用户当日执行：SSRN 预印提交完成** — abstract_id **7099138**（https://ssrn.com/abstract=7099138 / 作者 Zhuojun Li / Affiliation: Independent / staff review 1-5 工作日）。**case-2 首个公开学术制品**；提交中架构师实时护航：Step 2 修正 PDF 自动提取 abstract 的 1 处连字符丢失（incomingmaterial→incoming-material）+ 4 处破折号退化；Step 5 四项 Research Integrity 声明按"披露曾任职于被研究企业（假名化）/ 无资助 / 无外部受试者 / 非临床试验"口径填写。配套回填：外审 kit 三封信 SSRN 链接占位全部替换（剩 2 占位）、行动清单②标完成、target-venues §3 加实际执行行
+- **⑦ 用户当日执行：蒲公英发帖完成** — https://www.ouryao.com/thread-816324-1-1.html（商业探针**闸 1 启动** / ~7/25 回收回帖信号）。**外审信时序修正（用户判断）**：SSRN 审核通过前链接无公开内容、发信不妥 → 三封信改为审核通过后发送；架构师设每日 09:05 自动检查任务 `ssrn-7099138-review-watch`（通过即提醒 / 7-25 仍未过则提醒查邮箱并自动停用）。case-2 §10.34 / 行动清单①③ / outreach-kit 发送时机已同步
+- **⑧ SSRN 审核通过（2026-07-14 / 自动检查任务确认）** — abstract_id 7099138 论文页已公开（标题+摘要+PDF 下载按钮可见 / https://ssrn.com/abstract=7099138 / 提交后第 3 天通过）。外审三封信解锁待发（`reports/outreach-kit-2026-07.md`）；每日检查任务 `ssrn-7099138-review-watch` 已停用（目标达成）
+- **commit 待用户本地**（沙箱 .git 只读）
+- **commit message 建议**：`docs: 2026-07 journal v0.1 + external-action kits (ouryao post, SSRN pkg, outreach letters)`
+
+---
+
 ## 2026-06-20 — 进度复评 + 公开输出回填 + **L1 解冻：import-root 改名 kb_forge（93 passed）+ 判据重定义** + case-2 英文预印 + 对接 SOP + 商业试探
 
 ### [docs] STATUS/CHANGELOG 回填 + 真相表刷新 + [reports] L1 finding + 外审 SOP + [articles] 08-EN 预印 + 蒲公英试水稿

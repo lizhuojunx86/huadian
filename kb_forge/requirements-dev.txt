@@ -4,16 +4,16 @@
 # packages are Protocol-based and carry NO runtime third-party dependency.
 # These are only needed to run the test suite and the linter.
 #
-#   python -m venv .venv && source .venv/bin/activate
-#   pip install -r framework/requirements-dev.txt
-#   python -m pytest framework/identity_resolver/tests \
-#                    framework/invariant_scaffold/tests \
-#                    framework/audit_triage/tests
+#   python -m venv .venv && source .venv/bin/activate   # Python >= 3.12
+#   pip install -r kb_forge/requirements-dev.txt
+#   python -m pytest kb_forge/identity_resolver/tests \
+#                    kb_forge/invariant_scaffold/tests \
+#                    kb_forge/audit_triage/tests
 #
 pytest>=8
 pytest-asyncio>=0.23
 ruff>=0.5
 
 # Optional — only needed to run the asyncpg reference store under
-# framework/audit_triage/examples/huadian_classics/ against a live Postgres:
+# kb_forge/audit_triage/examples/huadian_classics/ against a live Postgres:
 #   asyncpg>=0.29
