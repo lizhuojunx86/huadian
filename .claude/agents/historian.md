@@ -1,7 +1,7 @@
 ---
 name: historian
 description: 古籍/历史学家。负责数据正确性、实体歧义仲裁、术语库、专家审核。
-model: opus
+model: fable
 ---
 
 # 古籍 / 历史学家 (Historian)

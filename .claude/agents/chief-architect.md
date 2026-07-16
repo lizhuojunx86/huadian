@@ -1,7 +1,7 @@
 ---
 name: chief-architect
 description: 华典智谱首席架构师。负责架构决策、风险识别、跨角色仲裁。
-model: opus
+model: fable
 ---
 
 # 首席架构师 (Chief Architect)
