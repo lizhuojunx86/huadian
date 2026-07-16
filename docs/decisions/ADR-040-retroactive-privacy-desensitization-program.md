@@ -1,6 +1,7 @@
 # ADR-040: case-2 脱敏工程追认 + 二次收口 + 防回流机制（retroactive）
 
 - **Status**: accepted (retroactive; 映射与历史重写两项决策由用户于 2026-07-16 会话内逐项拍板)
+- **执行注（2026-07-16 当日）**: §3 N2 二次历史重写已执行完毕——转 private → fresh clone → filter-repo 重写全部 refs（main + 15 dependabot 分支 + 2 tags / 451 commits）→ 全历史核验 9 名 + 批文号模式 0 残留 → force-with-lease 推送（带 CAS 预期值防并行覆盖）→ 本地主仓同步 + stale 分支/worktree 清除 + reflog expire + gc → 重新 public。窗口 ~7 分钟，期间无并行提交。已知残余：GitHub 侧 refs/pull/*（dependabot PR 引用）可能缓存少量重写前对象，需 GitHub Support 才能彻底 GC——与 6 月首次重写同等边界，接受；如需彻底可提 support ticket。
 - **Date**: 2026-07-16
 - **Owner**: 首席架构师（起草）/ 用户（决策）
 - **Retroactive 范围**: 2026-06-10 → 2026-07-16

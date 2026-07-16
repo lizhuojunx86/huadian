@@ -1,6 +1,7 @@
 # ADR-028 — Strategic Pivot: From Full-Stack Knowledge Product to Methodology Framework
 
-- **Status**: accepted (pending architect ACK)
+- **Status**: accepted（原 "(pending architect ACK)" 限定语于 2026-07-16 回收——Q4/Q5 ACK 早已完成并被下游文档常态引用）
+- **修订注（2026-07-16）**: §2 "框架 = 项目的核心交付物" 的排序表述由 [ADR-041](ADR-041-portfolio-alignment-and-dual-proposition-governance.md) A4 修订为 **"方法论 + 案例证据链为核心交付物，框架代码为触发式支撑"**（与真实资源分配一致）。本 ADR 其余内容不变。
 - **Date**: 2026-04-29
 - **Authors**: 首席架构师
 - **Related**:
