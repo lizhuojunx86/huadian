@@ -51,6 +51,7 @@
 | [ADR-040](ADR-040-retroactive-privacy-desensitization-program.md) | case-2 脱敏工程追认 + 二次收口 + 防回流机制 — **accepted (retroactive)**：追认 6 月脱敏五项决策（止血/假名化/filter-repo/re-public 闸/映射不落盘）；audit-2026-07-16 证伪"终验 0 命中"与"映射不落盘"→ 二次假名化 43 处 + 二次历史重写（当日执行完毕，见执行注）+ 终验升级为人员字段全枚举 + pre-commit 隐私 guard | 2026-07-16 | 架构师 + 用户 |
 | [ADR-041](ADR-041-portfolio-alignment-and-dual-proposition-governance.md) | 组合档位对齐 + 双命题治理 — **accepted**：huadian 落档"声誉公共品 + 方法论兵工厂"（同步 2026-07-06 仓外裁定）；P1 KE 框架 / P2 制药数据完整性双命题正式宣告 + 离巢判据；kb_forge v0.1 release 锚冻结为"首个真实外部使用者"触发制；ADR-028 核心交付物表述修订；负空间季度重审 | 2026-07-16 | 架构师 + 用户 |
 | [ADR-042](ADR-042-identity-inference-residual-risk-acceptance.md) | case-2 身份反推残余风险显式接受 — **accepted**：三路径×三受众枚举（R1 履历关联=接受+措辞缓解 / R2 数据指纹=接受、裁剪候选留决 / R3 残留人名=已消除）；承诺降级为"对公众不可识别/圈内低成本可推"；前雇主应对预案；闭环 case-2 strategy §7 OQ4 | 2026-07-16 | 架构师 + 用户 |
+| [ADR-043](ADR-043-constitution-v1.2-and-quarterly-independent-audit.md) | 宪法 v1.2 修订 + 季度独立审计机制 — **accepted**：C-17 任务载体泛化（合法化 sprint brief 清单 + GO-* 日志）；C-9/C-21 挂起状态注 + C-11 ADR-017 等价实现注；独立审计季度化（runbook + 判据重定义必查 + 云端例行提醒） | 2026-07-17 | 架构师 + 用户 |
 
 > 注：2026-07-16 审计整改——ADR-024 与 ADR-028~035 已全部补回本索引（原 backfill 债清零）。
 
