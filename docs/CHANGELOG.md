@@ -75,7 +75,7 @@
 ### [docs] 分发战术 v1 + 真相表近邻 ✅ + [feat] tg_bridge + [build] SHA pin（6 commits 补记）
 
 - **回填说明**：audit-2026-07-16 发现本窗口 6 个 commit 无 CHANGELOG 条目（漏报非虚报），按 6-13→19 回填先例补记（SHA 为重写前旧值，dated 快照保留）
-- **6/21**（c0a846c + bb3ac5a + b51befc）：发布 2 周读数落档（首个外部 star / 23 访客 / "回答 70 阅读 vs 专栏 40"发现）+ 分发战术 v1 备忘（回答式分发 + 反过度旋转纪律：数据 2-4 周看一次）+ 第 3 篇改编为知乎回答稿（q58413890 / 抄袭 vs 复用主题）
+- **6/21**（c0a846c + bb3ac5a + b51befc）：发布 2 周读数落档（首个外部 star / 23 访客 / "回答 70 阅读 vs 专栏 40"发现）+ 分发战术 v1 备忘（回答式分发 + 反过度旋转纪律：数据 2-4 周看一次）+ 第 3 篇改编为知乎回答稿（q58413890 / 抄袭 vs 复用主题）**并于同日发布**（https://www.zhihu.com/question/58413890/answer/2052160138040042358 / 用户 2026-07-17 补报——此前仓内零记录，audit 及 7/16-17 各批次"待发布"表述据此更正：记录缺失而非执行缺失；"回答式分发" n=2 自 6/21 已在场）
 - **6/23**（a6301b5）：shiji-kb 作者 baojie（2112★）Discussion #114 实质回复——"多角色 agent team 思路是对的、往下能走得通"→ **真相表「近邻交流」提前 ~4 个月达成 ✅**
 - **6/29**（bd4a315 + 971a8f4）：[feat] traceguard side-write 桥（opt-in / 三重 fail-open / backfill 126 traces 验证）+ [build] pipeline-guardian 从 moving tag 钉死到 40 位 immutable SHA（上游 tag 曾被移动的防御）
 
