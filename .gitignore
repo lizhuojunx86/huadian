@@ -85,6 +85,9 @@ redisdata/
 secrets/
 # ADR-040: user-local privacy denylist for scripts/check-privacy-sensitive.sh — NEVER commit
 .privacy-denylist.txt
+# 2026-07-17 user decision: outreach templates/tracking stay off the public repo
+# (recipients could reverse-search letter text). Local-only.
+docs/reports/private/
 temp/
 tmp/
 traceguard-data/

@@ -2,8 +2,8 @@
 
 > **本文件是项目的"现在时刻"快照，每次会话开始 / 结束都应阅读或更新。**
 
-- **最近更新**：2026-07-16（**独立综合审计 + 红色任务批次**：① 8 维度多 agent 独立审计 + 对抗式核验 → [audits/audit-2026-07-16](audits/audit-2026-07-16.md)（FAIL 7 / WARN ~22 / INSIGHT ~15 / 首次评估编排移出架构师之手）；② **P0 二次脱敏**：审计发现公开仓残留 9 个真实/半脱敏姓名（含 pilot-status-v0.2 落盘真名→假名映射表，违反"映射不落盘"承诺）→ 用户确认映射后 **43 处替换为角色代称**（新增代称 指令人 X / 操作工 Y / 复核员 K / 检验员R6/R7 / QA C2；映射仅存会话）+ 人员字段全枚举复扫 **0 残留**；③ **用户拍板二次 filter-repo 历史重写**（残留名自 2026-05-15 在公开历史 / playbook 已交付本地执行 / 完成前后按 6 月 incident 流程）；④ 7/11 积压批次 + 本批全部 commit & push；⑤ 文档一致性修复（§1.1 L1 行 framework→kb_forge / §2.3 冻结在 4/30 的阻塞项 / §1.2 汇总句 ✅6→✅7 / kb_forge README 改名病句+Python 版本声明 / CLAUDE.md 2 坏链+C-25+ADR-038 路线图同步）；⑥ [ADR-040](decisions/ADR-040-retroactive-privacy-desensitization-program.md) retroactive 起草（6 月脱敏工程追认 + 二次收口 + 防回流机制）+ pre-commit 隐私 guard（国药准字模式 + 本地 denylist）；⑦ 外审信 C/B 收件人候选 6 名已研究交付（含公开邮箱 / 用户只剩发送）⭐）。前序编年（2026-07-11 及更早的更新链）已迁 [archive/status-history-2026H1](archive/status-history-2026H1.md) §0，事件明细见 [CHANGELOG](CHANGELOG.md)。
-- **SSRN 审核通过（2026-07-14）**：abstract_id 7099138 论文页已公开（标题+摘要+PDF 下载可用 / https://ssrn.com/abstract=7099138 / 提交后第 3 天通过）→ **外审三封信解锁待发**（`reports/outreach-kit-2026-07.md` / 每封仅剩【对方姓氏】【对方论文】2 占位）；每日检查任务 `ssrn-7099138-review-watch` 已停用
+- **最近更新**：2026-07-17（**外审信 2 封已发送**〔会计+STS 方向 / 真名与对象仅存用户邮箱，仓内只记代号〕→ 真相表「外审对接」❌→🟡、**11 项判据 ❌ 首次清零**〔克制读法见 §1.2 一句话〕；**外联模板与追踪表转私** `docs/reports/private/`〔gitignored / 防收件人反查信件原句〕；q58413890 回答更正为 6/21 已发布〔记录缺失非执行缺失〕；绿色批次收口：修宪 v1.2 + ADR-043 + 季度独立审计制度 + STATUS 瘦身 1023→126 行 + tg_bridge 9 单测 + **仓库迁出 iCloud 至 ~/dev/huadian**〔原路径 symlink〕）/ 前批：2026-07-16（**独立综合审计 + 红色任务批次**：① 8 维度多 agent 独立审计 + 对抗式核验 → [audits/audit-2026-07-16](audits/audit-2026-07-16.md)（FAIL 7 / WARN ~22 / INSIGHT ~15 / 首次评估编排移出架构师之手）；② **P0 二次脱敏**：审计发现公开仓残留 9 个真实/半脱敏姓名（含 pilot-status-v0.2 落盘真名→假名映射表，违反"映射不落盘"承诺）→ 用户确认映射后 **43 处替换为角色代称**（新增代称 指令人 X / 操作工 Y / 复核员 K / 检验员R6/R7 / QA C2；映射仅存会话）+ 人员字段全枚举复扫 **0 残留**；③ **用户拍板二次 filter-repo 历史重写**（残留名自 2026-05-15 在公开历史 / playbook 已交付本地执行 / 完成前后按 6 月 incident 流程）；④ 7/11 积压批次 + 本批全部 commit & push；⑤ 文档一致性修复（§1.1 L1 行 framework→kb_forge / §2.3 冻结在 4/30 的阻塞项 / §1.2 汇总句 ✅6→✅7 / kb_forge README 改名病句+Python 版本声明 / CLAUDE.md 2 坏链+C-25+ADR-038 路线图同步）；⑥ [ADR-040](decisions/ADR-040-retroactive-privacy-desensitization-program.md) retroactive 起草（6 月脱敏工程追认 + 二次收口 + 防回流机制）+ pre-commit 隐私 guard（国药准字模式 + 本地 denylist）；⑦ 外审信 C/B 收件人候选 6 名已研究交付（含公开邮箱 / 用户只剩发送）⭐）。前序编年（2026-07-11 及更早的更新链）已迁 [archive/status-history-2026H1](archive/status-history-2026H1.md) §0，事件明细见 [CHANGELOG](CHANGELOG.md)。
+- **SSRN 审核通过（2026-07-14）**：abstract_id 7099138 论文页已公开（标题+摘要+PDF 下载可用 / https://ssrn.com/abstract=7099138 / 提交后第 3 天通过）→ **外审信 C/B 已于 2026-07-17 发出**（会计+STS 方向 / 对象身份不入仓 / 模板与追踪表已转私 `docs/reports/private/`）；每日检查任务 `ssrn-7099138-review-watch` 已停用
 - **更新人**：首席架构师（Claude）
 - **战略方向**：**D-route — Agentic Knowledge Engineering 框架 + 史记参考实现**（详见 [ADR-028](decisions/ADR-028-strategic-pivot-to-methodology.md) + [strategy/D-route-positioning.md](strategy/D-route-positioning.md)）
 - **当前阶段**（2026-07-17 按 [ADR-041](decisions/ADR-041-portfolio-alignment-and-dual-proposition-governance.md) 落档）：**huadian = 声誉公共品 + 方法论兵工厂**（个人项目组合主线在 SinoReg 侧，见 ADR-041 §1）。双命题：P1 KE 框架（kb_forge 93 passed 底线维持 / v0.1 release 等外部使用者触发）+ P2 制药数据完整性（case-2 学术线：08/09/10 三篇 v0.3 齐平 + SSRN 7099138 已公开 / 待 2026-09 外审 → 2026-10 v1.0；商业动作一律在 Drug101China 侧，离巢判据见 ADR-041 A2）。当期焦点见 §2.0；本行取代原"case-2 活跃主线"长段（历史版本见 archive/status-history-2026H1.md §0 前序链）。
@@ -39,7 +39,7 @@
 | 本地工作已 push 到 public GitHub | origin 持续更新；**机制（2026-07-16 起 / audit #10）：未提交积压 > 7 天本行自动降 🟡** | **✅ 2026-07-16 已 push**（红色+黄色批次全部落库；二次历史重写后 origin 与本地同步）| ✅ |
 | 方法论文章正式发表数 | 12mo ≥ 4（D-route §5 L2）| **5**（知乎 2026-06-13 发 3 篇 + 掘金镜像；第 4 篇「LLM 实体为何不应自动合并」2026-06-20；**第 5 篇 2026-07 dev.to 英文首发「多 agent 模型分层政策审计 / 34 天 22.6% 偏离」**——首个英文渠道 + traceguard 相关；case-2 学术三篇仍走 SSRN/期刊线未计入）| ✅ 5/4 |
 | 文章被外部真实引用 / 讨论 | 12mo ≥ 1（≥3 更佳）| **🟡 首次实质讨论（2026-07-16）**：shiji-kb 作者 baojie 就第 5 篇（YAML 政策审计）核心观点实质回应"很对的，我现在做的 harness 层也是把政策写成 yaml 的"= **独立技术收敛**（用户 Discussion 内分享 / 非独立引用，故 🟡 不计 ✅）。旁证：知乎回答式分发 5 收藏为最强单点；huadian 首个 star；HelloGitHub #3347 待出刊 / 阮一峰 #10313 未选 | 🟡 |
-| 外部审稿人已对接 | 三篇 2026-09 外审需真人；**判据锚点（2026-07-16 重定 / audit #10）：以「收到实质回复」改判 ✅，「已发信」只到 🟡——发信可控、回信由身份资本决定** | **0 人在接触**（信 C/B/A 成品 + 收件人候选 6 名已备〔2026-07-16〕，只剩用户发送）| ❌ |
+| 外部审稿人已对接 | 三篇 2026-09 外审需真人；**判据锚点（2026-07-16 重定 / audit #10）：以「收到实质回复」改判 ✅，「已发信」只到 🟡——发信可控、回信由身份资本决定** | **已发信 2 封（2026-07-17 / 会计 + STS 方向各 1 / 冷邮件）**，等待回复；对象身份**不入仓**（代号 C-1/B-1，模板与追踪表 2026-07-17 转私 `docs/reports/private/`，防收件人反查）；信 A 按设计等 7/25 蒲公英回帖信号后发 | 🟡 |
 | 近邻项目（shiji-kb 等）实质交流 | 2026-10 ≥ 1 次 | **✅ 已达成（2026-06-22）**：shiji-kb 作者 baojie（2112 star / 30+yr）在 [Discussion #114](https://github.com/baojie/shiji-kb/discussions/114) 实质回复——"多角色 agent team 思路是对的、往下能走得通"，且自述兴趣已从史记转向 harness 框架（与 kb-forge 同赛道）。首个外部同行实质背书，领先目标锚（2026-10）约 4 个月 | ✅ |
 | L1 外部工程师 clone+跑通 starter | ≤ 1h（D-route §10）| **路径已建立**（2026-06-07 补 framework README+pyproject+requirements / `pytest → 93 passed` 可测量）；外部实测尚未发生 | 🟡 |
 | L1 领域隔离（判据 2026-06-20 重定义 / [ADR-039](decisions/ADR-039-l1-unfreeze-import-rename-and-criterion-redefinition.md)）| (a) core+tests 0 领域字样 + (b) ≥2 domain 各自隔离（替代失真的"≥70% LOC"，理由见 [l1-domain-agnostic-finding](reports/l1-domain-agnostic-finding-2026-06-20.md)）| (a) **✅ 已达成**（core 0 领域字样 / 实测 64.4% LOC 仅作参考，已判定为单-example 假象）；(b) 第 2 真实 domain 待引入（traceguard tcm PoC 为半证）→ **1/2** | 🟡 |
@@ -48,7 +48,7 @@
 | 月度决策日记累计字数 | 6mo ≥ 6000 字 | **✅ ~1.2 万字 / 2 月**（North Star 唯一硬达标项）| ✅ |
 | 框架代码近期有推进 | 不连续 2 sprint 停滞 | **✅ 2026-06-20 import-root 改名已执行**（[ADR-039](decisions/ADR-039-l1-unfreeze-import-rename-and-criterion-redefinition.md) / `framework/`→`kb_forge/` 目录重命名 + 73 imports·51 文件改写 + pyproject + 13 活文档 / **pytest 93 passed / 0 回归**）——core 自 2026-05-03 的冻结期结束，L1 真解冻 | ✅ |
 
-**一句话**：内部产能（文档 / 治理 / sprint 计数）很高；**对外可验证判据 11 项里 2026-07-16 复核 = ✅ 7、🟡 2、❌ 2**（push / 命名 / 单测 / 日记 / **发表 4/4** / **代码推进（import-root 改名已执行·93 passed）** / **近邻交流（2026-06-22 baojie 实质回复）** ✅；clone 路径 / **领域隔离判据重定义后 1/2** 🟡；引用讨论 / 外审对接 ❌）。较 2026-06-07（✅4/🟡2/❌5）净改善 5 项。**仅剩的 2 个 ❌（引用讨论 / 外审对接）全部需用户真人动作——引用靠时间发酵，外审靠联系真人（SOP 已备）。**（2026-07-16 审计注：外审判据的改判锚点应为「收到回复」而非「发出信件」——发信可控、回信由身份资本决定；且"未提交积压 > 7 天"应触发 push 行自动降 🟡，详见 [audits/audit-2026-07-16](audits/audit-2026-07-16.md)。） 整改见 [d-route-progress-review-2026-06-07](reports/d-route-progress-review-2026-06-07.md) §6 + 外审包 [case-2-external-review-package](methodology/case-2-external-review-package-v0.1.md) + 对接 SOP [external-review-outreach-process](reports/external-review-outreach-process-2026-06-20.md)。
+**一句话**：**对外可验证判据 11 项 2026-07-17 复核 = ✅ 7、🟡 4、❌ 0**（push / 命名 / 单测 / 日记 / **发表 5/4** / 代码推进 / 近邻交流 ✅；clone 路径 / 领域隔离 1/2 / **引用讨论（baojie YAML 收敛，非独立引用故 🟡）** / **外审对接（2 封已发 2026-07-17，判据锚=收到回复）** 🟡）。较 2026-06-07（✅4/🟡2/❌5）❌ 清零——但**克制读法**：两个原 ❌ 只是升到"有动作、无结果"的 🟡，改判 ✅ 分别需要独立引用与实质回复，均不可控、靠时间与身份资本发酵（audit #10 机制）。整改与判据史见 [audits/audit-2026-07-16](audits/audit-2026-07-16.md) + [d-route-progress-review-2026-06-07](reports/d-route-progress-review-2026-06-07.md)。
 
 ---
 
@@ -59,14 +59,14 @@
 ### 2.0 本周真实焦点（2026-07-16 更新）
 
 1. ✅ **P0 隐私收口完成（2026-07-16）**：二次脱敏落地 + **二次 filter-repo 历史重写已执行**（全 refs 重写 / 远端+本地全历史 0 残留 / 仓已恢复 public——详见 ADR-040 执行注）；残余仅 GitHub 侧 PR 缓存 refs（接受，可选 support ticket）
-2. 🔴 **外审信 C/B 发送**（收件人候选 6 名已研究交付，材料只剩粘贴姓名+论文名；SSRN 7/14 过审的新鲜度在衰减）
+2. ✅ **外审信 C/B 已发送（2026-07-17）**——真相表「外审对接」❌→🟡（判据锚=收到实质回复）；1 周无回复 → 第 3 周一句话 bump；信 A 等 7/25 蒲公英信号
 3. ✅ q58413890 知乎回答**已于 2026-06-21 发布**（https://www.zhihu.com/question/58413890/answer/2052160138040042358 / 用户 2026-07-17 报告，此前仓内无发布记录——审计"成稿 25 天未发布"判定更正为**记录缺失而非执行缺失**；"回答式分发" n=2 数据点自 6/21 即存在，互动数纳入 7/25 回收）
 4. 🟡 **7/25 三路信号统一回收**：蒲公英回帖 + SSRN 下载数 + 外审回信 → 回填真相表 + 决策 09/10 预印化
 5. 🟡 审计黄色批次待议：双命题 ADR / 7/6 仓外重排落档 / v0.1 release 锚冻结 ADR / 身份反推残余风险 ADR（见 [audits/audit-2026-07-16](audits/audit-2026-07-16.md) 建议 #5-#11）
 
 ### 2.3 阻塞 / 风险 / 等待项（2026-07-16 刷新）
 
-- **待用户真人动作**：① 外审信 C/B 发送（成品邮件已由架构师填好收件人与论文，只剩复制发送）② ADR-040/041/042/043 审阅（已按用户指令 accepted，可复核）〔q58413890 回答实为 6/21 已发布，记录已更正；历史重写 2026-07-16 已执行完毕〕
+- **待用户真人动作**：① 查收外审回复（lizhuojun@gmail.com / 7/25 云端任务会提醒）② ADR-040/041/042/043 审阅（已按用户指令 accepted，可复核）〔外审信 C/B 7/17 已发；q58413890 回答 6/21 已发布；历史重写 7/16 已执行——均不再待办〕
 - **定时点**：7/25 三路信号统一回收（蒲公英 / SSRN / 外审回信）
 - 2026-04-30 Sprint AA 时点的等待项（下列历史条目）已全部完成或过期，保留供追溯：
 - ~~无阻塞。Sprint AA 关档。**Layer 2 维护态首 sprint 模板验证**。~~
