@@ -424,10 +424,21 @@ name = "huadian"
 version = "0.0.0"
 source = { virtual = "." }
 
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+    { name = "pytest-asyncio" },
+    { name = "ruff" },
+]
+
 [package.metadata]
 
 [package.metadata.requires-dev]
-dev = []
+dev = [
+    { name = "pytest", specifier = ">=8" },
+    { name = "pytest-asyncio", specifier = ">=0.23" },
+    { name = "ruff", specifier = ">=0.5" },
+]
 
 [[package]]
 name = "huadian-pipeline"
@@ -461,7 +472,7 @@ requires-dist = [
     { name = "asyncpg", specifier = ">=0.29" },
     { name = "pipeline-guardian", git = "https://github.com/lizhuojunx86/traceguard.git?rev=3aaa72dc0d9298ca9f03380ac7795db2bb662b88" },
     { name = "pyyaml", specifier = ">=6.0" },
-    { name = "traceguard", marker = "extra == 'traceguard-bridge'", git = "https://github.com/lizhuojunx86/traceguard?subdirectory=packages%2Ftraceguard&rev=cf6e651" },
+    { name = "traceguard", marker = "extra == 'traceguard-bridge'", git = "https://github.com/lizhuojunx86/traceguard?subdirectory=packages%2Ftraceguard&rev=cf6e6511a7887192e66d46b1fd1a30c43751b8ff" },
 ]
 provides-extras = ["traceguard-bridge"]
 
@@ -1224,7 +1235,7 @@ wheels = [
 [[package]]
 name = "traceguard"
 version = "0.8.1"
-source = { git = "https://github.com/lizhuojunx86/traceguard?subdirectory=packages%2Ftraceguard&rev=cf6e651#cf6e6511a7887192e66d46b1fd1a30c43751b8ff" }
+source = { git = "https://github.com/lizhuojunx86/traceguard?subdirectory=packages%2Ftraceguard&rev=cf6e6511a7887192e66d46b1fd1a30c43751b8ff#cf6e6511a7887192e66d46b1fd1a30c43751b8ff" }
 dependencies = [
     { name = "pydantic" },
     { name = "pyyaml" },

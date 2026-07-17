@@ -24,7 +24,7 @@ dependencies = [
 # AND set HUADIAN_TRACEGUARD=1 at runtime. Independent of the pinned
 # `pipeline-guardian` above — different distribution, separate SHA.
 traceguard-bridge = [
-    "traceguard @ git+https://github.com/lizhuojunx86/traceguard@cf6e651#subdirectory=packages/traceguard",
+    "traceguard @ git+https://github.com/lizhuojunx86/traceguard@cf6e6511a7887192e66d46b1fd1a30c43751b8ff#subdirectory=packages/traceguard",
 ]
 
 [project.scripts]

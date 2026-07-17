@@ -4,8 +4,15 @@ version = "0.0.0"
 description = "华典智谱 — Chinese Classical Text AI Knowledge Platform (workspace root)"
 requires-python = ">=3.12"
 
+# Root-level test/lint deps so `uv run pytest kb_forge/...` works from the repo
+# root out of the box (audit-2026-07-16: bare `uv run pytest` silently fell back
+# to a pyenv shim with the wrong interpreter). kb_forge itself stays stdlib-only.
 [dependency-groups]
-dev = []
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.5",
+]
 
 [tool.uv.workspace]
 members = ["services/pipeline"]
