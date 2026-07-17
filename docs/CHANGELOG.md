@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-07-17 (绿) — 绿色批次：修宪 v1.2 + 季度独立审计制度 + 工程卫生 + STATUS 瘦身
+
+### constitution: 宪法 v1.1 → v1.2（C-17 任务载体泛化 + C-9/C-11/C-21 状态注 / ADR-043）
+
+- **修宪内容**：① C-17 任务载体从"仅任务卡"泛化为三种可追溯载体（任务卡 / sprint brief 内嵌清单 / case 策略文档 GO-* 日志，须含任务边界+主导角色+用户 ACK 点）——把 audit 判 FAIL 的"系统性绕过"合法化而非回补历史卡；② C-9/C-21 加"D-route 期间挂起 + 恢复条件"状态注（原 Phase 1+ 豁免依据已被 ADR-028 推翻）；③ C-11 down 方案标注 ADR-017 等价实现。修宪程序 §七 四条件齐：架构师提议 + [ADR-043](decisions/ADR-043-constitution-v1.2-and-quarterly-independent-audit.md) + 本条目 + 无数据模型影响
+
+### [docs] 季度独立审计制度化 + [test] tg_bridge 9 单测 + [build] 工程卫生 + [docs] STATUS 瘦身 1023→126 行
+
+- **角色**：首席架构师执行 / 用户令"完成绿色批次"，删除清单、STATUS 瘦身映射、iCloud 迁出方式经 AskUserQuestion 逐项确认
+- **① 季度独立审计（ADR-043 D1-D3 / audit #16）**：[runbook/quarterly-independent-audit](runbook/quarterly-independent-audit.md)（独立性三原则 + 八维度模板 + 判据重定义必查条款）+ 云端例行提醒 `quarterly-independent-audit-reminder`（每季度 15 日 / 下次 2026-10-15）
+- **② tg_bridge 补测（audit #13）**：`tests/qc/test_tg_bridge.py` 9 个离线单测（flag 未设 no-op / traceguard 缺失降级 / 写入异常吞掉 / feature_as_of 提取 4 参数化 / 自定义 DB URL）→ pipeline 全套 **363 passed**（354+9 / 0 回归）
+- **③ 供应链一致性（audit #13）**：traceguard extra 短 SHA `cf6e651` 扩为 40 位完整 SHA（与 pipeline-guardian full-SHA 政策对齐）
+- **④ `pytest kb_forge` 全树可跑（audit #17 断点二）**：新增 `kb_forge/conftest.py`（collect_ignore examples/）——朴素跑法不再收集翻车，全树 **93 passed**；根 pyproject dev 组补 pytest/pytest-asyncio/ruff，`uv run pytest` 不再静默落到 pyenv shim 错误解释器（audit 环境陷阱 INSIGHT 的机制性修复）
+- **⑤ STATUS 瘦身（audit #14 / 映射经确认）**：1023 → 126 行——原 §2.1~2.2.15（16 张 sprint 表）、§5~§7、L364 起全部 Phase 0 遗留段整体迁入 [archive/status-history-2026H1](archive/status-history-2026H1.md)（内容无删减）；"最近更新"前序链同迁；头部"当前阶段"行按 ADR-041 从"case-2 活跃主线"改写为双命题档位表述
+- **⑥ iCloud 根治（audit #12 / 用户选"现在就迁"）**：仓库 mv 至 `~/dev/huadian` + 原址留 symlink + Claude 项目记忆目录同步迁移（详见本批次 commit 后执行记录）；" 2" 副本与 .venv.corrupted-icloud 删除被会话权限层拦截 → 一条清理命令交接用户执行
+- **待用户真人动作（不变）**：外审信 C/B 发送 / q58413890 回答发布 / 7-25 三路信号回收（云端任务已设）
+
+---
+
 ## 2026-07-16 (黄) — 黄色批次：二次历史重写执行 + ADR-041/042 + 索引/路线图对齐 + 真相表机制升级
 
 ### [fix] filter-repo 二次历史重写（执行完毕）+ [docs] ADR-041/042 + index 回填 + D-route v1.1 + 桥接登记
