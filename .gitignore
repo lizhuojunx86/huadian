@@ -20,8 +20,9 @@
 # TraceGuard 本地实例数据（如集成）
 # macOS duplicate files (Finder "Copy" or iCloud sync artifacts)
 # 华典智谱 .gitignore
-* 2
-* 2.*
+# (space + digit suffix = iCloud/Finder duplicate; " 3" observed 2026-07-17)
+* [0-9]
+* [0-9].*
 *$py.class
 *.egg-info/
 *.key
