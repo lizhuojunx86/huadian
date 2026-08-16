@@ -80,13 +80,19 @@ De-identified: product names, batch numbers, lots, equipment models, companies a
 |---|---|---|---|---|---|
 | — | — | — | *（窗口开启中，暂无）* | — | — |
 
+**触达动作留痕**：开窗当日已发 dev.to 短文一篇（见 §4）导流；知乎待办。**这是本窗口与 SSRN 预印的关键差别**——预印挂了 36 天 0 下载，因为没有任何导流动作；本窗口开窗即配广播。
+
 **当前计数：N = 0**（截至开窗日）。关窗时若仍为 0，v1.0 照实写 N=0 —— 见 ADR-044 §2 A1 的负面情形条款：零意见属于「触达为零」这个已知事实，不属于「质量未验证」，不得用作推迟发布的理由。
 
 ---
 
 ## 4. 广播文案（发帖后使用）
 
-**dev.to** —— 在「Auditing AI usage trackers」系列最新一篇下自评一条，或单发短文：
+**dev.to —— ✅ 已发（2026-08-16）**：[The easiest numbers to fake are the hardest to catch. That is one property, not two.](https://dev.to/lizhuojunx86/the-easiest-numbers-to-fake-are-the-hardest-to-catch-that-is-one-property-not-two-23k9)
+
+改为**单发短文**而非系列内自评。理由：dev.to 的自评不进任何 feed，新文章进 tag feed（#ai #opensource #programming #datascience）+ 关注者 feed，触达差一个量级。文章正文与本窗口帖文不重复——它只讲第 3 问（反算难度 ∝ 1/(标准值×允许误差)），并用读者已熟悉的 token 计费漏报作类比（松上界的计数悄悄漂移，硬上限的计数第一次错就自曝），末尾导向 Discussion #19。
+
+原备用文案（未采用，留档）：
 
 > Different domain, same question. I've spent a year auditing token-accounting bugs in usage trackers; before that I spent longer looking at pharmaceutical batch records, where the numbers are computed backwards from the spec instead of measured forwards. One finding transfers and I'd like it stress-tested: **how hard a number is to fake backwards scales as 1 / (target × tolerance)** — so the easiest numbers to manipulate are the hardest to catch, and that's one property, not two. Comment window is open until Sept 30: <链接>
 
@@ -98,5 +104,6 @@ De-identified: product names, batch numbers, lots, equipment models, companies a
 
 - [x] Discussion 实际链接填入 §1 与本仓 STATUS §2.0 —— https://github.com/lizhuojunx86/huadian/discussions/19
 - [x] 实际开窗日回填 §1 —— 2026-08-16
-- [ ] dev.to / 知乎 广播已发，链接记入 §4
+- [x] **dev.to 广播已发** —— https://dev.to/lizhuojunx86/the-easiest-numbers-to-fake-are-the-hardest-to-catch-that-is-one-property-not-two-23k9
+- [ ] 知乎广播（回答式分发 / 不急，窗口开到 9/30）
 - [ ] 周检任务（`huadian 判据周检`）会自动盯本窗口是否开启，开启后改盯意见数
