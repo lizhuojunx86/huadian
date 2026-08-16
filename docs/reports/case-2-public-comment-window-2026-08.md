@@ -9,10 +9,10 @@
 
 | 项 | 值 |
 |---|---|
-| 载体（记录） | GitHub Discussion @ `lizhuojunx86/huadian` |
+| 载体（记录） | **[GitHub Discussion #19](https://github.com/lizhuojunx86/huadian/discussions/19)** ✅ 已开 |
 | 广播（触达） | dev.to（现有读者最多）+ 知乎（回答式分发路径已验证有互动）|
-| 开窗日 | **2026-08-17**（帖子发布日；发布后回填实际日期）|
-| 关窗日 | **2026-09-30**（6 周 + 缓冲；留足 10 月定稿时间）|
+| 开窗日 | **2026-08-16** ✅（实际发布日 / 经 gh CLI 发布）|
+| 关窗日 | **2026-09-30**（6 周 + 缓冲 / 实际 6.5 周；留足 10 月定稿时间）|
 | 解锁 v1.0 | 关窗 + §3 处置日志逐条填完 |
 | 覆盖文章 | `08-dual-reverse-calculation-pattern.md` · `09-layered-compliance-narrative-pattern.md` · `10-subchannel-stratified-detection-pattern.md` |
 
@@ -20,7 +20,9 @@
 
 ---
 
-## 2. 待发布帖文（GitHub Discussion / Category: General 或 Ideas）
+## 2. 帖文（**已于 2026-08-16 发布** → [Discussion #19](https://github.com/lizhuojunx86/huadian/discussions/19) / Category: General）
+
+> 本节是帖文的仓内副本，**已发布版本以 Discussion #19 为准**；若线上编辑过，回填到此处保持一致。
 
 **Title**: `Open comment window: three papers on reverse-calculated pharmaceutical batch records (closes 2026-09-30)`
 
@@ -94,7 +96,7 @@ De-identified: product names, batch numbers, lots, equipment models, companies a
 
 ## 5. 发布后回填清单
 
-- [ ] Discussion 实际链接填入 §1 与本仓 STATUS §2.0
-- [ ] 实际开窗日回填 §1（若非 2026-08-17）
+- [x] Discussion 实际链接填入 §1 与本仓 STATUS §2.0 —— https://github.com/lizhuojunx86/huadian/discussions/19
+- [x] 实际开窗日回填 §1 —— 2026-08-16
 - [ ] dev.to / 知乎 广播已发，链接记入 §4
 - [ ] 周检任务（`huadian 判据周检`）会自动盯本窗口是否开启，开启后改盯意见数
