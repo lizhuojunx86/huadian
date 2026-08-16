@@ -40,7 +40,7 @@ review §5 第 4 项：为三篇各拟 1-2 目标渠道，v0.4 按目标渠道�
 
 - **平台**：arXiv（08 `cs.CY` 计算与社会 / 09 `cs.CY` / 10 `stat.AP` 应用统计；可交叉挂 `econ.GN`）+ SSRN（会计/经济读者覆盖，尤其 08）。
 - **License**：CC BY 4.0（与项目 `LICENSE-DATA` 一致 / 预印不影响目标刊首发政策 — AOS/JBE/PDA/Sage STS 多数允许预印；投前逐刊确认 self-archiving 政策）。
-- **时序**：v1.0 定稿（2026-10）即挂预印，再按目标刊/会窗口投正式版。
+- **时序**：v1.0 定稿（2026-10）即挂预印，再按目标刊/会窗口投正式版。**⚠️ 2026-08-16 更新（[ADR-044](../decisions/ADR-044-v1.0-criterion-redefinition-and-stop-loss-scan-rule.md)）**：此处「v1.0」的定义已变——不再以外审通过为前置，改为 author-side 完备 + 公开评议窗口开满 6 周 + 意见逐条处置，且 v1.0 制品**强制标注「未经外部同行评议」**。另：09/10 的预印已按 case-2 §10.35 #5 押后（解锁 = 任一封外审信收到实质回复），本行的「即挂预印」当前只适用于 08。
 - **实际执行（2026-07-11）**：**08 英文 working paper 已提交 SSRN**，abstract_id **7099138**（https://ssrn.com/abstract=7099138 / staff review 中）——按 6/20 外审 SOP「预印先行解锁 outreach」提前于原 v1.0 时点执行（v0.3 工作稿 + author-side 前置批版本）；09 / 10 预印仍按原时序。
 
 ---
