@@ -1799,6 +1799,27 @@ c 项的理由是 C-2 那句「not surprising」是双刃：对**合理性**加�
 
 ---
 
+### 10.37 C-2 第 2 封回信 —— 引用授权 + 引荐落地（C-3 上线）+ 一条主动更正（2026-08-19 ✅）
+
+**一手痕迹**：Message-ID `SN7P221MB106072B229001E73BD88AAC3A0A52@SN7P221MB1060.NAMP221.PROD.OUTLOOK.COM` / 2026-08-19 17:47 UTC / **Cc 栏新增第二作者**。用户提供一手 .eml 核实。
+
+**三项内容，两项超出请求**：
+
+1. **引用授权，明确批准**：「Cite the Accounting Horizon paper and cite my email as personal communication.」两项请求全批。08 §7.1.1 已据此加入 personal communication 引用（注明 cited with permission）。
+2. **引荐已执行，不是承诺**：第二作者被直接 Cc 进本线程，介绍语为「the audit expert on the paper」。**C-3 自本条起为在线对象**，且是 warm intro，不受冷邮件 2 次接触上限约束。**注意这与 C-1/C-2 的关键差别**：她进来时已经看得到整条线程，包括 C-2 对本案的定性——这是冷邮件永远买不到的前置背书。
+3. **一条主动更正，打在 §12.1 的前提上**：「at least in the U.S., auditing standards do not place the detection of REM directly within the auditor's purview.」详见 §12.1 的当日更正框。**记一笔态度**：他没有义务提醒这一点，提了说明是在认真看这件事能不能成立，而不是在礼貌收尾。**这类信号比赞扬有价值得多。**
+
+**核证原文后的额外发现（非他所指，本仓翻 PDF 所得）**：同一段落还有两句直接可用——
+
+- 「unlike internal audits, external audits do not focus on operating efficiency or effectiveness」，其后紧跟 **「Future research might explore whether closer coordination between external and internal auditors might enhance the ability to identify REM more reliably.」** 这是该论文明写的 open question，而 **GMP 质量审计正是那个组合形态**（外部于被审计方 + 审计对象是生产运作）。已写入 08 新开的 §7.1.2。
+- 引 Dichev et al. (2013)：连财务分析师都难区分「业务驱动的削减」与「为够指标的削减」。**该识别难题在本案中大幅减弱** —— 门槛是药典公布的数值而非从分析师预期或行业-年度模型推断而来。已写入 §7.1.2。
+
+**判据连带**：§10.36 定的 09/10 预印化启动线是「拿到引荐**或**收到第 2 封实质回复」——**两个条件同时满足**。同时，SSRN 修订版上传的等待条件（等引荐有回音）**已解除**。
+
+**边界**：本节只落档事件。09/10 预印化虽已解锁，**是否执行仍需用户单独决定**——解锁 ≠ 该做，理由同 §10.36（触发不等于指令）。
+
+---
+
 ## 11. case-2 深度止损线（guardrail / 2026-06-07 用户确认按原阈值 lock）
 
 > **来源**：[d-route-progress-review-2026-06-07](../reports/d-route-progress-review-2026-06-07.md) §5 + [case-2-go-s-to-ac-retro](../retros/case-2-go-s-to-ac-retro-2026-06-07.md) §6。
@@ -1837,11 +1858,22 @@ c 项的理由是 C-2 那句「not surprising」是双刃：对**合理性**加�
 
 **这条论点的力量来自它不是自己想出来的**：它是被研究领域自己的实证结论（审计方约束 EM）平移过来的，而那条结论是在数千 firm-year 上跑出来的，不依赖 case-2 的 n=2。
 
+> ### ⚠️ 2026-08-19 当日即被来源方本人更正 —— 本节前提比原写法弱
+>
+> C-2 在第 2 封回信中主动指出（并在其论文原文中可核）：**「auditing standards do not place the detection of REM directly within the auditor's purview.」** 查原文上下文，完整图景是：审计师对客户 REM **有感知**（视为管理层态度的负面信号，影响与审计委员会的沟通及是否续聘），**但检测 REM 不是准则规定的职责**；且「unlike internal audits, external audits do not focus on operating efficiency or effectiveness」。
+>
+> **对本节的杀伤**：原写法隐含「审计方既有动机又有职责」。**职责这一半不成立**（至少在美国）。**有感知无职责，不可靠地产生需求** —— 没有准则要求，就没有预算科目，就没有采购流程。这比昨天登记时设想的路径难走一档。
+>
+> **不推翻本节，但改写其结论形态**：付费方与被查方分离这个**结构优势仍然成立**（悖论确实消失）；不成立的是「所以需求现成」。翻转解决的是**效用符号**，不是**需求存在性**。这两件事昨天被写成了一件。
+>
+> **同时发现一条反向利好（同一段原文）**：作者在指出上述限制后，明写「**Future research might explore whether closer coordination between external and internal auditors might enhance the ability to identify REM more reliably**」——这是他们论文里留的 open question。而 **GMP 质量审计正是那个组合形态**：外部于被审计方，但审计对象是生产运作本身，记录数据可靠性在其范围之内而非之外。金融审计里限制 REM 检测的那种分工（鉴证职能对着报告、运作专长留在内部）在这里不以同样形式存在。**即：美国金融审计的「无职责」限制，未必平移到 GMP 场景**——但这需要按中国 GMP 核查的实际职责范围逐条核实，**未核实前不得当成已成立**，并入本节下表第 1 项一并查。
+
 **待验证的硬约束（不得当成已知）**：
 
 | # | 未知 | 为什么关键 |
 |---|---|---|
 | 1 | 中国 GMP 语境下谁真正持有审计预算——药监核查（财政拨款、不采购商业工具）/ 第三方审计机构 / 药企内审部（名义第三方实为自查）/ 委托方对受托生产企业的质量审计 | 「审计方」在美国语境是清晰的付费市场，在中国不一定。**若付费方最终仍落在药企内审，悖论只是换了个部门，没有消失** |
+| 1b | **中国 GMP 核查的法定职责范围是否包含记录数据可靠性的主动检测** —— 即美国「REM 检测不在审计准则职责内」这条限制，在中国 GMP 语境下是否同样成立 | **这是整条定位的枢纽。** 若中国 GMP 核查对数据可靠性有明确职责（不同于金融审计），则「有感知无职责」的需求问题在此不存在，定位成立；若同样只是「可以查但不必查」，则与美国同病。**尚未核实，不得假定有利方向** |
 | 2 | 委托生产（CDMO / 受托加工）质量审计是否构成真实付费场景 | 这是唯一一个**买方与被查方天然分离**的候选：委托方有动机查受托方，且预算独立 |
 | 3 | 工具输出「结构化怀疑」在中国审计实践中的法律与合规地位 | §8 已写明识别 ≠ 认定；若审计方无法用「怀疑」做任何事，工具价值归零 |
 
