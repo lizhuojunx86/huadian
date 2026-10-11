@@ -78,11 +78,11 @@ De-identified: product names, batch numbers, lots, equipment models, companies a
 
 | # | 日期 | 来源 | 意见摘要 | 处置 | 落点 |
 |---|---|---|---|---|---|
-| — | — | — | *（窗口开启中，暂无）* | — | — |
+| — | 2026-09-30 | （关窗登记） | **窗口 2026-08-16 → 2026-09-30 关闭，收到意见 0 条**（2026-10-11 经 GitHub API 核实：comments.totalCount = 0，participants = 1 即发帖人） | 无需处置 | 三篇 v1.0 版本头 + ARCHIVED.md §2 |
 
 **触达动作留痕**：开窗当日已发 dev.to 短文一篇（见 §4）导流；知乎待办。**这是本窗口与 SSRN 预印的关键差别**——预印挂了 36 天 0 下载，因为没有任何导流动作；本窗口开窗即配广播。
 
-**当前计数：N = 0**（截至开窗日）。关窗时若仍为 0，v1.0 照实写 N=0 —— 见 ADR-044 §2 A1 的负面情形条款：零意见属于「触达为零」这个已知事实，不属于「质量未验证」，不得用作推迟发布的理由。
+**最终计数：N = 0**（关窗 2026-09-30 / 2026-10-11 核实）。知乎回答式广播**未做**——照实记：本窗口实际只配了一次 dev.to 导流。ADR-044 §A1 三条件于 2026-10-11 全部满足，三篇定 v1.0。关窗时若仍为 0，v1.0 照实写 N=0 —— 见 ADR-044 §2 A1 的负面情形条款：零意见属于「触达为零」这个已知事实，不属于「质量未验证」，不得用作推迟发布的理由。
 
 ---
 
@@ -105,5 +105,5 @@ De-identified: product names, batch numbers, lots, equipment models, companies a
 - [x] Discussion 实际链接填入 §1 与本仓 STATUS §2.0 —— https://github.com/lizhuojunx86/huadian/discussions/19
 - [x] 实际开窗日回填 §1 —— 2026-08-16
 - [x] **dev.to 广播已发** —— https://dev.to/lizhuojunx86/the-easiest-numbers-to-fake-are-the-hardest-to-catch-that-is-one-property-not-two-23k9
-- [ ] 知乎广播（回答式分发 / 不急，窗口开到 9/30）
-- [ ] 周检任务（`huadian 判据周检`）会自动盯本窗口是否开启，开启后改盯意见数
+- [ ] ~~知乎广播~~ **未做**（窗口已关 / 2026-10-11 登记）
+- [x] ~~周检任务~~ 2026-09-06 组合收口时停用；关窗由 2026-10-11 人工核实

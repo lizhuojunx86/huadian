@@ -1,3 +1,5 @@
+> **⚪ Archived 2026-10-11.** Read-only maintenance. What was proven, what was not, and what is still citable: [ARCHIVED.md](ARCHIVED.md). The pharmaceutical data-integrity papers (08/09/10) are at v1.0 — not peer reviewed, public comment window 2026-08-16→09-30 received 0 comments.
+
 # 华典智谱 (HuaDian)
 
 > **给要用 AI agent 团队构建可信知识库的工程师**：用 LLM 做抽取很容易，难的是——实体合并错了没人发现、质量约束停留在口头、决策过程无法追溯。

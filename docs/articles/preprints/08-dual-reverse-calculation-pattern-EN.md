@@ -5,6 +5,8 @@
 **Working paper / preprint — not peer reviewed.** Submitted to SSRN (PharmSciRN). License: CC BY 4.0.
 
 > **Revision note (2026-08-19).** This repository copy has been revised since the version posted to SSRN (abstract 7099138, posted 2026-07-14). The revision repositions the contribution — from "an anomaly is documented" to "a mechanism already established in the accounting literature as *real earnings management* is, for the first time, measured in a setting where the output is a physical quantity and the specification is a published number" — and adds the corresponding literature (§7.1, §10). No datum, computation, or detection rule changed. **The SSRN posting has not yet been replaced;** until it is, the posted PDF remains the citable version and this file is ahead of it.
+>
+> **v1.0 (2026-10-11).** Not peer reviewed. A public comment window ran 2026-08-16 → 2026-09-30 (GitHub Discussion #19) and received **0 comments**; the disposition log is `docs/reports/case-2-public-comment-window-2026-08.md` §3. "v1.0" marks the authors' decision to freeze the text, not peer endorsement. The repository was archived on 2026-10-11 (`ARCHIVED.md`); only transactional edits follow.
 
 ---
 

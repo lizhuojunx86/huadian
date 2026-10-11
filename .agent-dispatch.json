@@ -1,0 +1,44 @@
+{
+  "base": null,
+  "check": [
+    "uv sync --frozen --all-packages",
+    "uv run --frozen --no-sync pytest -q",
+    "uv run --frozen --no-sync ruff check ."
+  ],
+  "check_timeout_min": 25,
+  "protect": [
+    "CLAUDE.md",
+    ".github/*",
+    ".env",
+    ".env.*",
+    "pyproject.toml",
+    "uv.lock",
+    "package.json",
+    "data/*",
+    "*.db",
+    "docs/reports/private/*",
+    "docs/00_项目宪法.md"
+  ],
+  "sandbox_extra_write": [
+    "~/.cache/uv"
+  ],
+  "sandbox_extra_read": [
+    "~/.cache/uv",
+    "~/.local/share/uv"
+  ],
+  "sandbox_deny_local_ports": [],
+  "egress_allow_hosts": [
+    "pypi.org",
+    "files.pythonhosted.org"
+  ],
+  "rules": "技术栈：Python（uv）。先 uv sync --frozen 装环境，再跑 check 里的命令。\n沙盒里连不上本机任何端口、读不到仓库外的配置和密钥；碰数据库/碰网络的测试会红——不是你的错，列进报告由派工方决定。\n受保护文件（protect 名单和 .agent-dispatch.json）不要碰。\n提交信息用英文 conventional commits（feat: / fix: / docs: 等）。",
+  "_init_notes": [
+    "检测到 uv 项目（存在 uv.lock），check 先 uv sync --frozen 装环境再跑测试。",
+    "pyproject.toml 含 [tool.uv.workspace]，uv sync 加了 --all-packages。",
+    "依赖/配置里有 pytest，测试命令用 pytest -q。",
+    "配置/依赖里有 ruff，check 增加了 ruff check .。",
+    "egress 放行 pypi.org / files.pythonhosted.org；~/.cache/uv、~/.local/share/uv 加进沙盒读写。",
+    "沙盒里连不上本机任何端口、读不到仓库外的配置和密钥；碰数据库/外网/本机服务的测试会红——不是你的错，请确认 check 子集并把失败列进交付报告。",
+    "protect 只标记 diff.protected_hits，不会拦截修改；存在才列。"
+  ]
+}

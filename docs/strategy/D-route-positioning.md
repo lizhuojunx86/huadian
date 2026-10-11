@@ -230,7 +230,7 @@
 | 2026-05 (1mo) | 文档体系全对齐（Stage A-D 完成）+ Sprint L 启动 | 无 |
 | 2026-06 (2mo) | `docs/methodology/` 7 份草案完整版 + 第 1 个跨领域案例邀约启动 | Sprint L 完成 |
 | 2026-08 (4mo) | ~~史记 5-10 篇延伸级~~ **撤销（ADR-038 / 由 case-2 顶替；史记 = 冻结 dogfood 底物）**；产品化 demo 降级为 best-effort（README Quick demo 已达最低限 / traceguard PoC 是更强的可移植性活体证明）| — |
-| 2026-10 (6mo) | 第 1-2 篇方法论文章发布 ✅ + 与近邻项目（如 shiji-kb）有过 1 次实质交流 ✅（2026-06-22 baojie）。**case-2 三篇（08/09/10）v1.0 亦锚此点，判据 2026-08-16 由 [ADR-044](../decisions/ADR-044-v1.0-criterion-redefinition-and-stop-loss-scan-rule.md) 重定义**：「外审通过」→「author-side 完备 + 公开评议窗口开满 6 周 + 意见逐条处置」，日程锚不变 | 写作节律 (Q5) 不掉链；**评议窗口最晚需 2026-08 月底开窗才卡得住 10 月** |
+| 2026-10 (6mo) | 第 1-2 篇方法论文章发布 ✅ + 与近邻项目（如 shiji-kb）有过 1 次实质交流 ✅（2026-06-22 baojie）。**case-2 三篇（08/09/10）v1.0 亦锚此点，判据 2026-08-16 由 [ADR-044](../decisions/ADR-044-v1.0-criterion-redefinition-and-stop-loss-scan-rule.md) 重定义**：「外审通过」→「author-side 完备 + 公开评议窗口开满 6 周 + 意见逐条处置」，日程锚不变。**✅ 2026-10-11 三篇定 v1.0（窗口 8/16→9/30，N=0）**；同日仓库归档（`ARCHIVED.md`），后续行不再跟踪 | 写作节律 (Q5) 不掉链；**评议窗口最晚需 2026-08 月底开窗才卡得住 10 月** |
 | 2027-01 (9mo) | 框架代码抽象 v0.1 release（单仓内 `docs/methodology` + `kb_forge/` 双成熟）— **2026-07-16 起冻结为触发制（ADR-041 A3）：出现第 1 个真实外部使用者才解锁；日程锚失效** | ~~L1 工作不被中断~~ → 外部使用信号 |
 | 2027-04 (12mo) | 第 2 个跨领域案例验证框架可移植性 — **case-2 中药已提前达成核心目标**（traceguard 第 2 domain config + E1-E3 PoC）/ **storyextractor 为第 2 份真实下游引用（模式复用 / 独立项目）** | L3 邀约成功率 |
 

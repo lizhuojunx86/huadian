@@ -1,7 +1,8 @@
 # 子通道分层检测模式 — 操纵可检测性的量级依赖与"易操纵 ⊥ 易暴露"反转
 # Sub-channel Stratified Detection Pattern — Magnitude-Dependence of Manipulation Detectability
 
-> **Status**: **v0.3 精炼**（GO-X-η / 2026-06-02 / 接续 v0.2 全本 GO-W-η / 全量 v0.2 存 archive/ 无损 / 待用户审稿）
+> **Status**: **v1.0**（2026-10-11 / 前序：v0.3 精炼 2026-06-02 GO-X-η → v0.4 author-side 2026-06-05 GO-AB-η）
+> **v1.0（2026-10-11 定稿 / ADR-044 §A1）**：未经外部同行评议（**not peer reviewed**）。公开评议窗口 2026-08-16 → 2026-09-30（[GitHub Discussion #19](https://github.com/lizhuojunx86/huadian/discussions/19)），收到意见 **0 条**；处置记录见 `docs/reports/case-2-public-comment-window-2026-08.md` §3。author-side 四项（citation / n=2 边界 / 识别≠证实 / 渠道）2026-06 完备。v1.0 是「作者认为可以定稿」的标记，不是「同行认可」的标记；本仓已于 2026-10-11 归档（`ARCHIVED.md`），本文此后只做事务性修订。
 > **Owner**: 首席架构师（Claude）起草 / 用户审稿
 > 脱敏说明（2026-06-11）: 本文及全部 case-2 配套数据已完成系统性脱敏——产品名（P1/P2/P3）、批号（B1~B12）、来料 lot（L1/L2）、设备型号（E1~E6）、企业/供应商/人名均为假名；σ、极差比、倍率等计算输入数值保留原值，结论可复算。假名映射不公开。
 > **D-route 定位**: Layer 2 应用层方法论 **第 3 篇**（接续 08 + 09 / case-2 应用层文章组）

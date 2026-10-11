@@ -1,7 +1,8 @@
 # 分层合规叙事识别模式 — 中药批生产记录的三层结构
 # Layered Compliance Narrative Pattern — Three-Layer Stratification of TCM Production Records
 
-> Status: **v0.3 完整初稿（精炼版 / 2026-06-01 GO-T-η）** — 8 内容项完成后精简到目标字数
+> Status: **v1.0**（2026-10-11 / 前序：v0.3 精炼 2026-06-01 GO-T-η → v0.4 author-side 2026-06-05 GO-AB-η）
+> **v1.0（2026-10-11 定稿 / ADR-044 §A1）**：未经外部同行评议（**not peer reviewed**）。公开评议窗口 2026-08-16 → 2026-09-30（[GitHub Discussion #19](https://github.com/lizhuojunx86/huadian/discussions/19)），收到意见 **0 条**；处置记录见 `docs/reports/case-2-public-comment-window-2026-08.md` §3。author-side 四项（citation / n=2 边界 / 识别≠证实 / 渠道）2026-06 完备。v1.0 是「作者认为可以定稿」的标记，不是「同行认可」的标记；本仓已于 2026-10-11 归档（`ARCHIVED.md`），本文此后只做事务性修订。
 > Owner: 首席架构师
 > 脱敏说明（2026-06-11）: 本文及全部 case-2 配套数据已完成系统性脱敏——产品名（P1/P2/P3）、批号（B1~B12）、来料 lot（L1/L2）、设备型号（E1~E6）、企业/供应商/人名均为假名；σ、极差比、倍率等计算输入数值保留原值，结论可复算。假名映射不公开。
 > Source: case-2 中药提取案例（F-001 v0.4 / 28 物料 + 12 批 + 5 题用户访谈 + 双产品对照）

@@ -5,6 +5,16 @@
 
 ---
 
+## 2026-10-11 — case-2 三篇定 v1.0（N=0）+ 仓库归档
+
+- **docs(methodology)**: 08 / 09 / 10 版本头 → **v1.0**，按 ADR-044 §A1 写入强制标注（not peer reviewed / 窗口 2026-08-16→09-30 / 意见 0 条 / 处置日志链接）。08-EN 同步加 v1.0 段，SSRN 已投 PDF 仍未替换。
+- **docs(reports)**: 评议窗口处置日志 §3 关窗登记（GitHub API 核实 comments=0）；§5 回填：知乎广播未做、周检任务 9/6 已停，照实记。
+- **docs**: 新增 `ARCHIVED.md`（归档声明 / 证明了什么没证明什么 / 资产索引 / 复活触发 / 明知未做清单）。STATUS 顶部加归档快照并声明 §1.2 真相表 stale；D-route §6 2026-10 行记 ✅ 并封行；case-2 新增 §10.38，§11 S5 作废。`docs/cowork-project-instructions.md` 改为 v1.0 归档版（云端 Project 指令需用户手动替换）。README / CLAUDE.md 顶部加归档横幅。
+- **工具**: 新增 `.agent-dispatch.json`（MiMo 只读盘点用 / 不影响仓库行为）。
+- **未做（本机动作）**：push；SSRN 修订版上传。
+
+---
+
 ## 2026-08-19 — 外审 C-2 首封实质回复：判据锚达成 + REM 框架接入 + 审计方定位登记
 
 - **docs(strategy)**: case-2 新增 **§10.36**。C-2（2026-08-16 发出）于 **2026-08-18 19:31 UTC 回信**，含针对论文机制的独立分析段落 + 正式发表版 PDF 附件；一手 .eml 核实通过（Message-ID `SN7P221MB1060...@SN7P221MB1060.NAMP221.PROD.OUTLOOK.COM`）。**三封外审信发出以来的第一封实质回复。**
