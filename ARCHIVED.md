@@ -26,7 +26,7 @@
 - `docs/methodology/08-dual-reverse-calculation-pattern.md` — v1.0（2026-10-11）机制：双重反算
 - `docs/methodology/09-layered-compliance-narrative-pattern.md` — v1.0 结构：三层制品
 - `docs/methodology/10-subchannel-stratified-detection-pattern.md` — v1.0 分辨率：子通道分层
-- `docs/articles/preprints/08-dual-reverse-calculation-pattern-EN.md` — 英文工作稿；SSRN abstract 7099138（已投版本 2026-07-14；仓内副本 2026-08-19 起领先于它）
+- `docs/articles/preprints/08-dual-reverse-calculation-pattern-EN.md` — 英文工作稿；SSRN abstract 7099138（**v1.0 修订版 2026-10-11 上线**，与仓内副本一致；7-14 旧版留档 `archive-08-EN-ssrn-posted-2026-07-14.pdf`）
 - `docs/cases/tcm-extraction/` — 脱敏数据（schema v0.4 / 28 物料 / 12 批 / 假名映射不公开）
 - `docs/strategy/case-2-tcm-manufacturing-evaluation.md` §10.36–§10.37、§12.1–§12.2 — 外审线程纪要、REM 框架接入、付费方分析、中国 GMP 数据可靠性条文链（§12.1.1）
 - `docs/reports/case-2-public-comment-window-2026-08.md` — 评议窗口全记录（N=0）
@@ -53,7 +53,7 @@
 | 第三方引用 SSRN 7099138 或三篇任一 | 更新 SSRN 修订版（仓内 08-EN 领先于已投 PDF） |
 
 ## 5. 归档时未做、明知未做的事
-- ~~SSRN 7099138 修订版未上传~~ **2026-10-11 已提交修订**（v1.0 PDF + 新摘要 + 许可证改 CC BY + JEL M41/M42/L65），待 SSRN staff review；过审前线上仍是 7-14 版
+- ~~SSRN 7099138 修订版未上传~~ **2026-10-11 修订已过审上线**（v1.0 PDF + 新摘要 + 许可证改 CC BY + JEL M41/M42/L65；当日 23:14 收到 SSRN 通知）。7-14 旧版 PDF 留档为 `archive-08-EN-ssrn-posted-2026-07-14.pdf`
 - 决策日记 2026-08 未经用户 ACK 定版；2026-09 无
 - C-1 / B-1 / C-3 三位外审对象回复状态未核实（原线程在未接入会话的邮箱）
 - Cowork 项目指令的云端副本需用户手动替换（仓内副本 `docs/cowork-project-instructions.md` 已改）
