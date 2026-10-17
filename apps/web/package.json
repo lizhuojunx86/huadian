@@ -31,7 +31,7 @@
     "@graphql-tools/load-files": "^7.0.1",
     "@huadian/config-eslint": "workspace:*",
     "@huadian/config-typescript": "workspace:*",
-    "@next/eslint-plugin-next": "^14.2.21",
+    "@next/eslint-plugin-next": "^16.2.9",
     "@playwright/test": "^1.59.1",
     "@tailwindcss/typography": "^0.5.0",
     "@testing-library/jest-dom": "^6.9.1",
